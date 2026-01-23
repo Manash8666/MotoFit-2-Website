@@ -1,0 +1,21 @@
+
+> motofit-2@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+  - Experiments (use with caution):
+    ┬╖ optimizeCss
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/lib/sanity.ts
+Module not found: Can't resolve '@sanity/image-url'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/app/gallery/page.tsx
+
+
+> Build failed because of webpack errors

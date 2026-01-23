@@ -1,0 +1,33 @@
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # 1. HSTS: Enforce HTTPS for 1 year, include subdomains
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    
+    # 2. X-Frame-Options: Prevent Clickjacking
+    X-Frame-Options = "DENY"
+    
+    # 3. X-Content-Type-Options: Prevent MIME Sniffing
+    X-Content-Type-Options = "nosniff"
+    
+    # 4. Referrer Policy: Protect user privacy
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+    # 5. Permissions Policy: Block unused features
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    
+    # 6. Content Security Policy (CSP): The Fortress
+    # - default-src 'self': Only allow content from own origin
+    # - script-src: Allow self, Google Analytics, Elfsight, and ‘unsafe-inline’ (needed for Next.js hydration/some widgets, but restricted to specific domains)
+    # - img-src: Allow self, data:, Unsplash, Netlify
+    # - style-src: Allow self, 'unsafe-inline' (Critical CSS)
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://elfsightcdn.com https://core.service.elfsight.com https://*.elfsight.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://images.unsplash.com https://plus.unsplash.com https://www.transparenttextures.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.elfsight.com https://*.google-analytics.com; object-src 'none'; base-uri 'self'; form-action 'self';"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

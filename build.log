@@ -1,0 +1,23 @@
+
+> motofit-2@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+  - Experiments (use with caution):
+    ┬╖ optimizeCss
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+ Γ¿» ESLint: Invalid Options: - Unknown options: useEslintrc, extensions - 'extensions' has been removed.
+Failed to compile.
+
+./src/components/ui/index.ts:19:1
+Type error: Module './layout/Card' has already exported a member named 'Card'. Consider explicitly re-exporting to resolve the ambiguity.
+
+  17 |
+  18 | // Scroll Components
+> 19 | export * from './scroll/ContainerScroll';
+     | ^
+  20 |
+Next.js build worker exited with code: 1 and signal: null
