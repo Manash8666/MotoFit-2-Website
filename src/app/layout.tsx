@@ -9,6 +9,7 @@ import CyberNav from "@/components/layout/CyberNav";
 import SchemaMarkup from "@/components/seo/SchemaMarkup";
 import { BookingProvider } from "@/context/BookingContext";
 import BookingModal from "@/components/features/BookingModal";
+import { Analytics } from '@vercel/analytics/next';
 
 const exo2 = Exo_2({
   variable: "--font-heading",
@@ -174,6 +175,7 @@ export default function RootLayout({
             <BookingModal />
           </BookingProvider>
         </LenisWrapper>
+        <Analytics />
       </body>
     </html>
   );
