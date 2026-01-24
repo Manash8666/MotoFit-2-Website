@@ -41,9 +41,10 @@ This document outlines the vision for the MotoFit 2 Website. The goal is to repr
 - [x] **Radical Accessibility**: WCAG 3.0 Bronze/Silver compliance (True Black OLED).
 
 ## Phase 7: Security Fortification (The "Vault")
-- [x] **Edge Security Headers**: Implement HSTS, X-Frame-Options, and X-Content-Type via `netlify.toml`.
-- [x] **Content Security Policy (CSP)**: Strict allowlist for scripts and styles to prevent XSS/Phishing.
-- [x] **Dependency Hardening**: Audit and fix npm vulnerabilities.
+- [x] **Edge Security Headers**: Implement HSTS, X-Frame-Options, and X-Content-Type via `next.config.mjs` & `vercel.json`.
+- [x] **Content Security Policy (CSP)**: Mid-Tier protection enabled (Anti-Clickjacking, NoSniff).
+- [x] **Dependency Hardening**: `npm audit fix` applied.
+- [x] **Automated QA**: Playwright Test Suite integrated (`tests/home.spec.ts`).
 
 ## Phase 8: Design Polish & Content Alignment (New)
 - [x] **Typography**: Fix "Agale" font spacing (tracking 0.02em adjusted).
