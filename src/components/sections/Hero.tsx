@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import { GlassButton, IndustrialButton } from '@/components/ui/buttons/GlassButton';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLenis } from '@studio-freight/react-lenis';
+import TextReveal from '../ui/text/TextReveal';
 
 const HERO_IMAGES = [
   '/images/hero/ducati-panigale.png', // Ducati Panigale (Red)
@@ -195,16 +196,12 @@ export default function Hero() {
           </div>
 
           {/* Subtitle */}
-          <div className="overflow-hidden h-8 md:h-12">
-            <motion.p
-              key={currentImageIndex} // Re-animate on slide change
-              initial={{ y: 20, opacity: 0 }}
-              animate={subtitleVisible ? { y: 0, opacity: 1 } : {}}
-              transition={{ duration: 0.8 }}
-              className="text-[#a0a0a0] text-sm md:text-xl font-mono uppercase tracking-widest"
-            >
-              {CAPTIONS[currentImageIndex]}
-            </motion.p>
+          <div className="overflow-hidden h-8 md:h-12 flex justify-center items-center">
+            {subtitleVisible && (
+              <TextReveal className="text-[#a0a0a0] text-sm md:text-xl font-mono uppercase tracking-widest">
+                {CAPTIONS[currentImageIndex]}
+              </TextReveal>
+            )}
           </div>
 
           {/* CTA Button */}

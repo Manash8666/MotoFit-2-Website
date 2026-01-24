@@ -2,6 +2,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import Magnetic from "../interactive/Magnetic";
 
 const glassButtonVariants = cva(
     "relative isolate all-unset cursor-pointer rounded-lg transition-all duration-300 group",
@@ -91,7 +92,7 @@ const GlassButton = React.forwardRef<HTMLButtonElement, GlassButtonProps>(
         disabled,
         ...props
     }, ref) => {
-        return (
+        const ButtonContent = (
             <div className={cn("glass-button-wrap relative", className)}>
                 <button
                     className={cn(
@@ -156,6 +157,8 @@ const GlassButton = React.forwardRef<HTMLButtonElement, GlassButtonProps>(
                 )} />
             </div>
         );
+
+        return disabled ? ButtonContent : <Magnetic>{ButtonContent}</Magnetic>;
     }
 );
 
