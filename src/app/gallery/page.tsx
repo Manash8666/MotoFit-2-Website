@@ -13,7 +13,7 @@ const galleryItems = [
     {
         id: '1',
         name: 'Royal Enfield Interceptor 650',
-        image: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80',
+        image: '/images/gallery/re-interceptor.png',
         category: 'Royal Enfield Transformations',
         description: 'Full engine rebuild with valve clearance and crankshaft balancing. SEO: royal-enfield-custom-ahmedabad',
     },
@@ -34,7 +34,7 @@ const galleryItems = [
     {
         id: '4',
         name: 'Triumph Street Triple RS',
-        image: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80',
+        image: '/images/gallery/triumph-street.png',
         category: 'Performance Lab',
         description: 'ECU remap + Akrapovic full system. +18HP gain. SEO: ecu-tuning-workshop-gujarat',
     },
@@ -103,7 +103,7 @@ export default function GalleryPage() {
                         <div className="grid md:grid-cols-2 gap-0">
                             <div className="relative h-[400px] md:h-auto overflow-hidden">
                                 <Image
-                                    src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80"
+                                    src="/images/gallery/re-interceptor.png"
                                     alt="Interceptor 650 Stealth Edition Ahmedabad"
                                     fill
                                     className="object-cover group-hover:scale-105 transition-transform duration-700"

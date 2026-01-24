@@ -9,9 +9,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLenis } from '@studio-freight/react-lenis';
 
 const HERO_IMAGES = [
-  'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070', // Ducati Panigale (Red)
-  'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?q=80&w=2070', // BMW S1000RR (Track)
-  'https://images.unsplash.com/photo-1615172282427-9a5752d358cd?q=80&w=2070'  // Custom Cafe Racer (Detail)
+  '/images/hero/ducati-panigale.png', // Ducati Panigale (Red)
+  '/images/hero/bmw-s1000rr.png',     // BMW S1000RR (Track)
+  '/images/hero/cafe-racer.png'       // Custom Cafe Racer (Detail)
 ];
 
 extend(THREE);
