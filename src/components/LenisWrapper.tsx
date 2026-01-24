@@ -2,7 +2,7 @@
 
 import { useEffect, useState, createContext, useContext } from "react";
 import Lenis from "lenis";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 // Create Context
 const LenisContext = createContext<Lenis | null>(null);
@@ -17,7 +17,6 @@ export default function LenisWrapper({
 }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const lenisInstance = new Lenis({
@@ -52,7 +51,7 @@ export default function LenisWrapper({
       // Commented out as Next.js handles scroll restoration, 
       // but sometimes manual reset is needed for Lenis.
     }
-  }, [pathname, searchParams, lenis]);
+  }, [pathname, lenis]);
 
   return (
     <LenisContext.Provider value={lenis}>
