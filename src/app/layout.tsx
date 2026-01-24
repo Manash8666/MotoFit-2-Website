@@ -153,6 +153,7 @@ export const metadata: Metadata = {
 };
 
 import HighVoltageFooter from '@/components/sections/HighVoltageFooter';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export default function RootLayout({
   children,
@@ -174,6 +175,7 @@ export default function RootLayout({
             <BookingModal />
           </BookingProvider>
         </LenisWrapper>
+        <SpeedInsights />
       </body>
     </html>
   );
