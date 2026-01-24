@@ -6,7 +6,7 @@ import { useMemo, useRef, useState, useEffect, Suspense } from 'react';
 import * as THREE from 'three';
 import { GlassButton, IndustrialButton } from '@/components/ui/buttons/GlassButton';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLenis } from '@studio-freight/react-lenis';
+import { useLenis } from '@/components/LenisWrapper';
 import TextReveal from '../ui/text/TextReveal';
 
 const HERO_IMAGES = [
