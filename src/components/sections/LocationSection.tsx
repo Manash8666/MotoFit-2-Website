@@ -31,7 +31,7 @@ export default function LocationSection() {
                             <div>
                                 <p><span className="text-white font-bold">Mon - Sat:</span> 09:00 AM - 08:00 PM</p>
                                 <p><span className="text-orange-500 font-bold">Wednesday:</span> Closed</p>
-                                <p><span class="text-white font-bold">Sunday:</span> 10:00 AM - 06:00 PM</p>
+                                <p><span className="text-white font-bold">Sunday:</span> 10:00 AM - 06:00 PM</p>
                             </div>
                         </div>
                     </div>
