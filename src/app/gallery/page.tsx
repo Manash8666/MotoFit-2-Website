@@ -20,14 +20,14 @@ const galleryItems = [
     {
         id: '2',
         name: 'Kawasaki Ninja H2',
-        image: 'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&q=80',
+        image: '/images/gallery/ninja-h2.png',
         category: 'Superbike Suite',
         description: 'Dyno tuning session. 210HP verified at rear wheel. SEO: motofit-2-ahmedabad-superbike-service',
     },
     {
         id: '3',
         name: 'Custom Cafe Racer',
-        image: 'https://images.unsplash.com/photo-1615172282427-9a5752d358cd?auto=format&fit=crop&q=80',
+        image: '/images/gallery/cafe-racer.png',
         category: 'Royal Enfield Transformations',
         description: 'Ground-up cafe racer build on vintage frame. SEO: chandkheda-bike-garage-gallery',
     },
@@ -41,28 +41,28 @@ const galleryItems = [
     {
         id: '5',
         name: 'KTM Duke 390',
-        image: 'https://images.unsplash.com/photo-1629813291523-27c5418b7654?auto=format&fit=crop&q=80',
+        image: '/images/gallery/ktm-duke.png',
         category: 'Performance Lab',
         description: 'Post-crash chassis realignment and engine service. SEO: bike-repair-chandkheda',
     },
     {
         id: '6',
         name: 'Ducati Scrambler 800',
-        image: 'https://images.unsplash.com/photo-1568772585407-9361bd4626c7?auto=format&fit=crop&q=80',
+        image: '/images/gallery/ducati-scrambler.png',
         category: 'Superbike Suite',
         description: 'Scrambler conversion with high-mount exhaust and flat seat. SEO: ducati-service-ahmedabad',
     },
     {
         id: '7',
         name: 'Bajaj Pulsar NS 200 - Bore Up Build',
-        image: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&q=80',
+        image: '/images/gallery/pulsar-engine.png',
         category: 'Performance Lab',
         description: 'Engine bore-up from 200CC to 230CC. Big bore kit installation. SEO: pulsar-modification-ahmedabad',
     },
     {
         id: '8',
         name: 'Carbon Fiber Detailing',
-        image: 'https://images.unsplash.com/photo-1626847037657-fd3622613ce3?auto=format&fit=crop&q=80',
+        image: '/images/gallery/carbon-fiber.png',
         category: 'The Details',
         description: 'Macro shot of custom carbon fiber layups. SEO: bike-detailing-ahmedabad',
     },
@@ -215,7 +215,7 @@ export default function GalleryPage() {
                         <p className="text-gray-500 text-sm">Don't just look. Hear the difference.</p>
                     </div>
                     <div className="max-w-4xl mx-auto aspect-video bg-[#111] rounded-xl flex items-center justify-center border border-[#333] group cursor-pointer hover:border-[#ff5e1a]/50 transition-colors relative overflow-hidden">
-                        <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1626847037657-fd3622613ce3?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
+                        <div className="absolute inset-0 opacity-20 bg-[url('/images/hero/ducati-panigale.png')] bg-cover bg-center"></div>
                         <div className="relative z-10 flex flex-col items-center">
                             <div className="w-16 h-16 rounded-full bg-[#ff5e1a] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(255,94,26,0.4)]">
                                 <Play className="w-6 h-6 text-white ml-1" fill="currentColor" />
