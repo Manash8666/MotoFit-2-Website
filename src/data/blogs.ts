@@ -68,9 +68,9 @@ export const blogs: BlogPost[] = [
       <p><strong>The Reality:</strong> Idling only warms the piston and cylinder head. Your transmission oil, tires, and chain are completely cold. Worse, prolonged idling at low oil pressure (common at idle RPM) causes camshaft wear. </p>
       <p><strong>The MotoFit Protocol:</strong> Start the bike. Wait 30-60 seconds for oil circulation. Ride off gently. Keeping RPMs under 4,000 for the first 5km warms the whole system evenly.</p>
 
-      <h2>Myth 2: "Car Oil is Fine, It's cheaper"</h2>
-      <p><strong>The Science:</strong> This is the fastest way to destroy your clutch. Cars have separate oil for engines and gearboxes. Motorcycles use a "wet clutch" system sharing engine oil.</p>
-      <p>Car oils contain <em>friction modifiers</em> (molybdenum) to reduce drag. In a bike, these modifiers cause your clutch plates to slip and burn. Only use <strong>JASO MA2</strong> rated oils like Motul 300V or 7100. They are formulated to grip.</p>
+      <h2>Myth 2: "Generic Automotive Oil is Fine"</h2>
+      <p><strong>The Science:</strong> This is the fastest way to destroy your clutch. Many standard automotive oils contain <em>friction modifiers</em> (molybdenum) to reduce drag. In a bike, these modifiers cause your "wet clutch" plates to slip and burn.</p>
+      <p>Motorcycles share oil between the engine and gearbox. Only use <strong>JASO MA2</strong> rated oils like Motul 300V or 7100. They are formulated specifically for high-shear gears and clutch grip.</p>
       
       <h2>Myth 3: "Coolant is just Green Water"</h2>
       <p>Ahmedabad hits 45°C. High-compression engines run hot. Using tap water introduces minerals that cause galvanic corrosion inside aluminum radiators. Cheap green coolant boils at 100°C—too low for a KTM or Ducati.</p>
