@@ -14,6 +14,7 @@ const navLinks = [
     { name: 'Services', href: '/services' },
     { name: 'Gallery', href: '/gallery' },
     { name: 'Blog', href: '/blog' },
+    { name: 'About', href: '/about' },
 ];
 
 import { useBooking } from '@/context/BookingContext';
