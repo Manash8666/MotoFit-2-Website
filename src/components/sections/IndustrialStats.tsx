@@ -50,10 +50,13 @@ function Counter({ value, label }: { value: number; label: string }) {
 }
 
 export default function IndustrialStats() {
+    const currentYear = new Date().getFullYear();
+    const yearsInBusiness = currentYear - 2021; // 2021 is establishment
+
     const stats = [
         { value: 5200, label: "Bikes Serviced" },
         { value: 127, label: "Google Reviews" },
-        { value: 8, label: "Years Experience" },
+        { value: yearsInBusiness, label: "Years Experience" },
         { value: 98, label: "Satisfaction %" },
     ];
 
@@ -69,7 +72,7 @@ export default function IndustrialStats() {
                     </div>
                     <div className="mt-4 md:mt-0 text-right">
                         <p className="text-[#666] font-mono text-xs">
-                            CHANDKHEDA // SINCE 2018
+                            CHANDKHEDA // SINCE 2021
                         </p>
                     </div>
                 </div>
