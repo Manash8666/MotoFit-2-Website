@@ -50,6 +50,13 @@ const galleryItems = [
         category: 'Custom Builds',
         description: 'Scrambler conversion with high-mount exhaust and flat seat.',
     },
+    {
+        id: '7',
+        name: 'Bajaj Pulsar NS 200 - Bore Up Build',
+        image: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&q=80',
+        category: 'Custom Builds',
+        description: 'Engine bore-up from 200CC to 230CC. Big bore kit installation with head porting and performance cam.',
+    },
 ];
 
 const categories: Category[] = ['All', 'Restorations', 'Performance', 'Custom Builds'];
