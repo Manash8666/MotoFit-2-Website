@@ -30,14 +30,14 @@ export default function AboutPage() {
 
                 {/* 2. The Engineer's Vision */}
                 <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24">
-                    <div className="relative h-[500px] rounded-2xl overflow-hidden border border-[#333]">
-                        {/* Placeholder for Akshat's potentially real photo, using a high-quality mechanic stock for now if unavailable, 
-                            but prompting user to replace it. Ideally we use a generic 'Engineer' shot if no asset provided. */}
-                        <div className="absolute inset-0 bg-neutral-900 flex items-center justify-center">
-                            <p className="text-gray-500">[Photo: Akshat Mohanty]</p>
-                        </div>
-                        {/* If we had the image, it would go here. I'll use a placeholder style div for now to avoid broken images */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-8">
+                    <div className="relative h-[500px] rounded-2xl overflow-hidden border border-[#333] group">
+                        <Image
+                            src="/images/akshat-mohanty-ladakh.png"
+                            alt="Akshat Mohanty - Founder of MotoFit 2"
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-8">
                             <h3 className="text-3xl font-bold text-white">Akshat Mohanty</h3>
                             <p className="text-[#ff5e1a] font-mono">Founder & Mechanical Engineer</p>
                         </div>
