@@ -69,18 +69,23 @@ export default function AboutPage() {
                         {[
                             {
                                 name: "Kunal Thakor",
-                                role: "Master of Precision",
-                                desc: "If there’s a sound in your engine, Kunal finds it before you even describe it. The diagnostic genius."
+                                role: "Craftsman of Bodywork & Carburettor",
+                                desc: "The master of aesthetics and air-fuel mixture. From flawless fairing alignment to precision carburettor tuning, Kunal ensures your bike looks and breathes perfectly."
                             },
                             {
                                 name: "Goarav Thakor",
-                                role: "Performance Specialist",
-                                desc: "From suspension tuning to high-speed stability, Goarav ensures your bike handles like a dream on SG Highway."
+                                role: "Clutch Assembly Specialist",
+                                desc: "The power transfer expert. Goarav specializes in clutch assemblies, ensuring every bit of horsepower makes it to the rear wheel without checking out."
                             },
                             {
                                 name: "Munna Gujili",
-                                role: "Heart of the Workshop",
-                                desc: "Munna’s fanatical attention to detail ensures that every nut, bolt, and wire is exactly where it needs to be."
+                                role: "The Allrounder",
+                                desc: "The heart of MotoFit 2. Munna is the versatile backbone of the workshop, handling everything from triage to final quality checks."
+                            },
+                            {
+                                name: "Samael Morningstar",
+                                role: "Client Communication & Services",
+                                desc: "Brother of Akshat Mohanty. Samael ensures transparency between the garage and the rider, keeping you updated at every stage of the build."
                             }
                         ].map((member, i) => (
                             <div key={i} className="bg-[#0a0a0a] border border-[#333] p-8 rounded-2xl hover:border-[#ff5e1a] transition-colors group">
