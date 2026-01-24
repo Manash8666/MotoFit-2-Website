@@ -1,5 +1,6 @@
 import { Badge } from '@/components/ui/graphics/Badge';
 import { GlassButton } from '@/components/ui/buttons/GlassButton';
+import { TeamCard } from '@/components/ui/cards/TeamCard';
 import Image from 'next/image';
 
 export default function AboutPage() {
@@ -65,35 +66,34 @@ export default function AboutPage() {
                         <p className="text-gray-400">A blueprint is only as good as the hands that build it.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[
                             {
                                 name: "Kunal Thakor",
-                                role: "Craftsman of Bodywork & Carburettor",
-                                desc: "The master of aesthetics and air-fuel mixture. From flawless fairing alignment to precision carburettor tuning, Kunal ensures your bike looks and breathes perfectly."
+                                role: "The Alchemist",
+                                desc: "He doesn't just tune carburettors; he speaks to them. Kunal listens to the airflow like a heartbeat, sculpting bodywork and breath into a singular, living machine. Where others see metal, he sees fluid dynamics.",
+                                specialty: "Aural Diagnostics & Fairing Sculpture"
                             },
                             {
                                 name: "Goarav Thakor",
-                                role: "Clutch Assembly Specialist",
-                                desc: "The power transfer expert. Goarav specializes in clutch assemblies, ensuring every bit of horsepower makes it to the rear wheel without checking out."
+                                role: "The Kineticist",
+                                desc: "Master of the invisible forces. Goarav governs the friction zone, ensuring the transfer of chaos from engine to asphalt is absolute. When you feel that perfect launch, you're feeling his signature.",
+                                specialty: "Clutch Assembly & Torque Management"
                             },
                             {
                                 name: "Munna Gujili",
-                                role: "The Allrounder",
-                                desc: "The heart of MotoFit 2. Munna is the versatile backbone of the workshop, handling everything from triage to final quality checks."
+                                role: "The Pulse",
+                                desc: "The omnipresent guardian of the garage. Munna is the rhythm that keeps the chaos in check, the eyes that catch the loose bolt, the relentless spirit that ensures no bike leaves without its soul intact.",
+                                specialty: "Workshop Synchronization & QC"
                             },
                             {
-                                name: "Samael Morningstar",
-                                role: "Client Communication & Services",
-                                desc: "Brother of Akshat Mohanty. Samael ensures transparency between the garage and the rider, keeping you updated at every stage of the build."
+                                name: "Samael M.",
+                                role: "The Oracle",
+                                desc: "The bridge between the digital ether and proper combustion. Samael weaves the narrative of your build, optimizing the signal-to-noise ratio in both client comms and search engine algorithms.",
+                                specialty: "Client Experience, SEO & AIO Intelligence"
                             }
                         ].map((member, i) => (
-                            <div key={i} className="bg-[#0a0a0a] border border-[#333] p-8 rounded-2xl hover:border-[#ff5e1a] transition-colors group">
-                                <div className="w-16 h-1 bg-[#ff5e1a] mb-6 group-hover:w-full transition-all duration-500"></div>
-                                <h3 className="text-2xl font-bold text-white mb-2">{member.name}</h3>
-                                <p className="text-[#ff5e1a] font-mono text-sm uppercase mb-4">{member.role}</p>
-                                <p className="text-gray-400">{member.desc}</p>
-                            </div>
+                            <TeamCard key={i} {...member} delay={i * 0.1} />
                         ))}
                     </div>
                 </section>
