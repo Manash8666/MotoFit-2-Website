@@ -14,7 +14,7 @@ export const blogs: BlogPost[] = [
   {
     slug: "interceptor-650-stage-2-mods",
     title: "Unleashing the Beast: Interceptor 650 Stage 2 Mods Guide",
-    excerpt: "Why stock is just the beginning. A deep dive into air filters, full-system exhausts, and ECU mapping for the RE 650 Twins.",
+    excerpt: "Why stock is just the beginning. A deep dive into air filters, full-system exhausts, and ECU mapping for the RE 650 Twins. (Updated Jan 24)",
     author: "Akshat Mohanty",
     date: "Jan 15, 2026",
     readTime: "8 min read",
