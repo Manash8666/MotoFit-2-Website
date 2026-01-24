@@ -60,7 +60,7 @@ export default function HighVoltageFooter() {
                             {['About Us', 'The Garage', 'Team', 'Careers', 'Contact'].map((item) => (
                                 <li key={item}>
                                     <Link
-                                        href={item === 'Contact' ? '#' : '#'}
+                                        href={item === 'Contact' ? '#' : item === 'About Us' ? '/about' : '#'}
                                         onClick={item === 'Contact' ? (e) => { e.preventDefault(); setIsContactOpen(true); } : undefined}
                                         className="text-[#999] hover:text-white transition-colors text-sm font-mono flex items-center gap-2 group"
                                     >
