@@ -6,6 +6,7 @@
   NODE_VERSION = "20"
   # Disable auto-detected Next.js plugin to prevent conflicts with static export
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  NPM_FLAGS = "--legacy-peer-deps"
 
 # Cache node_modules for faster builds
 [[plugins]]
