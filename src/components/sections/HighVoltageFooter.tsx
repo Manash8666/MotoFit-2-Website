@@ -8,6 +8,7 @@ import { Twitter, Instagram, Linkedin, Github, Zap } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import MotoFitLogo from '../layout/MotoFitLogo';
+import InstagramPortal3D from '../interactive/InstagramPortal3D';
 
 export default function HighVoltageFooter() {
     const { openBooking } = useBooking();
@@ -20,15 +21,13 @@ export default function HighVoltageFooter() {
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-20">
 
                     {/* Brand Column */}
-                    <div className="md:col-span-4">
-                        <MotoFitLogo size="lg" className="mb-6" />
-                        <p className="text-[#a0a0a0] max-w-sm mb-8">
+                    <div className="md:col-span-4 text-center md:text-left">
+                        <MotoFitLogo size="lg" className="mb-6 mx-auto md:mx-0" />
+                        <p className="text-[#a0a0a0] max-w-sm mb-8 mx-auto md:mx-0">
                             Pioneering the future of motorcycle engineering with precision fabrication, digital diagnostics, and high-performance tuning.
                         </p>
-                        <div className="flex gap-4">
-                            <div className="flex gap-4">
-                                {/* Socials Removed as per request */}
-                            </div>
+                        <div className="flex justify-center md:justify-start">
+                            <InstagramPortal3D />
                         </div>
                     </div>
 
