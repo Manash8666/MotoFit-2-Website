@@ -14,10 +14,14 @@ export default function LocationSection() {
                         <div className="flex items-start gap-4">
                             <div className="text-2xl text-orange-500 mt-1">📍</div>
                             <div>
-                                <p className="font-bold text-white text-xl">MotoFit 2</p>
+                                <p className="font-bold text-white text-xl">MotoFit 2 Hub</p>
                                 <p>Shop No 9, Kirtan Complex,</p>
                                 <p>Nigam Nagar, New CG Road,</p>
                                 <p>Chandkheda, Ahmedabad, Gujarat 382424</p>
+                                <div className="mt-4 p-3 bg-white/5 border border-white/10 rounded-sm">
+                                    <p className="text-xs font-mono text-orange-500 uppercase tracking-widest">Franchise Support Zone</p>
+                                    <p className="text-[10px] text-gray-400 mt-1">Our hub covers Naroda, Kalol, Halol, Nikol, Vastral, and Rakhiyal.</p>
+                                </div>
                             </div>
                         </div>
 

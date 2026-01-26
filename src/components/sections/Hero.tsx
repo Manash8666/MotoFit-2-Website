@@ -132,8 +132,8 @@ export default function Hero() {
         <div className="max-w-6xl mx-auto text-center space-y-8">
           {/* Main Title with Glassmorphism */}
           <div className="overflow-hidden">
-            <div className="inline-block backdrop-blur-md bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl px-4 py-4 sm:px-6 sm:py-5 md:px-12 md:py-8">
-              <h1 className="text-[clamp(2.5rem,12vw,8rem)] font-bold uppercase leading-[0.85] tracking-[0.02em] sm:tracking-[0.1em] md:tracking-[0.2em]" style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
+            <div className="inline-block backdrop-blur-md bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl px-3 py-3 sm:px-6 sm:py-5 md:px-12 md:py-8">
+              <h1 className="text-[clamp(2rem,10vw,8rem)] font-bold uppercase leading-[0.85] tracking-[0.01em] sm:tracking-[0.1em] md:tracking-[0.2em]" style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
                 {titleWords.map((word, wordIndex) => {
                   const startIdx = titleWords.slice(0, wordIndex).join('').length;
                   return (

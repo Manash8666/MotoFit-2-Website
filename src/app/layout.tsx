@@ -70,6 +70,12 @@ export const metadata: Metadata = {
     "two-wheeler repair prahlad nagar",
     "bike garage vastrapur",
     "motorcycle service thaltej",
+    "garage near naroda",
+    "bike engine repair kalol",
+    "motorcycle service halol",
+    "two wheeler garage nikol",
+    "bike repair vastral",
+    "superbike service rakhiyal",
     // Long-tail / Voice Search
     "best bike garage in ahmedabad",
     "affordable bike service ahmedabad",
@@ -112,8 +118,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "https://motofit.in",
-    title: "MotoFit 2 | #1 Bike Garage Near S.G. Highway, Ahmedabad",
-    description: "Ahmedabad's most trusted superbike garage. Expert service for Royal Enfield, KTM, Ducati & more. Free pickup. Book now!",
+    title: "MotoFit 2 | #1 Bike Garage in New CG Road, Chandkheda, Ahmedabad",
+    description: "Ahmedabad's most trusted superbike garage. Expert service in Chandkheda, New CG Road. Serving Naroda, Kalol & more. Free pickup. Book now!",
     siteName: "MotoFit 2",
     images: [
       {
@@ -127,7 +133,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "MotoFit 2 | #1 Bike Garage in Ahmedabad",
-    description: "Looking for a bike garage near you? Visit MotoFit 2 on S.G. Highway, Ahmedabad. Free pickup & drop!",
+    description: "Looking for a bike garage near you? Visit MotoFit 2 on New CG Road, Chandkheda, Ahmedabad. Free pickup & drop!",
     images: ["/og-image.png"],
     creator: "@motofit2",
   },

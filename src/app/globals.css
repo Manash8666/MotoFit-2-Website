@@ -105,10 +105,10 @@
 
   /* Heading System */
   .h1 {
-    /* 64px */
+    /* 64px reduced to 48px on tiny screens */
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 8vw, 4rem);
     line-height: 1.1;
     letter-spacing: 0.02em;
     text-transform: uppercase;

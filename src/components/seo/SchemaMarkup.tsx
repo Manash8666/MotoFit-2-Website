@@ -53,13 +53,16 @@ export default function SchemaMarkup() {
         },
         "areaServed": [
             { "@type": "City", "name": "Ahmedabad" },
+            { "@type": "Place", "name": "New CG Road" },
+            { "@type": "Place", "name": "Chandkheda" },
+            { "@type": "Place", "name": "Naroda" },
+            { "@type": "Place", "name": "Kalol" },
+            { "@type": "Place", "name": "Halol" },
+            { "@type": "Place", "name": "Nikol" },
+            { "@type": "Place", "name": "Vastral" },
+            { "@type": "Place", "name": "Rakhiyal" },
             { "@type": "Place", "name": "S.G. Highway" },
-            { "@type": "Place", "name": "Satellite" },
-            { "@type": "Place", "name": "Bodakdev" },
-            { "@type": "Place", "name": "Prahlad Nagar" },
-            { "@type": "Place", "name": "Vastrapur" },
-            { "@type": "Place", "name": "Thaltej" },
-            { "@type": "Place", "name": "Makarba" }
+            { "@type": "Place", "name": "Satellite" }
         ],
         "sameAs": [
             "https://www.instagram.com/motofit2",
