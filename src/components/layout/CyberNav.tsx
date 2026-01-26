@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { GlassButton } from '@/components/ui/buttons/GlassButton';
+import MotoFitLogo from './MotoFitLogo';
 
 const navLinks = [
     { name: 'Home', href: '/' },
@@ -47,15 +48,7 @@ export default function CyberNav() {
                 <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="relative group">
-                        <div className="relative w-32 h-12 bg-white/90 p-1 rounded">
-                            <Image
-                                src="/logo-original.jpg"
-                                alt="MotoFit Logo"
-                                fill
-                                className="object-contain"
-                                priority
-                            />
-                        </div>
+                        <MotoFitLogo size="md" />
                     </Link>
 
                     {/* Desktop Nav */}

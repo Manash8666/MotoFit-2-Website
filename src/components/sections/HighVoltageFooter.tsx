@@ -7,6 +7,7 @@ import { MotoIcon } from '@/components/ui/icons/MotoIcons';
 import { Twitter, Instagram, Linkedin, Github, Zap } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import MotoFitLogo from '../layout/MotoFitLogo';
 
 export default function HighVoltageFooter() {
     const { openBooking } = useBooking();
@@ -20,14 +21,7 @@ export default function HighVoltageFooter() {
 
                     {/* Brand Column */}
                     <div className="md:col-span-4">
-                        <div className="mb-6 relative w-32 h-12 bg-white/90 p-1 rounded">
-                            <Image
-                                src="/logo-original.jpg"
-                                alt="MotoFit Logo"
-                                fill
-                                className="object-contain"
-                            />
-                        </div>
+                        <MotoFitLogo size="lg" className="mb-6" />
                         <p className="text-[#a0a0a0] max-w-sm mb-8">
                             Pioneering the future of motorcycle engineering with precision fabrication, digital diagnostics, and high-performance tuning.
                         </p>
