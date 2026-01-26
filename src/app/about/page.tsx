@@ -1,7 +1,10 @@
+'use client';
+
 import { Badge } from '@/components/ui/graphics/Badge';
 import { GlassButton } from '@/components/ui/buttons/GlassButton';
 import { TeamCard } from '@/components/ui/cards/TeamCard';
 import Image from 'next/image';
+import { useBooking } from '@/context/BookingContext';
 
 export default function AboutPage() {
     const { openBooking } = useBooking();
@@ -154,6 +157,3 @@ export default function AboutPage() {
         </main>
     );
 }
-
-import { useBooking } from '@/context/BookingContext';
-
