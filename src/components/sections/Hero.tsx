@@ -130,6 +130,23 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 md:px-8">
         <div className="max-w-6xl mx-auto text-center space-y-8">
+          {/* Brand Tagline */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={subtitleVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="mb-4"
+          >
+            <div className="inline-block border-2 border-[#ff5e1a] px-6 py-2 rounded-full backdrop-blur-sm bg-[#ff5e1a]/5">
+              <span
+                className="text-lg md:text-2xl text-white font-bold uppercase tracking-[0.2em]"
+                style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}
+              >
+                Better Than Your Brand's Service.
+              </span>
+            </div>
+          </motion.div>
+
           {/* Main Title with Glassmorphism */}
           <div className="overflow-hidden">
             <div className="inline-block backdrop-blur-md bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl px-3 py-3 sm:px-6 sm:py-5 md:px-12 md:py-8">
