@@ -18,28 +18,28 @@ export default function MotoFitLogo({ className, size = 'md' }: MotoFitLogoProps
     };
 
     return (
-        <div className={cn("relative group/logo", sizes[size], className)} style={{ transform: 'skewX(-2deg)' }}>
+        <div className={cn("relative group/logo flex items-center justify-center", sizes[size], className)}>
             {/* Pulsing Neon Floor/Glow */}
-            <div className="absolute inset-0 bg-[#ff5e1a]/20 blur-[25px] rounded-full animate-pulse transition-opacity opacity-0 group-hover/logo:opacity-100" />
-            <div className="absolute -inset-1 bg-gradient-to-r from-[#ff5e1a]/40 to-[#00d1ff]/40 blur-[15px] opacity-10 group-hover/logo:opacity-30 transition-opacity" />
+            <div className="absolute inset-0 bg-[#ff5e1a]/10 blur-[30px] rounded-full animate-pulse transition-opacity opacity-0 group-hover/logo:opacity-100" />
+            <div className="absolute -inset-2 bg-gradient-to-r from-[#ff5e1a]/20 to-[#00d1ff]/20 blur-[20px] opacity-10 group-hover/logo:opacity-40 transition-opacity" />
 
             <div className="relative w-full h-full overflow-hidden">
                 <Image
-                    src="/logo-original.jpg"
-                    alt="MotoFit 2 Logo"
+                    src="/logo-clear.png"
+                    alt="MotoFit 2 Hub"
                     fill
-                    className="object-contain mix-blend-screen brightness-125 contrast-125 drop-shadow-[0_0_12px_rgba(255,94,26,0.8)] sm:drop-shadow-[0_0_15px_rgba(255,94,26,1)]"
+                    className="object-contain mix-blend-screen brightness-125 contrast-125 transition-all duration-500 group-hover/logo:scale-105"
                     style={{
-                        // This filter significantly boosts the "Neon" look and masks darker background artifacts
-                        filter: 'drop-shadow(0 0 8px rgba(255, 94, 26, 0.7)) drop-shadow(0 0 20px rgba(255, 94, 26, 0.3)) brightness(1.1) contrast(1.1)'
+                        // Removing the background "blob" (white box) and adding futuristic neon glow
+                        filter: 'drop-shadow(0 0 10px rgba(255, 94, 26, 0.8)) drop-shadow(0 0 30px rgba(255, 94, 26, 0.4)) contrast(1.2) brightness(1.2)'
                     }}
                     priority
                 />
             </div>
 
             {/* Futuristic Overlay: Subtle Scanning Line */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
-                <div className="w-full h-[1px] bg-white/50 animate-scan shadow-[0_0_10px_white]" />
+            <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
+                <div className="w-full h-[1px] bg-white/40 animate-scan shadow-[0_0_15px_white]" />
             </div>
         </div>
     );
