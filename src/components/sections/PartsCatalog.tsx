@@ -32,8 +32,17 @@ const parts = [
         brand: 'Pirelli',
         category: 'Tyres',
         image: 'https://images.unsplash.com/photo-1615172282427-9a5752d358cd?auto=format&fit=crop&q=80',
-        description: 'Maximum traction for the New CG Road. Precision wheel balancing included with every change.',
+        description: 'Maximum traction for the New CG Road. Precision wheel alignment included with every change.',
         priceRange: 'Absolute Grip',
+    },
+    {
+        id: '4',
+        name: 'High-Performance Fluids',
+        brand: 'Motul/Liqui-Moly',
+        category: 'Oils',
+        image: 'https://images.unsplash.com/photo-1597838816882-4435b1977fbe?auto=format&fit=crop&q=80',
+        description: 'Elite lubrication from 300V Race Synthetic to HP Racer Splendid for BS6 commuters.',
+        priceRange: 'Thermal Guard',
     },
 ];
 
@@ -76,7 +85,7 @@ export default function PartsCatalog() {
                 </div>
 
                 {/* Parts Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {parts.map((part) => (
                         <div
                             key={part.id}

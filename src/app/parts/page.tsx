@@ -51,6 +51,14 @@ const inventoryCategories = [
         description: "Specialized wiring harness restoration for vintage bikes. Full electrical load testing using industrial-grade diagnostics.",
         features: ["Lithium-Ion Batteries", "Wiring Harness Overhaul", "Digital Dash Spares", "Vintage Gasket Kits"],
         color: "green"
+    },
+    {
+        title: "The Fluids Lab: Engine Oils",
+        icon: <Zap className="text-[#ff5e1a]" size={32} />,
+        brands: "Motul, Liqui Moly, T-Tex, HP Lubricants",
+        description: "Thermal stability for the Ahmedabad summer. We use high-performance synthetics for race-spec machines and reliable HP series for the daily grind.",
+        features: ["Motul 300V / 7100 / 5100", "Liqui Moly Street Race 10W50", "T-Tex GT-6100 (J-Tech)", "HP Racer Splendid (BS6)"],
+        color: "orange"
     }
 ];
 
