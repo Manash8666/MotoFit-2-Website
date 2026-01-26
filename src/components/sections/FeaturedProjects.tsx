@@ -5,7 +5,10 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import { useBooking } from '@/context/BookingContext';
+
 export default function FeaturedProjects() {
+  const { openBooking } = useBooking();
   const projects = [
     { name: 'Royal Enfield 650 Twins', date: 'Jan 2026', status: 'Complete', type: 'Major Service' },
     { name: 'KTM Duke 390', date: 'Dec 2025', status: 'Delivered', type: 'Engine Rebuild' },
@@ -32,7 +35,10 @@ export default function FeaturedProjects() {
         {/* Main Feature Card */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Large Featured Image */}
-          <div className="lg:col-span-2 relative h-[400px] bg-[#0a0a0a] rounded-xl overflow-hidden group border border-[#333]/30">
+          <div
+            onClick={() => openBooking('Interceptor 650 Service Inquiry')}
+            className="lg:col-span-2 relative h-[400px] bg-[#0a0a0a] rounded-xl overflow-hidden group border border-[#333]/30 cursor-pointer active:scale-[0.99] transition-transform duration-300"
+          >
             <Image
               src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80"
               alt="Featured Service"
@@ -57,7 +63,11 @@ export default function FeaturedProjects() {
 
             <div className="flex-grow space-y-3">
               {projects.map((project, i) => (
-                <div key={i} className="group flex items-center justify-between p-3 rounded-lg hover:bg-[#1a1a1a] transition-colors cursor-pointer border border-transparent hover:border-[#333]">
+                <div
+                  key={i}
+                  onClick={() => openBooking(`Project Inquiry: ${project.name}`)}
+                  className="group flex items-center justify-between p-3 rounded-lg hover:bg-[#1a1a1a] transition-colors cursor-pointer border border-transparent hover:border-[#333] active:scale-[0.98]"
+                >
                   <div>
                     <div className="text-white font-medium text-sm group-hover:text-[#ff5e1a] transition-colors">{project.name}</div>
                     <div className="text-[#666] text-xs font-mono">{project.type} • {project.date}</div>

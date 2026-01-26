@@ -98,7 +98,12 @@ export default function ServiceCatalog() {
                 {/* Services Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
                     {services.map((service, i) => (
-                        <Card key={i} variant="glass" className="h-full hover:border-[#ff5e1a]/50 transition-colors group flex flex-col">
+                        <Card
+                            key={i}
+                            variant="glass"
+                            className="h-full hover:border-[#ff5e1a]/50 transition-colors group flex flex-col cursor-pointer transition-transform duration-300 active:scale-[0.98]"
+                            onClick={() => openBooking(service.title)}
+                        >
                             <CardHeader>
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="p-3 bg-[#1a1a1a] rounded-lg border border-[#333] group-hover:border-[#ff5e1a] transition-colors">
