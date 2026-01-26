@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { GlassButton } from '@/components/ui/buttons/GlassButton';
+import { useBooking } from '@/context/BookingContext';
 import { MotoIcon } from '@/components/ui/icons/MotoIcons';
 import { Twitter, Instagram, Linkedin, Github, Zap } from 'lucide-react';
 import Link from 'next/link';
@@ -9,6 +10,7 @@ import Image from 'next/image';
 import { ContactModal } from '@/components/interactive/ContactModal';
 
 export default function HighVoltageFooter() {
+    const { openBooking } = useBooking();
     const [isContactOpen, setIsContactOpen] = useState(false);
 
     return (
@@ -81,10 +83,10 @@ export default function HighVoltageFooter() {
                             <GlassButton
                                 variant="industrial"
                                 className="w-full justify-center relative z-10"
-                                onClick={() => setIsContactOpen(true)}
+                                onClick={() => openBooking('Footer Initiation')}
                             >
                                 <Zap size={16} className="mr-2" />
-                                Initialize
+                                Start Build Protocol
                             </GlassButton>
                         </div>
                     </div>

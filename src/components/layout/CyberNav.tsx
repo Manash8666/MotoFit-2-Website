@@ -126,7 +126,14 @@ export default function CyberNav() {
                                 </motion.div>
                             ))}
                             <div className="pt-8">
-                                <GlassButton variant="orange" className="w-full justify-center">
+                                <GlassButton
+                                    variant="orange"
+                                    className="w-full justify-center"
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        openBooking('Mobile Nav Contact');
+                                    }}
+                                >
                                     Contact Us
                                 </GlassButton>
                             </div>

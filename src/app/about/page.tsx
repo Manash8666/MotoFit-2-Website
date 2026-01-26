@@ -4,6 +4,7 @@ import { TeamCard } from '@/components/ui/cards/TeamCard';
 import Image from 'next/image';
 
 export default function AboutPage() {
+    const { openBooking } = useBooking();
     return (
         <main className="min-h-screen bg-[#050505] pt-24 pb-12 relative overflow-hidden">
             {/* Background Texture */}
@@ -131,7 +132,28 @@ export default function AboutPage() {
                     </div>
                 </section>
 
+                {/* 5. Final CTA: Join the Elite */}
+                <section className="py-20 text-center">
+                    <h2 className="text-3xl md:text-6xl font-black text-white uppercase mb-8">
+                        Ready to <span className="text-[#ff5e1a]">Evolve</span>?
+                    </h2>
+                    <p className="text-[#a0a0a0] max-w-xl mx-auto mb-10">
+                        Whether it's a periodic check or a ground-up performance build, your machine belongs in the Lab.
+                    </p>
+                    <GlassButton
+                        variant="orange"
+                        size="xl"
+                        onClick={() => openBooking('About Page Final CTA')}
+                        className="group"
+                    >
+                        Initiate Build Protocol
+                    </GlassButton>
+                </section>
+
             </div>
         </main>
     );
 }
+
+import { useBooking } from '@/context/BookingContext';
+

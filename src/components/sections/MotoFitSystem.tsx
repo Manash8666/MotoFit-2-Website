@@ -32,8 +32,8 @@ export default function MotoFitSystem() {
                     experience the first intelligent service workflow in Ahmedabad.
                 </p>
                 <div className="flex flex-wrap gap-4 pt-4">
-                    <PrimaryButton variant="default">BOOK A SERVICE</PrimaryButton>
-                    <GlassButton variant="industrial">VIEW LIVE QUEUE</GlassButton>
+                    <PrimaryButton variant="default" onClick={() => openBooking('MotoFit System')}>BOOK A SERVICE</PrimaryButton>
+                    <GlassButton variant="industrial" onClick={() => openBooking('Queue Status Inquiry')}>VIEW LIVE QUEUE</GlassButton>
                 </div>
             </section>
 

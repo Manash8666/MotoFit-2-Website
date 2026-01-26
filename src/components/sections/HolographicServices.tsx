@@ -12,9 +12,10 @@ interface ServiceCardProps {
     description: string;
     icon: any;
     index: number;
+    onClick: () => void;
 }
 
-function ServiceCard({ title, description, icon: Icon, index }: ServiceCardProps) {
+function ServiceCard({ title, description, icon: Icon, index, onClick }: ServiceCardProps) {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
@@ -26,8 +27,9 @@ function ServiceCard({ title, description, icon: Icon, index }: ServiceCardProps
 
     return (
         <div
-            className="group relative border border-[#333]/30 bg-[#0a0a0a] overflow-hidden"
+            className="group relative border border-[#333]/30 bg-[#0a0a0a] overflow-hidden cursor-pointer"
             onMouseMove={handleMouseMove}
+            onClick={onClick}
         >
             <motion.div
                 className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
@@ -73,7 +75,10 @@ function ServiceCard({ title, description, icon: Icon, index }: ServiceCardProps
     );
 }
 
+import { useBooking } from '@/context/BookingContext';
+
 export default function HolographicServices() {
+    const { openBooking } = useBooking();
     const services = [
         {
             title: 'Bike Service Near Chandkheda',
@@ -118,7 +123,7 @@ export default function HolographicServices() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
                     {services.map((service, i) => (
-                        <ServiceCard key={i} index={i} {...service} />
+                        <ServiceCard key={i} index={i} {...service} onClick={() => openBooking(service.title)} />
                     ))}
                 </div>
             </div>
