@@ -379,3 +379,17 @@ html {
     @apply bg-[#ff5e1a]/50 rounded-full hover:bg-[#ff5e1a];
   }
 }
+
+@keyframes infinite-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll 25s linear infinite;
+}

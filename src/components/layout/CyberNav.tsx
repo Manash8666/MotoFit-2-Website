@@ -12,6 +12,7 @@ import { GlassButton } from '@/components/ui/buttons/GlassButton';
 const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Services', href: '/services' },
+    { name: 'Parts', href: '/parts' },
     { name: 'Gallery', href: '/gallery' },
     { name: 'Blog', href: '/blog' },
     { name: 'About', href: '/about' },
