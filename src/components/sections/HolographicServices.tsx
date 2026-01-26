@@ -117,7 +117,7 @@ export default function HolographicServices() {
                         </span>
                     </h2>
                     <p className="text-[#a0a0a0] text-lg leading-relaxed">
-                        Looking for a reliable motorcycle garage near New CG Road? **MotoFit 2 Hub** serves a 15km radius including **Naroda, Kalol, Halol, Nikol, Vastral, and Rakhiyal**. From routine oil changes to complex engine rebuilds—we treat every bike like it's our own race machine.
+                        Looking for a reliable motorcycle garage near New CG Road? <span className="text-white font-bold">MotoFit 2 Hub</span> serves a 15km radius including <span className="text-[#ff5e1a] font-medium">Naroda, Kalol, Halol, Nikol, Vastral, and Rakhiyal</span>. From routine oil changes to complex engine rebuilds—we treat every bike like it's our own race machine.
                     </p>
                 </div>
 
