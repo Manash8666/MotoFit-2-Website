@@ -155,7 +155,7 @@ export default function Hero() {
                 {titleWords.map((word, wordIndex) => {
                   const startIdx = titleWords.slice(0, wordIndex).join('').length;
                   return (
-                    <span key={wordIndex} className="inline-block mr-2 sm:mr-4 md:mr-12 last:mr-0">
+                    <span key={wordIndex} className="inline-block mx-2 last:mr-0">
                       {word.split('').map((char, charIndex) => {
                         const globalIndex = startIdx + charIndex;
                         const isVisible = globalIndex < visibleCount;

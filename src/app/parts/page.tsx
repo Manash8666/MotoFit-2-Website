@@ -85,7 +85,7 @@ export default function PartsPage() {
                             The <span className="text-[#ff5e1a]">Hardware</span> Legacy
                         </h1>
                         <p className="text-xl md:text-2xl text-gray-400 font-light max-w-2xl">
-                            From vintage <span className="text-white font-bold">1980 RX 100</span> components to <span className="text-[#00d1ff] font-bold">2026 1300cc Superbike</span> electronics—at **Shop No 9**, we are the bridge between "Classic Soul" and "Modern Speed."
+                            From vintage <span className="text-white font-bold">1980 RX 100</span> components to <span className="text-[#00d1ff] font-bold">2026 1300cc Superbike</span> electronics—at <span className="text-white font-bold">Shop No 9</span>, we are the bridge between "Classic Soul" and "Modern Speed."
                         </p>
                     </div>
                 </div>

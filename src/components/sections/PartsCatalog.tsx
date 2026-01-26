@@ -10,37 +10,37 @@ import Link from 'next/link';
 const parts = [
     {
         id: '1',
-        name: 'Akrapovic & RRP Systems',
-        brand: 'Akrapovic',
+        name: 'Titanium Flow Systems',
+        brand: 'Akrapovic / RRP',
         category: 'Exhausts',
-        image: 'https://images.unsplash.com/photo-1580273916550-e323be2ebcc6?auto=format&fit=crop&q=80',
-        description: 'From 100cc performance to Superbike titanium flow. Including AFR optimization for Ahmedabad heat.',
+        image: 'https://images.unsplash.com/photo-1611634568603-605807cdca43?auto=format&fit=crop&q=80',
+        description: 'From 100cc performance to Superbike titanium flow. Optimized for Ahmedabad thermal conditions.',
         priceRange: 'Premium Hardware',
     },
     {
         id: '2',
-        name: 'Powertronic & Racing CDIs',
+        name: 'Surgical ECU Tuning',
         brand: 'Powertronic',
         category: 'Electronics',
-        image: 'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&q=80',
-        description: 'Unlocking hidden potential for BS6 engines and timing adjustments for vintage legends.',
+        image: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80',
+        description: 'Unlocking hidden power for BS6 engines and precision timing for vintage legends.',
         priceRange: 'Surgical Tuning',
     },
     {
         id: '3',
-        name: 'Pirelli & Metzeler Spec',
+        name: 'Pirelli Sport Spec',
         brand: 'Pirelli',
         category: 'Tyres',
-        image: 'https://images.unsplash.com/photo-1615172282427-9a5752d358cd?auto=format&fit=crop&q=80',
-        description: 'Maximum traction for the New CG Road. Precision wheel alignment included with every change.',
+        image: 'https://images.unsplash.com/photo-1558981420-c532902e58ef?auto=format&fit=crop&q=80',
+        description: 'Maximum traction for the New CG Road. Precision alignment included with every change.',
         priceRange: 'Absolute Grip',
     },
     {
         id: '4',
-        name: 'High-Performance Fluids',
-        brand: 'Motul/Liqui-Moly',
+        name: 'Motul 300V Synthesis',
+        brand: 'Motul',
         category: 'Oils',
-        image: 'https://images.unsplash.com/photo-1597838816882-4435b1977fbe?auto=format&fit=crop&q=80',
+        image: 'https://images.unsplash.com/photo-1542042161784-26ab9e040089?auto=format&fit=crop&q=80',
         description: 'Elite lubrication from 300V Race Synthetic to HP Racer Splendid for BS6 commuters.',
         priceRange: 'Thermal Guard',
     },
@@ -71,7 +71,7 @@ export default function PartsCatalog() {
                                 </span>
                             </h2>
                             <p className="text-[#a0a0a0] text-lg">
-                                We are the bridge between classic soul and modern speed. Every component in our inventory at **Shop No 9** is curated for absolute reliability on Ahmedabad roads.
+                                We are the bridge between classic soul and modern speed. Every component in our inventory at <span className="text-white font-bold">Shop No 9</span> is curated for absolute reliability on Ahmedabad roads.
                             </p>
                         </div>
                         <div className="shrink-0 pb-2">
