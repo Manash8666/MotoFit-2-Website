@@ -8,6 +8,7 @@ import { GlassButton, IndustrialButton } from '@/components/ui/buttons/GlassButt
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLenis } from '@/components/LenisWrapper';
 import TextReveal from '../ui/text/TextReveal';
+import InstagramPortal3D from '../interactive/InstagramPortal3D';
 
 const HERO_IMAGES = [
   '/images/hero/ducati-panigale.png', // Ducati Panigale (Red)
@@ -241,6 +242,10 @@ export default function Hero() {
             >
               Book Your Service
             </IndustrialButton>
+
+            <div className="mt-8 flex justify-center">
+              <InstagramPortal3D />
+            </div>
           </motion.div>
 
           {/* Scroll indicator */}

@@ -25,13 +25,13 @@ export default function MotoFitLogo({ className, size = 'md' }: MotoFitLogoProps
 
             <div className="relative w-full h-full overflow-hidden">
                 <Image
-                    src="/logo-clear.png"
+                    src="/logo-emblem.png"
                     alt="MotoFit 2 Hub"
                     fill
                     className="object-contain mix-blend-screen brightness-125 contrast-125 transition-all duration-500 group-hover/logo:scale-105"
                     style={{
-                        // Removing the background "blob" (white box) and adding futuristic neon glow
-                        filter: 'drop-shadow(0 0 10px rgba(255, 94, 26, 0.8)) drop-shadow(0 0 30px rgba(255, 94, 26, 0.4)) contrast(1.2) brightness(1.2)'
+                        // Removing the background and adding futuristic neon glow
+                        filter: 'drop-shadow(0 0 8px rgba(255, 94, 26, 0.8)) drop-shadow(0 0 25px rgba(255, 94, 26, 0.3)) contrast(1.1) brightness(1.1)'
                     }}
                     priority
                 />
