@@ -7,15 +7,13 @@ import { MotoIcon } from '@/components/ui/icons/MotoIcons';
 import { Twitter, Instagram, Linkedin, Github, Zap } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ContactModal } from '@/components/interactive/ContactModal';
 
 export default function HighVoltageFooter() {
     const { openBooking } = useBooking();
-    const [isContactOpen, setIsContactOpen] = useState(false);
 
     return (
         <footer className="relative bg-[#050505] border-t border-[#333]/30 pt-24 pb-12 overflow-hidden">
-            <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+            {/* Lead generation is handled by BookingModal via openBooking */}
 
             <div className="container mx-auto px-4 md:px-8 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-20">
@@ -63,7 +61,7 @@ export default function HighVoltageFooter() {
                                 <li key={item}>
                                     <Link
                                         href={item === 'Contact' ? '#' : item === 'About Us' ? '/about' : '#'}
-                                        onClick={item === 'Contact' ? (e) => { e.preventDefault(); setIsContactOpen(true); } : undefined}
+                                        onClick={item === 'Contact' ? (e) => { e.preventDefault(); openBooking('Contact Form Inquiry'); } : undefined}
                                         className="text-[#999] hover:text-white transition-colors text-sm font-mono flex items-center gap-2 group"
                                     >
                                         <span className="w-1 h-1 bg-[#00d1ff] opacity-0 group-hover:opacity-100 transition-opacity" />
