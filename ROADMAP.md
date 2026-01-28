@@ -33,7 +33,7 @@ This document outlines the vision for the MotoFit 2 Website. The goal is to repr
 - [x] **Website Pricing**: Host on **Vercel** (Live at `https://motofit2.in`) for global speed.
 - [x] **Domain Strategy**: Live at `motofit2.in`.
 - [ ] **Google Business Sync**: Ensure Website hours and Google Maps location are perfectly synced.
-- [ ] **SEO & Discovery**: Implement XML/HTML Sitemaps, Robots.txt, and submit to Search Console.
+- [x] **SEO & Discovery**: Implement XML/HTML Sitemaps, Robots.txt, and submit to Search Console.
 - [ ] **Google Business Sync**: Ensure Website hours and Google Maps location are perfectly synced.
 ## Phase 6: The 2026 Experience & Content Engine (New)
 - [x] **Content Engine (Blog)**: A "Bento Grid" style blog with 8 pre-built articles by Akshat Mohanty.
