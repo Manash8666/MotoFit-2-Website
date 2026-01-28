@@ -112,12 +112,12 @@ export const metadata: Metadata = {
   creator: "MotoFit 2",
   publisher: "MotoFit 2 Workshop Pvt. Ltd.",
   alternates: {
-    canonical: "https://motofit.in",
+    canonical: "https://motofit2.in",
   },
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://motofit.in",
+    url: "https://motofit2.in",
     title: "MotoFit 2 | #1 Bike Garage in New CG Road, Chandkheda, Ahmedabad",
     description: "Ahmedabad's most trusted superbike garage. Expert service in Chandkheda, New CG Road. Serving Naroda, Kalol & more. Free pickup. Book now!",
     siteName: "MotoFit 2",
@@ -154,7 +154,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "YOUR_GOOGLE_VERIFICATION_CODE",
+    google: "tWjcvP5_LBt4kzUA4gzKg66XXyqXIb3n0O60ieg6Vn8",
   },
 };
 
