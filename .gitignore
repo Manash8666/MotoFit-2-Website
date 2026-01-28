@@ -30,8 +30,13 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files (NEVER COMMIT)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
 
 # vercel
 .vercel
@@ -40,5 +45,49 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Local Netlify folder
+# Local Netlify/Build folder
 .netlify
+out/
+build/
+dist/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# Secrets / Sensitive
+*.pem
+*.key
+*.p12
+*.cert
+auth_token*
+credentials.json
+firebase-adminsdk.json
+
+# Local specific
+brain/
+tmp/
+project.md
+ROADMAP.md
+QUICK_START.md
+BUILD_SUMMARY.md
+task.md
+walkthrough.md
+implementation_plan.md

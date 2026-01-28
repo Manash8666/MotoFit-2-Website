@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://motofit.in';
+    // Live Website URL
+    const baseUrl = 'https://motofit2.in';
 
     return [
         {
@@ -29,10 +30,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.7,
         },
         {
+            url: `${baseUrl}/parts`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.8,
+        },
+        {
             url: `${baseUrl}/blog`,
             lastModified: new Date(),
             changeFrequency: 'weekly',
             priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/sitemap`,
+            lastModified: new Date(),
+            changeFrequency: 'yearly',
+            priority: 0.5,
         },
     ];
 }

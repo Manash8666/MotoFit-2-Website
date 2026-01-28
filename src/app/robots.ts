@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/private/',
         },
-        sitemap: 'https://motofit.in/sitemap.xml',
+        sitemap: 'https://motofit2.in/sitemap.xml',
     };
 }

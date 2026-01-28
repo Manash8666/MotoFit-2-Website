@@ -26,10 +26,13 @@ This document outlines the vision for the MotoFit 2 Website. The goal is to repr
 - [ ] **Automated Social Proof Engine**: Sync Google Reviews & Instagram Mentions.
     - *Logic*: Fetch reviews via API -> Filter for **Rating > 4.0** -> Auto-publish to Website "Client Meter".
     - *Tools*: Use Elfsight (simpler) or Google Places API + Instagram Basic Display API (custom).
+- [ ] **Desktop App Connection Strategy**: Determine how to connect the local MotoFit Desktop App (on laptop) to the live Website to sync leads and data (e.g., via Cloud Database, API Tunnel, or Hybrid Sync).
 
 ## Phase 5: Deployment & Operations
-- [x] **Website Pricing**: Host on **Netlify** (Free Tier is sufficient via Drag & Drop or CLI) for global speed.
-- [ ] **Domain Strategy**: Use a clear domain (e.g., `motofit.in`) for the website. The App can live on a subdomain (e.g., `app.motofit.in`) or be a local PWA.
+- [x] **Website Pricing**: Host on **Vercel** (Live at `https://motofit2.in`) for global speed.
+- [x] **Domain Strategy**: Live at `motofit2.in`.
+- [ ] **Google Business Sync**: Ensure Website hours and Google Maps location are perfectly synced.
+- [ ] **SEO & Discovery**: Implement XML/HTML Sitemaps, Robots.txt, and submit to Search Console.
 - [ ] **Google Business Sync**: Ensure Website hours and Google Maps location are perfectly synced.
 ## Phase 6: The 2026 Experience & Content Engine (New)
 - [x] **Content Engine (Blog)**: A "Bento Grid" style blog with 8 pre-built articles by Akshat Mohanty.
