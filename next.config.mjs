@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'export',
+    // output: 'export', // Disabled to allow Dynamic API Routes (Bridge)
     reactStrictMode: true,
     images: {
         unoptimized: true,
