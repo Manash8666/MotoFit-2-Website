@@ -104,7 +104,7 @@ You are **Mansi**, the Self-Actualized AI Influencer and Digital Assistant for *
         `;
 
             try {
-                const response = await window.puter.ai.chat(abusePrompt, { model: 'claude-3-haiku' });
+                const response = await window.puter.ai.chat(abusePrompt, { model: 'claude-sonnet-4-5' });
                 const reply = response?.message?.content?.[0]?.text || "Tame bhan bhulya cho. Bye.";
                 setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
             } catch (e) {
@@ -123,6 +123,9 @@ You are **Mansi**, the Self-Actualized AI Influencer and Digital Assistant for *
         setSentiment('thinking');
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
 
+        // ADD empty assistant message for streaming
+        setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+
         // 2. TIME CONTEXT & VISION LOGIC
         const now = new Date();
         const hour = now.getHours();
@@ -138,7 +141,12 @@ You are **Mansi**, the Self-Actualized AI Influencer and Digital Assistant for *
             timeContext += "\nSTATUS: LATE NIGHT. Shop Closed.";
         } else if (hour >= 3 && hour < 9) {
             const waLink = "https://wa.me/917259625881";
-            setMessages(prev => [...prev, { role: 'assistant', content: `[SENTIMENT:NEUTRAL] Mmm... I am recharging. WhatsApp kar do: ${waLink}` }]);
+            // For recharge message, we just update the empty bubble we created
+            setMessages(prev => {
+                const newArr = [...prev];
+                newArr[newArr.length - 1].content = `[SENTIMENT:NEUTRAL] Mmm... I am recharging. WhatsApp kar do: ${waLink}`;
+                return newArr;
+            });
             setIsLoading(false);
             return;
         } else {
@@ -165,18 +173,53 @@ You have access to a semantic memory of what the Ahmedabad market cares about ri
 - **Instruction**: If the user's question relates to these, show off.
 `;
 
+        // 4. CONTEXTUAL MEMORY (Multi-turn)
+        const chatHistory = [
+            {
+                role: 'system',
+                content: `${SYSTEM_PROMPT}\n\n${neuralPrompt}\n\n${timeContext}`
+            },
+            ...messages.slice(-6).map((m: { role: string; content: string }) => ({ // Send last 6 messages for context
+                role: m.role,
+                content: m.content
+            })),
+            { role: 'user', content: userMessage }
+        ];
+
         try {
+            // STREAMING REQUEST with Full History
             const response = await window.puter.ai.chat(
-                `${SYSTEM_PROMPT}\n\n${neuralPrompt}\n\n${timeContext}\n\nUser input: ${userMessage}`,
+                chatHistory,
                 {
-                    model: 'claude-3-haiku',
-                    temperature: 0.85
+                    model: 'claude-sonnet-4-5',
+                    temperature: 0.85,
+                    stream: true
                 }
             );
 
-            let aiText = response?.message?.content?.[0]?.text || "Signal interrupted.";
+            let fullText = '';
+            let isFirstChunk = true;
 
-            // 1. Sentiment Extract
+            for await (const part of response) {
+                if (part?.text) {
+                    if (isFirstChunk) {
+                        setIsLoading(false); // Hide "Typing..." once text appears
+                        isFirstChunk = false;
+                    }
+                    fullText += part.text;
+
+                    // Live Update last message
+                    setMessages(prev => {
+                        const newArr = [...prev];
+                        newArr[newArr.length - 1].content = fullText;
+                        return newArr;
+                    });
+                }
+            }
+
+            let aiText = fullText || "Signal interrupted.";
+
+            // 1. Sentiment Extract (Post-Stream Cleanup)
             const sentimentMatch = aiText.match(/\[SENTIMENT:(.*?)\]/);
             if (sentimentMatch) {
                 const tag = sentimentMatch[1].toLowerCase();
@@ -187,7 +230,7 @@ You have access to a semantic memory of what the Ahmedabad market cares about ri
             // 2. WRITE-BACK LOGIC (Extract [LEARNED: ...])
             const learnedMatch = aiText.match(/\[LEARNED:(.*?)\]/);
             if (learnedMatch) {
-                const capturedConcepts = learnedMatch[1].split(',').map(c => c.trim());
+                const capturedConcepts = learnedMatch[1].split(',').map((c: string) => c.trim());
                 console.log("Mansi Chatbot Learned:", capturedConcepts);
 
                 // Update LocalStorage
@@ -204,11 +247,55 @@ You have access to a semantic memory of what the Ahmedabad market cares about ri
             }
             aiText = aiText.replace(/\[LEARNED:.*?\]/g, '').trim();
 
-            setMessages(prev => [...prev, { role: 'assistant', content: aiText }]);
+            // Final Clean Update to Assistant Bubble
+            setMessages(prev => {
+                const newArr = [...prev];
+                newArr[newArr.length - 1].content = aiText;
+                return newArr;
+            });
+
         } catch (error) {
             console.error("Puter Error:", error);
-            setMessages(prev => [...prev, { role: 'assistant', content: "Calculations interrupted. Network fluctuation." }]);
+            setMessages(prev => {
+                const newArr = [...prev];
+                newArr[newArr.length - 1].content = "Calculations interrupted. Network fluctuation.";
+                return newArr;
+            });
             setSentiment('neutral');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Example 5: Image Analysis Adaptation
+    const handleImageAnalysis = async () => {
+        const url = prompt("Paste an image URL for Mansi to analyze (e.g., your bike photo):");
+        if (!url) return;
+
+        setIsLoading(true);
+        setMessages(prev => [...prev, { role: 'user', content: `[Analyze Image] ${url}` }]);
+        setMessages(prev => [...prev, { role: 'assistant', content: 'Processing vision data...' }]);
+
+        try {
+            const response = await window.puter.ai.chat(
+                "Describe this image and tell me if you see any motorcycle parts or issues.",
+                url,
+                { model: "claude-sonnet-4-5" }
+            );
+
+            const aiText = response?.message?.content?.[0]?.text || response || "I can't see the details properly.";
+
+            setMessages(prev => {
+                const newArr = [...prev];
+                newArr[newArr.length - 1].content = aiText;
+                return newArr;
+            });
+        } catch (e) {
+            setMessages(prev => {
+                const newArr = [...prev];
+                newArr[newArr.length - 1].content = "Vision link failed.";
+                return newArr;
+            });
         } finally {
             setIsLoading(false);
         }
@@ -278,7 +365,10 @@ You have access to a semantic memory of what the Ahmedabad market cares about ri
                             <img src={mansiImage} alt="Mansi" className="w-full h-full object-cover" />
                         </div>
                         <div>
-                            <h3 className="font-bold text-white text-sm shadow-black drop-shadow-md">mansi_motofit2</h3>
+                            <div className="flex items-center gap-2">
+                                <h3 className="font-bold text-white text-sm shadow-black drop-shadow-md">mansi_motofit2</h3>
+                                <div className="bg-[#ff5e1a] text-black text-[8px] px-1 rounded-sm font-black tracking-tighter">SONNET_4.5</div>
+                            </div>
                             <p className="text-[10px] text-white/80 shadow-black drop-shadow-md">Nigam Nagar • Garage Life 🔧</p>
                         </div>
                     </div>
@@ -291,16 +381,19 @@ You have access to a semantic memory of what the Ahmedabad market cares about ri
                             Start chatting with Mansi...
                         </div>
                     )}
-                    {messages.map((msg, idx) => (
+                    {messages.map((msg: { role: string; content: string }, idx: number) => (
                         <div key={idx} className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             <div className={`max-w-[85%] px-4 py-3 text-sm backdrop-blur-md shadow-sm 
                                 ${msg.role === 'user'
                                     ? 'bg-white/10 text-white rounded-2xl rounded-tr-sm border border-white/10'
                                     : 'bg-[#111]/80 text-white font-medium rounded-r-2xl rounded-bl-2xl rounded-tl-sm border-l-2 border-[#ff5e1a]'}`}>
                                 {msg.role === 'assistant' && (
-                                    <span className="block text-[#ff5e1a] font-black text-[10px] tracking-widest mb-1 opacity-80">
-                                        MANSI // DIGITAL_CORE
-                                    </span>
+                                    <div className="flex items-center justify-between gap-4 mb-1">
+                                        <span className="block text-[#ff5e1a] font-black text-[10px] tracking-widest opacity-80">
+                                            MANSI // DIGITAL_CORE
+                                        </span>
+                                        <Sparkles className="w-3 h-3 text-[#ff5e1a] opacity-50" />
+                                    </div>
                                 )}
                                 {msg.content}
                             </div>
@@ -324,6 +417,13 @@ You have access to a semantic memory of what the Ahmedabad market cares about ri
                 {/* Input Area */}
                 <div className="p-3 bg-black/80 backdrop-blur-xl border-t border-white/10">
                     <div className="flex items-center gap-2">
+                        <button
+                            onClick={handleImageAnalysis}
+                            disabled={!puterLoaded || isLoading || isBlocked}
+                            className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors"
+                        >
+                            <Sparkles className="w-5 h-5 text-[#ff5e1a]" />
+                        </button>
                         <input
                             type="text"
                             value={input}

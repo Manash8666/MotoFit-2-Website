@@ -38,7 +38,7 @@ export default function MansiKnowledgeHub() {
 
         if (cachedData) {
             try {
-                const parsed = JSON.parse(cachedData);
+                const parsed: FAQItem[] = JSON.parse(cachedData);
                 if (Array.isArray(parsed) && parsed.length > 0) {
                     console.log("Mansi Insight Loaded from Cache");
                     setFaqs(parsed);
@@ -149,11 +149,13 @@ Provide a JSON Object with two keys:
 
         try {
             // Call The Heart (Mansi)
-            const response = await window.puter.ai.chat(mansiPrompt, {
-                model: 'claude-haiku-4-5',
-                temperature: 0.75 // Slightly higher for "Creative Learning"
-            });
-
+            const response = await window.puter.ai.chat(
+                `${mansiPrompt}\n\n${JSON.stringify({ date: new Date().toDateString() })}`,
+                {
+                    model: 'claude-sonnet-4-5',
+                    temperature: 0.75 // Creative "Learning" Mode
+                }
+            );
             clearInterval(interval);
             const rawText = response.message.content[0].text;
             const jsonStart = rawText.indexOf('{');
@@ -181,7 +183,7 @@ Provide a JSON Object with two keys:
 
             // 3. Update Long-Term Memory (Self-Learning Loop)
             if (newConcepts.length > 0) {
-                const currentMemory = localStorage.getItem(memoryKey)
+                const currentMemory: string[] = localStorage.getItem(memoryKey)
                     ? JSON.parse(localStorage.getItem(memoryKey)!)
                     : [];
                 // Add new concepts to the top, keep unique, limit to 20
@@ -245,7 +247,7 @@ Provide a JSON Object with two keys:
 
             {!loading && !error && (
                 <div id="dynamic-faq-grid" className="faq-grid">
-                    {faqs.map((item, index) => (
+                    {faqs.map((item: FAQItem, index: number) => (
                         <div
                             key={index}
                             className="faq-card"

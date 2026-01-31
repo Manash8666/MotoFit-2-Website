@@ -77,3 +77,7 @@ This document outlines the vision for the MotoFit 2 Website. The goal is to repr
         - [x] **RAG-Lite Feedback Loop**: "Long-Term Memory" implementation (`mansi_long_term_memory_v1`) to store and recall 20+ learned concepts dynamically.
         - [x] **Unified Cortex**: Main Chatbot (`MansiWidget`) now reads from the same "Neural Link" memory to reference trending topics during conversation.
         - [x] **Bi-Directional Learning**: Chatbot now *extracts* new concepts from user conversations (`[LEARNED:...]` protocol) and updates the Long-Term Memory, making the system smarter with every interaction.
+            - [x] **Claude Sonnet 4.5**: Both Knowledge Hub and Chatbot upgraded to the latest state-of-the-art model for superior reasoning and personality.
+            - [x] **Live Streaming**: Chatbot now implements character-by-character streaming for a buttery-smooth "Jarvis-like" interaction.
+            - [x] **Multi-turn Memory**: Mansi now remembers previous messages in the session, allowing for deep, contextual conversations.
+            - [x] **Multimodal Vision**: Added Image Analysis capability—Mansi can now "see" and describe motorcycle photos via URL.
