@@ -50,6 +50,7 @@ const INITIAL_MESSAGE = {
 };
 
 export default function MansiPage() {
+    const [isChatOpen, setIsChatOpen] = useState(false);
     const [messages, setMessages] = useState<Array<{ role: string, content: string }>>([INITIAL_MESSAGE]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -60,7 +61,7 @@ export default function MansiPage() {
     // Auto-scroll to bottom of chat
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages]);
+    }, [messages, isChatOpen]);
 
     const handleSend = async () => {
         if (!input.trim() || !puterLoaded || isLoading) return;
@@ -76,7 +77,7 @@ export default function MansiPage() {
             // Puter.js Interaction
             const response = await window.puter.ai.chat(
                 SYSTEM_PROMPT + "\n\nUser Query: " + userMessage,
-                { model: 'claude-3-haiku' } // Using standard haiku model name, referencing user's 4-5 request but mapping to likely available key
+                { model: 'claude-3-haiku' }
             );
 
             const aiText = response?.message?.content?.[0]?.text || "Oops! Network locha thayo. Try again, dear!";
@@ -101,80 +102,112 @@ export default function MansiPage() {
                 onLoad={() => setPuterLoaded(true)}
             />
 
-            <div className="min-h-screen bg-[#050505] flex flex-col md:pt-20 pt-16 h-[100dvh]">
-                {/* Header */}
-                <div className="bg-[#0a0a0a] border-b border-[#333] p-4 flex items-center justify-between sticky top-0 z-10">
-                    <div className="flex items-center gap-3">
-                        <div className="relative">
-                            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#ff5e1a] bg-zinc-800 flex items-center justify-center">
-                                {/* Placeholder URL or Icon if image assumes loading */}
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150" alt="Mansi" className="w-full h-full object-cover" />
-                            </div>
-                            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black animate-pulse"></div>
-                        </div>
-                        <div>
-                            <h1 className="text-xl font-black italic text-white leading-none">MANSI</h1>
-                            <p className="text-[10px] text-[#ff5e1a] uppercase font-bold tracking-[0.2em]">MotoFit AI Assistant</p>
-                        </div>
+            <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center relative overflow-hidden transition-all duration-700">
+
+                {/* Background Ambient Glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#ff5e1a] opacity-5 blur-[150px] pointer-events-none" />
+
+                {/* State 1: Landing (Image Only) */}
+                <div
+                    className={`transition-all duration-700 ease-in-out flex flex-col items-center ${isChatOpen ? 'translate-y-[-20px] scale-90 md:scale-75' : 'scale-100'
+                        }`}
+                >
+                    <div
+                        onClick={() => setIsChatOpen(true)}
+                        className={`relative cursor-pointer group transition-all duration-500 ${isChatOpen ? 'w-32 h-32 md:w-40 md:h-40' : 'w-64 h-64 md:w-80 md:h-80'
+                            } rounded-full border-4 border-[#ff5e1a] shadow-[0_0_50px_rgba(255,94,26,0.3)] overflow-hidden hover:shadow-[0_0_80px_rgba(255,94,26,0.6)]`}
+                    >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src="/images/mansi-avatar.png"
+                            alt="Mansi AI"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
                     </div>
-                    <Badge variant="outline" className="hidden md:flex">Powered by Claude Haiku</Badge>
-                </div>
 
-                {/* Chat Area */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
-                    {messages.map((msg, idx) => (
-                        <div
-                            key={idx}
-                            className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                        >
-                            <div
-                                className={`max-w-[85%] md:max-w-[70%] p-4 text-sm md:text-base leading-relaxed ${msg.role === 'user'
-                                        ? 'bg-[#1a1a1a] text-gray-100 rounded-2xl rounded-tr-sm border border-[#333]'
-                                        : 'bg-[#ff5e1a] text-black font-medium rounded-2xl rounded-tl-sm shadow-[0_0_15px_rgba(255,94,26,0.2)]'
-                                    }`}
-                            >
-                                {msg.content}
-                            </div>
-                        </div>
-                    ))}
-
-                    {isLoading && (
-                        <div className="flex justify-start w-full">
-                            <div className="bg-[#1a1a1a] border border-[#333] px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-2">
-                                <Sparkles className="w-4 h-4 text-[#ff5e1a] animate-spin" />
-                                <span className="text-gray-400 text-xs italic">Mansi is thinking...</span>
-                            </div>
+                    {!isChatOpen && (
+                        <div className="mt-8 text-center animate-fade-in-up">
+                            <h1 className="text-4xl md:text-6xl font-black italic text-white tracking-tighter">
+                                MANSI
+                            </h1>
+                            <p className="text-[#ff5e1a] tracking-[0.3em] text-sm md:text-base font-bold mt-2 uppercase">
+                                Tap to Chat
+                            </p>
                         </div>
                     )}
-
-                    <div ref={chatEndRef} />
                 </div>
 
-                {/* Input Area */}
-                <div className="p-4 bg-[#0a0a0a] border-t border-[#333]">
-                    <div className="max-w-4xl mx-auto relative flex items-center gap-2">
-                        <input
-                            type="text"
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            onKeyDown={handleKeyPress}
-                            placeholder={puterLoaded ? "Ask Mansi about service, tuning, or mods..." : "Initializing AI Brain..."}
-                            disabled={!puterLoaded || isLoading}
-                            className="flex-1 bg-[#151515] text-white border border-[#333] rounded-full px-6 py-4 focus:outline-none focus:border-[#ff5e1a] focus:ring-1 focus:ring-[#ff5e1a] transition-all placeholder:text-gray-600"
-                        />
+                {/* State 2: Chat Interface (Reveals Below) */}
+                <div
+                    className={`w-full max-w-2xl bg-[#0a0a0a] border border-[#333] rounded-t-3xl shadow-2xl transition-all duration-700 ease-out transform ${isChatOpen ? 'translate-y-0 opacity-100 h-[70vh]' : 'translate-y-full opacity-0 h-0 overflow-hidden'
+                        } flex flex-col`}
+                >
+                    {/* Chat Header */}
+                    <div className="p-4 border-b border-[#222] flex items-center justify-between bg-[#111]">
+                        <div className="flex items-center gap-2">
+                            <Sparkles className="w-4 h-4 text-[#ff5e1a]" />
+                            <span className="text-white font-bold tracking-wider">LIVE CHAT</span>
+                        </div>
                         <button
-                            onClick={handleSend}
-                            disabled={!input.trim() || !puterLoaded || isLoading}
-                            className="bg-[#ff5e1a] hover:bg-[#ff7b42] text-black p-4 rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-95"
+                            onClick={() => setIsChatOpen(false)}
+                            className="text-gray-500 hover:text-white text-xs uppercase hover:underline"
                         >
-                            <Send className="w-5 h-5" />
+                            Close
                         </button>
                     </div>
-                    <p className="text-center text-[10px] text-gray-600 mt-2 font-mono">
-                        Mansi is an AI. She might make mistakes about pricing. Always verify with Akshat.
-                    </p>
+
+                    {/* Messages */}
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-[#050505]">
+                        {messages.map((msg, idx) => (
+                            <div
+                                key={idx}
+                                className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                            >
+                                <div
+                                    className={`max-w-[85%] p-3 md:p-4 text-sm md:text-base leading-relaxed ${msg.role === 'user'
+                                            ? 'bg-[#1a1a1a] text-gray-100 rounded-2xl rounded-tr-sm border border-[#333]'
+                                            : 'bg-[#ff5e1a] text-black font-medium rounded-2xl rounded-tl-sm shadow-[0_0_10px_rgba(255,94,26,0.1)]'
+                                        }`}
+                                >
+                                    {msg.content}
+                                </div>
+                            </div>
+                        ))}
+
+                        {isLoading && (
+                            <div className="flex justify-start w-full">
+                                <div className="bg-[#1a1a1a] border border-[#333] px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-2">
+                                    <Sparkles className="w-4 h-4 text-[#ff5e1a] animate-spin" />
+                                    <span className="text-gray-400 text-xs italic">Mansi is thinking...</span>
+                                </div>
+                            </div>
+                        )}
+                        <div ref={chatEndRef} />
+                    </div>
+
+                    {/* Input Area */}
+                    <div className="p-4 bg-[#111] border-t border-[#222]">
+                        <div className="relative flex items-center gap-2">
+                            <input
+                                type="text"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                onKeyDown={handleKeyPress}
+                                placeholder={puterLoaded ? "Pucho..." : "Initializing..."}
+                                disabled={!puterLoaded || isLoading}
+                                className="flex-1 bg-[#050505] text-white border border-[#333] rounded-full px-5 py-3 focus:outline-none focus:border-[#ff5e1a] focus:ring-1 focus:ring-[#ff5e1a] transition-all"
+                            />
+                            <button
+                                onClick={handleSend}
+                                disabled={!input.trim() || !puterLoaded || isLoading}
+                                className="bg-[#ff5e1a] hover:bg-[#ff7b42] text-black p-3 rounded-full transition-all disabled:opacity-50 transform active:scale-95"
+                            >
+                                <Send className="w-4 h-4" />
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </>
     );
