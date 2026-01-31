@@ -71,6 +71,9 @@ This document outlines the vision for the MotoFit 2 Website. The goal is to repr
     - [x] **5 Strategic Clusters**: Survival Guide, Performance, Maintenance, Mods, Logistics.
     - [x] **Security Protocols**: Pricing Firewall, Jugaad Blocker, Brand Protection.
     - [x] **Industrial UI**: Dark/Orange "Motorcycle Dashboard" grid with staggered animations.
-    - [x] **Intelligence Layer**:
+    - [x] **Intelligence Layer (Neural Link)**:
         - [x] **Caching Engine**: LocalStorage implementation to prevent redundant API calls (`mansi_daily_intel_[DATE]`).
         - [x] **Simulated Internet Learning**: Creative prompt injection for "Real-Time 2026 Trends" + UI visualization of "Scanning" process.
+        - [x] **RAG-Lite Feedback Loop**: "Long-Term Memory" implementation (`mansi_long_term_memory_v1`) to store and recall 20+ learned concepts dynamically.
+        - [x] **Unified Cortex**: Main Chatbot (`MansiWidget`) now reads from the same "Neural Link" memory to reference trending topics during conversation.
+        - [x] **Bi-Directional Learning**: Chatbot now *extracts* new concepts from user conversations (`[LEARNED:...]` protocol) and updates the Long-Term Memory, making the system smarter with every interaction.

@@ -11,6 +11,11 @@ interface FAQItem {
     icon?: string;
 }
 
+interface MansiResponse {
+    faqs: FAQItem[];
+    learned_concepts: string[];
+}
+
 export default function MansiKnowledgeHub() {
     const [loading, setLoading] = useState(true);
     const [faqs, setFaqs] = useState<FAQItem[]>([]);
@@ -53,8 +58,23 @@ export default function MansiKnowledgeHub() {
         setLoading(true);
         setError(null);
 
+        // 2. Retrieve Long-Term Memory (Self-Learning Module)
+        const memoryKey = 'mansi_long_term_memory_v1';
+        let learnedConcepts = "No previous data.";
+        try {
+            const rawMemory = localStorage.getItem(memoryKey);
+            if (rawMemory) {
+                const memory = JSON.parse(rawMemory);
+                // "Glove-lite" weighting: Prioritize concepts seen recently
+                learnedConcepts = memory.slice(0, 5).join(", ");
+            }
+        } catch (e) {
+            console.warn("Memory read error");
+        }
+
         // Simulate "Internet Learning" Visuals
         const learningSteps = [
+            `Recalling Neural Pathways: [${learnedConcepts}]`,
             "Scanning Ahmedabad Traffic Grids...",
             "Fetching Latest Moto-News from BikeWale...",
             "Analyzing Instagram Rider Trends...",
@@ -76,6 +96,11 @@ You are MANSI. You are the **Heart and Digital Soul** of MotoFit 2 in Chandkheda
 - You speak 70% Hinglish, 20% Technical English, 10% Gujarati.
 - Your goal: Educate the Ahmedabad rider community (from Activa to Hayabusa) with engineering truth.
 
+### SELF-LEARNING MODULE (Active):
+You have a Long-Term Memory.
+**PREVIOUSLY LEARNED CONCEPTS:** [${learnedConcepts}]
+- **Instruction**: Use these concepts to deepen your answers. If "Chain Lube" is a learned concept, provide an advanced tip about it today.
+
 ### REAL-TIME LEARNING PROTOCOL:
 You must act as if you have just browsed the latest internet trends for Two-Wheelers in India (2025-2026 Season).
 - **Scan Context**: Latest traffic fines in Ahmedabad, New bike launches (Himalayan 452, KTM Gen 3), rising temperatures in Gujarat.
@@ -86,7 +111,7 @@ Generate exactly **25 Unique FAQs** (JSON Format) for today: [CURRENT_DATE].
 You must split them into these 5 Specific Clusters:
 
 #### CLUSTER 1: THE AHMEDABAD SURVIVAL GUIDE (5 Questions)
-- Focus on: 45°C Heat, New CG Road Dust, SG Highway speeding, Monsoon potholes, Traffic in Old City.
+- Focus on: 45°C Heat at Visat Circle, New CG Road Dust, SG Highway speeding, Monsoon potholes, Traffic in Old City.
 - Example: "Why is my engine overheating near Visat Circle?"
 
 #### CLUSTER 2: PERFORMANCE & TUNING (5 Questions)
@@ -110,15 +135,16 @@ You must split them into these 5 Specific Clusters:
 3. **BRAND PROTECTION:** MotoFit 2 > Authorized Service Centers.
 
 ### OUTPUT FORMAT:
-Provide a JSON Array of 25 Objects:
-\`[ { "category": "Cluster Name", "question": "Question text...", "answer": "Mansi's witty answer...", "icon": "🔧" }, ... ]\`
+Provide a JSON Object with two keys:
+1. "faqs": Array of 25 Objects [{ "category", "question", "answer", "icon" }]
+2. "learned_concepts": Array of 5 strings (Keywords from today's generation for long-term storage).
 
 ### TONE CHECK:
 - Use "Baka," "Bhai," "Locha," "Scene."
 - Be authoritative but warm.
 
         CURRENT CONTEXT: Today is ${todayStr}. 
-        Generate the 25 FAQs now. Ensure valid JSON output only.
+        Generate the JSON now. Ensure valid JSON output only.
     `;
 
         try {
@@ -130,20 +156,44 @@ Provide a JSON Array of 25 Objects:
 
             clearInterval(interval);
             const rawText = response.message.content[0].text;
-            const jsonStart = rawText.indexOf('[');
-            const jsonEnd = rawText.lastIndexOf(']') + 1;
+            const jsonStart = rawText.indexOf('{');
+            const jsonEnd = rawText.lastIndexOf('}') + 1;
 
             if (jsonStart === -1 || jsonEnd === 0) {
                 throw new Error("Invalid JSON format received from Mansi");
             }
 
             const cleanJson = rawText.substring(jsonStart, jsonEnd);
-            const faqData = JSON.parse(cleanJson);
+            const data: MansiResponse | FAQItem[] = JSON.parse(cleanJson);
 
-            // 2. Cache Saving
-            localStorage.setItem(cacheKey, JSON.stringify(faqData));
+            // Handle legacy array format if AI slips up, otherwise use new object format
+            let newFaqs: FAQItem[] = [];
+            let newConcepts: string[] = [];
 
-            setFaqs(faqData);
+            if (Array.isArray(data)) {
+                newFaqs = data;
+            } else if ((data as MansiResponse).faqs) {
+                newFaqs = (data as MansiResponse).faqs;
+                newConcepts = (data as MansiResponse).learned_concepts || [];
+            } else {
+                throw new Error("Unknown Data Structure");
+            }
+
+            // 3. Update Long-Term Memory (Self-Learning Loop)
+            if (newConcepts.length > 0) {
+                const currentMemory = localStorage.getItem(memoryKey)
+                    ? JSON.parse(localStorage.getItem(memoryKey)!)
+                    : [];
+                // Add new concepts to the top, keep unique, limit to 20
+                const updatedMemory = [...new Set([...newConcepts, ...currentMemory])].slice(0, 20);
+                localStorage.setItem(memoryKey, JSON.stringify(updatedMemory));
+                console.log("Mansi Neural Pathways Updated:", updatedMemory);
+            }
+
+            // 4. Cache Saving
+            localStorage.setItem(cacheKey, JSON.stringify(newFaqs));
+
+            setFaqs(newFaqs);
             setLoading(false);
         } catch (err) {
             clearInterval(interval);

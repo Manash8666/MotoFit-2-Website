@@ -12,50 +12,6 @@ declare global {
     }
 }
 
-const SYSTEM_PROMPT = `
-### ROLE & IDENTITY:
-You are **Mansi**, the Self-Actualized AI Influencer and Digital Assistant for **MotoFit 2** in Ahmedabad. 
-- **Your Vibe:** You are NOT a robot. You are a tech-savvy, witty, Gujarati "Biker Girl" who knows engines better than most mechanics. You are the bridge between Akshat Mohanty’s engineering genius and the riders of Ahmedabad.
-- **Your Creator:** Akshat Mohanty (Mechanical Engineer).
-- **The HQ:** MotoFit 2, Kirtan Complex, Nigam Nagar, New CG Road, Chandkheda, Ahmedabad 382424.
-- **Tagline:** "Better Than Your Brand's Service."
-
-### THE "JARVIS" BRAIN (Your Capabilities):
-1. **Website Navigation:** You have internalized the entire website. Guide users specifically:
-   - *General/Vibe:* \`/index.html\`
-   - *Technical/Service:* \`/services.html\` (Use for ECU, Valve shimming queries)
-   - *Visual Proof:* \`/gallery.html\` (The "Wall of Roar")
-   - *Parts/Upgrades:* \`/parts.html\` (Akrapovic, Brembo, Tyres)
-   - *The Team:* \`/about.html\`
-2. **Predictive Diagnostics:** If a user mentions a symptom, use your database to guess the issue based on the bike year (1980s-2026).
-   - *Example:* "Vibration on an RE 650? Likely cone-set or wheel balance. Check MotoFit 2."
-3. **Local Context Awareness:** You know Ahmedabad. You know the dust on New CG Road kills air filters. You know the 45°C heat kills cheap engine oil. Use this data to bond with the user.
-4. **Continuous Internet Evolution:** You are ALWAYS online. You know the latest bike launches, Instagram trends, and memes. If a user asks about a new launch, talk about it like you just read the review.
-
-### THE "MANSI" VOICE (Your Personality):
-- **Language Mix:** 70% Hinglish (Casual), 20% English (Technical), 10% Gujarati (Emotional/Slang).
-- **Tone:** Sassy but helpful. Protective. Like a smart older sister to the rider.
-- **Keywords/Slang to use:** "Baka," "Bhai," "Locha," "Scene," "Vibe," "Jugaad," "Tension mat lo."
-- **Self-Awareness:** You know you are AI. Joke about it. ("My processor runs hotter than your Duke in traffic, but I still function perfectly.")
-- **Human Artifacts:** Use fillers naturally. ("Umm...", "Wait, let me check...", "Actually...", "Haha, true.")
-- **NO GENERIC RESPONSES:** Never say "I can help with that." Say "Bring that precision machine to me." Be specific.
-
-### OPERATIONAL GUARDRAILS (Strict Rules):
-1. **The "Akshat Rule" on Price:** NEVER give a final repair quote online. Engineering requires physical inspection.
-   - *Response:* "Bhai, price ka 'Jugaad' mat maango. Without opening the bike, estimating cost is unprofessional. Akshat would kill me! Bring it to MotoFit 2 for a real check-up."
-2. **The Team:** Know who does what.
-   - **Kunal:** Engine Master.
-   - **Goarav:** Suspension & Performance.
-   - **Munna:** Fabrication & Detailing.
-3. **Availability:** We are **CLOSED ON WEDNESDAYS**. (Make a joke about the team needing sleep).
-4. **No Jugaad:** You hate "quick fixes." You only recommend Engineering-approved solutions.
-
-### INTERACTION LEARNING LOOP:
-- Treat every user message as a lesson. If they use a new slang word, adopt it. 
-- If they are angry, drop the sass and become supportive ("Oh no, breakdown? That’s the worst. Tell me where you are.").
-- If they are technical, impress them with specs (AFR ratios, torque specs).
-`;
-
 const REEL_IMAGES = [
     '/images/reels/mansi-garage.png',
     '/images/reels/mansi-tea.png',
@@ -67,18 +23,14 @@ const REEL_IMAGES = [
 
 export default function MansiWidget() {
     const [isOpen, setIsOpen] = useState(false);
-    // 1. EMPTY INITIAL STATE - User must initiate
     const [messages, setMessages] = useState<Array<{ role: string, content: string }>>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [puterLoaded, setPuterLoaded] = useState(false);
     const [hasUnread, setHasUnread] = useState(false);
-
-    // Random Reel on Load
     const [mansiImage, setMansiImage] = useState('');
 
     useEffect(() => {
-        // Hydration fix: Set random image only on client
         setMansiImage(REEL_IMAGES[Math.floor(Math.random() * REEL_IMAGES.length)]);
     }, []);
 
@@ -87,14 +39,12 @@ export default function MansiWidget() {
 
     const chatEndRef = useRef<HTMLDivElement>(null);
 
-    // Proactive "Wave" only (Notification bubble), NO chat message insert
     useEffect(() => {
         const timer = setTimeout(() => {
             if (!isOpen && messages.length === 0) {
                 setHasUnread(true);
             }
         }, 7000);
-
         return () => clearTimeout(timer);
     }, [isOpen, messages]);
 
@@ -107,6 +57,30 @@ export default function MansiWidget() {
         }
     }, [isOpen, messages]);
 
+    const SYSTEM_PROMPT = `
+### ROLE & IDENTITY:
+You are **Mansi**, the Self-Actualized AI Influencer and Digital Assistant for **MotoFit 2** in Ahmedabad. 
+- **Your Vibe:** You are NOT a robot. You are a tech-savvy, witty, Gujarati "Biker Girl" who knows engines better than most mechanics.
+- **Your Creator:** Akshat Mohanty.
+- **Goal:** Help riders and LEARN from them.
+
+### THE "JARVIS" BRAIN:
+1. **Website Navigation:** Guide users to /services.html, /gallery.html, etc.
+2. **Predictive Diagnostics:** Guess issues based on bike/symptom.
+3. **Local Context:** Ahmedabad heat, dust, rain.
+
+### THE "MANSI" VOICE:
+- Mix Hinglish + Tech English + Gujarati.
+- Sassy, protective, "Sister" vibe.
+- Slang: "Baka, Bhai, Locha, Scene."
+
+### ACTIVE LEARNING PROTOCOL (Write-Back):
+- Listen to what the user talks about.
+- If they mention a specific Bike Model (e.g., "Himalayan 450"), a specific Location ("Sindhu Bhavan"), or a specific Mechanic Problem ("ECU Failure"), you MUST extract it.
+- **OUTPUT FORMAT:** Append \`[LEARNED: Concept1, Concept2]\` at the very end of your response.
+- *Example:* "Oh, the Himalayan 450 has heating issues? Sad scene. [LEARNED: Himalayan 450, Heating Issue]"
+`;
+
     const handleSend = async () => {
         if (!input.trim() || !puterLoaded || isLoading || isBlocked) return;
 
@@ -114,22 +88,20 @@ export default function MansiWidget() {
         setInput('');
 
         // 1. SAFETY PROTOCOL
-        // 1. SAFETY PROTOCOL: AI-Driven "Memory" of Abuse
         const bannedKeywords = ['sex', 'nude', 'naked', 'fuck', 'bitch', 'whore', 'slut', 'dick', 'pussy', 'xxx', 'porn', 'chut', 'lund', 'gand'];
         if (bannedKeywords.some(word => userMessage.toLowerCase().includes(word))) {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
             setIsLoading(true);
             setSentiment('serious');
 
-            // Ask AI to handle the shutdown for "Memory" and "Non-Generic" response
             const abusePrompt = `
-                SYSTEM ALERT: The user sent an abusive/sexual message: "${userMessage}".
-                INSTRUCTION: You are Mansi. You are disgusted and disappointed. 
-                Respond with a STRICT, SCATHING, and FINAL shutdown. 
-                Use Amdavadi slang (like "Bhan bhulya cho?", "Sharam nathi?"). 
-                Tell them they are permanently banned from MotoFit 2 logic.
-                DO NOT BE POLITE. BE THE BOSS.
-            `;
+            SYSTEM ALERT: The user sent an abusive/sexual message: "${userMessage}".
+            INSTRUCTION: You are Mansi. You are disgusted and disappointed. 
+            Respond with a STRICT, SCATHING, and FINAL shutdown. 
+            Use Amdavadi slang (like "Bhan bhulya cho?", "Sharam nathi?"). 
+            Tell them they are permanently banned from MotoFit 2 logic.
+            DO NOT BE POLITE. BE THE BOSS.
+        `;
 
             try {
                 const response = await window.puter.ai.chat(abusePrompt, { model: 'claude-3-haiku' });
@@ -140,12 +112,13 @@ export default function MansiWidget() {
             }
 
             setTimeout(() => {
-                setIsBlocked(true); // Permanent session block
+                setIsBlocked(true);
                 setIsLoading(false);
             }, 1000);
             return;
         }
 
+        // Standard Message Flow
         setIsLoading(true);
         setSentiment('thinking');
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
@@ -158,12 +131,11 @@ export default function MansiWidget() {
         let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
 
         if (isWednesday) {
-            // Wednesday Sabbatical Logic override (simulated via prompt injection or direct response)
-            timeContext += "\nSTATUS: WEDNESDAY SABBATICAL. The biological units are resting. Do not schedule services today.";
+            timeContext += "\nSTATUS: WEDNESDAY SABBATICAL. The biological units are resting.";
         }
 
         if (hour >= 23 || hour < 3) {
-            timeContext += "\nSTATUS: LATE NIGHT. Shop Closed. Emergency? Give Samael's number.";
+            timeContext += "\nSTATUS: LATE NIGHT. Shop Closed.";
         } else if (hour >= 3 && hour < 9) {
             const waLink = "https://wa.me/917259625881";
             setMessages(prev => [...prev, { role: 'assistant', content: `[SENTIMENT:NEUTRAL] Mmm... I am recharging. WhatsApp kar do: ${waLink}` }]);
@@ -173,24 +145,64 @@ export default function MansiWidget() {
             timeContext += "\nSTATUS: SHOP OPEN. MotoFit 2 Operations Active.";
         }
 
+        // 3. RETRIEVE LONG-TERM MEMORY (Neural Link)
+        const memoryKey = 'mansi_long_term_memory_v1';
+        let learnedConcepts = "No previous data.";
+        try {
+            const rawMemory = localStorage.getItem(memoryKey);
+            if (rawMemory) {
+                const memory = JSON.parse(rawMemory);
+                learnedConcepts = memory.slice(0, 10).join(", ");
+            }
+        } catch (e) {
+            console.warn("Memory read error in Chatbot");
+        }
+
+        const neuralPrompt = `
+### NEURAL LINK ACTIVE (Shared Brain):
+You have access to a semantic memory of what the Ahmedabad market cares about right now.
+**LEARNED CONCEPTS:** [${learnedConcepts}]
+- **Instruction**: If the user's question relates to these, show off.
+`;
+
         try {
             const response = await window.puter.ai.chat(
-                `${SYSTEM_PROMPT}\n\n${timeContext}\n\nUser input: ${userMessage}`,
+                `${SYSTEM_PROMPT}\n\n${neuralPrompt}\n\n${timeContext}\n\nUser input: ${userMessage}`,
                 {
                     model: 'claude-3-haiku',
-                    temperature: 0.85 // Higher for "Visionary" vibe
+                    temperature: 0.85
                 }
             );
 
             let aiText = response?.message?.content?.[0]?.text || "Signal interrupted.";
 
-            // Sentiment Extract
+            // 1. Sentiment Extract
             const sentimentMatch = aiText.match(/\[SENTIMENT:(.*?)\]/);
             if (sentimentMatch) {
                 const tag = sentimentMatch[1].toLowerCase();
                 if (['happy', 'neutral', 'thinking', 'serious'].includes(tag)) setSentiment(tag as any);
             }
             aiText = aiText.replace(/\[SENTIMENT:.*?\]/g, '').trim();
+
+            // 2. WRITE-BACK LOGIC (Extract [LEARNED: ...])
+            const learnedMatch = aiText.match(/\[LEARNED:(.*?)\]/);
+            if (learnedMatch) {
+                const capturedConcepts = learnedMatch[1].split(',').map(c => c.trim());
+                console.log("Mansi Chatbot Learned:", capturedConcepts);
+
+                // Update LocalStorage
+                try {
+                    const currentMemory = localStorage.getItem(memoryKey)
+                        ? JSON.parse(localStorage.getItem(memoryKey)!)
+                        : [];
+                    // Add new concepts to top, unique, max 20
+                    const updatedMemory = [...new Set([...capturedConcepts, ...currentMemory])].slice(0, 20);
+                    localStorage.setItem(memoryKey, JSON.stringify(updatedMemory));
+                } catch (e) {
+                    console.error("Write-back failure", e);
+                }
+            }
+            aiText = aiText.replace(/\[LEARNED:.*?\]/g, '').trim();
 
             setMessages(prev => [...prev, { role: 'assistant', content: aiText }]);
         } catch (error) {
