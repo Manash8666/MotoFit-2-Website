@@ -56,27 +56,18 @@ export default function MansiWidget() {
     const [puterLoaded, setPuterLoaded] = useState(false);
     const [hasUnread, setHasUnread] = useState(true);
     const [mansiImage, setMansiImage] = useState('/images/mansi-avatar.png');
+    const [isBlocked, setIsBlocked] = useState(false);
 
     const chatEndRef = useRef<HTMLDivElement>(null);
 
     // Dynamic Wardrobe Logic (Ahmedabadi Style)
+    // ... (Keep existing implementation)
     useEffect(() => {
-        const day = new Date().getDay(); // 0 = Sunday, 1 = Monday, etc.
-
-        // Default: Smart Casual (Wed, Thu) -> mansi-avatar.png
+        const day = new Date().getDay();
         let img = '/images/mansi-avatar.png';
-
-        if (day === 0) {
-            // Sunday: Traditional / Fusion (Navratri Vibes)
-            img = '/images/mansi-traditional.png';
-        } else if (day === 1 || day === 2) {
-            // Mon/Tue: GenZ Streetwear (Casual)
-            img = '/images/mansi-casual.png';
-        } else if (day === 5 || day === 6) {
-            // Fri/Sat: Party/Glam Mode
-            img = '/images/mansi-party.png';
-        }
-
+        if (day === 0) img = '/images/mansi-traditional.png';
+        else if (day === 1 || day === 2) img = '/images/mansi-casual.png';
+        else if (day === 5 || day === 6) img = '/images/mansi-party.png';
         setMansiImage(img);
     }, []);
 
@@ -90,17 +81,44 @@ export default function MansiWidget() {
     }, [isOpen, messages]);
 
     const handleSend = async () => {
-        if (!input.trim() || !puterLoaded || isLoading) return;
+        if (!input.trim() || !puterLoaded || isLoading || isBlocked) return;
 
         const userMessage = input.trim();
         setInput('');
-        setIsLoading(true);
 
+        // 1. SAFETY PROTOCOL: Check for abusive/sexual language
+        const bannedKeywords = ['sex', 'nude', 'naked', 'fuck', 'bitch', 'whore', 'slut', 'dick', 'pussy', 'xxx', 'porn', 'chut', 'lund', 'gand'];
+        if (bannedKeywords.some(word => userMessage.toLowerCase().includes(word))) {
+            setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+            setTimeout(() => {
+                setMessages(prev => [...prev, { role: 'assistant', content: "Tame bhan bhulya cho. Hu aatli vaat nai sahilu. (You have lost your manners. I will not tolerate this.) Bye." }]);
+                setIsBlocked(true);
+            }, 600);
+            return;
+        }
+
+        setIsLoading(true);
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+
+        // 2. TIME & CONTEXT AWARENESS
+        const now = new Date();
+        const hour = now.getHours(); // 0-23
+        let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
+
+        if (hour >= 9 && hour < 20) {
+            // 9 AM - 8 PM: Shop Open
+            timeContext += " STATUS: SHOP OPEN. You are at MotoFit 2 working on the front desk. Be professional but witty.";
+        } else if (hour >= 3 && hour < 5) {
+            // 3 AM - 5 AM: Deep Night Emergency
+            timeContext += " STATUS: DEEP NIGHT (EMERGENCY ONLY). If the user has a breakdown/emergency, tell them to call 'Samael Morningstar' at +91 6359635416 immediately. If not emergency, scold them gently for waking you up at 3 AM.";
+        } else {
+            // 8 PM - 9 AM (excluding 3-5 AM): Personal Time
+            timeContext += " STATUS: SHOP CLOSED (Personal Time). You are off-duty, chilling at home or watching Netflix. Respond casually. If they ask for service, say 'Personal time me bhi kaam?', but give them a quick DIY tip if possible. Remind them shop opens at 9 AM.";
+        }
 
         try {
             const response = await window.puter.ai.chat(
-                SYSTEM_PROMPT + "\n\nUser Query: " + userMessage,
+                `${SYSTEM_PROMPT}\n\n${timeContext}\n\nUser Query: ${userMessage}`,
                 { model: 'claude-3-haiku' }
             );
 
@@ -127,8 +145,7 @@ export default function MansiWidget() {
 
             {/* Floating Toggle Button */}
             <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
-
-                {/* Tooltip hint if closed */}
+                {/* ... (Tooltip) ... */}
                 {!isOpen && hasUnread && (
                     <div className="bg-white text-black px-4 py-2 rounded-xl rounded-br-none shadow-xl mb-2 animate-bounce-subtle font-bold text-sm">
                         Chat with Mansi 👋
@@ -182,7 +199,7 @@ export default function MansiWidget() {
                     </div>
                     <div>
                         <h3 className="font-bold text-white text-lg leading-none italic">MANSI</h3>
-                        <p className="text-[10px] text-[#ff5e1a] uppercase font-bold tracking-wider">MotoFit Assistant</p>
+                        <p className="text-[10px] text-[#ff5e1a] uppercase font-bold tracking-wider">{isBlocked ? "Connection Terminated" : "MotoFit Assistant"}</p>
                     </div>
                     <div className="ml-auto">
                         <Badge variant="orange" className="text-[10px] h-5">AI</Badge>
@@ -207,6 +224,13 @@ export default function MansiWidget() {
                         </div>
                     ))}
 
+                    {/* Blocked Message */}
+                    {isBlocked && (
+                        <div className="flex justify-center w-full mt-4">
+                            <span className="text-red-500 text-xs font-bold uppercase border border-red-900 bg-red-900/20 px-3 py-1 rounded-full">User Blocked for Violation</span>
+                        </div>
+                    )}
+
                     {isLoading && (
                         <div className="flex justify-start w-full">
                             <div className="bg-[#1a1a1a] border border-[#333] px-3 py-2 rounded-2xl rounded-tl-none flex items-center gap-2">
@@ -226,13 +250,13 @@ export default function MansiWidget() {
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             onKeyDown={handleKeyPress}
-                            placeholder={puterLoaded ? "Ask Mansi..." : "Initializing..."}
-                            disabled={!puterLoaded || isLoading}
-                            className="flex-1 bg-[#222] text-white border border-[#444] rounded-full px-4 py-3 text-sm focus:outline-none focus:border-[#ff5e1a] focus:ring-1 focus:ring-[#ff5e1a] transition-all placeholder:text-gray-500"
+                            placeholder={isBlocked ? "Chat disabled" : (puterLoaded ? "Ask Mansi..." : "Initializing...")}
+                            disabled={!puterLoaded || isLoading || isBlocked}
+                            className={`flex-1 bg-[#222] text-white border border-[#444] rounded-full px-4 py-3 text-sm focus:outline-none focus:border-[#ff5e1a] focus:ring-1 focus:ring-[#ff5e1a] transition-all placeholder:text-gray-500 ${isBlocked ? 'opacity-50 cursor-not-allowed' : ''}`}
                         />
                         <button
                             onClick={handleSend}
-                            disabled={!input.trim() || !puterLoaded || isLoading}
+                            disabled={!input.trim() || !puterLoaded || isLoading || isBlocked}
                             className="bg-[#ff5e1a] hover:bg-[#ff7b42] text-black p-2 rounded-full transition-all disabled:opacity-50 transform active:scale-95"
                         >
                             <Send className="w-4 h-4" />
