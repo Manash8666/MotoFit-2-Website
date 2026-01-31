@@ -80,13 +80,13 @@ Is this slot available?`;
                         <div className="w-full max-w-lg bg-[#0a0a0a]/90 backdrop-blur-xl border border-[#333] rounded-3xl overflow-hidden shadow-2xl relative z-10 flex flex-col max-h-[90vh]">
 
                             {/* Header */}
-                            <div className="p-6 border-b border-[#333] bg-[#111]/50 relative overflow-hidden flex-shrink-0">
+                            <div className="p-6 border-b border-[#333] bg-[#111]/50 relative overflow-hidden flex-shrink-0 text-center">
                                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#ff5e1a] to-[#00d1ff] opacity-50" />
-                                <div className="flex justify-between items-center mb-1">
+                                <div className="relative flex items-center justify-center mb-1">
                                     <h3 className="text-xl font-bold text-white uppercase tracking-wider">
                                         {step === 'input' ? 'Service Protocol' : 'Protocol Transmitted'}
                                     </h3>
-                                    <button onClick={closeBooking} className="text-gray-500 hover:text-white transition-colors p-1">
+                                    <button onClick={closeBooking} className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors p-1">
                                         <X size={24} />
                                     </button>
                                 </div>
@@ -101,27 +101,27 @@ Is this slot available?`;
                                     <div className="space-y-6">
                                         {/* Grid for Name & Bike */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div className="space-y-2">
-                                                <label className="text-[10px] font-mono text-[#ff5e1a] uppercase tracking-widest">Pilot Name</label>
+                                            <div className="space-y-2 text-center">
+                                                <label className="text-[10px] font-mono text-[#ff5e1a] uppercase tracking-widest block">Pilot Name</label>
                                                 <div className="relative group">
                                                     <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 group-focus-within:text-[#ff5e1a] transition-colors" size={16} />
                                                     <input
                                                         type="text"
                                                         placeholder="Kunal Thakor?"
-                                                        className="w-full bg-[#050505] border border-[#222] rounded py-2.5 pl-10 pr-4 text-white text-sm focus:border-[#ff5e1a] focus:bg-[#0f0f0f] focus:outline-none transition-all placeholder:text-gray-700"
+                                                        className="w-full bg-[#050505] border border-[#222] rounded py-2.5 pl-10 pr-4 text-white text-sm focus:border-[#ff5e1a] focus:bg-[#0f0f0f] focus:outline-none transition-all placeholder:text-gray-700 text-center"
                                                         value={formData.name}
                                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="space-y-2">
-                                                <label className="text-[10px] font-mono text-[#00d1ff] uppercase tracking-widest">Machine Model</label>
+                                            <div className="space-y-2 text-center">
+                                                <label className="text-[10px] font-mono text-[#00d1ff] uppercase tracking-widest block">Machine Model</label>
                                                 <div className="relative group">
                                                     <Bike className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 group-focus-within:text-[#00d1ff] transition-colors" size={16} />
                                                     <input
                                                         type="text"
                                                         placeholder="e.g. Duke 390"
-                                                        className="w-full bg-[#050505] border border-[#222] rounded py-2.5 pl-10 pr-4 text-white text-sm focus:border-[#00d1ff] focus:bg-[#0f0f0f] focus:outline-none transition-all placeholder:text-gray-700"
+                                                        className="w-full bg-[#050505] border border-[#222] rounded py-2.5 pl-10 pr-4 text-white text-sm focus:border-[#00d1ff] focus:bg-[#0f0f0f] focus:outline-none transition-all placeholder:text-gray-700 text-center"
                                                         value={formData.bikeModel}
                                                         onChange={(e) => setFormData({ ...formData, bikeModel: e.target.value })}
                                                     />
@@ -130,13 +130,13 @@ Is this slot available?`;
                                         </div>
 
                                         {/* Date Picker */}
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Intake Date</label>
+                                        <div className="space-y-2 text-center">
+                                            <label className="text-[10px] font-mono text-gray-500 uppercase tracking-widest block">Intake Date</label>
                                             <div className="relative group">
                                                 <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 group-focus-within:text-white transition-colors" size={16} />
                                                 <input
                                                     type="date"
-                                                    className="w-full bg-[#050505] border border-[#222] rounded py-2.5 pl-10 pr-4 text-white text-sm focus:border-white/50 focus:outline-none transition-all [color-scheme:dark]"
+                                                    className="w-full bg-[#050505] border border-[#222] rounded py-2.5 pl-10 pr-4 text-white text-sm focus:border-white/50 focus:outline-none transition-all [color-scheme:dark] text-center"
                                                     value={formData.date}
                                                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                                                 />
