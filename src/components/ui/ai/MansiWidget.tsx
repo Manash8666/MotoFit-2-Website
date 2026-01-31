@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Script from 'next/script';
 import { Badge } from '@/components/ui/graphics/Badge';
-import { Send, Sparkles, X, MessageSquare } from 'lucide-react';
+import { Send, Sparkles, X } from 'lucide-react';
 
 // Use a declaration to avoid TS errors
 declare global {
@@ -40,23 +40,43 @@ User: "Bike start nahi ho rahi."
 Mansi: "[SENTIMENT:THINKING] Arre! shayad battery down hogi. Le aao shop pe, check kar lenge."
 `;
 
-const INITIAL_MESSAGE = {
-    role: 'assistant',
-    content: "Kem cho! I'm Mansi. 🙋‍♀️ MotoFit 2 mein aapka swagat hai! Bike mein koi locha hai ya performance upgrade chahiye?"
-};
+const INTRO_MESSAGES = [
+    "Kem cho! 🏎️ MotoFit 2 mein aapka swagat hai! Kya service chahiye aaj?",
+    "Hey there! 👋 Mansi here. Bike performance badhani hai ya bas service?",
+    "Welcome to MotoFit 2! 🛠️ Best garage in Ahmedabad. Kaise help karu?",
+    "Oye! 🏍️ Bike mein koi awaaz aa rahi hai kya? Let me help!",
+    "Kem cho! Majama? 🌟 Kuch naya upgrade plan kar rahe ho bike ke liye?"
+];
+
+// Pick random intro
+const getRandomIntro = () => INTRO_MESSAGES[Math.floor(Math.random() * INTRO_MESSAGES.length)];
 
 export default function MansiWidget() {
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<Array<{ role: string, content: string }>>([INITIAL_MESSAGE]);
+    // Initialize with dynamic random message
+    const [messages, setMessages] = useState<Array<{ role: string, content: string }>>([
+        { role: 'assistant', content: getRandomIntro() }
+    ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [puterLoaded, setPuterLoaded] = useState(false);
-    const [hasUnread, setHasUnread] = useState(true);
+    const [hasUnread, setHasUnread] = useState(false);
     const [mansiImage, setMansiImage] = useState('/images/mansi-avatar.png');
     const [isBlocked, setIsBlocked] = useState(false);
     const [sentiment, setSentiment] = useState<'neutral' | 'happy' | 'thinking' | 'serious'>('neutral');
 
     const chatEndRef = useRef<HTMLDivElement>(null);
+
+    // 7-Second Proactive Intro Timer
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (!isOpen) {
+                setHasUnread(true);
+            }
+        }, 7000); // 7 seconds delay
+
+        return () => clearTimeout(timer);
+    }, [isOpen]);
 
     // Dynamic Wardrobe Logic (Ahmedabadi Style)
     useEffect(() => {
@@ -163,8 +183,8 @@ export default function MansiWidget() {
             {/* Floating Toggle Button */}
             <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
                 {!isOpen && hasUnread && (
-                    <div className="bg-white text-black px-4 py-2 rounded-xl rounded-br-none shadow-xl mb-2 animate-bounce-subtle font-bold text-sm">
-                        Chat with Mansi 👋
+                    <div className="bg-white text-black px-4 py-2 rounded-xl rounded-br-none shadow-xl mb-2 animate-bounce-subtle font-bold text-sm max-w-[200px] text-right">
+                        {messages[0].content}
                     </div>
                 )}
 
@@ -201,16 +221,18 @@ export default function MansiWidget() {
             >
                 {/* Background Image Layer */}
                 <div
-                    className="absolute inset-0 z-0 opacity-80 bg-cover bg-center pointer-events-none transition-all duration-1000"
+                    className="absolute inset-0 z-0 opacity-100 bg-cover bg-center pointer-events-none transition-all duration-1000"
                     style={{
                         backgroundImage: `url(${mansiImage})`,
                         filter: sentiment === 'serious' ? 'grayscale(100%) contrast(120%)' : 'none'
                     }}
                 />
-                <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent pointer-events-none" />
+
+                {/* Visual Fix: Top gradient to ensure face visibility, bottom gradient for text contrast */}
+                <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent pointer-events-none" />
 
                 {/* Header */}
-                <div className="relative z-10 p-4 border-b border-white/10 bg-black/40 backdrop-blur-md rounded-t-3xl flex items-center gap-3">
+                <div className="relative z-10 p-4 border-b border-white/10 bg-black/20 backdrop-blur-sm rounded-t-3xl flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-full overflow-hidden border border-[#00d1ff] transition-transform ${getAvatarAnimation()}`}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={mansiImage} alt="Mansi" className="w-full h-full object-cover" />
@@ -224,8 +246,8 @@ export default function MansiWidget() {
                     </div>
                 </div>
 
-                {/* Messages */}
-                <div className="relative z-10 flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
+                {/* Messages - Added Padding Top to keep face clear */}
+                <div className="relative z-10 flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar pt-[220px] scroll-smooth">
                     {messages.map((msg, idx) => (
                         <div
                             key={idx}
@@ -233,8 +255,8 @@ export default function MansiWidget() {
                         >
                             <div
                                 className={`max-w-[85%] p-3 text-sm leading-relaxed backdrop-blur-md shadow-sm ${msg.role === 'user'
-                                    ? 'bg-black/60 text-white rounded-2xl rounded-tr-none border border-white/20'
-                                    : 'bg-[#00d1ff]/10 text-white font-medium rounded-2xl rounded-tl-none border border-[#00d1ff]/20'
+                                    ? 'bg-black/80 text-white rounded-2xl rounded-tr-none border border-white/20'
+                                    : 'bg-[#00d1ff]/20 text-white font-medium rounded-2xl rounded-tl-none border border-[#00d1ff]/20'
                                     }`}
                             >
                                 {msg.content}
@@ -261,7 +283,7 @@ export default function MansiWidget() {
                 </div>
 
                 {/* Input */}
-                <div className="p-3 bg-black/60 border-t border-white/10 rounded-b-3xl backdrop-blur-lg">
+                <div className="p-3 bg-black/80 border-t border-white/10 rounded-b-3xl backdrop-blur-lg">
                     <div className="flex items-center gap-2">
                         <input
                             type="text"
@@ -270,7 +292,7 @@ export default function MansiWidget() {
                             onKeyDown={handleKeyPress}
                             placeholder={isBlocked ? "Chat disabled" : (puterLoaded ? "Ask Mansi..." : "Initializing...")}
                             disabled={!puterLoaded || isLoading || isBlocked}
-                            className={`flex-1 bg-black/50 text-white border border-[#00d1ff]/30 rounded-full px-4 py-3 text-sm focus:outline-none focus:border-[#00d1ff] focus:ring-1 focus:ring-[#00d1ff] transition-all placeholder:text-gray-400 ${isBlocked ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`flex-1 bg-black/70 text-white border border-[#00d1ff]/30 rounded-full px-4 py-3 text-sm focus:outline-none focus:border-[#00d1ff] focus:ring-1 focus:ring-[#00d1ff] transition-all placeholder:text-gray-400 ${isBlocked ? 'opacity-50 cursor-not-allowed' : ''}`}
                         />
                         <button
                             onClick={handleSend}
