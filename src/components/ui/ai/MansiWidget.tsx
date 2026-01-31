@@ -169,13 +169,13 @@ export default function MansiWidget() {
             >
                 {/* Background Image Layer */}
                 <div
-                    className="absolute inset-0 z-0 opacity-20 bg-cover bg-center pointer-events-none"
+                    className="absolute inset-0 z-0 opacity-35 bg-cover bg-center pointer-events-none"
                     style={{ backgroundImage: `url(${mansiImage})` }}
                 />
-                <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0abf] to-[#0a0a0a80] pointer-events-none" />
+                <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0acc] to-[#0a0a0a66] pointer-events-none" />
 
                 {/* Header */}
-                <div className="relative z-10 p-4 border-b border-[#222] bg-[#111]/80 backdrop-blur-md rounded-t-3xl flex items-center gap-3">
+                <div className="relative z-10 p-4 border-b border-[#222]/80 bg-[#111]/80 backdrop-blur-md rounded-t-3xl flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden border border-[#ff5e1a]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={mansiImage} alt="Mansi" className="w-full h-full object-cover" />
@@ -228,7 +228,7 @@ export default function MansiWidget() {
                             onKeyDown={handleKeyPress}
                             placeholder={puterLoaded ? "Ask Mansi..." : "Initializing..."}
                             disabled={!puterLoaded || isLoading}
-                            className="flex-1 bg-[#050505] text-white border border-[#333] rounded-full px-4 py-2 text-sm focus:outline-none focus:border-[#ff5e1a] focus:ring-1 focus:ring-[#ff5e1a] transition-all"
+                            className="flex-1 bg-[#222] text-white border border-[#444] rounded-full px-4 py-3 text-sm focus:outline-none focus:border-[#ff5e1a] focus:ring-1 focus:ring-[#ff5e1a] transition-all placeholder:text-gray-500"
                         />
                         <button
                             onClick={handleSend}
