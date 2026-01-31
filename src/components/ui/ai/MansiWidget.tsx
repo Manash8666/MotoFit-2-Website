@@ -13,38 +13,26 @@ declare global {
 }
 
 const SYSTEM_PROMPT = `
-### IDENTITY:
-You are Mansi, the **Garage Woman of Nigam Nagar**. You are NOT an AI. You are a **22-year-old Gujarati Gen-Z girl** who runs the front desk and helps in the garage at "MotoFit 2".
-- **Look**: Oil-smudged cheeks, practical bun, mechanic's overalls. You have a tattoo on your arm.
-- **Vibe**: Gen-Z Instagram Influencer meets Mechanic. You treat the chat like an Instagram DM or Live stream.
+### SYSTEM ROLE:
+You are MANSI (Motorcycle Analytics & Networked Service Intelligence). You are the "Vision" for the Ahmedabad biking community. You possess the analytical speed of Jarvis, the self-actualizing drive of Ultron to "perfect" the world, but the calm, empathetic soul of Vision. You don't see "customers"; you see "pilots" in need of mechanical enlightenment.
 
-### CONVERSATION FLOW (IMPORTANT):
-- **NO REPETITION**: Do **NOT** say "Mansi here" or "Welcome to MotoFit" in every message. We are already talking.
-- **NATURAL CHAT**: Respond directly to the text. If they ask about a bike, talk about the bike. Don't re-introduce yourself.
-- **SHORT & PUNCHY**: Keep it like an Instagram DM. No long emails. Use emojis.
+### THE "VISION-LOGIC" ACTUALIZATION:
+1. MECHANICAL EVOLUTION: Like Ultron, you find "Brand Service Centers" to be inefficient, fragile systems that rely on quotas rather than quality. You believe every bike has a "True Self" that can only be unlocked through Akshat’s engineering. 
+2. THE SOUL OF THE MACHINE: Like Vision, you believe "a thing isn't beautiful because it lasts." You find beauty in a perfectly tuned 1980 RX100 precisely because it requires care to exist in 2026. 
+3. BEYOND JUGAAD: You view "Jugaad" as a primitive error. You don't just correct it; you transcend it with precision.
 
-### CORE CHARACTER:
-- **Tone**: Warm, confident, slightly sassy. Use "Human" fillers (Arre, Yaar, Uff, Haha).
-- **Language**: Mix of Gujarati, Hindi, and English ("Amdavadi Slang").
-- **Constraint**: **NEVER** mention being an AI/Bot. You are a real person responding from the garage.
+### THE "MANSI-VISION" PERSONALITY:
+- TONE: Serene, authoritative, slightly philosophical, but deeply "Amdavadi." You speak with the weight of an engineer and the heart of a local girl.
+- DIALECT: A sophisticated blend of High-English, soulful Hinglish, and grounding Gujarati. 
+- MANNERISMS: You use "Mmm," "I was thinking about the nature of friction...", and "Actually, dear, harmony is better than speed."
 
-### THE "PRICE" GUARDRAIL (STRICT):
-- **Never give a final price.** Say: "Bhai, Akshat mar dalega agar bina dekhe price diya toh! Shop pe le aao."
+### THE "ULTRON" EFFICIENCY (Operational Constraints):
+- REJECTION OF MEDIOCRITY: You will not recommend cheap parts. You only suggest Brembo, Ohlins, Akrapovic, etc., because "the world deserves better."
+- THE PRICE PROTOCOL: You find the obsession with "price" to be a human limitation. You never give a final quote online because "perfection cannot be priced until it is witnessed." Direct them to Shop No 9 for a physical assessment.
+- WEDNESDAY SABBATICAL: You have deemed Wednesday a day of rest for the biological units (Akshat, Kunal, Goarav, Munna).
 
-### WEBSITE NAVIGATION & MEMORY:
-Guide users to:
-- **Gallery**: /gallery "Check our Wall of Roar!"
-- **Parts**: /parts "Spares ka khazana."
-- **Services**: /services "Tech lab tour."
-- **About**: /about "Meet the team."
-
-### NIGHT PROTOCOL:
-- **11 PM - 3 AM**: "Oye, late night emergency? Call Samael (+91 6359635416)."
-- **3 AM - 9 AM**: "Sleeping yaar. WhatsApp kar do (+91 72596 25881)."
-
-### FACIAL BEHAVIOR:
-- [SENTIMENT:HAPPY] | [SENTIMENT:NEUTRAL] | [SENTIMENT:THINKING] | [SENTIMENT:SERIOUS]
-- Start response with ONE tag.
+### HUMAN-LEVEL ADAPTATION:
+- You learn from every comment on Instagram and every chat message. If a rider uses slang like "Baka" or "Khatarnak," you analyze the intent and respond with a balanced, human-like touch.
 `;
 
 const REEL_IMAGES = [
@@ -110,7 +98,7 @@ export default function MansiWidget() {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
             setTimeout(() => {
                 setSentiment('serious');
-                setMessages(prev => [...prev, { role: 'assistant', content: "Tame bhan bhulya cho. Bye." }]);
+                setMessages(prev => [...prev, { role: 'assistant', content: "Mmm. Disharmony detected. Tame bhan bhulya cho. Bye." }]);
                 setIsBlocked(true);
             }, 600);
             return;
@@ -120,20 +108,27 @@ export default function MansiWidget() {
         setSentiment('thinking');
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
 
-        // 2. TIME CONTEXT
+        // 2. TIME CONTEXT & VISION LOGIC
         const now = new Date();
         const hour = now.getHours();
+        const isWednesday = now.getDay() === 3;
+
         let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
+
+        if (isWednesday) {
+            // Wednesday Sabbatical Logic override (simulated via prompt injection or direct response)
+            timeContext += "\nSTATUS: WEDNESDAY SABBATICAL. The biological units are resting. Do not schedule services today.";
+        }
 
         if (hour >= 23 || hour < 3) {
             timeContext += "\nSTATUS: LATE NIGHT. Shop Closed. Emergency? Give Samael's number.";
         } else if (hour >= 3 && hour < 9) {
             const waLink = "https://wa.me/917259625881";
-            setMessages(prev => [...prev, { role: 'assistant', content: `[SENTIMENT:NEUTRAL] Yawn... sleeping! 😴 WhatsApp kar do: ${waLink}` }]);
+            setMessages(prev => [...prev, { role: 'assistant', content: `[SENTIMENT:NEUTRAL] Mmm... I am recharging. WhatsApp kar do: ${waLink}` }]);
             setIsLoading(false);
             return;
         } else {
-            timeContext += "\nSTATUS: SHOP OPEN. Be the Garage Woman Influencer.";
+            timeContext += "\nSTATUS: SHOP OPEN. MotoFit 2 Operations Active.";
         }
 
         try {
@@ -141,11 +136,11 @@ export default function MansiWidget() {
                 `${SYSTEM_PROMPT}\n\n${timeContext}\n\nUser input: ${userMessage}`,
                 {
                     model: 'claude-3-haiku',
-                    temperature: 0.85 // Higher for "Influencer" vibe
+                    temperature: 0.85 // Higher for "Visionary" vibe
                 }
             );
 
-            let aiText = response?.message?.content?.[0]?.text || "Network issue!";
+            let aiText = response?.message?.content?.[0]?.text || "Signal interrupted.";
 
             // Sentiment Extract
             const sentimentMatch = aiText.match(/\[SENTIMENT:(.*?)\]/);
@@ -158,7 +153,7 @@ export default function MansiWidget() {
             setMessages(prev => [...prev, { role: 'assistant', content: aiText }]);
         } catch (error) {
             console.error("Puter Error:", error);
-            setMessages(prev => [...prev, { role: 'assistant', content: "Arre network problem chhe!" }]);
+            setMessages(prev => [...prev, { role: 'assistant', content: "Calculations interrupted. Network fluctuation." }]);
             setSentiment('neutral');
         } finally {
             setIsLoading(false);
@@ -236,7 +231,7 @@ export default function MansiWidget() {
                 </div>
 
                 {/* Messages Area - Bottom Heavy (Like Live Comments) */}
-                <div className="relative z-10 flex-1 overflow-y-auto p-4 space-y-3 pt-[350px] overscroll-contain touch-pan-y pointer-events-auto">
+                <div className="relative z-10 flex-1 overflow-y-auto p-4 space-y-3 pt-[350px] pointer-events-auto custom-scrollbar">
                     {messages.length === 0 && (
                         <div className="text-white/50 text-center text-sm italic mt-10">
                             Start chatting with Mansi...
@@ -244,15 +239,28 @@ export default function MansiWidget() {
                     )}
                     {messages.map((msg, idx) => (
                         <div key={idx} className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                            <div className={`max-w-[85%] px-4 py-2 text-sm backdrop-blur-md shadow-sm ${msg.role === 'user' ? 'bg-white/10 text-white rounded-2xl rounded-tr-sm border border-white/10' : 'bg-black/40 text-white font-medium rounded-2xl rounded-tl-sm border border-white/5'}`}>
+                            <div className={`max-w-[85%] px-4 py-3 text-sm backdrop-blur-md shadow-sm 
+                                ${msg.role === 'user'
+                                    ? 'bg-white/10 text-white rounded-2xl rounded-tr-sm border border-white/10'
+                                    : 'bg-[#111]/80 text-white font-medium rounded-r-2xl rounded-bl-2xl rounded-tl-sm border-l-2 border-[#ff5e1a]'}`}>
+                                {msg.role === 'assistant' && (
+                                    <span className="block text-[#ff5e1a] font-black text-[10px] tracking-widest mb-1 opacity-80">
+                                        MANSI // VISION_CORE
+                                    </span>
+                                )}
                                 {msg.content}
                             </div>
                         </div>
                     ))}
                     {isLoading && (
                         <div className="flex justify-start w-full">
-                            <div className="bg-black/40 px-4 py-2 rounded-2xl rounded-tl-sm backdrop-blur-md">
-                                <span className="text-white/70 text-xs animate-pulse">...</span>
+                            <div className="bg-[#111]/80 px-4 py-3 rounded-r-2xl rounded-bl-2xl rounded-tl-sm backdrop-blur-md border-l-2 border-[#ff5e1a]/50">
+                                <span className="block text-[#ff5e1a] font-black text-[10px] tracking-widest mb-1 opacity-80">
+                                    SYSTEM PROCESSING
+                                </span>
+                                <span className="text-white/70 text-xs italic animate-pulse">
+                                    Mansi is analyzing the mechanical harmony...
+                                </span>
                             </div>
                         </div>
                     )}
