@@ -55,8 +55,30 @@ export default function MansiWidget() {
     const [isLoading, setIsLoading] = useState(false);
     const [puterLoaded, setPuterLoaded] = useState(false);
     const [hasUnread, setHasUnread] = useState(true);
+    const [mansiImage, setMansiImage] = useState('/images/mansi-avatar.png');
 
     const chatEndRef = useRef<HTMLDivElement>(null);
+
+    // Dynamic Wardrobe Logic (Ahmedabadi Style)
+    useEffect(() => {
+        const day = new Date().getDay(); // 0 = Sunday, 1 = Monday, etc.
+
+        // Default: Smart Casual (Wed, Thu) -> mansi-avatar.png
+        let img = '/images/mansi-avatar.png';
+
+        if (day === 0) {
+            // Sunday: Traditional / Fusion (Navratri Vibes)
+            img = '/images/mansi-traditional.png';
+        } else if (day === 1 || day === 2) {
+            // Mon/Tue: GenZ Streetwear (Casual)
+            img = '/images/mansi-casual.png';
+        } else if (day === 5 || day === 6) {
+            // Fri/Sat: Party/Glam Mode
+            img = '/images/mansi-party.png';
+        }
+
+        setMansiImage(img);
+    }, []);
 
     useEffect(() => {
         if (isOpen) {
@@ -124,7 +146,7 @@ export default function MansiWidget() {
                     ) : (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                            src="/images/mansi-avatar.png"
+                            src={mansiImage}
                             alt="Mansi AI"
                             className="w-full h-full object-cover"
                         />
@@ -139,17 +161,24 @@ export default function MansiWidget() {
 
             {/* Chat Window */}
             <div
-                className={`fixed bottom-24 right-4 md:right-6 w-[90vw] md:w-[400px] bg-[#0a0a0a] border border-[#333] rounded-3xl shadow-2xl z-40 flex flex-col transition-all duration-500 origin-bottom-right ${isOpen
+                className={`fixed bottom-24 right-4 md:right-6 w-[90vw] md:w-[400px] bg-[#0a0a0a] border border-[#333] rounded-3xl shadow-2xl z-40 flex flex-col transition-all duration-500 origin-bottom-right overflow-hidden ${isOpen
                     ? 'opacity-100 scale-100 translate-y-0'
                     : 'opacity-0 scale-90 translate-y-10 pointer-events-none'
                     }`}
                 style={{ height: 'min(600px, 70vh)' }}
             >
+                {/* Background Image Layer */}
+                <div
+                    className="absolute inset-0 z-0 opacity-20 bg-cover bg-center pointer-events-none"
+                    style={{ backgroundImage: `url(${mansiImage})` }}
+                />
+                <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0abf] to-[#0a0a0a80] pointer-events-none" />
+
                 {/* Header */}
-                <div className="p-4 border-b border-[#222] bg-[#111] rounded-t-3xl flex items-center gap-3">
+                <div className="relative z-10 p-4 border-b border-[#222] bg-[#111]/80 backdrop-blur-md rounded-t-3xl flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden border border-[#ff5e1a]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src="/images/mansi-avatar.png" alt="Mansi" className="w-full h-full object-cover" />
+                        <img src={mansiImage} alt="Mansi" className="w-full h-full object-cover" />
                     </div>
                     <div>
                         <h3 className="font-bold text-white text-lg leading-none italic">MANSI</h3>
@@ -161,7 +190,7 @@ export default function MansiWidget() {
                 </div>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#050505] custom-scrollbar">
+                <div className="relative z-10 flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
                     {messages.map((msg, idx) => (
                         <div
                             key={idx}
