@@ -159,6 +159,7 @@ export const metadata: Metadata = {
 };
 
 import HighVoltageFooter from '@/components/sections/HighVoltageFooter';
+import MansiWidget from '@/components/ui/ai/MansiWidget';
 
 export default function RootLayout({
   children,
@@ -177,6 +178,7 @@ export default function RootLayout({
             <CyberNav />
             {children}
             <HighVoltageFooter />
+            <MansiWidget />
             <BookingModal />
           </BookingProvider>
         </LenisWrapper>
