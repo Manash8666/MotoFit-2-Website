@@ -289,7 +289,7 @@ export default function MansiWidget() {
                 </div>
 
                 {/* Messages - Added Padding Top to keep face clear */}
-                <div className="relative z-10 flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar pt-[220px] scroll-smooth">
+                <div className="relative z-10 flex-1 overflow-y-auto p-4 space-y-4 pt-[220px] overscroll-contain touch-pan-y pointer-events-auto">
                     {messages.map((msg, idx) => (
                         <div
                             key={idx}
