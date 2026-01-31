@@ -9,6 +9,24 @@ import { GlassButton } from '@/components/ui/buttons/GlassButton';
 export default function BookingModal() {
     const { isOpen, closeBooking, serviceType } = useBooking();
     const [step, setStep] = useState<'input' | 'success'>('input');
+    const [formData, setFormData] = useState({
+        name: '',
+        bikeModel: '',
+        date: new Date().toISOString().split('T')[0],
+        dropOffSlot: 'Morning (9 AM - 12 PM)',
+        logistics: 'Self Drop-off'
+    });
+
+    const slots = [
+        'Morning (9 AM - 12 PM)',
+        'Afternoon (12 PM - 4 PM)',
+        'Evening (4 PM - 8 PM)'
+    ];
+
+    const logisticsOptions = [
+        { id: 'Self Drop-off', icon: <Bike size={16} />, label: 'I will Drop-off' },
+        { id: 'Home Pickup', icon: <Zap size={16} />, label: 'Request Pickup (Stalled/Busy)' }
+    ];
 
     const handleWhatsApp = () => {
         setStep('success');
@@ -197,7 +215,7 @@ Is this slot available?`;
                                     </GlassButton>
                                 ) : (
                                     <GlassButton
-                                        variant="success"
+                                        variant="orange"
                                         className="w-full justify-center group h-12"
                                         onClick={confirmBooking}
                                     >
