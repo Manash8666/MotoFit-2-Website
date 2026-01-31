@@ -3,10 +3,12 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { useBooking } from "@/context/BookingContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HeroContent() {
+  const { openBooking } = useBooking();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subheadRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
@@ -74,6 +76,7 @@ export default function HeroContent() {
 
       <button
         ref={ctaRef}
+        onClick={() => openBooking('Hero CTA')}
         className="relative px-8 py-4 rounded-lg font-bold text-white text-lg bg-gradient-to-r from-[#ff6b35]/20 to-[#ff6b35]/5 border border-[#ff6b35]/50 backdrop-blur-xl hover:border-[#ff6b35] hover:from-[#ff6b35]/40 hover:to-[#ff6b35]/20 transition-all duration-300 shadow-2xl shadow-[#ff6b35]/20 hover:shadow-[#ff6b35]/50"
       >
         Book a Service
