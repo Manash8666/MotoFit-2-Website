@@ -67,3 +67,10 @@ This document outlines the vision for the MotoFit 2 Website. The goal is to repr
     - [x] **Visual Alignment**: Strict Center Alignment for Protocol Modal.
     - [x] **High-Impact Success**: Large-format "Mansi Success" view with "Secure Garage Slot" CTA.
     - [x] **Logic Repair**: Fixed state collisions in BookingModal.
+- [x] **Mansi Knowledge Hub**: "The Heavy-Duty Master Prompt" implementation generating 25 categorized FAQs daily using `claude-haiku-4-5` and `puter.js`.
+    - [x] **5 Strategic Clusters**: Survival Guide, Performance, Maintenance, Mods, Logistics.
+    - [x] **Security Protocols**: Pricing Firewall, Jugaad Blocker, Brand Protection.
+    - [x] **Industrial UI**: Dark/Orange "Motorcycle Dashboard" grid with staggered animations.
+    - [x] **Intelligence Layer**:
+        - [x] **Caching Engine**: LocalStorage implementation to prevent redundant API calls (`mansi_daily_intel_[DATE]`).
+        - [x] **Simulated Internet Learning**: Creative prompt injection for "Real-Time 2026 Trends" + UI visualization of "Scanning" process.

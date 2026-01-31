@@ -393,3 +393,141 @@ html {
 .animate-infinite-scroll {
   animation: infinite-scroll 25s linear infinite;
 }
+
+/* MANSI KNOWLEDGE HUB STYLES */
+:root {
+  --moto-orange: #ff4500;
+  --moto-black: #0f0f0f;
+  --moto-dark-gray: #1a1a1a;
+  --moto-text: #e0e0e0;
+}
+
+#mansi-knowledge-hub {
+  background: var(--moto-black);
+  padding: 40px 20px;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 800px;
+}
+
+.hub-header h2 {
+  color: #fff;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--moto-orange);
+  display: inline-block;
+  padding-bottom: 10px;
+  font-family: var(--font-heading);
+}
+
+.hub-header span {
+  color: var(--moto-orange);
+  font-size: 0.8em;
+}
+
+/* THE GRID SYSTEM */
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* CARD DESIGN */
+.faq-card {
+  background: var(--moto-dark-gray);
+  border: 1px solid #333;
+  border-left: 5px solid var(--moto-orange);
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: cardLoad 0.5s forwards ease-out;
+  transition: all 0.3s ease;
+}
+
+.faq-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(255, 69, 0, 0.25);
+  border-color: var(--moto-orange);
+}
+
+.card-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 69, 0, 0.2);
+  color: var(--moto-orange);
+  font-size: 0.6rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.faq-icon {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.faq-q {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.faq-a {
+  color: #bbb;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* ANIMATIONS */
+@keyframes cardLoad {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loading-heartbeat {
+  text-align: center;
+  color: var(--moto-orange);
+  margin: 50px 0;
+  font-weight: bold;
+}
+
+.pulse-line {
+  height: 2px;
+  background: var(--moto-orange);
+  width: 0%;
+  margin: 10px auto;
+  animation: loadLine 2s infinite;
+}
+
+@keyframes loadLine {
+  0% {
+    width: 0%;
+    opacity: 1;
+  }
+
+  50% {
+    width: 50%;
+    opacity: 0.5;
+  }
+
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+
+/* RESPONSIVE TWEAKS */
+@media (max-width: 768px) {
+  .faq-grid {
+    grid-template-columns: 1fr;
+    /* Stack on mobile */
+  }
+}

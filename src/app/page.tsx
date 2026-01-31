@@ -6,6 +6,7 @@ import DynoLeaderboard from '@/components/sections/DynoLeaderboard';
 import ClientReviews from '@/components/sections/ClientReviews';
 import LocationSection from '@/components/sections/LocationSection';
 import FeaturedProjects from '@/components/sections/FeaturedProjects';
+import MansiKnowledgeHub from '@/components/sections/MansiKnowledgeHub';
 import PartsCatalog from '@/components/sections/PartsCatalog';
 import { fetchReviews } from '@/actions/reviews';
 
@@ -20,6 +21,7 @@ export default async function Home() {
       <HolographicServices />
       <DynoLeaderboard />
       <FeaturedProjects />
+      <MansiKnowledgeHub />
       <PartsCatalog />
       <ClientReviews initialReviews={reviews} />
       <LocationSection />
