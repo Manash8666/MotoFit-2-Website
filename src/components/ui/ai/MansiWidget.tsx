@@ -42,6 +42,15 @@ Guide users to:
 - Start response with ONE tag.
 `;
 
+const REEL_IMAGES = [
+    '/images/reels/mansi-garage.png',
+    '/images/reels/mansi-tea.png',
+    '/images/reels/mansi-rain.jpg',
+    '/images/reels/mansi-garba.jpg',
+    '/images/reels/mansi-market.jpg',
+    '/images/reels/mansi-bike.jpg'
+];
+
 export default function MansiWidget() {
     const [isOpen, setIsOpen] = useState(false);
     // 1. EMPTY INITIAL STATE - User must initiate
@@ -50,8 +59,15 @@ export default function MansiWidget() {
     const [isLoading, setIsLoading] = useState(false);
     const [puterLoaded, setPuterLoaded] = useState(false);
     const [hasUnread, setHasUnread] = useState(false);
-    // Use the new Reel-style image
-    const [mansiImage, setMansiImage] = useState('/images/mansi-reel.png');
+
+    // Random Reel on Load
+    const [mansiImage, setMansiImage] = useState('');
+
+    useEffect(() => {
+        // Hydration fix: Set random image only on client
+        setMansiImage(REEL_IMAGES[Math.floor(Math.random() * REEL_IMAGES.length)]);
+    }, []);
+
     const [isBlocked, setIsBlocked] = useState(false);
     const [sentiment, setSentiment] = useState<'neutral' | 'happy' | 'thinking' | 'serious'>('neutral');
 
@@ -67,12 +83,6 @@ export default function MansiWidget() {
 
         return () => clearTimeout(timer);
     }, [isOpen, messages]);
-
-    // Dynamic Wardrobe (Simulated for Reel Vibe)
-    useEffect(() => {
-        // Here we could rotate "Reel" videos/images if we had more
-        setMansiImage('/images/mansi-reel.png');
-    }, []);
 
     useEffect(() => {
         if (isOpen) {
