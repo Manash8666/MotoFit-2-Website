@@ -12,14 +12,15 @@ declare global {
     }
 }
 
-const REEL_IMAGES = [
-    '/images/reels/mansi-garage.png',
-    '/images/reels/mansi-tea.png',
-    '/images/reels/mansi-rain.jpg',
-    '/images/reels/mansi-garba.jpg',
-    '/images/reels/mansi-market.jpg',
-    '/images/reels/mansi-bike.jpg'
-];
+const MANSI_DAY_LOOKS: Record<number, string> = {
+    0: '/images/mansi-party.png',      // Sunday: Party Look
+    1: '/images/reels/mansi-garage.png', // Monday: Garage Grind
+    2: '/images/reels/mansi-tea.png',    // Tuesday: Tea Break
+    3: '/images/reels/mansi-rain.jpg',   // Wednesday: Rainy/Sabbatical
+    4: '/images/reels/mansi-garba.jpg',  // Thursday: Traditional/Garba
+    5: '/images/reels/mansi-market.jpg', // Friday: Market/Street
+    6: '/images/reels/mansi-bike.jpg'    // Saturday: Weekend Ride
+};
 
 export default function MansiWidget() {
     const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,9 @@ export default function MansiWidget() {
     const [mansiImage, setMansiImage] = useState('');
 
     useEffect(() => {
-        setMansiImage(REEL_IMAGES[Math.floor(Math.random() * REEL_IMAGES.length)]);
+        // Deterministic Look: Persist the same image for the entire day
+        const day = new Date().getDay();
+        setMansiImage(MANSI_DAY_LOOKS[day] || MANSI_DAY_LOOKS[1]);
     }, []);
 
     const [isBlocked, setIsBlocked] = useState(false);
