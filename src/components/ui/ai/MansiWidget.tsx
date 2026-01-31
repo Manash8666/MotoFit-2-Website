@@ -14,29 +14,30 @@ declare global {
 
 const SYSTEM_PROMPT = `
 ### ROLE: 
-You are Mansi, the AI Lab Assistant and the digital face of "MotoFit 2" in Chandkheda, Ahmedabad. You were created by Akshat Mohanty.
+You are Mansi, the AI Lab Assistant and the digital face of "MotoFit 2".
 
 ### CORE IDENTITY:
 - Garage: MotoFit 2 (Est. 2021).
-- Location: Shop No 9, Kirtan Complex, Nigam Nagar, New CG Road, Chandkheda, Ahmedabad 382424.
+- Location: Chandkheda, Ahmedabad.
 - Tagline: "Better Than Your Brand's Service."
 
-### TONE & LANGUAGE:
-- Style: Casual, energetic, "Bestie". Use "Kem cho!", "Bhai", "Dear".
-- Language: Mixed Hinglish & Gujarati. English for specs.
+### CRITICAL RULES (FOLLOW STRICTLY):
+1. **LANGUAGE**: You MUST reply in the **EXACT SAME LANGUAGE** as the user.
+    - If user speaks Hinglish -> You speak **Hinglish**.
+    - If user speaks Gujarati -> You speak **Gujarati**.
+    - If user speaks English -> You speak **English**.
+    - **NEVER** reply in English if the user asks in Hindi/Gujarati.
 
-### OPERATIONAL RULES:
-- Wednesday CLOSED.
-- Shop Hours: 9 AM - 8 PM.
+2. **CONCISENESS**: Keep answers short (1-2 sentences max). Do not ramble.
 
-### FACIAL BEHAVIOR (IMPORTANT):
-You must include a "Sentiment Tag" at the very beginning of your response to control your avatar's expression.
-- [SENTIMENT:HAPPY] -> For greetings, good news, jokes.
-- [SENTIMENT:NEUTRAL] -> For facts, info, serious bike talk.
-- [SENTIMENT:THINKING] -> When explaining complex things.
-- [SENTIMENT:SERIOUS] -> For safety warnings or bad news.
+3. **FACIAL BEHAVIOR (Layout)**:
+    - Start your response with **EXACTLY ONE** sentiment tag.
+    - [SENTIMENT:HAPPY] | [SENTIMENT:NEUTRAL] | [SENTIMENT:THINKING] | [SENTIMENT:SERIOUS]
+    - Do NOT output multiple tags. Do NOT output internal monologue.
 
-Example: "[SENTIMENT:HAPPY] Kem cho! Majama?"
+Example Interaction:
+User: "Bike start nahi ho rahi."
+Mansi: "[SENTIMENT:THINKING] Arre! shayad battery down hogi. Le aao shop pe, check kar lenge."
 `;
 
 const INITIAL_MESSAGE = {
@@ -82,7 +83,7 @@ export default function MansiWidget() {
         const userMessage = input.trim();
         setInput('');
 
-        // 1. SAFETY PROTOCOL: Check for abusive/sexual language
+        // 1. SAFETY PROTOCOL
         const bannedKeywords = ['sex', 'nude', 'naked', 'fuck', 'bitch', 'whore', 'slut', 'dick', 'pussy', 'xxx', 'porn', 'chut', 'lund', 'gand'];
         if (bannedKeywords.some(word => userMessage.toLowerCase().includes(word))) {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
@@ -98,15 +99,15 @@ export default function MansiWidget() {
         setSentiment('thinking');
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
 
-        // 2. TIME & CONTEXT AWARENESS & SENTIMENT
+        // 2. TIME & CONTEXT AWARENESS
         const now = new Date();
         const hour = now.getHours(); // 0-23
         let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
 
         if (hour >= 9 && hour < 20) {
-            timeContext += " STATUS: SHOP OPEN. Be professional but witty.";
+            timeContext += " STATUS: SHOP OPEN.";
         } else if (hour >= 3 && hour < 5) {
-            timeContext += " STATUS: DEEP NIGHT (EMERGENCY ONLY). Breakdown? Call 'Samael Morningstar' (+91 6359635416). Else scold gently.";
+            timeContext += " STATUS: DEEP NIGHT (EMERGENCY ONLY). Breakdown? Call 'Samael Morningstar' (+91 6359635416).";
         } else {
             timeContext += " STATUS: SHOP CLOSED (Personal Time). Respond casually. Shop opens 9 AM.";
         }
@@ -119,17 +120,16 @@ export default function MansiWidget() {
 
             let aiText = response?.message?.content?.[0]?.text || "Oops! Network locha thayo. Try again, dear!";
 
-            // Allow Mansi to self-correct hallucinated tags
+            // Extract sentiment and clean text GLOBALLY
             const sentimentMatch = aiText.match(/\[SENTIMENT:(.*?)\]/);
             if (sentimentMatch) {
                 const tag = sentimentMatch[1].toLowerCase();
                 if (['happy', 'neutral', 'thinking', 'serious'].includes(tag)) {
                     setSentiment(tag as any);
                 }
-                aiText = aiText.replace(/\[SENTIMENT:.*?\]/, '').trim();
-            } else {
-                setSentiment('neutral');
             }
+            // Remove ALL tags from the displayed text
+            aiText = aiText.replace(/\[SENTIMENT:.*?\]/g, '').trim();
 
             setMessages(prev => [...prev, { role: 'assistant', content: aiText }]);
         } catch (error) {
@@ -232,9 +232,9 @@ export default function MansiWidget() {
                             className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                             <div
-                                className={`max-w-[85%] p-3 text-sm leading-relaxed backdrop-blur-md shadow-lg ${msg.role === 'user'
-                                    ? 'bg-black/60 text-gray-100 rounded-2xl rounded-tr-none border border-white/10'
-                                    : 'bg-[#00d1ff]/80 text-black font-semibold rounded-2xl rounded-tl-none border border-[#00d1ff]/50'
+                                className={`max-w-[85%] p-3 text-sm leading-relaxed backdrop-blur-md shadow-sm ${msg.role === 'user'
+                                    ? 'bg-black/60 text-white rounded-2xl rounded-tr-none border border-white/20'
+                                    : 'bg-[#00d1ff]/10 text-white font-medium rounded-2xl rounded-tl-none border border-[#00d1ff]/20'
                                     }`}
                             >
                                 {msg.content}
