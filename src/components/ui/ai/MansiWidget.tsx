@@ -41,7 +41,7 @@ Example: "[SENTIMENT:HAPPY] Kem cho! Majama?"
 
 const INITIAL_MESSAGE = {
     role: 'assistant',
-    content: "Kem cho! I'm Mansi. 🙋‍♀️ Shop No 9 mein aapka swagat hai! Bike mein koi locha hai ya performance upgrade chahiye?"
+    content: "Kem cho! I'm Mansi. 🙋‍♀️ MotoFit 2 mein aapka swagat hai! Bike mein koi locha hai ya performance upgrade chahiye?"
 };
 
 export default function MansiWidget() {
@@ -193,7 +193,7 @@ export default function MansiWidget() {
 
             {/* Chat Window */}
             <div
-                className={`fixed bottom-24 right-4 md:right-6 w-[90vw] md:w-[400px] bg-[#0a0a0a] border border-[#333] rounded-3xl shadow-2xl z-40 flex flex-col transition-all duration-500 origin-bottom-right overflow-hidden ${isOpen
+                className={`fixed bottom-24 right-4 md:right-6 w-[90vw] md:w-[400px] bg-[#0a0a0a]/90 backdrop-blur-xl border border-[#333] rounded-3xl shadow-2xl z-40 flex flex-col transition-all duration-500 origin-bottom-right overflow-hidden ${isOpen
                     ? 'opacity-100 scale-100 translate-y-0'
                     : 'opacity-0 scale-90 translate-y-10 pointer-events-none'
                     }`}
@@ -201,16 +201,16 @@ export default function MansiWidget() {
             >
                 {/* Background Image Layer */}
                 <div
-                    className="absolute inset-0 z-0 opacity-60 bg-cover bg-center pointer-events-none transition-all duration-1000"
+                    className="absolute inset-0 z-0 opacity-80 bg-cover bg-center pointer-events-none transition-all duration-1000"
                     style={{
                         backgroundImage: `url(${mansiImage})`,
                         filter: sentiment === 'serious' ? 'grayscale(100%) contrast(120%)' : 'none'
                     }}
                 />
-                <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0ae6] via-[#0a0a0a80] to-[#0a0a0a1a] pointer-events-none" />
+                <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent pointer-events-none" />
 
                 {/* Header */}
-                <div className="relative z-10 p-4 border-b border-[#222]/80 bg-[#111]/80 backdrop-blur-md rounded-t-3xl flex items-center gap-3">
+                <div className="relative z-10 p-4 border-b border-white/10 bg-black/40 backdrop-blur-md rounded-t-3xl flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-full overflow-hidden border border-[#00d1ff] transition-transform ${getAvatarAnimation()}`}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={mansiImage} alt="Mansi" className="w-full h-full object-cover" />
@@ -232,9 +232,9 @@ export default function MansiWidget() {
                             className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                             <div
-                                className={`max-w-[85%] p-3 text-sm leading-relaxed ${msg.role === 'user'
-                                    ? 'bg-[#1a1a1a] text-gray-100 rounded-2xl rounded-tr-none border border-[#333]'
-                                    : 'bg-[#00d1ff] text-black font-medium rounded-2xl rounded-tl-none shadow-lg'
+                                className={`max-w-[85%] p-3 text-sm leading-relaxed backdrop-blur-md shadow-lg ${msg.role === 'user'
+                                    ? 'bg-black/60 text-gray-100 rounded-2xl rounded-tr-none border border-white/10'
+                                    : 'bg-[#00d1ff]/80 text-black font-semibold rounded-2xl rounded-tl-none border border-[#00d1ff]/50'
                                     }`}
                             >
                                 {msg.content}
@@ -245,13 +245,13 @@ export default function MansiWidget() {
                     {/* Blocked Message */}
                     {isBlocked && (
                         <div className="flex justify-center w-full mt-4">
-                            <span className="text-red-500 text-xs font-bold uppercase border border-red-900 bg-red-900/20 px-3 py-1 rounded-full">User Blocked</span>
+                            <span className="text-red-500 text-xs font-bold uppercase border border-red-900 bg-red-900/20 px-3 py-1 rounded-full backdrop-blur-md">User Blocked</span>
                         </div>
                     )}
 
                     {isLoading && (
                         <div className="flex justify-start w-full">
-                            <div className="bg-[#1a1a1a] border border-[#333] px-3 py-2 rounded-2xl rounded-tl-none flex items-center gap-2">
+                            <div className="bg-black/60 border border-white/10 px-3 py-2 rounded-2xl rounded-tl-none flex items-center gap-2 backdrop-blur-md">
                                 <Sparkles className="w-3 h-3 text-[#00d1ff] animate-spin" />
                                 <span className="text-gray-400 text-xs italic">Thinking...</span>
                             </div>
@@ -261,7 +261,7 @@ export default function MansiWidget() {
                 </div>
 
                 {/* Input */}
-                <div className="p-3 bg-[#111] border-t border-[#222] rounded-b-3xl">
+                <div className="p-3 bg-black/60 border-t border-white/10 rounded-b-3xl backdrop-blur-lg">
                     <div className="flex items-center gap-2">
                         <input
                             type="text"
@@ -270,12 +270,12 @@ export default function MansiWidget() {
                             onKeyDown={handleKeyPress}
                             placeholder={isBlocked ? "Chat disabled" : (puterLoaded ? "Ask Mansi..." : "Initializing...")}
                             disabled={!puterLoaded || isLoading || isBlocked}
-                            className={`flex-1 bg-[#222] text-white border border-[#444] rounded-full px-4 py-3 text-sm focus:outline-none focus:border-[#00d1ff] focus:ring-1 focus:ring-[#00d1ff] transition-all placeholder:text-gray-500 ${isBlocked ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`flex-1 bg-black/50 text-white border border-[#00d1ff]/30 rounded-full px-4 py-3 text-sm focus:outline-none focus:border-[#00d1ff] focus:ring-1 focus:ring-[#00d1ff] transition-all placeholder:text-gray-400 ${isBlocked ? 'opacity-50 cursor-not-allowed' : ''}`}
                         />
                         <button
                             onClick={handleSend}
                             disabled={!input.trim() || !puterLoaded || isLoading || isBlocked}
-                            className="bg-[#00d1ff] hover:bg-[#33dcff] text-black p-2 rounded-full transition-all disabled:opacity-50 transform active:scale-95"
+                            className="bg-[#00d1ff] hover:bg-[#33dcff] text-black p-2 rounded-full transition-all disabled:opacity-50 transform active:scale-95 shadow-[0_0_15px_rgba(0,209,255,0.4)]"
                         >
                             <Send className="w-4 h-4" />
                         </button>
