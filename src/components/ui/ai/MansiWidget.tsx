@@ -140,8 +140,8 @@ export default function MansiWidget() {
             {/* Chat Window */}
             <div
                 className={`fixed bottom-24 right-4 md:right-6 w-[90vw] md:w-[400px] bg-[#0a0a0a] border border-[#333] rounded-3xl shadow-2xl z-40 flex flex-col transition-all duration-500 origin-bottom-right ${isOpen
-                        ? 'opacity-100 scale-100 translate-y-0'
-                        : 'opacity-0 scale-90 translate-y-10 pointer-events-none'
+                    ? 'opacity-100 scale-100 translate-y-0'
+                    : 'opacity-0 scale-90 translate-y-10 pointer-events-none'
                     }`}
                 style={{ height: 'min(600px, 70vh)' }}
             >
@@ -156,7 +156,7 @@ export default function MansiWidget() {
                         <p className="text-[10px] text-[#ff5e1a] uppercase font-bold tracking-wider">MotoFit Assistant</p>
                     </div>
                     <div className="ml-auto">
-                        <Badge variant="outline" className="text-[10px] h-5">AI</Badge>
+                        <Badge variant="orange" className="text-[10px] h-5">AI</Badge>
                     </div>
                 </div>
 
@@ -169,8 +169,8 @@ export default function MansiWidget() {
                         >
                             <div
                                 className={`max-w-[85%] p-3 text-sm leading-relaxed ${msg.role === 'user'
-                                        ? 'bg-[#1a1a1a] text-gray-100 rounded-2xl rounded-tr-none border border-[#333]'
-                                        : 'bg-[#ff5e1a] text-black font-medium rounded-2xl rounded-tl-none shadow-lg'
+                                    ? 'bg-[#1a1a1a] text-gray-100 rounded-2xl rounded-tr-none border border-[#333]'
+                                    : 'bg-[#ff5e1a] text-black font-medium rounded-2xl rounded-tl-none shadow-lg'
                                     }`}
                             >
                                 {msg.content}
