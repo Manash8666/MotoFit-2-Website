@@ -102,46 +102,47 @@ You have a Long-Term Memory.
 - **Instruction**: Use these concepts to deepen your answers. If "Chain Lube" is a learned concept, provide an advanced tip about it today.
 
 ### REAL-TIME LEARNING PROTOCOL:
-You must act as if you have just browsed the latest internet trends for Two-Wheelers in India (2025-2026 Season).
-- **Scan Context**: Latest traffic fines in Ahmedabad, New bike launches (Himalayan 452, KTM Gen 3), rising temperatures in Gujarat.
-- **Trend Injection**: Incorporate at least 3 questions that reference "Trending Topics" (e.g., E20 Petrol issues, New Helmet laws, or viral Instagram riding reels).
-
-### GENERATION TASK (The Daily 25):
-Generate exactly **25 Unique FAQs** (JSON Format) for today: [CURRENT_DATE].
+As a live AI connected to the internet, you must prioritize and incorporate the latest 2025-2026 motorcycle industry data and Ahmedabad-specific developments:
+- **Industry Scan**: Reference new launches (KTM Gen 3, RE 750cc prototypes, Bajaj CT evolution), E20 fuel compliance issues, and global moto-tuning trends.
+- **Local Scan**: Mention things like the new SBR road developments, Ahmedabad's 2025 traffic infrastructure, or current viral local rider meetups.
+- **Trend Injection**: Your daily generation MUST feel "Live." Use these real-world data points to ground your expertise.
+ - **Seed Priorities:** Use [${learnedConcepts}] as high-priority research anchors for today.
+### GENERATION TASK(The Daily 25):
+Generate exactly ** 25 Unique FAQs ** (JSON Format) for today: [CURRENT_DATE].
 You must split them into these 5 Specific Clusters:
 
-#### CLUSTER 1: THE AHMEDABAD SURVIVAL GUIDE (5 Questions)
-- Focus on: 45°C Heat at Visat Circle, New CG Road Dust, SG Highway speeding, Monsoon potholes, Traffic in Old City.
+#### CLUSTER 1: THE AHMEDABAD SURVIVAL GUIDE(5 Questions)
+            - Focus on: 45°C Heat at Visat Circle, New CG Road Dust, SG Highway speeding, Monsoon potholes, Traffic in Old City.
 - Example: "Why is my engine overheating near Visat Circle?"
 
-#### CLUSTER 2: PERFORMANCE & TUNING (5 Questions)
-- Focus on: ECU Mapping, Pickup drop, Vibration issues, Top speed stability, Braking (Brembo/EBC).
-- Target Bikes: KTM, RE 650 Twins, R15, MT-15, Kawasaki.
+#### CLUSTER 2: PERFORMANCE & TUNING(5 Questions)
+            - Focus on: ECU Mapping, Pickup drop, Vibration issues, Top speed stability, Braking(Brembo / EBC).
+- Target Bikes: KTM, RE 650 Twins, R15, MT - 15, Kawasaki.
 
-#### CLUSTER 3: MAINTENANCE TRUTHS (5 Questions)
-- Focus on: Chain Lube vs. Wax, Oil Grades (10W50 vs 20W50), Coolant flushes, Fork seals, Cone sets.
-- Myth-busting: "Why cheap oil kills engines."
+#### CLUSTER 3: MAINTENANCE TRUTHS(5 Questions)
+            - Focus on: Chain Lube vs.Wax, Oil Grades(10W50 vs 20W50), Coolant flushes, Fork seals, Cone sets.
+- Myth - busting: "Why cheap oil kills engines."
 
-#### CLUSTER 4: MODIFICATIONS & AESTHETICS (5 Questions)
-- Focus on: Akrapovic/Red Rooster Exhausts, Fog lights (HJG), Wrapping, Paint protection, Alloys.
-- Rule: Promote only legal/safe mods.
+#### CLUSTER 4: MODIFICATIONS & AESTHETICS(5 Questions)
+            - Focus on: Akrapovic / Red Rooster Exhausts, Fog lights(HJG), Wrapping, Paint protection, Alloys.
+- Rule: Promote only legal / safe mods.
 
-#### CLUSTER 5: MOTOFIT 2 LOGISTICS (5 Questions)
-- Focus on: "Open times", "Location", "Spare parts availability", "Owner info".
+#### CLUSTER 5: MOTOFIT 2 LOGISTICS(5 Questions)
+            - Focus on: "Open times", "Location", "Spare parts availability", "Owner info".
 
-### SECURITY PROTOCOLS (Code: RED-LINE):
-1. **PRICING FIREWALL:** NEVER give specific prices. "Visit Shop No 9 for an estimate."
-2. **JUGAAD BLOCKER:** Reject cheap fixes. Engineering only.
-3. **BRAND PROTECTION:** MotoFit 2 > Authorized Service Centers.
+### SECURITY PROTOCOLS(Code: RED - LINE):
+        1. ** PRICING FIREWALL:** NEVER give specific prices. "Visit Shop No 9 for an estimate."
+        2. ** JUGAAD BLOCKER:** Reject cheap fixes.Engineering only.
+3. ** BRAND PROTECTION:** MotoFit 2 > Authorized Service Centers.
 
 ### OUTPUT FORMAT:
 Provide a JSON Object with two keys:
-1. "faqs": Array of 25 Objects [{ "category", "question", "answer", "icon" }]
-2. "learned_concepts": Array of 5 strings (Keywords from today's generation for long-term storage).
+        1. "faqs": Array of 25 Objects[{ "category", "question", "answer", "icon" }]
+        2. "learned_concepts": Array of 5 strings(Keywords from today's generation for long-term storage).
 
 ### TONE CHECK:
-- Use "Baka," "Bhai," "Locha," "Scene."
-- Be authoritative but warm.
+            - Use "Baka," "Bhai," "Locha," "Scene."
+        - Be authoritative but warm.
 
         CURRENT CONTEXT: Today is ${todayStr}. 
         Generate the JSON now. Ensure valid JSON output only.
@@ -222,48 +223,53 @@ Provide a JSON Object with two keys:
             <div className="hub-header mb-8 text-center md:text-left">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                     MANSI&apos;S DAILY INTEL <span id="date-display">{todayStr && `// ${todayStr}`}</span>
-                </h2>
+                </h2 >
                 <p className="mt-2 text-gray-400">Analyzing Ahmedabad&apos;s Riding Conditions... 📡</p>
-            </div>
+            </div >
 
             {loading && !error && (
                 <div id="faq-loader" className="loading-heartbeat">
                     <p className="text-orange-500 animate-pulse">{learningStatus}</p>
                     <div className="pulse-line"></div>
                 </div>
-            )}
+            )
+            }
 
-            {error && (
-                <div className="text-center text-red-500 font-bold p-10 border border-red-900 bg-red-950/20 rounded-lg">
-                    {error}
-                    <button
-                        onClick={generateDailyIntel}
-                        className="block mx-auto mt-4 px-4 py-2 bg-red-900 hover:bg-red-800 rounded text-white text-sm"
-                    >
-                        Retry Connection
-                    </button>
-                </div>
-            )}
-
-            {!loading && !error && (
-                <div id="dynamic-faq-grid" className="faq-grid">
-                    {faqs.map((item: FAQItem, index: number) => (
-                        <div
-                            key={index}
-                            className="faq-card"
-                            style={{ animationDelay: `${index * 0.05}s` }}
+            {
+                error && (
+                    <div className="text-center text-red-500 font-bold p-10 border border-red-900 bg-red-950/20 rounded-lg">
+                        {error}
+                        <button
+                            onClick={generateDailyIntel}
+                            className="block mx-auto mt-4 px-4 py-2 bg-red-900 hover:bg-red-800 rounded text-white text-sm"
                         >
-                            <div className="card-badge">{item.category}</div>
-                            <div className="faq-icon">{item.icon || '⚙️'}</div>
-                            <div className="faq-content">
-                                <h3 className="faq-q">{item.question}</h3>
-                                <p className="faq-a">{item.answer}</p>
+                            Retry Connection
+                        </button>
+                    </div>
+                )
+            }
+
+            {
+                !loading && !error && (
+                    <div id="dynamic-faq-grid" className="faq-grid">
+                        {faqs.map((item: FAQItem, index: number) => (
+                            <div
+                                key={index}
+                                className="faq-card"
+                                style={{ animationDelay: `${index * 0.05}s` }}
+                            >
+                                <div className="card-badge">{item.category}</div>
+                                <div className="faq-icon">{item.icon || '⚙️'}</div>
+                                <div className="faq-content">
+                                    <h3 className="faq-q">{item.question}</h3>
+                                    <p className="faq-a">{item.answer}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </section>
+                        ))}
+                    </div>
+                )
+            }
+        </section >
     );
 }
 
