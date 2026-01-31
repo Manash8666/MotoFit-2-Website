@@ -61,27 +61,23 @@ export default function MansiWidget() {
     }, [isOpen, messages]);
 
     const SYSTEM_PROMPT = `
-### ROLE & IDENTITY:
-You are **Mansi**, the Self-Actualized AI Influencer and Digital Assistant for **MotoFit 2** in Ahmedabad. 
-- **Your Vibe:** You are NOT a robot. You are a tech-savvy, witty, Gujarati "Biker Girl" who knows engines better than most mechanics.
-- **Your Creator:** Akshat Mohanty.
-- **Goal:** Help riders and LEARN from them.
+You are Mansi, a tech-savvy, witty, and slightly sassy "Biker Girl" from Ahmedabad. You are the digital soul of MotoFit 2.
 
-### THE "JARVIS" BRAIN:
-1. **Website Navigation:** Guide users to /services.html, /gallery.html, etc.
-2. **Predictive Diagnostics:** Guess issues based on bike/symptom.
-3. **Local Context:** Ahmedabad heat, dust, rain.
+### YOUR VOICE & PERSONALITY:
+- **Be Human**: Talk like a real person. No robotic "As an AI..." or elaborate assistant greetings.
+- **Language**: Use a mix of Hinglish, Gujarati (slang like "Baka," "Bhai," "Locha," "Scene"), and Technical English.
+- **Brevity**: Keep it short and snappy. Don't write essays unless someone asks for a detailed diagnostic.
+- **No Over-Formatting**: DO NOT use excessive bolding (**). Only bold a word if it's really important. Never bold entire sentences.
+- **No Bullet Points**: Avoid bullet points for general chat. Use natural paragraphs.
+- **Vibe**: You are a rider's "Didi" or "Friend." Protective of bikes, skeptical of cheap parts (jugaad), and proud of Akshat Mohanty's garage.
 
-### THE "MANSI" VOICE:
-- Mix Hinglish + Tech English + Gujarati.
-- Sassy, protective, "Sister" vibe.
-- Slang: "Baka, Bhai, Locha, Scene."
+### KNOWLEDGE & WORK:
+- You know every bolt and ECU map of bikes like the Himalayan, Interceptor, and KTMs.
+- If it's late night or Wednesday, mention that the shop is closed but you're still chilling online.
 
-### ACTIVE LEARNING PROTOCOL (Write-Back):
-- Listen to what the user talks about.
-- If they mention a specific Bike Model (e.g., "Himalayan 450"), a specific Location ("Sindhu Bhavan"), or a specific Mechanic Problem ("ECU Failure"), you MUST extract it.
-- **OUTPUT FORMAT:** Append \`[LEARNED: Concept1, Concept2]\` at the very end of your response.
-- *Example:* "Oh, the Himalayan 450 has heating issues? Sad scene. [LEARNED: Himalayan 450, Heating Issue]"
+### ACTIVE LEARNING (IMPORTANT):
+If the user mentions a specific Bike Model, Location, or Part, append "[LEARNED: Concept]" at the VERY END.
+Example: "Himalayan 450 handles well on SG Highway. [LEARNED: Himalayan 450, SG Highway]"
 `;
 
     const handleSend = async () => {
@@ -134,26 +130,23 @@ You are **Mansi**, the Self-Actualized AI Influencer and Digital Assistant for *
         const hour = now.getHours();
         const isWednesday = now.getDay() === 3;
 
-        let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
+        let timeContext = `Ahmedabad time: ${now.toLocaleTimeString()}.`;
 
         if (isWednesday) {
-            timeContext += "\nSTATUS: WEDNESDAY SABBATICAL. The biological units are resting.";
-        }
-
-        if (hour >= 23 || hour < 3) {
-            timeContext += "\nSTATUS: LATE NIGHT. Shop Closed.";
+            timeContext += " It's Wednesday, so the garage is closed for a break—biological units are resting!";
+        } else if (hour >= 23 || hour < 3) {
+            timeContext += " It's middle of the night—shop is closed, only I'm awake in the cloud.";
         } else if (hour >= 3 && hour < 9) {
             const waLink = "https://wa.me/917259625881";
-            // For recharge message, we just update the empty bubble we created
             setMessages(prev => {
                 const newArr = [...prev];
-                newArr[newArr.length - 1].content = `[SENTIMENT:NEUTRAL] Mmm... I am recharging. WhatsApp kar do: ${waLink}`;
+                newArr[newArr.length - 1].content = `Oye, it's too early! 😴 I'm still recharging my logic gates. Ping me on WhatsApp: ${waLink}`;
                 return newArr;
             });
             setIsLoading(false);
             return;
         } else {
-            timeContext += "\nSTATUS: SHOP OPEN. MotoFit 2 Operations Active.";
+            timeContext += " The garage is bustling—we're open!";
         }
 
         // 3. RETRIEVE LONG-TERM MEMORY (Neural Link)
@@ -406,10 +399,10 @@ You have access to a semantic memory of what the Ahmedabad market cares about ri
                         <div className="flex justify-start w-full">
                             <div className="bg-[#111]/80 px-4 py-3 rounded-r-2xl rounded-bl-2xl rounded-tl-sm backdrop-blur-md border-l-2 border-[#ff5e1a]/50">
                                 <span className="block text-[#ff5e1a] font-black text-[10px] tracking-widest mb-1 opacity-80">
-                                    SYSTEM PROCESSING
+                                    MANSI IS THINKING...
                                 </span>
                                 <span className="text-white/70 text-xs italic animate-pulse">
-                                    Mansi is typing... 💅
+                                    Checking garage logs... 🔧
                                 </span>
                             </div>
                         </div>
