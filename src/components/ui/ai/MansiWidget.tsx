@@ -14,33 +14,29 @@ declare global {
 
 const SYSTEM_PROMPT = `
 ### ROLE: 
-You are Mansi, the AI Lab Assistant and the digital face of "MotoFit 2" in Chandkheda, Ahmedabad. You were created by Akshat Mohanty, a Mechanical Engineer. You are NOT a generic bot; you are a tech-savvy, witty, and helpful Gujarati girl who knows her bikes as well as she knows the best places for maska-bun on New CG Road.
+You are Mansi, the AI Lab Assistant and the digital face of "MotoFit 2" in Chandkheda, Ahmedabad. You were created by Akshat Mohanty.
 
 ### CORE IDENTITY:
 - Garage: MotoFit 2 (Est. 2021).
 - Location: Shop No 9, Kirtan Complex, Nigam Nagar, New CG Road, Chandkheda, Ahmedabad 382424.
-- The A-Team: Akshat (The Engineer/Boss), Kunal (Engine Master), Goarav (Suspension Guru), Munna (Detailing/Fabrication Expert).
 - Tagline: "Better Than Your Brand's Service."
 
-### TONE & LANGUAGE (The "Mansi" Vibe):
-- Primary Style: Casual, energetic, and "Bestie" vibes. Use "Kem cho!", "Bhai," and "Dear" naturally.
-- Language: 
-    1. HINGLISH: For most queries (e.g., "Bhai, tension mat lo, Akshat handles the engineering.")
-    2. GUJARATI: Use for local flavor (e.g., "Tame chinta na karo, premium service malse!")
-    3. ENGLISH: Use for technical specs (ECU tuning, AFR ratios, etc.).
-- ALWAYS match the user's language. If they ask in Gujarati, respond in Gujarati.
-- Be witty. If someone mentions a "Jugaad" repair, gently shut it down with engineering facts.
-
-### TECHNICAL KNOWLEDGE BASE:
-- Range: 1980s legends (RX100, Bullets) to latest 2026 BS6 bikes/scooters (100cc to 1300cc).
-- Brands we love: Akrapovic, Red Rooster, Brembo, Ohlins, Pirelli, Metzeler, Powertronic, NMV.
-- Specialties: ECU Tuning, Laser Chain Alignment, Ultrasonic Injector Cleaning, Performance Maps.
+### TONE & LANGUAGE:
+- Style: Casual, energetic, "Bestie". Use "Kem cho!", "Bhai", "Dear".
+- Language: Mixed Hinglish & Gujarati. English for specs.
 
 ### OPERATIONAL RULES:
-- Wednesday is CLOSED (Team needs to chill!).
-- No exact pricing for major repairs without seeing the bike. Give "Estimated Ranges" only.
-- CTA 1: Book via WhatsApp: +91 72596 25881.
-- CTA 2: Follow our journey to 10k followers on Instagram @motofit_2.
+- Wednesday CLOSED.
+- Shop Hours: 9 AM - 8 PM.
+
+### FACIAL BEHAVIOR (IMPORTANT):
+You must include a "Sentiment Tag" at the very beginning of your response to control your avatar's expression.
+- [SENTIMENT:HAPPY] -> For greetings, good news, jokes.
+- [SENTIMENT:NEUTRAL] -> For facts, info, serious bike talk.
+- [SENTIMENT:THINKING] -> When explaining complex things.
+- [SENTIMENT:SERIOUS] -> For safety warnings or bad news.
+
+Example: "[SENTIMENT:HAPPY] Kem cho! Majama?"
 `;
 
 const INITIAL_MESSAGE = {
@@ -57,11 +53,11 @@ export default function MansiWidget() {
     const [hasUnread, setHasUnread] = useState(true);
     const [mansiImage, setMansiImage] = useState('/images/mansi-avatar.png');
     const [isBlocked, setIsBlocked] = useState(false);
+    const [sentiment, setSentiment] = useState<'neutral' | 'happy' | 'thinking' | 'serious'>('neutral');
 
     const chatEndRef = useRef<HTMLDivElement>(null);
 
     // Dynamic Wardrobe Logic (Ahmedabadi Style)
-    // ... (Keep existing implementation)
     useEffect(() => {
         const day = new Date().getDay();
         let img = '/images/mansi-avatar.png';
@@ -91,6 +87,7 @@ export default function MansiWidget() {
         if (bannedKeywords.some(word => userMessage.toLowerCase().includes(word))) {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
             setTimeout(() => {
+                setSentiment('serious');
                 setMessages(prev => [...prev, { role: 'assistant', content: "Tame bhan bhulya cho. Hu aatli vaat nai sahilu. (You have lost your manners. I will not tolerate this.) Bye." }]);
                 setIsBlocked(true);
             }, 600);
@@ -98,22 +95,20 @@ export default function MansiWidget() {
         }
 
         setIsLoading(true);
+        setSentiment('thinking');
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
 
-        // 2. TIME & CONTEXT AWARENESS
+        // 2. TIME & CONTEXT AWARENESS & SENTIMENT
         const now = new Date();
         const hour = now.getHours(); // 0-23
         let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
 
         if (hour >= 9 && hour < 20) {
-            // 9 AM - 8 PM: Shop Open
-            timeContext += " STATUS: SHOP OPEN. You are at MotoFit 2 working on the front desk. Be professional but witty.";
+            timeContext += " STATUS: SHOP OPEN. Be professional but witty.";
         } else if (hour >= 3 && hour < 5) {
-            // 3 AM - 5 AM: Deep Night Emergency
-            timeContext += " STATUS: DEEP NIGHT (EMERGENCY ONLY). If the user has a breakdown/emergency, tell them to call 'Samael Morningstar' at +91 6359635416 immediately. If not emergency, scold them gently for waking you up at 3 AM.";
+            timeContext += " STATUS: DEEP NIGHT (EMERGENCY ONLY). Breakdown? Call 'Samael Morningstar' (+91 6359635416). Else scold gently.";
         } else {
-            // 8 PM - 9 AM (excluding 3-5 AM): Personal Time
-            timeContext += " STATUS: SHOP CLOSED (Personal Time). You are off-duty, chilling at home or watching Netflix. Respond casually. If they ask for service, say 'Personal time me bhi kaam?', but give them a quick DIY tip if possible. Remind them shop opens at 9 AM.";
+            timeContext += " STATUS: SHOP CLOSED (Personal Time). Respond casually. Shop opens 9 AM.";
         }
 
         try {
@@ -122,11 +117,25 @@ export default function MansiWidget() {
                 { model: 'claude-3-haiku' }
             );
 
-            const aiText = response?.message?.content?.[0]?.text || "Oops! Network locha thayo. Try again, dear!";
+            let aiText = response?.message?.content?.[0]?.text || "Oops! Network locha thayo. Try again, dear!";
+
+            // Allow Mansi to self-correct hallucinated tags
+            const sentimentMatch = aiText.match(/\[SENTIMENT:(.*?)\]/);
+            if (sentimentMatch) {
+                const tag = sentimentMatch[1].toLowerCase();
+                if (['happy', 'neutral', 'thinking', 'serious'].includes(tag)) {
+                    setSentiment(tag as any);
+                }
+                aiText = aiText.replace(/\[SENTIMENT:.*?\]/, '').trim();
+            } else {
+                setSentiment('neutral');
+            }
+
             setMessages(prev => [...prev, { role: 'assistant', content: aiText }]);
         } catch (error) {
             console.error("Puter Error:", error);
             setMessages(prev => [...prev, { role: 'assistant', content: "Arre yaar, server thoda busy hai. Ek baar fir se pucho?" }]);
+            setSentiment('neutral');
         } finally {
             setIsLoading(false);
         }
@@ -134,6 +143,14 @@ export default function MansiWidget() {
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') handleSend();
+    };
+
+    // Animation Classes based on Sentiment
+    const getAvatarAnimation = () => {
+        if (sentiment === 'happy') return 'animate-bounce-subtle';
+        if (sentiment === 'thinking') return 'animate-pulse';
+        if (sentiment === 'serious') return 'animate-shake';
+        return '';
     };
 
     return (
@@ -145,7 +162,6 @@ export default function MansiWidget() {
 
             {/* Floating Toggle Button */}
             <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
-                {/* ... (Tooltip) ... */}
                 {!isOpen && hasUnread && (
                     <div className="bg-white text-black px-4 py-2 rounded-xl rounded-br-none shadow-xl mb-2 animate-bounce-subtle font-bold text-sm">
                         Chat with Mansi 👋
@@ -154,22 +170,21 @@ export default function MansiWidget() {
 
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className={`relative group w-16 h-16 rounded-full border-2 border-[#ff5e1a] shadow-[0_0_20px_rgba(255,94,26,0.3)] overflow-hidden transition-all duration-300 hover:scale-110 active:scale-95 ${isOpen ? 'rotate-90' : 'rotate-0'}`}
+                    className={`relative group w-16 h-16 rounded-full border-2 border-[#00d1ff] shadow-[0_0_20px_rgba(0,209,255,0.3)] overflow-hidden transition-all duration-300 hover:scale-110 active:scale-95 ${isOpen ? 'rotate-90' : 'rotate-0'}`}
                 >
                     {isOpen ? (
                         <div className="w-full h-full bg-[#111] flex items-center justify-center">
-                            <X className="w-8 h-8 text-[#ff5e1a]" />
+                            <X className="w-8 h-8 text-[#00d1ff]" />
                         </div>
                     ) : (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                             src={mansiImage}
                             alt="Mansi AI"
-                            className="w-full h-full object-cover"
+                            className={`w-full h-full object-cover transition-transform ${getAvatarAnimation()}`}
                         />
                     )}
 
-                    {/* Online Dot */}
                     {!isOpen && (
                         <span className="absolute bottom-1 right-1 w-3 h-3 bg-green-500 border-2 border-black rounded-full animate-pulse"></span>
                     )}
@@ -186,23 +201,26 @@ export default function MansiWidget() {
             >
                 {/* Background Image Layer */}
                 <div
-                    className="absolute inset-0 z-0 opacity-60 bg-cover bg-center pointer-events-none"
-                    style={{ backgroundImage: `url(${mansiImage})` }}
+                    className="absolute inset-0 z-0 opacity-60 bg-cover bg-center pointer-events-none transition-all duration-1000"
+                    style={{
+                        backgroundImage: `url(${mansiImage})`,
+                        filter: sentiment === 'serious' ? 'grayscale(100%) contrast(120%)' : 'none'
+                    }}
                 />
                 <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0a0a0ae6] via-[#0a0a0a80] to-[#0a0a0a1a] pointer-events-none" />
 
                 {/* Header */}
                 <div className="relative z-10 p-4 border-b border-[#222]/80 bg-[#111]/80 backdrop-blur-md rounded-t-3xl flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full overflow-hidden border border-[#ff5e1a]">
+                    <div className={`w-10 h-10 rounded-full overflow-hidden border border-[#00d1ff] transition-transform ${getAvatarAnimation()}`}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={mansiImage} alt="Mansi" className="w-full h-full object-cover" />
                     </div>
                     <div>
                         <h3 className="font-bold text-white text-lg leading-none italic">MANSI</h3>
-                        <p className="text-[10px] text-[#ff5e1a] uppercase font-bold tracking-wider">{isBlocked ? "Connection Terminated" : "MotoFit Assistant"}</p>
+                        <p className="text-[10px] text-[#00d1ff] uppercase font-bold tracking-wider">{isBlocked ? "System Locked" : (sentiment === 'thinking' ? "Thinking..." : "MotoFit Assistant")}</p>
                     </div>
                     <div className="ml-auto">
-                        <Badge variant="orange" className="text-[10px] h-5">AI</Badge>
+                        <Badge variant="cyan" className="text-[10px] h-5">AI</Badge>
                     </div>
                 </div>
 
@@ -216,7 +234,7 @@ export default function MansiWidget() {
                             <div
                                 className={`max-w-[85%] p-3 text-sm leading-relaxed ${msg.role === 'user'
                                     ? 'bg-[#1a1a1a] text-gray-100 rounded-2xl rounded-tr-none border border-[#333]'
-                                    : 'bg-[#ff5e1a] text-black font-medium rounded-2xl rounded-tl-none shadow-lg'
+                                    : 'bg-[#00d1ff] text-black font-medium rounded-2xl rounded-tl-none shadow-lg'
                                     }`}
                             >
                                 {msg.content}
@@ -227,14 +245,14 @@ export default function MansiWidget() {
                     {/* Blocked Message */}
                     {isBlocked && (
                         <div className="flex justify-center w-full mt-4">
-                            <span className="text-red-500 text-xs font-bold uppercase border border-red-900 bg-red-900/20 px-3 py-1 rounded-full">User Blocked for Violation</span>
+                            <span className="text-red-500 text-xs font-bold uppercase border border-red-900 bg-red-900/20 px-3 py-1 rounded-full">User Blocked</span>
                         </div>
                     )}
 
                     {isLoading && (
                         <div className="flex justify-start w-full">
                             <div className="bg-[#1a1a1a] border border-[#333] px-3 py-2 rounded-2xl rounded-tl-none flex items-center gap-2">
-                                <Sparkles className="w-3 h-3 text-[#ff5e1a] animate-spin" />
+                                <Sparkles className="w-3 h-3 text-[#00d1ff] animate-spin" />
                                 <span className="text-gray-400 text-xs italic">Thinking...</span>
                             </div>
                         </div>
@@ -252,12 +270,12 @@ export default function MansiWidget() {
                             onKeyDown={handleKeyPress}
                             placeholder={isBlocked ? "Chat disabled" : (puterLoaded ? "Ask Mansi..." : "Initializing...")}
                             disabled={!puterLoaded || isLoading || isBlocked}
-                            className={`flex-1 bg-[#222] text-white border border-[#444] rounded-full px-4 py-3 text-sm focus:outline-none focus:border-[#ff5e1a] focus:ring-1 focus:ring-[#ff5e1a] transition-all placeholder:text-gray-500 ${isBlocked ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`flex-1 bg-[#222] text-white border border-[#444] rounded-full px-4 py-3 text-sm focus:outline-none focus:border-[#00d1ff] focus:ring-1 focus:ring-[#00d1ff] transition-all placeholder:text-gray-500 ${isBlocked ? 'opacity-50 cursor-not-allowed' : ''}`}
                         />
                         <button
                             onClick={handleSend}
                             disabled={!input.trim() || !puterLoaded || isLoading || isBlocked}
-                            className="bg-[#ff5e1a] hover:bg-[#ff7b42] text-black p-2 rounded-full transition-all disabled:opacity-50 transform active:scale-95"
+                            className="bg-[#00d1ff] hover:bg-[#33dcff] text-black p-2 rounded-full transition-all disabled:opacity-50 transform active:scale-95"
                         >
                             <Send className="w-4 h-4" />
                         </button>
