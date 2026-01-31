@@ -217,7 +217,8 @@ Is this slot available?`;
                                 {step === 'input' ? (
                                     <GlassButton
                                         variant="cyan"
-                                        className="w-full justify-center group h-12"
+                                        className="justify-center group h-12"
+                                        fullWidth
                                         onClick={handleWhatsApp}
                                     >
                                         <MessageCircle size={20} className="mr-2 group-hover:scale-110 transition-transform" />
@@ -226,7 +227,8 @@ Is this slot available?`;
                                 ) : (
                                     <GlassButton
                                         variant="orange"
-                                        className="w-full justify-center group h-12"
+                                        className="justify-center group h-12"
+                                        fullWidth
                                         onClick={confirmBooking}
                                     >
                                         <MessageCircle size={20} className="mr-2 group-hover:scale-110 transition-transform" />

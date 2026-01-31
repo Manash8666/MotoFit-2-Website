@@ -75,6 +75,7 @@ export interface GlassButtonProps
     icon?: React.ReactNode;
     iconPosition?: "left" | "right";
     loading?: boolean;
+    fullWidth?: boolean;
 }
 
 const GlassButton = React.forwardRef<HTMLButtonElement, GlassButtonProps>(
@@ -89,15 +90,17 @@ const GlassButton = React.forwardRef<HTMLButtonElement, GlassButtonProps>(
         icon,
         iconPosition = "right",
         loading = false,
+        fullWidth = false,
         disabled,
         ...props
     }, ref) => {
         const ButtonContent = (
-            <div className={cn("glass-button-wrap relative", className)}>
+            <div className={cn("glass-button-wrap relative", fullWidth && "w-full", className)}>
                 <button
                     className={cn(
                         glassButtonVariants({ variant, size, glow, hoverEffect }),
                         "overflow-hidden",
+                        fullWidth && "w-full",
                         disabled && "opacity-50 cursor-not-allowed"
                     )}
                     ref={ref}
