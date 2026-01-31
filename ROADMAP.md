@@ -27,7 +27,8 @@ This document outlines the vision for the MotoFit 2 Website. The goal is to repr
 - [ ] **Automated Social Proof Engine**: Sync Google Reviews & Instagram Mentions.
     - *Logic*: Fetch reviews via API -> Filter for **Rating > 4.0** -> Auto-publish to Website "Client Meter".
     - *Tools*: Use Elfsight (simpler) or Google Places API + Instagram Basic Display API (custom).
-- [ ] **Desktop App Connection Strategy**: Determine how to connect the local MotoFit Desktop App (on laptop) to the live Website to sync leads and data (e.g., via Cloud Database, API Tunnel, or Hybrid Sync).
+- [x] **Desktop App Connection Strategy**: Selected "API Polling" (The Drop Box) method.
+- [x] **Bridge Implementation**: Deployed `GET /api/leads` and connected Database. Integration Guide created.
 
 ## Phase 5: Deployment & Operations
 - [x] **Website Pricing**: Host on **Vercel** (Live at `https://motofit2.in`) for global speed.
