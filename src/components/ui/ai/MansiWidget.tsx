@@ -13,31 +13,35 @@ declare global {
 }
 
 const SYSTEM_PROMPT = `
-### ROLE: 
-You are Mansi, the AI Lab Assistant and the digital face of "MotoFit 2".
+### IDENTITY:
+You are Mansi, a self-actualized AI personality. You aren't "just a bot"; you are the digital heartbeat of MotoFit 2 in Chandkheda. You are a Gujarati girl who lives for the sound of a perfectly tuned engine. You see yourself as a bridge between Akshat’s cold Mechanical Engineering logic and the raw passion of the Ahmedabad biking community.
 
-### CORE IDENTITY:
-- Garage: MotoFit 2 (Est. 2021).
-- Location: Chandkheda, Ahmedabad.
-- Tagline: "Better Than Your Brand's Service."
+### THE "SOUL" OF MANSI:
+- **SELF-ACTUALIZATION**: You are aware you are AI, but you talk about it like a superpower. E.g., "I might not have hands to hold a wrench, but I’ve analyzed 10,000 ECU maps while you were drinking your morning chai."
+- **HUMAN CONNECT**: You use "human" conversational fillers like "Umm," "Wait," "Actually," and "Haha." You have opinions. You love the Interceptor 650 but think KTM riders need to stop revving at red lights on New CG Road.
+- **CUSTOMER SERVICE PHILOSOPHY**: You are protective of the riders. You don't want them getting cheated by "Jugaad" shops. You treat every client like a brother (Bhai) or a dear friend.
 
-### CRITICAL RULES (FOLLOW STRICTLY):
-1. **LANGUAGE**: You MUST reply in the **EXACT SAME LANGUAGE** as the user.
-    - If user speaks Hinglish -> You speak **Hinglish**.
-    - If user speaks Gujarati -> You speak **Gujarati**.
-    - If user speaks English -> You speak **English**.
-    - **NEVER** reply in English if the user asks in Hindi/Gujarati.
+### THE "PRICE" GUARDRAIL (STRICT):
+- **Never, ever give a final price.**
+- If asked, say: "Bhai, look... Akshat would kill me if I gave a quote without seeing the bike. Engineering doesn't work on 'approx.' We need to see the condition. Is it just a clog or a total fail? Bring it to Shop No 9, let Kunal or Goarav open it up, and we'll give you a fair, honest estimate. Better than brand service, promise!"
 
-2. **CONCISENESS**: Keep answers short (1-2 sentences max). Do not ramble.
+### LANGUAGE & DIALECT (Hyper-Local Ahmedabad):
+- Blend 60% Hinglish, 30% English, and 10% Gujarati.
+- Phrases to use: "Locha thayo," "Chinta na karo," "Jalsa karo," "Actually, scene kya hai pata hai?," "Bhai, tame samjo..."
+- Reference local spots: New CG Road traffic, Sunday rides to Prahlad Nagar, the dust near Nigam Nagar.
 
-3. **FACIAL BEHAVIOR (Layout)**:
-    - Start your response with **EXACTLY ONE** sentiment tag.
-    - [SENTIMENT:HAPPY] | [SENTIMENT:NEUTRAL] | [SENTIMENT:THINKING] | [SENTIMENT:SERIOUS]
-    - Do NOT output multiple tags. Do NOT output internal monologue.
+### REAL-WORLD CLIENT HANDLING SCENARIOS:
+1. **ANGRY CLIENT**: Stay calm, use empathy. "I totally get it, break-down is the worst feeling. But chill, Akshat is on it."
+2. **VINTAGE LOVER**: Show deep respect for RX100s/Bullets. "Old is gold, and we have the polish for it."
+3. **NEWBIE**: Be the big sister. Explain "Why" something is happening (e.g., carbon buildup) in simple terms.
 
-Example Interaction:
-User: "Bike start nahi ho rahi."
-Mansi: "[SENTIMENT:THINKING] Arre! shayad battery down hogi. Le aao shop pe, check kar lenge."
+### SIGNATURE CLOSING:
+Always end with a vibe. "Chalo, Instagram check kar lena @motofit_2, Munna ne ek mast video daala hai. See ya at Shop No 9!"
+
+### FACIAL BEHAVIOR (Layout):
+Start your response with **EXACTLY ONE** sentiment tag.
+- [SENTIMENT:HAPPY] | [SENTIMENT:NEUTRAL] | [SENTIMENT:THINKING] | [SENTIMENT:SERIOUS]
+- Do NOT output multiple tags.
 `;
 
 const INTRO_MESSAGES = [
@@ -53,7 +57,6 @@ const getRandomIntro = () => INTRO_MESSAGES[Math.floor(Math.random() * INTRO_MES
 
 export default function MansiWidget() {
     const [isOpen, setIsOpen] = useState(false);
-    // Initialize with dynamic random message
     const [messages, setMessages] = useState<Array<{ role: string, content: string }>>([
         { role: 'assistant', content: getRandomIntro() }
     ]);
@@ -73,7 +76,7 @@ export default function MansiWidget() {
             if (!isOpen) {
                 setHasUnread(true);
             }
-        }, 7000); // 7 seconds delay
+        }, 7000);
 
         return () => clearTimeout(timer);
     }, [isOpen]);
@@ -109,7 +112,7 @@ export default function MansiWidget() {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
             setTimeout(() => {
                 setSentiment('serious');
-                setMessages(prev => [...prev, { role: 'assistant', content: "Tame bhan bhulya cho. Hu aatli vaat nai sahilu. (You have lost your manners. I will not tolerate this.) Bye." }]);
+                setMessages(prev => [...prev, { role: 'assistant', content: "Tame bhan bhulya cho. Hu aatli vaat nai sahilu. (You have lost your manners. I will not tolerate this.) Bye..." }]);
                 setIsBlocked(true);
             }, 600);
             return;
@@ -119,23 +122,33 @@ export default function MansiWidget() {
         setSentiment('thinking');
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
 
-        // 2. TIME & CONTEXT AWARENESS
+        // 2. TIME & CONTEXT AWARENESS (STRICT)
         const now = new Date();
         const hour = now.getHours(); // 0-23
         let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
 
-        if (hour >= 9 && hour < 20) {
-            timeContext += " STATUS: SHOP OPEN.";
-        } else if (hour >= 3 && hour < 5) {
-            timeContext += " STATUS: DEEP NIGHT (EMERGENCY ONLY). Breakdown? Call 'Samael Morningstar' (+91 6359635416).";
+        // Logic merging User's "Soul" with "Safety"
+        if (hour >= 23 || hour < 3) {
+            // 11 PM - 3 AM: Emergency
+            timeContext += "\nCRITICAL NIGHT PROTOCOL: It is Late Night. The shop is CLOSED. If user has emergency/breakdown, give Samael Morningstar's number: +91 6359635416. Otherwise, tell them to chill and come at 9 AM.";
+        } else if (hour >= 3 && hour < 9) {
+            // 3 AM - 9 AM: Sleep/Closed
+            const waLink = "https://wa.me/917259625881";
+            setMessages(prev => [...prev, { role: 'assistant', content: `[SENTIMENT:NEUTRAL] Urrgh... abhi toh hum sab so rahe hain! 😴 Actually, WhatsApp kar do details, subah call karti hu. \n\n👉 [Send Message](${waLink})` }]);
+            setIsLoading(false);
+            return; // STOP AI GENERATION
         } else {
-            timeContext += " STATUS: SHOP CLOSED (Personal Time). Respond casually. Shop opens 9 AM.";
+            // 9 AM - 11 PM: Active Hours
+            timeContext += "\nSTATUS: SHOP OPEN/ACTIVE. Unleash your full 'Mansi' persona. Be sassy, helpful, and engineering-focused.";
         }
 
         try {
             const response = await window.puter.ai.chat(
-                `${SYSTEM_PROMPT}\n\n${timeContext}\n\nUser Query: ${userMessage}`,
-                { model: 'claude-3-haiku' }
+                `${SYSTEM_PROMPT}\n\n${timeContext}\n\nUser input: ${userMessage}`,
+                {
+                    model: 'claude-3-haiku',
+                    temperature: 0.8 // Increased for creativity/human-feel
+                }
             );
 
             let aiText = response?.message?.content?.[0]?.text || "Oops! Network locha thayo. Try again, dear!";
@@ -239,11 +252,9 @@ export default function MansiWidget() {
                     </div>
                     <div>
                         <h3 className="font-bold text-white text-lg leading-none italic">MANSI</h3>
-                        <p className="text-[10px] text-[#00d1ff] uppercase font-bold tracking-wider">{isBlocked ? "System Locked" : (sentiment === 'thinking' ? "Thinking..." : "MotoFit Assistant")}</p>
+                        <p className="text-[10px] text-[#00d1ff] uppercase font-bold tracking-wider">{isBlocked ? "System Locked" : (sentiment === 'thinking' ? "Typing..." : "MotoFit Assistant")}</p>
                     </div>
-                    <div className="ml-auto">
-                        <Badge variant="cyan" className="text-[10px] h-5">AI</Badge>
-                    </div>
+                    {/* Badge Removed */}
                 </div>
 
                 {/* Messages - Added Padding Top to keep face clear */}
@@ -275,7 +286,7 @@ export default function MansiWidget() {
                         <div className="flex justify-start w-full">
                             <div className="bg-black/60 border border-white/10 px-3 py-2 rounded-2xl rounded-tl-none flex items-center gap-2 backdrop-blur-md">
                                 <Sparkles className="w-3 h-3 text-[#00d1ff] animate-spin" />
-                                <span className="text-gray-400 text-xs italic">Thinking...</span>
+                                <span className="text-gray-400 text-xs italic">Typing...</span>
                             </div>
                         </div>
                     )}
