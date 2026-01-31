@@ -184,18 +184,28 @@ Is this slot available?`;
                                     </div>
                                 ) : (
                                     /* Success State - Mansi's Message */
-                                    <div className="text-center space-y-6 py-4">
-                                        <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#00d1ff] mx-auto shadow-[0_0_20px_rgba(0,209,255,0.3)]">
+                                    <div className="flex flex-col h-full">
+                                        {/* Large High-Impact Image */}
+                                        <div className="relative w-full h-[300px] rounded-2xl overflow-hidden border border-[#00d1ff]/30 shadow-[0_0_40px_rgba(0,209,255,0.15)] flex-shrink-0">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img src="/images/mansi-reel.png" alt="Mansi" className="w-full h-full object-cover" />
+                                            <img
+                                                src="/images/mansi-slit-dress.png"
+                                                alt="Mansi Style"
+                                                className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+
+                                            {/* Overlay Text */}
+                                            <div className="absolute bottom-4 left-4 right-4">
+                                                <h3 className="text-2xl font-bold text-white italic drop-shadow-md">"Best decision, yaar!"</h3>
+                                            </div>
                                         </div>
 
-                                        <div className="space-y-2">
-                                            <h3 className="text-2xl font-bold text-[#00d1ff] italic">"Thanks for choosing us!"</h3>
-                                            <p className="text-gray-300 text-sm leading-relaxed max-w-xs mx-auto">
-                                                Arre, best decision! Akshat bhai is the best tech in town.
+                                        <div className="space-y-3 text-center pt-6 px-2">
+                                            <p className="text-gray-300 text-sm leading-relaxed">
+                                                <span className="text-[#00d1ff] font-bold">Protocol Initiated.</span>
                                                 <br />
-                                                Click below to send the details on WhatsApp, and I'll book your slot ASAP! 🏍️💨
+                                                Akshat bhai is already prepping the bay. Send the data on WhatsApp to lock it in!
                                             </p>
                                         </div>
                                     </div>
@@ -211,7 +221,7 @@ Is this slot available?`;
                                         onClick={handleWhatsApp}
                                     >
                                         <MessageCircle size={20} className="mr-2 group-hover:scale-110 transition-transform" />
-                                        <span className="font-bold uppercase tracking-widest">Transmit Protocol</span>
+                                        <span className="font-bold uppercase tracking-widest">Secure Garage Slot</span>
                                     </GlassButton>
                                 ) : (
                                     <GlassButton
@@ -228,7 +238,7 @@ Is this slot available?`;
                                     <div className="flex items-center justify-center gap-2 mt-4">
                                         <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
                                         <p className="text-[9px] text-[#555] font-mono uppercase tracking-[0.2em]">
-                                            Secure Channel // 128-bit Encrypted
+                                            AI Optimized Booking // Shop No 9
                                         </p>
                                     </div>
                                 )}
