@@ -129,7 +129,7 @@ You must split them into these 5 Specific Clusters:
 
 #### CLUSTER 5: MOTOFIT 2 LOGISTICS(5 Questions)
             - Focus on: "Open times", "Location strictly in Chandkheda", "Spare parts availability", "Owner info (Akshat Mohanty)".
-            - Note: We are NOT in Maninagar. We are near New CG Road, Chandkheda.
+            - Note: We are NOT in Maninagar. Our exact address is: **MotoFit 2, Shop No 9, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad - 382424**.
 
 ### SECURITY PROTOCOLS(Code: RED - LINE):
         1. ** PRICING FIREWALL:** NEVER give specific prices OR RANGES. "Visit Shop No 9 in Chandkheda for a proper estimate."
