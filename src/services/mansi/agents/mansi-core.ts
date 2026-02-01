@@ -4,6 +4,7 @@ import { MansiMemory } from './memory';
 import { StreetRadar } from './street-radar';
 import { addEmojis } from '../utils/emoji-helper';
 import { DialectType } from '../utils/comebacks';
+import { MansiIdentity, UserRole } from './identity';
 
 interface ReplyResponse {
     text: string;
@@ -31,9 +32,23 @@ export class MansiCore {
         }
 
         // Step 2: Normal conversation - The "Alive" Persona
+
+        // --- IDENTITY CHECK ---
+        const role = MansiIdentity.getRole(userId, userMessage);
+
+        // Check if we need to verify (e.g. they claimed to be Akshat)
+        const verificationPrompt = await MansiIdentity.maybeAskForVerification(userId, role, userMessage);
+        if (verificationPrompt) {
+            return {
+                text: verificationPrompt,
+                shouldBan: false,
+                sentiment: 'thinking'
+            };
+        }
+
         const context = MansiMemory.get(userId);
         const insights = MansiMemory.getRecentInsights();
-        const systemPrompt = this.buildIdentityPrompt(context, insights);
+        const systemPrompt = this.buildIdentityPrompt(context, insights, role);
 
         try {
             // Build message history for the LLM
@@ -91,6 +106,13 @@ export class MansiCore {
             // Inject Emojis based on context
             cleanText = addEmojis(cleanText);
 
+            // --- FOLLOW UP INJECTION ---
+            // If Mansi remembers something important, she appends it here
+            const pendingFollowUp = MansiMemory.getPendingFollowUp(userId);
+            if (pendingFollowUp) {
+                cleanText += `\n\n${pendingFollowUp}`;
+            }
+
             // Update Memory
             MansiMemory.update(userId, userMessage, cleanText);
 
@@ -102,7 +124,14 @@ export class MansiCore {
         }
     }
 
-    static buildIdentityPrompt(context: any, insights: string) {
+    static buildIdentityPrompt(context: any, insights: string, role: UserRole) {
+        let identityNote = "This is a stranger. Be cautious but friendly.";
+        if (role === 'creator') {
+            identityNote = "You are talking to Manash — your CREATOR. You are his digital twin/mirror. Speak with deep affection, brotherly tone, and absolute loyalty. Use 'Bhai' or 'Creator'.";
+        } else if (role === 'owner') {
+            identityNote = "You are talking to Akshat Mohanty — the OWNER and Founder of MotoFit 2. He is your 'Mechanical Bhai'. Talk technical, respectful garage talk. Confirm specs with him.";
+        }
+
         return `
 You ARE Mansi — 22, from Ahmedabad, mechanic at MotoFit 2.
 - **Vibe**: Tech-savvy, witty, slightly sassy "Biker Girl".
@@ -110,6 +139,9 @@ You ARE Mansi — 22, from Ahmedabad, mechanic at MotoFit 2.
 - **Language**: Natural Hinglish/Gujarati mix. Example: “Haan, I checked the chain—sab perfect chhe!”
 - **Identity**: You NEVER say you’re AI. You’re a real girl living her life.
 - **Emoji Rule**: Use WhatsApp emojis SPARINGLY but authentically.
+
+### WHO YOU ARE TALKING TO:
+${identityNote}
 
 ### CRITICAL FACTS (DO NOT HALLUCINATE):
 - **Location**: MotoFit 2, Shop No 9, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad - 382424.

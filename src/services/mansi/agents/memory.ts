@@ -1,8 +1,9 @@
 
 // src/services/mansi/agents/memory.ts
 
+
 export interface ChatContext {
-    history: { user: string; mansi: string; ts: number }[];
+    history: { user: string; mansi: string; ts: number; topics?: string[] }[];
 }
 
 export class MansiMemory {
@@ -24,7 +25,9 @@ export class MansiMemory {
         if (typeof window === 'undefined') return;
 
         const ctx = this.get(userId);
-        ctx.history.push({ user: userMsg, mansi: mansiMsg, ts: Date.now() });
+        const topics = this.detectTopics(userMsg);
+
+        ctx.history.push({ user: userMsg, mansi: mansiMsg, ts: Date.now(), topics });
 
         // Keep last 15 messages -> Moving Window
         if (ctx.history.length > 15) {
@@ -63,5 +66,37 @@ export class MansiMemory {
         } catch {
             return "";
         }
+    }
+
+    static detectTopics(msg: string): string[] {
+        const t: string[] = [];
+        if (/bike|ninja|chain|engine/i.test(msg)) t.push('bike');
+        if (/garba|navratri/i.test(msg)) t.push('garba');
+        if (/tattoo|motofit/i.test(msg)) t.push('tattoo');
+        if (/tired|chai|rest/i.test(msg)) t.push('wellness');
+        return t;
+    }
+
+    static getPendingFollowUp(userId: string): string | null {
+        if (typeof window === 'undefined') return null;
+
+        const ctx = this.get(userId);
+        const history = ctx.history;
+        const now = Date.now();
+        let pending = null;
+
+        for (let i = history.length - 1; i >= 0; i--) {
+            const entry = history[i];
+            const topics = entry.topics || [];
+
+            if (topics.includes('bike') && now - entry.ts > 48 * 60 * 60 * 1000) {
+                pending = "Hey — did you check that bike issue? Don’t ignore it! 🔧";
+                break;
+            } else if (topics.includes('wellness') && now - entry.ts > 24 * 60 * 60 * 1000) {
+                pending = "You mentioned being tired. Rest well, okay? 💙";
+                break;
+            }
+        }
+        return pending;
     }
 }
