@@ -50,11 +50,10 @@ export default function HighVoltageFooter() {
                     <div className="md:col-span-2">
                         <h4 className="text-white font-bold uppercase tracking-widest mb-6 border-l-2 border-[#00d1ff] pl-3">Company</h4>
                         <ul className="space-y-4">
-                            {['About Us', 'The Garage', 'Team', 'Careers', 'Contact'].map((item) => (
+                            {['About Us', 'The Garage'].map((item) => (
                                 <li key={item}>
                                     <Link
-                                        href={item === 'Contact' ? '#' : item === 'About Us' ? '/about' : '#'}
-                                        onClick={item === 'Contact' ? (e) => { e.preventDefault(); openBooking('Contact Form Inquiry'); } : undefined}
+                                        href={item === 'About Us' ? '/about' : '#'}
                                         className="text-[#999] hover:text-white transition-colors text-sm font-mono flex items-center gap-2 group"
                                     >
                                         <span className="w-1 h-1 bg-[#00d1ff] opacity-0 group-hover:opacity-100 transition-opacity" />

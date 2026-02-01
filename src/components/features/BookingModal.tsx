@@ -225,15 +225,22 @@ Is this slot available?`;
                                         <span className="font-bold uppercase tracking-widest">Secure Garage Slot</span>
                                     </GlassButton>
                                 ) : (
-                                    <GlassButton
-                                        variant="orange"
-                                        className="justify-center group h-12"
-                                        fullWidth
-                                        onClick={confirmBooking}
-                                    >
-                                        <MessageCircle size={20} className="mr-2 group-hover:scale-110 transition-transform" />
-                                        <span className="font-bold uppercase tracking-widest">Send on WhatsApp</span>
-                                    </GlassButton>
+                                    <div className="flex gap-3 w-full">
+                                        <button
+                                            onClick={() => setStep('input')}
+                                            className="px-4 rounded-md border border-[#333] text-gray-400 hover:text-white hover:border-gray-500 transition-colors uppercase text-xs font-bold tracking-wider"
+                                        >
+                                            Back
+                                        </button>
+                                        <GlassButton
+                                            variant="orange"
+                                            className="justify-center group h-12 flex-1"
+                                            onClick={confirmBooking}
+                                        >
+                                            <MessageCircle size={20} className="mr-2 group-hover:scale-110 transition-transform" />
+                                            <span className="font-bold uppercase tracking-widest">Send on WhatsApp</span>
+                                        </GlassButton>
+                                    </div>
                                 )}
 
                                 {step === 'input' && (
