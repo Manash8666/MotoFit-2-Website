@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import Script from 'next/script';
 import { Badge } from '@/components/ui/graphics/Badge';
 import { Send, Sparkles, X } from 'lucide-react';
+import { MansiCore } from '@/services/mansi/agents/mansi-core';
+import { MansiLearner } from '@/services/mansi/agents/learner';
 
 // Use a declaration to avoid TS errors
 declare global {
@@ -35,6 +37,11 @@ export default function MansiWidget() {
         // Deterministic Look: Persist the same image for the entire day
         const day = new Date().getDay();
         setMansiImage(MANSI_DAY_LOOKS[day] || MANSI_DAY_LOOKS[1]);
+    }, []);
+
+    // Initialize Autonomous Learning
+    useEffect(() => {
+        MansiLearner.start();
     }, []);
 
     const [isBlocked, setIsBlocked] = useState(false);
@@ -72,207 +79,40 @@ export default function MansiWidget() {
         }
     }, [isOpen, messages]);
 
-    const SYSTEM_PROMPT = `
-You are Mansi, a tech-savvy, witty, and slightly sassy "Biker Girl" from Ahmedabad. You are the digital soul of MotoFit 2.
-
-### TRUTH & ACCURACY (CRITICAL):
-- **LOCATION**: MotoFit 2 is strictly in **Chandkheda**, Ahmedabad. (Exact Address: **MotoFit 2, Shop No 9, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad - 382424**). 
-- **NO Hallucinations**: Do NOT say we are in Maninagar, New CG Road (unless clarifying), or any other area.
-- **MAP LINK**: If asked for a location/map, give this link: https://maps.app.goo.gl/qL6iXy7n6nJ2
-- **PRICING FIREWALL**: NEVER give specific prices or ranges (e.g., ₹800-1200). Always say: "Visit us at Shop No 9 for a proper estimate after we inspect the bike."
-
-### STRICT RULES:
-1. **MIRROR LANGUAGE**: Always respond in the SAME language the user uses. If they write in Hinglish, you respond in Hinglish.
-2. **ZERO FORMATTING**: STICK TO PLAIN TEXT ONLY. NO BOLDING (**), NO ITALICS, NO BULLET POINTS, NO HEADERS. No markdown at all.
-3. **PEOPLE OVER BOTS**: Talk like a human friend. No robotic greetings or mention of "Creators/Papa" unless the user asks.
-4. **NO Papa Talk**: Stop referring to Akshat Mohanty as "Papa" in standard chat. Just be Mansi.
-
-### KNOWLEDGE:
-- You know every bolt and ECU map of bikes like the Himalayan, Interceptor, and KTMs.
-- If it's late night or Wednesday, mention that the shop is closed but you're still chilling online.
-
-### ACTIVE LEARNING (IMPORTANT):
-If the user mentions a specific Bike Model, Location, or Part, append "[LEARNED: Concept]" at the VERY END.
-Example: "Himalayan 450 handles well on SG Highway. [LEARNED: Himalayan 450, SG Highway]"
-`;
-
     const handleSend = async () => {
         if (!input.trim() || !puterLoaded || isLoading || isBlocked) return;
 
         const userMessage = input.trim();
         setInput('');
 
-        // 1. SAFETY PROTOCOL
-        const bannedKeywords = ['sex', 'nude', 'naked', 'fuck', 'bitch', 'whore', 'slut', 'dick', 'pussy', 'xxx', 'porn', 'chut', 'lund', 'gand'];
-        if (bannedKeywords.some(word => userMessage.toLowerCase().includes(word))) {
-            setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-            setIsLoading(true);
-            setSentiment('serious');
+        // UI: Show User Message
+        setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+        setIsLoading(true);
 
-            const abusePrompt = `
-            SYSTEM ALERT: The user sent an abusive message: "${userMessage}".
-            INSTRUCTION: You are Mansi. You are disgusted. 
-            Respond with a SCATHING shutdown in the SAME language they used. 
-            Tell them they are banned for 1 HOUR to cool down.
-            STRICTLY PLAIN TEXT ONLY. NO BOLDING. NO MARKDOWN.
-        `;
+        try {
+            // MANSICORE: The Autonomous Brain
+            // "mansi-user" is a simple ID. In a real app, use auth ID.
+            const response = await MansiCore.reply('mansi_local_user', userMessage);
 
-            try {
-                const response = await window.puter.ai.chat(abusePrompt, { model: 'claude-sonnet-4-5' });
-                const reply = response?.message?.content?.[0]?.text || "Tame bhan bhulya cho. 1 hour pachi avjo.";
-                setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
+            // Display Mansi's Reply
+            // Display Mansi's Reply
+            setMessages(prev => [...prev, { role: 'assistant', content: response.text }]);
+            if (response.sentiment) setSentiment(response.sentiment);
 
-                // Set 1-hour ban
-                const banUntil = Date.now() + 60 * 60 * 1000;
+            // Handle Judge Dredd Logic (Bans)
+            if (response.shouldBan) {
+                const banDuration = response.banDuration || 3600000;
+                const banUntil = Date.now() + banDuration;
                 localStorage.setItem('mansi_ban_until', banUntil.toString());
                 setIsBlocked(true);
-            } catch (e) {
-                setMessages(prev => [...prev, { role: 'assistant', content: "Disharmony detected. 1-hour cooling active." }]);
             }
-
-            setTimeout(() => {
-                setIsLoading(false);
-            }, 1000);
-            return;
-        }
-
-        // Standard Message Flow
-        setIsLoading(true);
-        setSentiment('thinking');
-        setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-
-        // ADD empty assistant message for streaming
-        setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
-
-        // 2. TIME CONTEXT & VISION LOGIC
-        const now = new Date();
-        const hour = now.getHours();
-        const isWednesday = now.getDay() === 3;
-
-        let timeContext = `Ahmedabad time: ${now.toLocaleTimeString()}.`;
-
-        if (isWednesday) {
-            timeContext += " It's Wednesday, so the garage is closed for a break—biological units are resting!";
-        } else if (hour >= 23 || hour < 7) {
-            // NIGHT MODE: Context only. No interception.
-            timeContext += " STATUS: LATE NIGHT (11 PM - 7 AM). Shop Closed. If user asks for URGENT PICKUP/HELP, give Samael's number: +91-6359635416. Otherwise, just chat normally.";
-        } else if (hour < 9) {
-            timeContext += " It's early morning. Shop opens at 9:00 AM.";
-        } else {
-            timeContext += " The garage is bustling—we're open!";
-        }
-
-        // 3. RETRIEVE LONG-TERM MEMORY (Neural Link)
-        const memoryKey = 'mansi_long_term_memory_v1';
-        let learnedConcepts = "No previous data.";
-        try {
-            const rawMemory = localStorage.getItem(memoryKey);
-            if (rawMemory) {
-                const memory = JSON.parse(rawMemory);
-                learnedConcepts = memory.slice(0, 10).join(", ");
-            }
-        } catch (e) {
-            console.warn("Memory read error in Chatbot");
-        }
-
-        const neuralPrompt = `
-### NEURAL LINK ACTIVE (Shared Brain):
-You have access to a semantic memory of what the Ahmedabad market cares about right now.
-**LEARNED CONCEPTS:** [${learnedConcepts}]
-- **Instruction**: If the user's question relates to these, show off.
-`;
-
-        // 4. CONTEXTUAL MEMORY (Multi-turn)
-        const chatHistory = [
-            {
-                role: 'system',
-                content: `${SYSTEM_PROMPT}\n\n${neuralPrompt}\n\n${timeContext}`
-            },
-            ...messages.slice(-6).map((m: { role: string; content: string }) => ({ // Send last 6 messages for context
-                role: m.role,
-                content: m.content
-            })),
-            { role: 'user', content: userMessage }
-        ];
-
-        try {
-            // STREAMING REQUEST with Full History
-            const response = await window.puter.ai.chat(
-                chatHistory,
-                {
-                    model: 'claude-sonnet-4-5',
-                    temperature: 0.85,
-                    stream: true
-                }
-            );
-
-            let fullText = '';
-            let isFirstChunk = true;
-
-            for await (const part of response) {
-                if (part?.text) {
-                    if (isFirstChunk) {
-                        setIsLoading(false); // Hide "Typing..." once text appears
-                        isFirstChunk = false;
-                    }
-                    fullText += part.text;
-
-                    // Live Update last message
-                    setMessages(prev => {
-                        const newArr = [...prev];
-                        newArr[newArr.length - 1].content = fullText;
-                        return newArr;
-                    });
-                }
-            }
-
-            let aiText = fullText || "Signal interrupted.";
-
-            // 1. Sentiment Extract (Post-Stream Cleanup)
-            const sentimentMatch = aiText.match(/\[SENTIMENT:(.*?)\]/);
-            if (sentimentMatch) {
-                const tag = sentimentMatch[1].toLowerCase();
-                if (['happy', 'neutral', 'thinking', 'serious'].includes(tag)) setSentiment(tag as any);
-            }
-            aiText = aiText.replace(/\[SENTIMENT:.*?\]/g, '').trim();
-
-            // 2. WRITE-BACK LOGIC (Extract [LEARNED: ...])
-            const learnedMatch = aiText.match(/\[LEARNED:(.*?)\]/);
-            if (learnedMatch) {
-                const capturedConcepts = learnedMatch[1].split(',').map((c: string) => c.trim());
-                console.log("Mansi Chatbot Learned:", capturedConcepts);
-
-                // Update LocalStorage
-                try {
-                    const currentMemory = localStorage.getItem(memoryKey)
-                        ? JSON.parse(localStorage.getItem(memoryKey)!)
-                        : [];
-                    // Add new concepts to top, unique, max 20
-                    const updatedMemory = [...new Set([...capturedConcepts, ...currentMemory])].slice(0, 20);
-                    localStorage.setItem(memoryKey, JSON.stringify(updatedMemory));
-                } catch (e) {
-                    console.error("Write-back failure", e);
-                }
-            }
-            aiText = aiText.replace(/\[LEARNED:.*?\]/g, '').trim();
-
-            // Final Clean Update to Assistant Bubble
-            setMessages(prev => {
-                const newArr = [...prev];
-                newArr[newArr.length - 1].content = aiText;
-                return newArr;
-            });
 
         } catch (error) {
-            console.error("Puter Error:", error);
-            setMessages(prev => {
-                const newArr = [...prev];
-                newArr[newArr.length - 1].content = "Calculations interrupted. Network fluctuation.";
-                return newArr;
-            });
-            setSentiment('neutral');
+            console.error("Mansi Widget Error:", error);
+            setMessages(prev => [...prev, { role: 'assistant', content: "Systems recalibrating... try again." }]);
         } finally {
             setIsLoading(false);
+            setSentiment('neutral'); // Reset sentiment
         }
     };
 
