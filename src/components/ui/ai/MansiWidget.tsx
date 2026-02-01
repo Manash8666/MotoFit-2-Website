@@ -154,15 +154,8 @@ Example: "Himalayan 450 handles well on SG Highway. [LEARNED: Himalayan 450, SG 
         if (isWednesday) {
             timeContext += " It's Wednesday, so the garage is closed for a break—biological units are resting!";
         } else if (hour >= 23 || hour < 7) {
-            // NIGHT OPS (11 PM - 7 AM) -> Redirect to Samael
-            const waLink = "https://wa.me/916359635416";
-            setMessages(prev => {
-                const newArr = [...prev];
-                newArr[newArr.length - 1].content = `Late night scene? 🌙 The main garage is closed. For urgent queries between 11 PM - 7 AM, message **Samael**: ${waLink}`;
-                return newArr;
-            });
-            setIsLoading(false);
-            return;
+            // NIGHT MODE: Context only. No interception.
+            timeContext += " STATUS: LATE NIGHT (11 PM - 7 AM). Shop Closed. If user asks for URGENT PICKUP/HELP, give Samael's number: +91-6359635416. Otherwise, just chat normally.";
         } else if (hour < 9) {
             timeContext += " It's early morning. Shop opens at 9:00 AM.";
         } else {
@@ -383,7 +376,7 @@ You have access to a semantic memory of what the Ahmedabad market cares about ri
                         <div>
                             <div className="flex items-center gap-2">
                                 <h3 className="font-bold text-white text-sm shadow-black drop-shadow-md">mansi_motofit2</h3>
-                                <div className="bg-[#ff5e1a] text-black text-[8px] px-1 rounded-sm font-black tracking-tighter">SONNET_4.5</div>
+                                <div className="bg-[#ff5e1a] text-black text-[8px] px-1 rounded-sm font-black tracking-tighter">ONLINE</div>
                             </div>
                             <p className="text-[10px] text-white/80 shadow-black drop-shadow-md">Nigam Nagar • Garage Life 🔧</p>
                         </div>
@@ -406,9 +399,8 @@ You have access to a semantic memory of what the Ahmedabad market cares about ri
                                 {msg.role === 'assistant' && (
                                     <div className="flex items-center justify-between gap-4 mb-1">
                                         <span className="block text-[#ff5e1a] font-black text-[10px] tracking-widest opacity-80">
-                                            MANSI // DIGITAL_CORE
+                                            MANSI
                                         </span>
-                                        <Sparkles className="w-3 h-3 text-[#ff5e1a] opacity-50" />
                                     </div>
                                 )}
                                 {msg.content}
@@ -418,11 +410,8 @@ You have access to a semantic memory of what the Ahmedabad market cares about ri
                     {isLoading && (
                         <div className="flex justify-start w-full">
                             <div className="bg-[#111]/80 px-4 py-3 rounded-r-2xl rounded-bl-2xl rounded-tl-sm backdrop-blur-md border-l-2 border-[#ff5e1a]/50">
-                                <span className="block text-[#ff5e1a] font-black text-[10px] tracking-widest mb-1 opacity-80">
-                                    MANSI IS THINKING...
-                                </span>
                                 <span className="text-white/70 text-xs italic animate-pulse">
-                                    Checking garage logs... 🔧
+                                    typing...
                                 </span>
                             </div>
                         </div>
