@@ -5,6 +5,7 @@ import Script from 'next/script';
 import { Badge } from '@/components/ui/graphics/Badge';
 import { Send, Sparkles, X } from 'lucide-react';
 import { MansiCore } from '@/services/mansi/agents/mansi-core';
+import { ROGPhoneFrame } from './ROGPhoneFrame';
 import { MansiLearner } from '@/services/mansi/agents/learner';
 
 // Use a declaration to avoid TS errors
@@ -194,100 +195,17 @@ export default function MansiWidget() {
                 </button>
             </div>
 
-            {/* Chat Window - "Instagram Reel" Style */}
-            <div
-                className={`fixed bottom-24 right-4 md:right-6 w-[90vw] md:w-[400px] bg-black/95 border border-[#333] rounded-3xl shadow-2xl z-40 flex flex-col transition-all duration-500 origin-bottom-right overflow-hidden ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-90 translate-y-10 pointer-events-none'}`}
-                style={{ height: 'min(650px, 80vh)' }}
-            >
-                {/* Full Screen Background (Reel) */}
-                <div
-                    className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700"
-                    style={{ backgroundImage: `url(${mansiImage})` }}
-                />
-                <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-black/20 to-black/90 pointer-events-none" />
-
-                {/* Header - Minimal "Live" Vibe */}
-                <div className="relative z-10 p-4 pt-6 flex items-center justify-between bg-gradient-to-b from-black/60 to-transparent">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full overflow-hidden border border-white/50">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={mansiImage} alt="Mansi" className="w-full h-full object-cover" />
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-2">
-                                <h3 className="font-bold text-white text-sm shadow-black drop-shadow-md">mansi_motofit2</h3>
-                                <div className="bg-[#ff5e1a] text-black text-[8px] px-1 rounded-sm font-black tracking-tighter">ONLINE</div>
-                            </div>
-                            <p className="text-[10px] text-white/80 shadow-black drop-shadow-md">Nigam Nagar • Garage Life 🔧</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Messages Area - Bottom Heavy (Like Live Comments) */}
-                <div className="relative z-10 flex-1 overflow-y-auto p-4 space-y-3 pt-[350px] pointer-events-auto custom-scrollbar">
-                    {messages.length === 0 && (
-                        <div className="text-white/50 text-center text-sm italic mt-10">
-                            Start chatting with Mansi...
-                        </div>
-                    )}
-                    {messages.map((msg: { role: string; content: string }, idx: number) => (
-                        <div key={idx} className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                            <div className={`max-w-[85%] px-4 py-3 text-sm backdrop-blur-md shadow-sm 
-                                ${msg.role === 'user'
-                                    ? 'bg-white/10 text-white rounded-2xl rounded-tr-sm border border-white/10'
-                                    : 'bg-[#111]/80 text-white font-medium rounded-r-2xl rounded-bl-2xl rounded-tl-sm border-l-2 border-[#ff5e1a]'}`}>
-                                {msg.role === 'assistant' && (
-                                    <div className="flex items-center justify-between gap-4 mb-1">
-                                        <span className="block text-[#ff5e1a] font-black text-[10px] tracking-widest opacity-80">
-                                            MANSI
-                                        </span>
-                                    </div>
-                                )}
-                                {msg.content}
-                            </div>
-                        </div>
-                    ))}
-                    {isLoading && (
-                        <div className="flex justify-start w-full">
-                            <div className="bg-[#111]/80 px-4 py-3 rounded-r-2xl rounded-bl-2xl rounded-tl-sm backdrop-blur-md border-l-2 border-[#ff5e1a]/50">
-                                <span className="text-white/70 text-xs italic animate-pulse">
-                                    typing...
-                                </span>
-                            </div>
-                        </div>
-                    )}
-                    <div ref={chatEndRef} />
-                </div>
-
-                {/* Input Area */}
-                <div className="p-3 bg-black/80 backdrop-blur-xl border-t border-white/10">
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={handleImageAnalysis}
-                            disabled={!puterLoaded || isLoading || isBlocked}
-                            className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors"
-                        >
-                            <Sparkles className="w-5 h-5 text-[#ff5e1a]" />
-                        </button>
-                        <input
-                            type="text"
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            onKeyDown={handleKeyPress}
-                            placeholder="Message..."
-                            disabled={!puterLoaded || isLoading || isBlocked}
-                            className="flex-1 bg-white/10 text-white border-none rounded-full px-4 py-3 text-sm focus:ring-1 focus:ring-white/30 placeholder:text-white/50"
-                        />
-                        <button
-                            onClick={handleSend}
-                            disabled={!input.trim() || !puterLoaded || isLoading || isBlocked}
-                            className="text-[#00d1ff] p-2 hover:scale-110 transition-transform"
-                        >
-                            <Send className="w-5 h-5" />
-                        </button>
-                    </div>
-                </div>
-            </div>
+            {/* The ROG Phone 9 Experience */}
+            <ROGPhoneFrame
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                messages={messages}
+                input={input}
+                setInput={setInput}
+                onSend={handleSend}
+                isLoading={isLoading}
+                mansiImage={mansiImage}
+            />
         </>
     );
 }
