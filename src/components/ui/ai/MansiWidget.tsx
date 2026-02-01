@@ -153,17 +153,18 @@ Example: "Himalayan 450 handles well on SG Highway. [LEARNED: Himalayan 450, SG 
 
         if (isWednesday) {
             timeContext += " It's Wednesday, so the garage is closed for a break—biological units are resting!";
-        } else if (hour >= 23 || hour < 3) {
-            timeContext += " It's middle of the night—shop is closed, only I'm awake in the cloud.";
-        } else if (hour >= 3 && hour < 9) {
-            const waLink = "https://wa.me/917259625881";
+        } else if (hour >= 23 || hour < 7) {
+            // NIGHT OPS (11 PM - 7 AM) -> Redirect to Samael
+            const waLink = "https://wa.me/916359635416";
             setMessages(prev => {
                 const newArr = [...prev];
-                newArr[newArr.length - 1].content = `Oye, it's too early! 😴 I'm still recharging my logic gates. Ping me on WhatsApp: ${waLink}`;
+                newArr[newArr.length - 1].content = `Late night scene? 🌙 The main garage is closed. For urgent queries between 11 PM - 7 AM, message **Samael**: ${waLink}`;
                 return newArr;
             });
             setIsLoading(false);
             return;
+        } else if (hour < 9) {
+            timeContext += " It's early morning. Shop opens at 9:00 AM.";
         } else {
             timeContext += " The garage is bustling—we're open!";
         }
