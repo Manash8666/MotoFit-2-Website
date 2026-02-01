@@ -15,6 +15,7 @@ interface InstagramUIProps {
     setInput: (val: string) => void;
     onSend: () => void;
     isLoading: boolean;
+    mansiImage?: string;
 }
 
 const STORIES = [
@@ -25,7 +26,7 @@ const STORIES = [
 
 const REACTION_EMOJIS = ['❤️', '😂', '🔥', '😮', '😢', '👍'];
 
-export function InstagramUI({ messages: initialMessages, input, setInput, onSend, isLoading }: InstagramUIProps) {
+export function InstagramUI({ messages: initialMessages, input, setInput, onSend, isLoading, mansiImage }: InstagramUIProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [messages, setMessages] = useState(initialMessages);
     const [openReactionId, setOpenReactionId] = useState<number | null>(null);
@@ -52,9 +53,15 @@ export function InstagramUI({ messages: initialMessages, input, setInput, onSend
 
     return (
         <div className="flex flex-col h-full bg-black text-white font-sans relative">
+            {/* Background Image - Mansi (Low Opacity for Vibes) */}
+            <div
+                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-20 pointer-events-none"
+                style={{ backgroundImage: `url(${mansiImage || '/images/reels/mansi-party.png'})` }}
+            />
+            <div className="absolute inset-0 z-0 bg-black/80 pointer-events-none" />
 
             {/* Header */}
-            <div className="p-4 border-b border-white/10 flex items-center gap-3 bg-[#111]">
+            <div className="p-4 border-b border-white/10 flex items-center gap-3 bg-[#111]/90 backdrop-blur-sm relative z-10 shadow-sm">
                 <div className="w-9 h-9 rounded-full p-[2px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888]">
                     <div className="w-full h-full rounded-full border-2 border-black overflow-hidden">
                         <img src="/images/reels/mansi-party.png" alt="Mansi" className="w-full h-full object-cover" />

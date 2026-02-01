@@ -84,6 +84,7 @@ export function ROGPhoneFrame({ isOpen, onClose, messages, input, setInput, onSe
                         setInput={setInput}
                         onSend={onSend}
                         isLoading={isLoading}
+                        mansiImage={mansiImage}
                     />
                 )}
 

@@ -28,11 +28,11 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansi
         <div className="flex flex-col h-full bg-[#E5DDD5] relative font-sans">
             {/* WhatsApp Background - Mansi Image */}
             <div
-                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-20 pointer-events-none"
+                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-35 pointer-events-none"
                 style={{ backgroundImage: `url(${mansiImage || '/images/reels/mansi-garage.png'})` }}
             />
             {/* Gradient Overlay for Readability */}
-            <div className="absolute inset-0 z-0 bg-white/40 pointer-events-none" />
+            <div className="absolute inset-0 z-0 bg-white/60 pointer-events-none" />
 
             {/* Header */}
             <div className="bg-[#075E54] p-3 flex items-center gap-3 text-white z-10 shadow-md">
@@ -78,7 +78,7 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansi
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && onSend()}
                     placeholder="Type a message"
-                    className="flex-1 bg-white rounded-full px-4 py-2 text-sm focus:outline-none border-none shadow-sm"
+                    className="flex-1 bg-white text-black rounded-full px-4 py-2 text-sm focus:outline-none border-none shadow-sm"
                 />
                 <button
                     onClick={onSend}
