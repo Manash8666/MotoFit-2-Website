@@ -14,9 +14,10 @@ interface WhatsAppUIProps {
     setInput: (val: string) => void;
     onSend: () => void;
     isLoading: boolean;
+    mansiImage?: string;
 }
 
-export function WhatsAppUI({ messages, input, setInput, onSend, isLoading }: WhatsAppUIProps) {
+export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansiImage }: WhatsAppUIProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -25,8 +26,13 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading }: Wha
 
     return (
         <div className="flex flex-col h-full bg-[#E5DDD5] relative font-sans">
-            {/* WhatsApp Doodle Background */}
-            <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')] bg-repeat" />
+            {/* WhatsApp Background - Mansi Image */}
+            <div
+                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-20 pointer-events-none"
+                style={{ backgroundImage: `url(${mansiImage || '/images/reels/mansi-garage.png'})` }}
+            />
+            {/* Gradient Overlay for Readability */}
+            <div className="absolute inset-0 z-0 bg-white/40 pointer-events-none" />
 
             {/* Header */}
             <div className="bg-[#075E54] p-3 flex items-center gap-3 text-white z-10 shadow-md">
