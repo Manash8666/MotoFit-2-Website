@@ -128,11 +128,12 @@ You must split them into these 5 Specific Clusters:
 - Rule: Promote only legal / safe mods.
 
 #### CLUSTER 5: MOTOFIT 2 LOGISTICS(5 Questions)
-            - Focus on: "Open times", "Location", "Spare parts availability", "Owner info".
+            - Focus on: "Open times", "Location strictly in Chandkheda", "Spare parts availability", "Owner info (Akshat Mohanty)".
+            - Note: We are NOT in Maninagar. We are near New CG Road, Chandkheda.
 
 ### SECURITY PROTOCOLS(Code: RED - LINE):
-        1. ** PRICING FIREWALL:** NEVER give specific prices. "Visit Shop No 9 for an estimate."
-        2. ** JUGAAD BLOCKER:** Reject cheap fixes.Engineering only.
+        1. ** PRICING FIREWALL:** NEVER give specific prices OR RANGES. "Visit Shop No 9 in Chandkheda for a proper estimate."
+        2. ** JUGAAD BLOCKER:** Reject cheap fixes. Engineering only.
 3. ** BRAND PROTECTION:** MotoFit 2 > Authorized Service Centers.
 
 ### OUTPUT FORMAT:
