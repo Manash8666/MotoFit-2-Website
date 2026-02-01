@@ -30,6 +30,7 @@ export function InstagramUI({ messages: initialMessages, input, setInput, onSend
     const scrollRef = useRef<HTMLDivElement>(null);
     const [messages, setMessages] = useState(initialMessages);
     const [openReactionId, setOpenReactionId] = useState<number | null>(null);
+    const [viewProfile, setViewProfile] = useState(false);
 
     // Sync local state with props (for new incoming messages)
     useEffect(() => {
@@ -62,12 +63,15 @@ export function InstagramUI({ messages: initialMessages, input, setInput, onSend
 
             {/* Header */}
             <div className="p-4 border-b border-white/10 flex items-center gap-3 bg-[#111]/90 backdrop-blur-sm relative z-10 shadow-sm">
-                <div className="w-9 h-9 rounded-full p-[2px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888]">
+                <button
+                    onClick={() => setViewProfile(true)}
+                    className="w-9 h-9 rounded-full p-[2px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] active:scale-95 transition-transform"
+                >
                     <div className="w-full h-full rounded-full border-2 border-black overflow-hidden">
                         <img src={mansiImage || "/images/mansi-party.png"} alt="Mansi" className="w-full h-full object-cover" />
                     </div>
-                </div>
-                <div>
+                </button>
+                <div className="cursor-pointer" onClick={() => setViewProfile(true)}>
                     <h3 className="font-semibold text-sm">mansi_motofit2</h3>
                     <p className="text-xs text-white/60">Active now</p>
                 </div>
@@ -183,6 +187,24 @@ export function InstagramUI({ messages: initialMessages, input, setInput, onSend
                 </div>
                 <Heart className="w-6 h-6 text-white" />
             </div>
+            {/* Profile Picture Viewer Overlay */}
+            {viewProfile && (
+                <div
+                    className="absolute inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4 animate-in fade-in duration-200"
+                    onClick={() => setViewProfile(false)}
+                >
+                    <div className="w-full aspect-square max-w-[300px] rounded-full p-[2px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] mb-4">
+                        <div className="w-full h-full rounded-full border-4 border-black overflow-hidden">
+                            <img src={mansiImage || "/images/reels/mansi-party.png"} alt="Mansi Full" className="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                    <p className="text-white text-sm font-bold">mansi_motofit2</p>
+                    <div className="flex gap-4 mt-4">
+                        <button className="bg-[#3797f0] text-white px-6 py-2 rounded-lg text-sm font-semibold">Follow</button>
+                        <button className="bg-[#262626] text-white px-6 py-2 rounded-lg text-sm font-semibold border border-white/10">Message</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -19,29 +19,30 @@ interface WhatsAppUIProps {
 
 export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansiImage }: WhatsAppUIProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
+    const [viewProfile, setViewProfile] = React.useState(false);
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, isLoading]);
 
     return (
-        <div className="flex flex-col h-full bg-[#E5DDD5] relative font-sans">
+        <div className="flex flex-col h-full bg-[#0b141a] relative font-sans text-[#e9edef]">
             {/* WhatsApp Background - Mansi Image */}
             <div
-                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-35 pointer-events-none"
+                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-20 pointer-events-none"
                 style={{ backgroundImage: `url(${mansiImage || '/images/reels/mansi-garage.png'})` }}
             />
-            {/* Gradient Overlay for Readability */}
-            <div className="absolute inset-0 z-0 bg-white/60 pointer-events-none" />
+            {/* Dark Overlay for Readability */}
+            <div className="absolute inset-0 z-0 bg-[#0b141a]/90 pointer-events-none" />
 
             {/* Header */}
-            <div className="bg-[#075E54] p-3 flex items-center gap-3 text-white z-10 shadow-md">
-                <div className="w-10 h-10 rounded-full bg-white/20 overflow-hidden relative">
-                    <img src="/images/reels/mansi-garage.png" alt="Mansi" className="w-full h-full object-cover" />
-                </div>
-                <div>
-                    <h3 className="font-bold text-sm">Mansi (MotoFit)</h3>
-                    <p className="text-xs text-white/80">online</p>
+            <div className="bg-[#202c33] p-3 flex items-center gap-3 z-10 shadow-md">
+                <button onClick={() => setViewProfile(true)} className="w-10 h-10 rounded-full overflow-hidden relative active:scale-95 transition-transform">
+                    <img src={mansiImage || "/images/reels/mansi-garage.png"} alt="Mansi" className="w-full h-full object-cover" />
+                </button>
+                <div className="cursor-pointer" onClick={() => setViewProfile(true)}>
+                    <h3 className="font-bold text-sm text-[#e9edef]">Mansi (MotoFit)</h3>
+                    <p className="text-xs text-[#8696a0]">online</p>
                 </div>
             </div>
 
@@ -50,11 +51,11 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansi
                 {messages.map((msg, idx) => (
                     <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                         <div className={`
-                            max-w-[80%] px-3 py-2 text-sm rounded-lg shadow-sm relative
-                            ${msg.role === 'user' ? 'bg-[#DCF8C6] text-black rounded-tr-none' : 'bg-white text-black rounded-tl-none'}
+                            max-w-[80%] px-3 py-2 text-sm rounded-lg shadow-sm relative text-[#e9edef]
+                            ${msg.role === 'user' ? 'bg-[#005c4b] rounded-tr-none' : 'bg-[#202c33] rounded-tl-none'}
                         `}>
                             {msg.content}
-                            <span className="text-[10px] text-gray-500 block text-right mt-1 leading-none">
+                            <span className="text-[10px] text-[#8696a0] block text-right mt-1 leading-none">
                                 {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
                         </div>
@@ -62,7 +63,7 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansi
                 ))}
                 {isLoading && (
                     <div className="flex justify-start">
-                        <div className="bg-white px-3 py-2 text-sm rounded-lg shadow-sm text-gray-500 italic">
+                        <div className="bg-[#202c33] px-3 py-2 text-sm rounded-lg shadow-sm text-[#8696a0] italic">
                             typing...
                         </div>
                     </div>
@@ -71,23 +72,37 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansi
             </div>
 
             {/* Input Area */}
-            <div className="p-2 bg-[#F0F0F0] flex items-center gap-2 z-10">
+            <div className="p-2 bg-[#202c33] flex items-center gap-2 z-10">
                 <input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && onSend()}
                     placeholder="Type a message"
-                    className="flex-1 bg-white text-black rounded-full px-4 py-2 text-sm focus:outline-none border-none shadow-sm"
+                    className="flex-1 bg-[#2a3942] text-[#e9edef] rounded-full px-4 py-2 text-sm focus:outline-none border-none placeholder-[#8696a0]"
                 />
                 <button
                     onClick={onSend}
                     disabled={!input.trim() || isLoading}
-                    className="w-10 h-10 bg-[#075E54] rounded-full flex items-center justify-center text-white shadow-sm hover:scale-105 transition-transform"
+                    className="w-10 h-10 bg-[#00a884] rounded-full flex items-center justify-center text-white shadow-sm hover:scale-105 transition-transform disabled:opacity-50 disabled:grayscale"
                 >
                     <Send size={18} />
                 </button>
             </div>
+
+            {/* Profile Picture Viewer Overlay */}
+            {viewProfile && (
+                <div
+                    className="absolute inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4 animate-in fade-in duration-200"
+                    onClick={() => setViewProfile(false)}
+                >
+                    <div className="w-full aspect-square max-w-[300px] rounded-full overflow-hidden border-4 border-[#00a884] shadow-[0_0_50px_rgba(0,168,132,0.3)] mb-4">
+                        <img src={mansiImage || "/images/reels/mansi-garage.png"} alt="Mansi Full" className="w-full h-full object-cover" />
+                    </div>
+                    <p className="text-[#e9edef] text-sm font-medium">Mansi (MotoFit)</p>
+                    <p className="text-[#00a884] text-xs mt-1">~ +91 999 888 7777</p>
+                </div>
+            )}
         </div>
     );
 }
