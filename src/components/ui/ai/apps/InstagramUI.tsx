@@ -19,9 +19,9 @@ interface InstagramUIProps {
 }
 
 const STORIES = [
-    { title: 'Garage', icon: '🔧', color: '#ff2d75', img: '/images/reels/mansi-garage.png' },
-    { title: 'Garba', icon: '💃', color: '#f09433', img: '/images/reels/mansi-garba.jpg' },
-    { title: 'MotoFit', icon: '💙', color: '#00d1ff', img: '/images/reels/mansi-bike.jpg' },
+    { title: 'Garage', icon: '🔧', color: '#ff2d75', img: '/images/reels/mansi-day-1.png' },
+    { title: 'Garba', icon: '💃', color: '#f09433', img: '/images/reels/mansi-day-4.png' },
+    { title: 'MotoFit', icon: '💙', color: '#00d1ff', img: '/images/reels/mansi-day-6.png' },
 ];
 
 const REACTION_EMOJIS = ['❤️', '😂', '🔥', '😮', '😢', '👍'];
@@ -53,13 +53,14 @@ export function InstagramUI({ messages: initialMessages, input, setInput, onSend
     };
 
     return (
-        <div className="flex flex-col h-full bg-black text-white font-sans relative">
-            {/* Background Image - Mansi (Low Opacity for Vibes) */}
+        <div className="flex flex-col h-full bg-black text-white font-sans relative overflow-hidden">
+            {/* Background Image - Persistent Chat Wallpaper */}
             <div
-                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-20 pointer-events-none"
-                style={{ backgroundImage: `url(${mansiImage || '/images/reels/mansi-party.png'})` }}
+                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-30 pointer-events-none"
+                style={{ backgroundImage: `url(${mansiImage || '/images/reels/mansi-day-0.png'})` }}
             />
-            <div className="absolute inset-0 z-0 bg-black/80 pointer-events-none" />
+            {/* Gradient Overlay for Text Readability */}
+            <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70 pointer-events-none" />
 
             {/* Header */}
             <div className="p-4 border-b border-white/10 flex items-center gap-3 bg-[#111]/90 backdrop-blur-sm relative z-10 shadow-sm">
