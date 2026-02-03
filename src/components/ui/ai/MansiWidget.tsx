@@ -16,13 +16,13 @@ declare global {
 }
 
 const MANSI_DAY_LOOKS: Record<number, string> = {
-    0: '/images/mansi-party.png',      // Sunday: Party Look
-    1: '/images/reels/mansi-garage.png', // Monday: Garage Grind
-    2: '/images/reels/mansi-tea.png',    // Tuesday: Tea Break
-    3: '/images/reels/mansi-rain.jpg',   // Wednesday: Rainy/Sabbatical
-    4: '/images/reels/mansi-garba.jpg',  // Thursday: Traditional/Garba
-    5: '/images/reels/mansi-market.jpg', // Friday: Market/Street
-    6: '/images/reels/mansi-bike.jpg'    // Saturday: Weekend Ride
+    0: '/images/reels/mansi-day-0.png',      // Sunday
+    1: '/images/reels/mansi-day-1.png',      // Monday
+    2: '/images/reels/mansi-day-2.png',      // Tuesday
+    3: '/images/reels/mansi-day-3.png',      // Wednesday
+    4: '/images/reels/mansi-day-4.png',      // Thursday
+    5: '/images/reels/mansi-day-5.png',      // Friday
+    6: '/images/reels/mansi-day-6.png'       // Saturday
 };
 
 export default function MansiWidget() {
@@ -40,10 +40,12 @@ export default function MansiWidget() {
         setMansiImage(MANSI_DAY_LOOKS[day] || MANSI_DAY_LOOKS[1]);
     }, []);
 
-    // Initialize Autonomous Learning
+    // Initialize Autonomous Learning ONLY when user interacts
     useEffect(() => {
-        MansiLearner.start();
-    }, []);
+        if (isOpen) {
+            MansiLearner.start();
+        }
+    }, [isOpen]);
 
     const [isBlocked, setIsBlocked] = useState(false);
 

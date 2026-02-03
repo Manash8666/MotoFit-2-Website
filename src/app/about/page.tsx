@@ -95,6 +95,13 @@ export default function AboutPage() {
                                 role: "The Oracle",
                                 desc: "The bridge between the digital ether and proper combustion. Samael weaves the narrative of your build, optimizing the signal-to-noise ratio in both client comms and search engine algorithms.",
                                 specialty: "Client Experience, SEO & AIO Intelligence"
+                            },
+                            {
+                                name: "Mansi (AI)",
+                                role: "The Digital Soul",
+                                desc: "Born from the code, living in the cloud. Mansi is the intelligent layer of MotoFit 2, constantly learning, adapting, and ensuring your experience is as precise as our torque wrenches.",
+                                specialty: "User Experience & Pattern Recognition",
+                                image: "/images/reels/mansi-about.png"
                             }
                         ].map((member, i) => (
                             <TeamCard key={i} {...member} delay={i * 0.1} />
