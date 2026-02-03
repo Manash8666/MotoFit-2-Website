@@ -27,13 +27,13 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansi
 
     return (
         <div className="flex flex-col h-full bg-[#0b141a] relative font-sans text-[#e9edef]">
-            {/* WhatsApp Background - Mansi Image */}
+            {/* WhatsApp Background - Persistent Wallpaper */}
             <div
-                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-20 pointer-events-none"
-                style={{ backgroundImage: `url(${mansiImage || '/images/reels/mansi-garage.png'})` }}
+                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-25 pointer-events-none"
+                style={{ backgroundImage: `url('/images/reels/mansi-whatsapp-bg.jpg')` }}
             />
             {/* Dark Overlay for Readability */}
-            <div className="absolute inset-0 z-0 bg-[#0b141a]/90 pointer-events-none" />
+            <div className="absolute inset-0 z-0 bg-[#0b141a]/85 pointer-events-none" />
 
             {/* Header */}
             <div className="bg-[#202c33] p-3 flex items-center gap-3 z-10 shadow-md">
