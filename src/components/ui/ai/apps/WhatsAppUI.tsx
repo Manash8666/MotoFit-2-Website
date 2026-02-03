@@ -29,11 +29,11 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansi
         <div className="flex flex-col h-full bg-[#0b141a] relative font-sans text-[#e9edef]">
             {/* WhatsApp Background - Persistent Wallpaper */}
             <div
-                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-25 pointer-events-none"
+                className="absolute inset-0 z-0 bg-cover bg-center transition-all duration-700 opacity-40 pointer-events-none"
                 style={{ backgroundImage: `url('/images/reels/mansi-whatsapp-bg.jpg')` }}
             />
             {/* Dark Overlay for Readability */}
-            <div className="absolute inset-0 z-0 bg-[#0b141a]/85 pointer-events-none" />
+            <div className="absolute inset-0 z-0 bg-[#0b141a]/70 pointer-events-none" />
 
             {/* Header */}
             <div className="bg-[#202c33] p-3 flex items-center gap-3 z-10 shadow-md">
@@ -41,7 +41,7 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansi
                     <img src={mansiImage || "/images/reels/mansi-garage.png"} alt="Mansi" className="w-full h-full object-cover" />
                 </button>
                 <div className="cursor-pointer" onClick={() => setViewProfile(true)}>
-                    <h3 className="font-bold text-sm text-[#e9edef]">Mansi (MotoFit)</h3>
+                    <h3 className="font-bold text-sm text-[#e9edef]">Mansi</h3>
                     <p className="text-xs text-[#8696a0]">online</p>
                 </div>
             </div>
@@ -99,7 +99,7 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansi
                     <div className="w-full aspect-square max-w-[300px] rounded-full overflow-hidden border-4 border-[#00a884] shadow-[0_0_50px_rgba(0,168,132,0.3)] mb-4">
                         <img src={mansiImage || "/images/reels/mansi-garage.png"} alt="Mansi Full" className="w-full h-full object-cover" />
                     </div>
-                    <p className="text-[#e9edef] text-sm font-medium">Mansi (MotoFit)</p>
+                    <p className="text-[#e9edef] text-sm font-medium">Mansi</p>
                     <p className="text-[#00a884] text-xs mt-1">~ +91 999 888 7777</p>
                 </div>
             )}

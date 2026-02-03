@@ -97,9 +97,9 @@ export default function AboutPage() {
                                 specialty: "Client Experience, SEO & AIO Intelligence"
                             },
                             {
-                                name: "Mansi (AI)",
+                                name: "Mansi",
                                 role: "The Digital Soul",
-                                desc: "Born from the code, living in the cloud. Mansi is the intelligent layer of MotoFit 2, constantly learning, adapting, and ensuring your experience is as precise as our torque wrenches.",
+                                desc: "The heartbeat of MotoFit 2. Mansi connects you to the workshop floor, tracking your build and ensuring your experience is as precise as our torque wrenches. She's always one step ahead.",
                                 specialty: "User Experience & Pattern Recognition",
                                 image: "/images/reels/mansi-about.png"
                             }
