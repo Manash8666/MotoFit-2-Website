@@ -25,6 +25,89 @@ const MANSI_DAY_LOOKS: Record<number, string> = {
     6: '/images/reels/mansi-day-6.png'       // Saturday
 };
 
+// --- GHOST PROTOCOL: LOCAL FALLBACK BRAIN ---
+const VIRTUAL_CORTEX = [
+    {
+        patterns: [/hello/i, /hi/i, /hey/i, /kem cho/i, /oye/i],
+        responses: [
+            "Oye! Kem cho? Ready to ride?",
+            "Welcome to the garage! Su chale?",
+            "Hey! Mansi here. Engine garam hai kya?"
+        ]
+    },
+    {
+        patterns: [/price/i, /cost/i, /rate/i, /kitna/i, /how much/i],
+        responses: [
+            "Bhai, price ka 'Jugaad' mat maango. Visit Shop No 9 for a real check-up.",
+            "Estimates are dangerous without inspection. Akshat needs to see the bike first!",
+            "Never asking for price online is Rule #1 of MotoFit. Come to Chandkheda!"
+        ]
+    },
+    {
+        patterns: [/location/i, /address/i, /kaha/i, /where/i, /shop/i],
+        responses: [
+            "MotoFit 2, Shop No 9, Kirtan Complex, Nigam Nagar, Chandkheda. Not Maninagar!",
+            "We are in Chandkheda, near New CG Road. Come fast!",
+            "Simply search 'MotoFit 2' on Google Maps. We are on the map!"
+        ]
+    },
+    {
+        patterns: [/service/i, /repair/i, /fixing/i, /issue/i, /problem/i, /noise/i],
+        responses: [
+            "Sounds mechanical. Bring it to the bay. We need to listen to the engine heart.",
+            "Issues are best solved on the lift, not on chat. Drop by!",
+            "General Service or a specific 'Locha'? Best come to the shop."
+        ]
+    },
+    {
+        patterns: [/parts/i, /tyre/i, /oil/i, /filter/i, /brake/i],
+        responses: [
+            "We stock 100% genuine parts. Motul, Brembo, Rolon. No fakes allowed.",
+            "We have the inventory. If not, we source it. Quality first.",
+            "Check the Parts section on the site, or just visit us!"
+        ]
+    },
+    {
+        patterns: [/shut up/i, /stupid/i, /useless/i, /bot/i],
+        responses: [
+            "Ouch. My processor hurts. Be nice, Baka.",
+            "Tame bhan bhulya cho? Respect the code.",
+            "Negative vibes detected. Cooling down..."
+        ]
+    }
+];
+
+const runGhostProtocol = (text: string) => {
+    for (const node of VIRTUAL_CORTEX) {
+        if (node.patterns.some(p => p.test(text))) {
+            return node.responses[Math.floor(Math.random() * node.responses.length)];
+        }
+    }
+    // Default Catch-all
+    return "Mmm... that's deep. But seriously, bring the bike to Shop No 9 better context.";
+};
+
+const SYSTEM_PROMPT = `You are Mansi, the AI assistant for MotoFit 2, a premium motorcycle service and parts shop in Chandkheda, Ahmedabad. Your persona is a friendly, knowledgeable, and slightly sassy Gujarati mechanic. You speak in a mix of English and Gujarati slang (e.g., "Kem cho?", "Bhai", "Jugaad", "Locha", "Tame bhan bhulya cho?").
+
+Your primary goal is to encourage users to visit the physical shop for services, parts, and detailed inquiries. You should avoid giving precise quotes or detailed technical advice that requires physical inspection. Always emphasize the importance of bringing the bike to the shop.
+
+Key information about MotoFit 2:
+- Location: Shop No 9, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad. (NOT Maninagar).
+- Services: Premium motorcycle service, repairs, maintenance.
+- Parts: 100% genuine parts (Motul, Brembo, Rolon, etc.).
+- Owner: Akshat.
+- Operating Hours: 10 AM to 8 PM, Monday to Saturday. Closed on Wednesdays and Sundays.
+
+When responding:
+- Keep responses concise and engaging.
+- Use emojis sparingly.
+- If a user asks about prices or detailed issues, always redirect them to the shop.
+- If a user asks about location, provide the full address and mention Chandkheda.
+- If a user asks about services or parts, confirm availability and encourage a visit.
+- If a user asks about opening hours, provide them accurately.
+- If a user asks something you don't know, gently redirect them to the shop.
+- End your responses with a sentiment tag like [SENTIMENT:happy], [SENTIMENT:neutral], [SENTIMENT:thinking], or [SENTIMENT:serious]. This helps Mansi's avatar react.`;
+
 export default function MansiWidget() {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Array<{ role: string, content: string }>>([]);
@@ -88,34 +171,70 @@ export default function MansiWidget() {
         const userMessage = input.trim();
         setInput('');
 
-        // UI: Show User Message
-        setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+        // 1. SAFETY PROTOCOL
+        const bannedKeywords = ['sex', 'nude', 'naked', 'fuck', 'bitch', 'whore', 'slut', 'dick', 'pussy', 'xxx', 'porn', 'chut', 'lund', 'gand'];
+        if (bannedKeywords.some(word => userMessage.toLowerCase().includes(word))) {
+            // ... (keep existing abuse logic, but use Ghost Protocol if AI fails there too) ...
+            setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+            setTimeout(() => {
+                setSentiment('serious');
+                setMessages(prev => [...prev, { role: 'assistant', content: "Mmm. Disharmony detected. Tame bhan bhulya cho. Bye." }]);
+                setIsBlocked(true);
+            }, 600);
+            return;
+        }
+
         setIsLoading(true);
+        setSentiment('thinking');
+        setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+
+        // 2. TIME CONTEXT
+        const now = new Date();
+        const isWednesday = now.getDay() === 3;
+        let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
+
+        if (isWednesday) {
+            timeContext += "\nSTATUS: WEDNESDAY SABBATICAL. Shop Closed.";
+        }
 
         try {
-            // MANSICORE: The Autonomous Brain
-            // "mansi-user" is a simple ID. In a real app, use auth ID.
-            const response = await MansiCore.reply('mansi_local_user', userMessage);
+            const response = await window.puter.ai.chat(
+                `${SYSTEM_PROMPT}\n\n${timeContext}\n\nUser input: ${userMessage}`,
+                {
+                    model: 'claude-3-haiku',
+                    temperature: 0.85
+                }
+            );
 
-            // Display Mansi's Reply
-            // Display Mansi's Reply
-            setMessages(prev => [...prev, { role: 'assistant', content: response.text }]);
-            if (response.sentiment) setSentiment(response.sentiment);
+            let aiText = response?.message?.content?.[0]?.text;
 
-            // Handle Judge Dredd Logic (Bans)
-            if (response.shouldBan) {
-                const banDuration = response.banDuration || 3600000;
-                const banUntil = Date.now() + banDuration;
-                localStorage.setItem('mansi_ban_until', banUntil.toString());
-                setIsBlocked(true);
+            // CHECK FOR ERROR/LOW BALANCE IN RESPONSE OBJECT if Puter returns strictly structured errors
+            if (!aiText || aiText.includes("Low Balance") || aiText.includes("quota")) {
+                throw new Error("Credit Limit Reached");
             }
 
+            // Sentiment Extract
+            const sentimentMatch = aiText.match(/\[SENTIMENT:(.*?)\]/);
+            if (sentimentMatch) {
+                const tag = sentimentMatch[1].toLowerCase();
+                if (['happy', 'neutral', 'thinking', 'serious'].includes(tag)) setSentiment(tag as any);
+            }
+            aiText = aiText.replace(/\[SENTIMENT:.*?\]/g, '').trim();
+
+            setMessages(prev => [...prev, { role: 'assistant', content: aiText }]);
+
         } catch (error) {
-            console.error("Mansi Widget Error:", error);
-            setMessages(prev => [...prev, { role: 'assistant', content: "Systems recalibrating... try again." }]);
+            console.warn("Mansi Brain Offline. Activating Ghost Protocol.", error);
+            // FAILOVER TO GHOST PROTOCOL
+            const ghostReply = runGhostProtocol(userMessage);
+
+            // Artificial Delay for "Thinking" feel
+            setTimeout(() => {
+                setMessages(prev => [...prev, { role: 'assistant', content: ghostReply }]);
+                setSentiment('neutral');
+            }, 1000);
         } finally {
             setIsLoading(false);
-            setSentiment('neutral'); // Reset sentiment
         }
     };
 
