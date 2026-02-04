@@ -169,7 +169,7 @@ export default function MansiWidget() {
     const [messages, setMessages] = useState<Array<{ role: string, content: string }>>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [puterLoaded, setPuterLoaded] = useState(false);
+
     const [hasUnread, setHasUnread] = useState(false);
     const [mansiImage, setMansiImage] = useState('');
 
