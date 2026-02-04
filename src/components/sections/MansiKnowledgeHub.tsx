@@ -16,6 +16,92 @@ interface MansiResponse {
     learned_concepts: string[];
 }
 
+const FALLBACK_INTEL: FAQItem[] = [
+    // CLUSTER 1: AHMEDABAD SURVIVAL
+    {
+        category: "AHMEDABAD SURVIVAL",
+        question: "Why is my engine overheating near Visat Circle?",
+        answer: "Visat traffic is a furnace! Stop-and-go creates heat soak. Switch to Motul 7100 (synthetic) and check your coolant levels. It dissipates heat 15% better than stock mineral oil.",
+        icon: "🔥"
+    },
+    {
+        category: "AHMEDABAD SURVIVAL",
+        question: "Dust on New CG Road vs Air Filter?",
+        answer: "The construction dust here chokes paper filters in 2000km. If you ride daily in Chandkheda, switch to a BMC or K&N performance filter. It's washable and breathes better.",
+        icon: "🌬️"
+    },
+    {
+        category: "AHMEDABAD SURVIVAL",
+        question: "Monsoon Potholes vs R15 Rims?",
+        answer: "The 'Smart City' craters will bend soft alloy rims. Keep tyre pressure at 32PSI (not 35) for better shock absorption, or upgrade to 140-section radials for sidewall flex.",
+        icon: "🕳️"
+    },
+    // CLUSTER 2: PERFORMANCE & TUNING
+    {
+        category: "PERFORMANCE",
+        question: "RE 650 Vibration at 120kmph?",
+        answer: "It's likely handle-bar weights or wheel balancing. Bring it to MotoFit 2. We use computerized balancing to neutralize the wobble. Don't ignore it.",
+        icon: "⚖️"
+    },
+    {
+        category: "PERFORMANCE",
+        question: "Duke 390 Jerking at Low RPM?",
+        answer: "Lean AFR mixture from the factory (BS6 norms). We can install a FuelX Pro usage to enrich the mix at low revs. Smoothens the ride instantly.",
+        icon: "💨"
+    },
+    {
+        category: "PERFORMANCE",
+        question: "Braking Upgrade for Himalayan 411?",
+        answer: "Stock brakes are wooden. Upgrade to EBC Sintered Pads (Double-H). The bite improves by 40%. Mandatory for highway runs.",
+        icon: "🛑"
+    },
+    // CLUSTER 3: MAINTENANCE TRUTHS
+    {
+        category: "MAINTENANCE",
+        question: "Chain Spray or Gear Oil?",
+        answer: "For Ahmedabad dust? Gear oil (EP90). It doesn't attract grit like sticky sprays. It's messy but your chain will last 25,000km instead of 15,000km.",
+        icon: "⛓️"
+    },
+    {
+        category: "MAINTENANCE",
+        question: "When to change Fork Oil?",
+        answer: "Every 15,000km! Nobody does this. Old oil turns to sludge, destroying damping. If your front end dives too much, it's time.",
+        icon: "🔧"
+    },
+    // CLUSTER 4: MODS
+    {
+        category: "MODIFICATIONS",
+        question: "Is Red Rooster Performance legal?",
+        answer: "It's barely legal on decibels, but heavily penalized by cops if caught. Keep the dB killer IN inside city limits. We stock them.",
+        icon: "🔊"
+    },
+    {
+        category: "MODIFICATIONS",
+        question: "Ceramic Coating worth it?",
+        answer: "Only if you have a covered parking. In direct sun, it fades in 6 months. For daily rough use, PPF (Paint Protection Film) on the tank is smarter.",
+        icon: "✨"
+    },
+    // CLUSTER 5: MOTOFIT 2
+    {
+        category: "MOTOFIT 2 LOGISTICS",
+        question: "Do you repair Superbikes?",
+        answer: "Yes. From Hayabusa to Z900. We have the paddock stands, dyno diagnostics tool (scanner), and the patience. Visual inspection is mandatory.",
+        icon: "🏍️"
+    },
+    {
+        category: "MOTOFIT 2 LOGISTICS",
+        question: "Are you open on Wednesdays?",
+        answer: "NO. Wednesday is Sabbatical. Akshat and the team need to reboot. We are open Thu-Tue, 10 AM to 8 PM.",
+        icon: "📅"
+    },
+    {
+        category: "MOTOFIT 2 LOGISTICS",
+        question: "Can I get a quote on WhatsApp?",
+        answer: "No 'Jugaad' pricing. Without opening the bike, a quote is a lie. Come to Shop No 9, Nigam Nagar for a real check-up.",
+        icon: "💬"
+    }
+];
+
 export default function MansiKnowledgeHub() {
     const [loading, setLoading] = useState(true);
     const [faqs, setFaqs] = useState<FAQItem[]>([]);
@@ -50,31 +136,9 @@ export default function MansiKnowledgeHub() {
             }
         }
 
-        if (!window.puter) {
-            console.warn('Puter.js not yet loaded');
-            return;
-        }
-
-        setLoading(true);
-        setError(null);
-
-        // 2. Retrieve Long-Term Memory (Self-Learning Module)
-        const memoryKey = 'mansi_long_term_memory_v1';
-        let learnedConcepts = "No previous data.";
-        try {
-            const rawMemory = localStorage.getItem(memoryKey);
-            if (rawMemory) {
-                const memory = JSON.parse(rawMemory);
-                // "Glove-lite" weighting: Prioritize concepts seen recently
-                learnedConcepts = memory.slice(0, 5).join(", ");
-            }
-        } catch (e) {
-            console.warn("Memory read error");
-        }
-
-        // Simulate "Internet Learning" Visuals
+        // Simulate "Internet Learning" Visuals regardless of loading state
         const learningSteps = [
-            `Recalling Neural Pathways: [${learnedConcepts}]`,
+            `Recalling Neural Pathways: [Mansi Core, Ahmedabad, Parts]`,
             "Scanning Ahmedabad Traffic Grids...",
             "Fetching Latest Moto-News from BikeWale...",
             "Analyzing Instagram Rider Trends...",
@@ -88,6 +152,31 @@ export default function MansiKnowledgeHub() {
                 step++;
             }
         }, 800);
+
+        // Attempt AI generation
+        if (!window.puter) {
+            // If puter fails to load, use fallback immediately
+            clearInterval(interval);
+            setFaqs(FALLBACK_INTEL);
+            setLoading(false);
+            return;
+        }
+
+        setLoading(true);
+        setError(null);
+
+        // 2. Retrieve Long-Term Memory (Self-Learning Module) - Simplified
+        const memoryKey = 'mansi_long_term_memory_v1';
+        let learnedConcepts = "General Service";
+        try {
+            const rawMemory = localStorage.getItem(memoryKey);
+            if (rawMemory) {
+                const memory = JSON.parse(rawMemory);
+                learnedConcepts = memory.slice(0, 5).join(", ");
+            }
+        } catch (e) {
+            console.warn("Memory read error");
+        }
 
         const mansiPrompt = `
 ### IDENTITY CORE:
@@ -164,6 +253,7 @@ Provide a JSON Object with two keys:
             const jsonEnd = rawText.lastIndexOf('}') + 1;
 
             if (jsonStart === -1 || jsonEnd === 0) {
+                // If AI returns garbage, throw to catch block
                 throw new Error("Invalid JSON format received from Mansi");
             }
 
@@ -201,9 +291,13 @@ Provide a JSON Object with two keys:
             setLoading(false);
         } catch (err) {
             clearInterval(interval);
-            console.error("Mansi Sync Error:", err);
-            setError("Network Locha! Mansi is busy tuning a Hayabusa. Refresh!");
+            console.error("Mansi Sync Error (Protocol Shift):", err);
+
+            // FALLBACK PROTOCOL - SIMULATION MODE (Network Locha Bypass)
+            console.log("Activating Simulation Mode (Fallback Data)");
+            setFaqs(FALLBACK_INTEL);
             setLoading(false);
+            // We do NOT set 'error' to prevent the red banner. We show the cached/fallback data instead.
         }
     };
 
