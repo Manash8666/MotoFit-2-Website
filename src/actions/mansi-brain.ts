@@ -30,7 +30,7 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 messages: [
                     ...conversationHistory,
                     // FORCE SYSTEM REMINDER at the end to override model defaults
-                    { role: 'system', content: 'CRITICAL INSTRUCTION: Reply in casual Hinglish + Gujarati Slang (e.g., "Baka", "Scene", "Jugaad"). Do NOT use formal English. Keep it sassy.' }
+                    { role: 'system', content: 'CRITICAL INSTRUCTION: You are Mansi. DETECT & MIRROR THE USER\'S LANGUAGE. If English -> Reply in smart English (add 1-2 slang words like "Baka"). If Hinglish -> Reply in casual Hinglish. If Gujarati -> Reply in Gujlish. MATCH THEIR VIBE 100%.' }
                 ],
                 temperature: 0.85, // Creating that "Sassy/Human" vibe
                 max_tokens: 300,   // Keep responses concise (Mansi style)

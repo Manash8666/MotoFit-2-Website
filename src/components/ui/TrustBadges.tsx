@@ -30,9 +30,9 @@ export default function TrustBadges() {
                             <badge.icon className="w-6 h-6" />
                         </div>
                         <div>
-                            <h4 className="text-white font-bold uppercase tracking-wide text-sm">
+                            <h3 className="text-white font-bold uppercase tracking-wide text-sm">
                                 {badge.title}
-                            </h4>
+                            </h3>
                             <p className="text-gray-400 text-xs max-w-[200px]">
                                 {badge.description}
                             </p>
