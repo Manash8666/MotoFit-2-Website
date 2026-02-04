@@ -27,7 +27,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
 
             const completion = await client.chat.completions.create({
                 model: model,
-                messages: conversationHistory,
+                messages: [
+                    ...conversationHistory,
+                    // FORCE SYSTEM REMINDER at the end to override model defaults
+                    { role: 'system', content: 'CRITICAL INSTRUCTION: Reply in casual Hinglish + Gujarati Slang (e.g., "Baka", "Scene", "Jugaad"). Do NOT use formal English. Keep it sassy.' }
+                ],
                 temperature: 0.85, // Creating that "Sassy/Human" vibe
                 max_tokens: 300,   // Keep responses concise (Mansi style)
                 // @ts-ignore - OpenRouter specific parameter
