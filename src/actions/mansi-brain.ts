@@ -9,6 +9,8 @@ const client = new OpenAI({
 
 // Priority List of FREE Models to minimize costs to Zero.
 const FREE_MODELS = [
+    'openai/gpt-oss-120b:free',           // Massive 120B parameter model (Primary)
+    'openai/gpt-oss-20b:free',            // Fast 20B model (Secondary)
     'stepfun/step-3.5-flash:free',       // Fast, supports reasoning
     'arcee-ai/trinity-large-preview:free', // High quality fallback
     'meta-llama/llama-3-8b-instruct:free', // Standard fallback
