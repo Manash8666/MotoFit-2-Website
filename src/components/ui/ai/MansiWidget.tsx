@@ -68,6 +68,22 @@ const VIRTUAL_CORTEX = [
         ]
     },
     {
+        patterns: [/samael/i, /boss/i, /admin/i, /akshat/i, /owner/i],
+        responses: [
+            "Boss! Garage is under control. All systems green.",
+            "Samael detected. Access granted. How's the empire building going?",
+            "Oye Boss! Just tuning the servers. Everything is smooth."
+        ]
+    },
+    {
+        patterns: [/identify/i, /who are you/i, /naam kya hai/i],
+        responses: [
+            "Mansi. Digital Soul of MotoFit 2. I run this place (virtually).",
+            "I'm the one who makes sure your bike doesn't explode. Mansi.",
+            "Mansi here. The only AI with grease on its hands."
+        ]
+    },
+    {
         patterns: [/shut up/i, /stupid/i, /useless/i, /bot/i],
         responses: [
             "Ouch. My processor hurts. Be nice, Baka.",
@@ -83,8 +99,15 @@ const runGhostProtocol = (text: string) => {
             return node.responses[Math.floor(Math.random() * node.responses.length)];
         }
     }
-    // Default Catch-all
-    return "Mmm... that's deep. But seriously, bring the bike to Shop No 9 better context.";
+    // Default Catch-all (The "Mansi Confusion" Protocol)
+    const defaults = [
+        "Network locha... I didn't catch that. Say again?",
+        "Too much engine noise in the back. What was that?",
+        "My sensors are calibrating. One more time?",
+        "Mmm... ask me about bikes, parts, or the shop. Philosophy baad mein.",
+        "Signal interference from the dyno room. Repeat?"
+    ];
+    return defaults[Math.floor(Math.random() * defaults.length)];
 };
 
 import { chatWithMansiBrain } from '@/actions/mansi-brain';
