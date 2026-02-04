@@ -1,6 +1,7 @@
 
 // src/services/mansi/agents/learner.ts
 import { MansiMemory } from './memory';
+import { chatWithMansiBrain } from '@/actions/mansi-brain';
 
 export class MansiLearner {
     static async start() {
@@ -18,16 +19,12 @@ export class MansiLearner {
     }
 
     static async learn() {
-        if (typeof window === 'undefined' || !window.puter) return;
-
-        console.log("Mansi is scanning the web (Simulated)...");
+        console.log("Mansi is scanning the web (via Server Brain)...");
 
         try {
-            // We use the LLM to "scan" for trends relevant to Ahmedabad bikers.
-            // This replaces the raw YouTube API call from the original design 
-            // to work without exposing keys client-side, while preserving the "self-learning" behavior.
-            const response = await window.puter.ai.chat(
-                `Act as a trend watcher for the Ahmedabad Motorcycling scene. 
+            // We use the Server Brain (OpenRouter) to "scan" for trends relevant to Ahmedabad bikers.
+            // This replaces the deprecated Client-Side Puter.js logic.
+            const prompt = `Act as a trend watcher for the Ahmedabad Motorcycling scene. 
                  List 3 key viral topics, local news, or mechanical trends for 2025/2026 regarding:
                  1. Traffic rules in Ahmedabad (e.g. Helmet cams, SG Highway fines)
                  2. New bike launches (KTM Gen 3, RE 450s)
@@ -35,21 +32,17 @@ export class MansiLearner {
                  
                  Return strictly a valid JSON array of objects: 
                  [{ "title": "Topic Title", "desc": "Brief description" }]
-                 No markdown formatting. Just raw JSON.`,
-                {
-                    model: 'claude-sonnet-4-5',
-                    temperature: 0.7
-                }
-            );
+                 No markdown formatting. Just raw JSON.`;
 
-            let text = "";
-            if (typeof response === 'string') {
-                text = response;
-            } else if (response?.message?.content?.[0]?.text) {
-                text = response.message.content[0].text;
-            } else {
-                text = JSON.stringify(response);
+            const response = await chatWithMansiBrain([
+                { role: 'user', content: prompt }
+            ]);
+
+            if (!response.success || !response.text) {
+                throw new Error("Server Brain failed to fetch trends");
             }
+
+            let text = response.text;
 
             // Clean up potentially malformed JSON from LLM
             const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
@@ -57,7 +50,7 @@ export class MansiLearner {
 
             if (Array.isArray(items)) {
                 for (const item of items) {
-                    MansiMemory.storeInsight('simulated_web', {
+                    MansiMemory.storeInsight('server_brain_trends', {
                         title: item.title,
                         desc: item.desc
                     });

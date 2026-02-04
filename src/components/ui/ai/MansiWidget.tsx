@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Badge } from '@/components/ui/graphics/Badge';
 import { Send, Sparkles, X } from 'lucide-react';
-import { MansiCore } from '@/services/mansi/agents/mansi-core';
+
 import { ROGPhoneFrame } from './ROGPhoneFrame';
 import { MansiLearner } from '@/services/mansi/agents/learner';
 
