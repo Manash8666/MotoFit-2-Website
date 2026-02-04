@@ -3,7 +3,7 @@ const nextConfig = {
     // output: 'export', // Disabled to allow Dynamic API Routes (Bridge)
     reactStrictMode: true,
     images: {
-        unoptimized: true,
+        // unoptimized: false, // Re-enabled optimization for performance
         remotePatterns: [
             {
                 protocol: "https",

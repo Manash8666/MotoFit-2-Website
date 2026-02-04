@@ -1,19 +1,11 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import Script from 'next/script';
 import { Badge } from '@/components/ui/graphics/Badge';
 import { Send, Sparkles, X } from 'lucide-react';
 import { MansiCore } from '@/services/mansi/agents/mansi-core';
 import { ROGPhoneFrame } from './ROGPhoneFrame';
 import { MansiLearner } from '@/services/mansi/agents/learner';
-
-// Use a declaration to avoid TS errors
-declare global {
-    interface Window {
-        puter: any;
-    }
-}
 
 const MANSI_DAY_LOOKS: Record<number, string> = {
     0: '/images/reels/mansi-day-0.png',      // Sunday
@@ -308,39 +300,9 @@ export default function MansiWidget() {
         }
     };
 
-    // Example 5: Image Analysis Adaptation
-    const handleImageAnalysis = async () => {
-        const url = prompt("Paste an image URL for Mansi to analyze (e.g., your bike photo):");
-        if (!url) return;
+    // ... (keep generic imports)
 
-        setIsLoading(true);
-        setMessages(prev => [...prev, { role: 'user', content: `[Analyze Image] ${url}` }]);
-        setMessages(prev => [...prev, { role: 'assistant', content: 'Processing vision data...' }]);
-
-        try {
-            const response = await window.puter.ai.chat(
-                "Describe this image and tell me if you see any motorcycle parts or issues.",
-                url,
-                { model: "claude-sonnet-4-5" }
-            );
-
-            const aiText = response?.message?.content?.[0]?.text || response || "I can't see the details properly.";
-
-            setMessages(prev => {
-                const newArr = [...prev];
-                newArr[newArr.length - 1].content = aiText;
-                return newArr;
-            });
-        } catch (e) {
-            setMessages(prev => {
-                const newArr = [...prev];
-                newArr[newArr.length - 1].content = "Vision link failed.";
-                return newArr;
-            });
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    // ... (keep handleSend and other logic)
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') handleSend();
@@ -356,11 +318,6 @@ export default function MansiWidget() {
 
     return (
         <>
-            <Script
-                src="https://js.puter.com/v2/"
-                onLoad={() => setPuterLoaded(true)}
-            />
-
             {/* Toggle Button - "Stories" Ring */}
             <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
                 {!isOpen && hasUnread && (
