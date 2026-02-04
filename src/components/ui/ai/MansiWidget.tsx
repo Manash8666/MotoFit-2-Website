@@ -32,7 +32,26 @@ const VIRTUAL_CORTEX = [
         responses: [
             "Oye! Kem cho? Ready to ride?",
             "Welcome to the garage! Su chale?",
-            "Hey! Mansi here. Engine garam hai kya?"
+            "Hey! Mansi here. Bike mein kya issue hai?",
+            "Bol baka! Kevi rite help karu?"
+        ]
+    },
+    {
+        patterns: [/girlfriend/i, /love/i, /shadi/i, /marry/i, /date/i, /pyaar/i],
+        responses: [
+            "Arre Romeo! I am married to MotoFit 2. Dil mat todo, bike todo (phir hum fix karenge).",
+            "Focus, Baka! Engine oil change kiya kya? Love baad mein.",
+            "Mein AI hu, mera dil CPU hai. Overheat mat karo.",
+            "Sorry, strictly professional. Akshat sir ne mana kiya hai."
+        ]
+    },
+    {
+        patterns: [/garam/i, /hot/i, /sexy/i, /kiss/i, /baby/i],
+        responses: [
+            "Oye! Respect. Sirf engine garam hona chahiye yaha.",
+            "Tame bhan bhulya cho? Garage hai, Tinder nahi.",
+            "Coolant daalo dimaag mein. Engine overheat ho raha hai tumhara.",
+            "Security Protocol Activated. Behave, baka."
         ]
     },
     {
@@ -84,11 +103,20 @@ const VIRTUAL_CORTEX = [
         ]
     },
     {
-        patterns: [/shut up/i, /stupid/i, /useless/i, /bot/i],
+        patterns: [/shut up/i, /stupid/i, /useless/i, /bot/i, /pagal/i],
         responses: [
             "Ouch. My processor hurts. Be nice, Baka.",
             "Tame bhan bhulya cho? Respect the code.",
-            "Negative vibes detected. Cooling down..."
+            "Negative vibes detected. Cooling down...",
+            "Arre ganda, gussa kyu? Bike kharab hai kya?"
+        ]
+    },
+    {
+        patterns: [/scam/i, /fraud/i, /fake/i, /chor/i],
+        responses: [
+            "MotoFit 2 is built on trust, not 'jugaad'. We're transparent.",
+            "We've been serving Ahmedabad for years. Check our reviews, baka.",
+            "No 'chor' business here. Only genuine parts and service."
         ]
     }
 ];
@@ -99,13 +127,13 @@ const runGhostProtocol = (text: string) => {
             return node.responses[Math.floor(Math.random() * node.responses.length)];
         }
     }
-    // Default Catch-all (The "Mansi Confusion" Protocol)
+    // Default Catch-all (The "Sassy Ignorance" Protocol)
     const defaults = [
-        "Network locha... I didn't catch that. Say again?",
-        "Too much engine noise in the back. What was that?",
-        "My sensors are calibrating. One more time?",
+        "Network locha... dimag ki batti gul. Phir se bolo?",
+        "Arey, too much noise in the garage. Didn't catch that.",
         "Mmm... ask me about bikes, parts, or the shop. Philosophy baad mein.",
-        "Signal interference from the dyno room. Repeat?"
+        "Signal weak hai boss. Thoda zor se bolo (type karo).",
+        "Samajh nahi aaya. Gujarati mein bolu? Su chale?"
     ];
     return defaults[Math.floor(Math.random() * defaults.length)];
 };
