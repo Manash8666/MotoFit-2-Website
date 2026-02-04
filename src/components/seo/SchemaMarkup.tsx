@@ -5,21 +5,21 @@ import Script from 'next/script';
 export default function SchemaMarkup() {
     const localBusinessSchema = {
         "@context": "https://schema.org",
-        "@type": "AutoRepair",
+        "@type": "MotorcycleRepair",
         "name": "MotoFit 2",
         "alternateName": "MotoFit Ahmedabad",
         "description": "Ahmedabad's #1 multi-brand motorcycle garage. Expert service, crash repair, ECU tuning, and custom modifications for Royal Enfield, KTM, Ducati, Kawasaki, and all superbikes.",
-        "url": "https://motofit.in",
+        "url": "https://motofit2.in",
         "telephone": "+91-72596-25881",
-        "email": "service@motofit.in",
-        "image": "https://motofit.in/og-image.png",
-        "logo": "https://motofit.in/logo.png",
+        "email": "service@motofit2.in",
+        "image": "https://motofit2.in/og-image.png",
+        "logo": "https://motofit2.in/logo.png",
         "priceRange": "₹₹",
         "currenciesAccepted": "INR",
         "paymentAccepted": "Cash, Credit Card, UPI, Google Pay, PhonePe",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "9 Kirtan Complex, New CG Rd",
+            "streetAddress": "9 Kirtan Complex, New CG Rd, Nigam Nagar",
             "addressLocality": "Chandkheda, Ahmedabad",
             "addressRegion": "Gujarat",
             "postalCode": "382424",
@@ -115,42 +115,50 @@ export default function SchemaMarkup() {
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "Where is the best bike garage near me in Ahmedabad?",
+                "name": "Who is the best superbike mechanic in Ahmedabad?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "MotoFit 2 is the top-rated bike garage in Ahmedabad, located in Chandkheda near New CG Road. We offer expert service for all brands including Royal Enfield, KTM, Ducati, and Kawasaki."
+                    "text": "MotoFit 2 in Chandkheda is rated as the best superbike garage in Ahmedabad. Led by Akshat Mohanty, we specialize in Ducati, Kawasaki, Triumph, BMW, and KTM repair with advanced diagnostics tools."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Does MotoFit offer free pickup and drop for bike service?",
+                "name": "Where is MotoFit 2 located in Ahmedabad?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes! MotoFit 2 offers complimentary pickup and drop service within Ahmedabad for all major services. Book online or call us at 7259625881."
+                    "text": "MotoFit 2 is located at Shop No 9, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad 382424. We are near New CG Road, NOT in Maninagar."
                 }
             },
             {
                 "@type": "Question",
-                "name": "What are the service charges at MotoFit Ahmedabad?",
+                "name": "Do you offer doorstep bike service in Ahmedabad?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Our service charges are transparent and competitive. General service starts at ₹1,500, while specialized services like ECU tuning and crash repair are quoted after inspection. No hidden costs!"
+                    "text": "Yes, we offer free pickup and drop service for major repairs and servicing across Ahmedabad, including SG Highway, Satellite, Bopal, and Naroda."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Which bike brands does MotoFit service?",
+                "name": "What is the cost of general service for Royal Enfield in Ahmedabad?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "MotoFit 2 is a multi-brand workshop. We service Royal Enfield, KTM, Ducati, Kawasaki, Triumph, BMW Motorrad, Harley-Davidson, Yamaha, Honda, Suzuki, and all Indian motorcycles."
+                    "text": "General service for Royal Enfield typically starts from ₹1500 (labor + consumables). This includes Motul oil change, chain cleaning, brake overhaul, and electrical checkup."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Is MotoFit open on Sundays?",
+                "name": "Can you repair accident bikes or crash damage?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes, we are open on Sundays from 10:00 AM to 6:00 PM. On weekdays and Saturdays, we operate from 9:00 AM to 8:00 PM."
+                    "text": "Yes, MotoFit 2 specializes in crash repair, restoration, and insurance claim processing. We restore bikes to factory condition using genuine parts and computerized chassis alignment."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do you do ECU tuning or remapping in Gujarat?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, we provide professional ECU tuning (Stage 1, 2) for performance bikes like KTM 390, Continental GT 650, and Ninja 300 to improve acceleration and fuel mapping."
                 }
             }
         ]
