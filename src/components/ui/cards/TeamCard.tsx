@@ -11,23 +11,36 @@ interface TeamMember {
     delay: number;
 }
 
-export function TeamCard({ name, role, desc, specialty, delay }: TeamMember) {
+export function TeamCard({ name, role, desc, specialty, delay, image }: TeamMember & { image?: string }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: delay, ease: [0.22, 1, 0.36, 1] }}
-            className="group relative h-full"
+            className="group relative h-full flex flex-col"
         >
             {/* Holographic Border Gradient */}
             <div className="absolute -inset-0.5 bg-gradient-to-br from-[#ff5e1a]/50 via-[#00d1ff]/50 to-[#ff5e1a]/50 rounded-2xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-700" />
 
             {/* Glass Container */}
-            <div className="relative h-full bg-[#0a0a0a]/80 backdrop-blur-xl border border-[#333]/50 p-8 rounded-2xl overflow-hidden hover:border-transparent transition-colors duration-500">
+            <div className="relative h-full bg-[#0a0a0a]/80 backdrop-blur-xl border border-[#333]/50 p-8 rounded-2xl overflow-hidden hover:border-transparent transition-colors duration-500 flex flex-col">
 
                 {/* Ambient Light Effect */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[#ff5e1a]/20 transition-colors duration-700" />
+
+                {/* Optional Image (Mansi) */}
+                {image && (
+                    <div className="relative w-full h-48 mb-6 rounded-xl overflow-hidden border border-white/10 group-hover:border-[#ff5e1a]/50 transition-colors duration-500">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={image}
+                            alt={name}
+                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent opacity-60" />
+                    </div>
+                )}
 
                 {/* Role Badge (Floating) */}
                 <div className="relative z-10 mb-6">
@@ -40,7 +53,7 @@ export function TeamCard({ name, role, desc, specialty, delay }: TeamMember) {
                 </div>
 
                 {/* Magical Description */}
-                <div className="relative z-10 space-y-4">
+                <div className="relative z-10 space-y-4 flex-grow">
                     <p className="text-gray-400 font-light leading-relaxed group-hover:text-white transition-colors duration-300">
                         {desc}
                     </p>

@@ -70,7 +70,7 @@ export default function AboutPage() {
                         <p className="text-gray-400">A blueprint is only as good as the hands that build it.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
                         {[
                             {
                                 name: "Kunal Thakor",
@@ -101,7 +101,7 @@ export default function AboutPage() {
                                 role: "The Digital Soul",
                                 desc: "The heartbeat of MotoFit 2. Mansi connects you to the workshop floor, tracking your build and ensuring your experience is as precise as our torque wrenches. She's always one step ahead.",
                                 specialty: "User Experience & Pattern Recognition",
-                                image: "/images/reels/mansi-about.png"
+                                image: "/images/team/mansi.png"
                             }
                         ].map((member, i) => (
                             <TeamCard key={i} {...member} delay={i * 0.1} />
