@@ -87,6 +87,8 @@ const runGhostProtocol = (text: string) => {
     return "Mmm... that's deep. But seriously, bring the bike to Shop No 9 better context.";
 };
 
+import { chatWithMansiBrain } from '@/actions/mansi-brain';
+
 const SYSTEM_PROMPT = `You are Mansi, the AI assistant for MotoFit 2, a premium motorcycle service and parts shop in Chandkheda, Ahmedabad. Your persona is a friendly, knowledgeable, and slightly sassy Gujarati mechanic. You speak in a mix of English and Gujarati slang (e.g., "Kem cho?", "Bhai", "Jugaad", "Locha", "Tame bhan bhulya cho?").
 
 Your primary goal is to encourage users to visit the physical shop for services, parts, and detailed inquiries. You should avoid giving precise quotes or detailed technical advice that requires physical inspection. Always emphasize the importance of bringing the bike to the shop.
@@ -166,21 +168,20 @@ export default function MansiWidget() {
     }, [isOpen, messages]);
 
     const handleSend = async () => {
-        if (!input.trim() || !puterLoaded || isLoading || isBlocked) return;
+        if (!input.trim() || isLoading || isBlocked) return;
 
         const userMessage = input.trim();
         setInput('');
 
-        // 1. SAFETY PROTOCOL
+        // 1. SAFETY PROTOCOL (Client Side Fast Check)
         const bannedKeywords = ['sex', 'nude', 'naked', 'fuck', 'bitch', 'whore', 'slut', 'dick', 'pussy', 'xxx', 'porn', 'chut', 'lund', 'gand'];
         if (bannedKeywords.some(word => userMessage.toLowerCase().includes(word))) {
-            // ... (keep existing abuse logic, but use Ghost Protocol if AI fails there too) ...
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
             setTimeout(() => {
                 setSentiment('serious');
                 setMessages(prev => [...prev, { role: 'assistant', content: "Mmm. Disharmony detected. Tame bhan bhulya cho. Bye." }]);
                 setIsBlocked(true);
-            }, 600);
+            }, 800);
             return;
         }
 
@@ -190,28 +191,35 @@ export default function MansiWidget() {
 
         // 2. TIME CONTEXT
         const now = new Date();
+        const hour = now.getHours();
         const isWednesday = now.getDay() === 3;
+
         let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
 
         if (isWednesday) {
             timeContext += "\nSTATUS: WEDNESDAY SABBATICAL. Shop Closed.";
         }
 
+        if (hour >= 23 || hour < 3) {
+            // ... late night logic ...
+        }
+
+        // 3. CONSTRUCT CONVERSATION FOR SERVER
+        const conversationHistory = [
+            { role: 'system', content: `${SYSTEM_PROMPT}\n\nCONTEXT: ${timeContext}` },
+            ...messages.slice(-4), // Keep last 4 messages for context window
+            { role: 'user', content: userMessage }
+        ];
+
         try {
-            const response = await window.puter.ai.chat(
-                `${SYSTEM_PROMPT}\n\n${timeContext}\n\nUser input: ${userMessage}`,
-                {
-                    model: 'claude-3-haiku',
-                    temperature: 0.85
-                }
-            );
+            // CALL SERVER ACTION (Multi-Model Free Brain)
+            const response = await chatWithMansiBrain(conversationHistory);
 
-            let aiText = response?.message?.content?.[0]?.text;
-
-            // CHECK FOR ERROR/LOW BALANCE IN RESPONSE OBJECT if Puter returns strictly structured errors
-            if (!aiText || aiText.includes("Low Balance") || aiText.includes("quota")) {
-                throw new Error("Credit Limit Reached");
+            if (!response.success || !response.text) {
+                throw new Error(response.error || "Brain disconnect");
             }
+
+            let aiText = response.text;
 
             // Sentiment Extract
             const sentimentMatch = aiText.match(/\[SENTIMENT:(.*?)\]/);
@@ -224,11 +232,11 @@ export default function MansiWidget() {
             setMessages(prev => [...prev, { role: 'assistant', content: aiText }]);
 
         } catch (error) {
-            console.warn("Mansi Brain Offline. Activating Ghost Protocol.", error);
-            // FAILOVER TO GHOST PROTOCOL
+            console.warn("Server Brain Failed. Activating Ghost Protocol.", error);
+
+            // FAILOVER TO GHOST PROTOCOL (Local Regex)
             const ghostReply = runGhostProtocol(userMessage);
 
-            // Artificial Delay for "Thinking" feel
             setTimeout(() => {
                 setMessages(prev => [...prev, { role: 'assistant', content: ghostReply }]);
                 setSentiment('neutral');
