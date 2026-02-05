@@ -5,9 +5,24 @@ import { GlassButton } from '@/components/ui/buttons/GlassButton';
 import { TeamCard } from '@/components/ui/cards/TeamCard';
 import Image from 'next/image';
 import { useBooking } from '@/context/BookingContext';
+import { useEffect, useState } from 'react';
 
 export default function AboutPage() {
     const { openBooking } = useBooking();
+    const [akshatImage, setAkshatImage] = useState("/images/team/akshat-portrait.png");
+
+    useEffect(() => {
+        // Dynamic Photo Switching Protocol
+        // 00:00 - 11:59 -> Portrait (Morning Mode)
+        // 12:00 - 23:59 -> Face/Bike (Evening Mode)
+        const hour = new Date().getHours();
+        if (hour >= 12) {
+            setAkshatImage("/images/team/akshat-face.png");
+        } else {
+            setAkshatImage("/images/team/akshat-portrait.png");
+        }
+    }, []);
+
     return (
         <main className="min-h-screen bg-[#050505] pt-24 pb-12 relative overflow-hidden">
             {/* Background Texture */}
@@ -16,7 +31,7 @@ export default function AboutPage() {
             <div className="container mx-auto px-4 md:px-8 relative z-10">
 
                 {/* 1. Hero: The Manifesto */}
-                <section className="text-center mb-20">
+                <section className="text-center mb-20 whitespace-normal">
                     <Badge variant="orange" glow className="mb-6">The MotoFit 2 Manifesto</Badge>
                     <h1 className="text-4xl md:text-7xl font-black text-white uppercase leading-none mb-6">
                         Engineered by a <span className="text-[#ff5e1a]">Mechanic</span>.<br />
@@ -33,7 +48,7 @@ export default function AboutPage() {
                     <p className="text-sm text-gray-500 mt-4 font-mono">Shop No 9, Kirtan Complex, Chandkheda — Since 2021</p>
                 </section>
 
-                {/* 2. The Dream Team (Unified) */}
+                {/* 2. The Core Unit (Unified) */}
                 <section className="mb-24">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-black text-white uppercase mb-4">The Core Unit</h2>
@@ -49,7 +64,7 @@ export default function AboutPage() {
                                 role: "The Engineer",
                                 desc: "Why does a Mechanical Engineer open a garage? Because you deserve better than 'parts swappers'. Founded MotoFit 2 to bring structural integrity, digital precision, and torque-wrench discipline to every build.",
                                 specialty: "Vision & Structural Integrity",
-                                image: "/images/team/akshat-portrait.png"
+                                image: akshatImage // Dynamic State
                             },
                             {
                                 name: "Mansi",
