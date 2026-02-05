@@ -33,45 +33,31 @@ export default function AboutPage() {
                     <p className="text-sm text-gray-500 mt-4 font-mono">Shop No 9, Kirtan Complex, Chandkheda — Since 2021</p>
                 </section>
 
-                {/* 2. The Engineer's Vision */}
-                <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24">
-                    <div className="relative h-[500px] rounded-2xl overflow-hidden border border-[#333] group">
-                        <Image
-                            src="/images/akshat-mohanty-ladakh.png"
-                            alt="Akshat Mohanty - Founder of MotoFit 2"
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-8">
-                            <h3 className="text-3xl font-bold text-white">Akshat Mohanty</h3>
-                            <p className="text-[#ff5e1a] font-mono">Founder & Mechanical Engineer</p>
-                        </div>
-                    </div>
-                    <div>
-                        <h2 className="text-3xl md:text-4xl font-black text-white uppercase mb-6">The Engineer’s Vision</h2>
-                        <div className="space-y-6 text-gray-300 leading-relaxed text-lg">
-                            <p>
-                                Why does a Mechanical Engineer open a garage? Because you deserve better than "parts swappers".
-                            </p>
-                            <p>
-                                I founded MotoFit 2 in 2021 with one obsession: bringing structural integrity and digital precision to every two-wheeler in Ahmedabad. I saw the gaps in "Brand Service Centers"—the lack of transparency, the robotic checklist, and the missing soul.
-                            </p>
-                            <p>
-                                We decided to build something better. A workshop where torque wrenches are mandatory, not optional. Where we diagnose with data, not guesswork.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                {/* 3. The Dream Team */}
+                {/* 2. The Dream Team (Unified) */}
                 <section className="mb-24">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-5xl font-black text-white uppercase mb-4">The Dream Team</h2>
-                        <p className="text-gray-400">A blueprint is only as good as the hands that build it.</p>
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-5xl font-black text-white uppercase mb-4">The Core Unit</h2>
+                        <p className="text-gray-400 max-w-2xl mx-auto">
+                            A blueprint is only as good as the hands that build it. From the Engineer who designs the protocol to the AI that tracks it.
+                        </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
+                            {
+                                name: "Akshat Mohanty",
+                                role: "The Engineer",
+                                desc: "Why does a Mechanical Engineer open a garage? Because you deserve better than 'parts swappers'. Founded MotoFit 2 to bring structural integrity, digital precision, and torque-wrench discipline to every build.",
+                                specialty: "Vision & Structural Integrity",
+                                image: "/images/akshat-mohanty-ladakh.png"
+                            },
+                            {
+                                name: "Mansi",
+                                role: "The Digital Soul",
+                                desc: "The heartbeat of MotoFit 2. Mansi connects you to the workshop floor, tracking your build and ensuring your experience is as precise as our torque wrenches. She's always one step ahead.",
+                                specialty: "User Experience & Pattern Recognition",
+                                image: "/images/team/mansi-new.png"
+                            },
                             {
                                 name: "Kunal Thakor",
                                 role: "The Alchemist",
@@ -95,13 +81,6 @@ export default function AboutPage() {
                                 role: "The Oracle",
                                 desc: "The bridge between the digital ether and proper combustion. Samael weaves the narrative of your build, optimizing the signal-to-noise ratio in both client comms and search engine algorithms.",
                                 specialty: "Client Experience, SEO & AIO Intelligence"
-                            },
-                            {
-                                name: "Mansi",
-                                role: "The Digital Soul",
-                                desc: "The heartbeat of MotoFit 2. Mansi connects you to the workshop floor, tracking your build and ensuring your experience is as precise as our torque wrenches. She's always one step ahead.",
-                                specialty: "User Experience & Pattern Recognition",
-                                image: "/images/team/mansi-new.png"
                             }
                         ].map((member, i) => (
                             <TeamCard key={i} {...member} delay={i * 0.1} />
