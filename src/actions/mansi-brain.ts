@@ -8,13 +8,14 @@ const client = new OpenAI({
 });
 
 // Priority List of FREE Models to minimize costs to Zero.
+// Priority List of FREE Models to minimize costs to Zero.
 const FREE_MODELS = [
-    'openai/gpt-oss-120b:free',           // Massive 120B parameter model (Primary)
-    'openai/gpt-oss-20b:free',            // Fast 20B model (Secondary)
-    'stepfun/step-3.5-flash:free',       // Fast, supports reasoning
-    'arcee-ai/trinity-large-preview:free', // High quality fallback
-    'meta-llama/llama-3-8b-instruct:free', // Standard fallback
-    'microsoft/phi-3-medium-128k-instruct:free' // Deep fallback
+    'google/gemini-2.0-flash-lite-preview-02-05:free', // Newest, Fastest Gemini 2.0
+    'google/gemini-2.0-pro-exp-02-05:free',            // High Intelligence Gemini 2.0 Pro
+    'deepseek/deepseek-r1-distill-llama-70b:free',     // Reasoning Model (DeepSeek R1)
+    'meta-llama/llama-3.3-70b-instruct:free',          // Llama 3.3 70B
+    'nvidia/llama-3.1-nemotron-70b-instruct:free',     // Nemotron 70B
+    'microsoft/phi-3-medium-128k-instruct:free'        // Ultimate Fallback
 ];
 
 export async function chatWithMansiBrain(conversationHistory: any[]) {
