@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 interface TeamMember {
     name: string;
@@ -31,14 +32,15 @@ export function TeamCard({ name, role, desc, specialty, delay, image }: TeamMemb
 
                     {/* Optional Image (Mansi) */}
                     {image ? (
-                        <div className="relative w-full h-64 overflow-hidden border-b border-white/10 group-hover:border-[#ff5e1a]/50 transition-colors">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
+                        <div className="relative w-full h-48 mb-6 rounded-xl overflow-hidden border border-white/10 group-hover:border-[#ff5e1a]/50 transition-colors duration-500">
+                            <Image
                                 src={image}
-                                alt={name}
-                                className="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0"
+                                alt={`${name} - ${role} at MotoFit 2`}
+                                fill
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                className="object-cover object-top transform group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent opacity-90" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent opacity-60 z-10" />
                         </div>
                     ) : (
                         // Decorative header for non-image cards
