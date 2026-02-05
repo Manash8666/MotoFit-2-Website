@@ -101,7 +101,7 @@ export default function AboutPage() {
                                 role: "The Digital Soul",
                                 desc: "The heartbeat of MotoFit 2. Mansi connects you to the workshop floor, tracking your build and ensuring your experience is as precise as our torque wrenches. She's always one step ahead.",
                                 specialty: "User Experience & Pattern Recognition",
-                                image: "/images/team/mansi.png"
+                                image: "/images/team/mansi-new.png"
                             }
                         ].map((member, i) => (
                             <TeamCard key={i} {...member} delay={i * 0.1} />
