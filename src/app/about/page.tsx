@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 export default function AboutPage() {
     const { openBooking } = useBooking();
-    const [akshatImage, setAkshatImage] = useState("/images/team/akshat-portrait.png");
+    const [akshatImage, setAkshatImage] = useState("/images/team/akshat-portrait.jpg");
 
     useEffect(() => {
         // Dynamic Photo Switching Protocol
@@ -17,9 +17,9 @@ export default function AboutPage() {
         // 12:00 - 23:59 -> Face/Bike (Evening Mode)
         const hour = new Date().getHours();
         if (hour >= 12) {
-            setAkshatImage("/images/team/akshat-face.png");
+            setAkshatImage("/images/team/akshat-face.jpg");
         } else {
-            setAkshatImage("/images/team/akshat-portrait.png");
+            setAkshatImage("/images/team/akshat-portrait.jpg");
         }
     }, []);
 
