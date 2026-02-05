@@ -36,7 +36,7 @@ export function TeamCard({ name, role, desc, specialty, delay, image }: TeamMemb
                             <img
                                 src={image}
                                 alt={name}
-                                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0"
+                                className="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-[#111] to-transparent opacity-90" />
                         </div>

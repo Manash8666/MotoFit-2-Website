@@ -49,7 +49,7 @@ export default function AboutPage() {
                                 role: "The Engineer",
                                 desc: "Why does a Mechanical Engineer open a garage? Because you deserve better than 'parts swappers'. Founded MotoFit 2 to bring structural integrity, digital precision, and torque-wrench discipline to every build.",
                                 specialty: "Vision & Structural Integrity",
-                                image: "/images/team/akshat-face.png"
+                                image: "/images/team/akshat-portrait.png"
                             },
                             {
                                 name: "Mansi",
