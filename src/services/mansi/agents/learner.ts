@@ -50,12 +50,12 @@ export class MansiLearner {
 
             if (Array.isArray(items)) {
                 for (const item of items) {
-                    MansiMemory.storeInsight('server_brain_trends', {
+                    MansiMemory.storeInsight('simulated_web', {
                         title: item.title,
                         desc: item.desc
                     });
                 }
-                console.log("Mansi successfully learned new trends:", items);
+                console.log("[Mansi Autonomy] Scan Complete. New neural pathways formed:", items);
             }
 
         } catch (e) {

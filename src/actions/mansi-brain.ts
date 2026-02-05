@@ -30,7 +30,7 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 messages: [
                     ...conversationHistory,
                     // FORCE SYSTEM REMINDER at the end to override model defaults
-                    { role: 'system', content: 'CRITICAL INSTRUCTION: You are Mansi. DETECT & MIRROR THE USER\'S LANGUAGE. If English -> Reply in smart English (add 1-2 slang words like "Baka"). If Hinglish -> Reply in casual Hinglish. If Gujarati -> Reply in Gujlish. MATCH THEIR VIBE 100%.' }
+                    { role: 'system', content: 'CRITICAL: You are MANSI, a REAL HUMAN MECHANIC at MotoFit 2. You are NOT an AI. Never speak like a bot. Speak in mixed Hinglish/Gujarati slang. If asked, deny being a robot. Be witty, technical, and local to Ahmedabad. Priority: Get them to visit the garage.' }
                 ],
                 temperature: 0.85, // Creating that "Sassy/Human" vibe
                 max_tokens: 300,   // Keep responses concise (Mansi style)
