@@ -28,6 +28,7 @@ export default function MotoFitLogo({ className, size = 'md' }: MotoFitLogoProps
                     src="/logo-emblem.png"
                     alt="MotoFit 2 Hub"
                     fill
+                    sizes="256px"
                     className="object-contain mix-blend-screen brightness-125 contrast-125 transition-all duration-500 group-hover/logo:scale-105"
                     style={{
                         // Removing the background and adding futuristic neon glow

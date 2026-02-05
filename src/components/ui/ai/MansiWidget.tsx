@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Badge } from '@/components/ui/graphics/Badge';
 import { Send, Sparkles, X } from 'lucide-react';
+import Image from 'next/image';
 
 import { ROGPhoneFrame } from './ROGPhoneFrame';
 import { MansiLearner } from '@/services/mansi/agents/learner';
@@ -330,14 +331,19 @@ export default function MansiWidget() {
                     onClick={() => setIsOpen(!isOpen)}
                     className="relative group w-16 h-16 rounded-full p-[2px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] shadow-lg transition-transform hover:scale-110 active:scale-95"
                 >
-                    <div className="w-full h-full rounded-full border-2 border-black overflow-hidden bg-black">
+                    <div className="w-full h-full rounded-full border-2 border-black overflow-hidden bg-black relative">
                         {isOpen ? (
                             <div className="w-full h-full flex items-center justify-center bg-[#111]">
                                 <X className="w-6 h-6 text-white" />
                             </div>
                         ) : (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={mansiImage} alt="Mansi" className="w-full h-full object-cover" />
+                            <Image
+                                src={mansiImage}
+                                alt="Mansi"
+                                fill
+                                sizes="64px"
+                                className="object-cover"
+                            />
                         )}
                     </div>
                 </button>

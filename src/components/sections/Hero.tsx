@@ -5,6 +5,7 @@ import { useAspect, useTexture, useScroll } from '@react-three/drei';
 import { useMemo, useRef, useState, useEffect, Suspense } from 'react';
 import * as THREE from 'three';
 import { GlassButton, IndustrialButton } from '@/components/ui/buttons/GlassButton';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLenis } from '@/components/LenisWrapper';
 import TextReveal from '../ui/text/TextReveal';
@@ -107,9 +108,16 @@ export default function Hero() {
             animate={{ opacity: 0.6, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${HERO_IMAGES[currentImageIndex]})` }}
+            className="absolute inset-0"
           >
+            <Image
+              src={HERO_IMAGES[currentImageIndex]}
+              alt="MotoFit 2 Hero Background"
+              fill
+              priority
+              className="object-cover object-center"
+              sizes="100vw"
+            />
             <div className="absolute inset-0 bg-black/60" />
           </motion.div>
         </AnimatePresence>
