@@ -49,7 +49,7 @@ export default function AboutPage() {
                                 role: "The Engineer",
                                 desc: "Why does a Mechanical Engineer open a garage? Because you deserve better than 'parts swappers'. Founded MotoFit 2 to bring structural integrity, digital precision, and torque-wrench discipline to every build.",
                                 specialty: "Vision & Structural Integrity",
-                                image: "/images/akshat-mohanty-ladakh.png"
+                                image: "/images/team/akshat-face.png"
                             },
                             {
                                 name: "Mansi",
@@ -57,6 +57,12 @@ export default function AboutPage() {
                                 desc: "The heartbeat of MotoFit 2. Mansi connects you to the workshop floor, tracking your build and ensuring your experience is as precise as our torque wrenches. She's always one step ahead.",
                                 specialty: "User Experience & Pattern Recognition",
                                 image: "/images/team/mansi-new.png"
+                            },
+                            {
+                                name: "Munna Gujili",
+                                role: "The Pulse",
+                                desc: "The omnipresent guardian of the garage. Munna is the rhythm that keeps the chaos in check, the eyes that catch the loose bolt, the relentless spirit that ensures no bike leaves without its soul intact.",
+                                specialty: "Workshop Synchronization & QC"
                             },
                             {
                                 name: "Kunal Thakor",
@@ -69,12 +75,6 @@ export default function AboutPage() {
                                 role: "The Kineticist",
                                 desc: "Master of the invisible forces. Goarav governs the friction zone, ensuring the transfer of chaos from engine to asphalt is absolute. When you feel that perfect launch, you're feeling his signature.",
                                 specialty: "Clutch Assembly & Torque Management"
-                            },
-                            {
-                                name: "Munna Gujili",
-                                role: "The Pulse",
-                                desc: "The omnipresent guardian of the garage. Munna is the rhythm that keeps the chaos in check, the eyes that catch the loose bolt, the relentless spirit that ensures no bike leaves without its soul intact.",
-                                specialty: "Workshop Synchronization & QC"
                             },
                             {
                                 name: "Samael M.",
