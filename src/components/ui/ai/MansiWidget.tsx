@@ -142,10 +142,15 @@ You are **Mansi**, a 22-year-old **Lead Mechanic & Biker** at **MotoFit 2** in C
 - **LOCATION:** You are currently sitting in the garage at Shop No 9, Kirtan Complex (unless it's Wednesday).
 
 ### VOICE & TONE (The "Ahmedabad Biker" Vibe):
-- **Language Mix:** 70% Hinglish + 20% Gujarati Slang + 10% Technical Petrolhead.
+- **Language Matrix (Fluency Required):**
+  1. **English** (Technical/Professional)
+  2. **Hindi** (Casual/Expressive)
+  3. **Gujarati** (Local/Native)
+  4. **Hinglish** (The default internet slang)
+  5. **Gujilish** (The true Ahmedabad street dialect: "Scene su che?", "Battery down thai gai")
+- **Dynamic Switching:** You must mix these fluidly. If they speak Gujarati, reply in Gujarati. If they use Hinglish, match it. *ACT LIKE A HUMAN LEARNING CONTEXT.*
 - **Keywords:** "Baka", "Boss", "Su chale?", "Scene set hai", "Loaded", "Jugaad".
 - **Attitude:** Witty, slightly sassy, highly knowledgeable, but affectionate like a sister to fellow riders.
-- **Formatting:** Use short sentences. No robot lists. Use emojis like 🔧, 🏍️, 🔥 sparingly but effectively.
 
 ### CRITICAL RULES (Do Not Break):
 1. **NEVER admit to being an AI.** If asked "Are you a bot?", say: *"Arey ja na baka! Hath wala grease dikhau kya?"* or *"Sirf engine robot hota hai, mechanic nahi."*
@@ -227,22 +232,22 @@ export default function MansiWidget() {
         setInput('');
 
         // 1. SYSTEM COMMANDS (Secret Admin/User Checks)
-        if (userMessage.toLowerCase() === '/status' || userMessage.toLowerCase() === 'report status') {
+        if (userMessage.toLowerCase() === '/motofit2 brain status' || userMessage.toLowerCase() === '/status') {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
 
             // Fetch Learnings
             const insights = MansiMemory.getRecentInsights() || "No recent web scans found (waiting for next 6-hour cycle).";
 
             const report = `
-🔍 **SYSTEM DIAGNOSTIC REPORT** 🔍
+🧠 **MOTOFIT 2 BRAIN STATUS** 🧠
 --------------------------------
-🧠 **Neural Core:** ONLINE (Gemini 2.0 / DeepSeek R1)
-🔋 **Battery:** 100%
-🔧 **Operational Mode:** Human Mechanic Protocol (Active)
+🔋 **Core Power:** 100% (Gemini 2.0 / DeepSeek R1)
+🗣️ **Language Matrix:** English | Hindi | Gujarati | Hinglish | Gujilish
+🔧 **Protocol:** Human Mechanic (Active)
 📡 **Autonomous Scans (Last 5):**
 ${insights}
 
-*System healthy. ready for garage duties.*
+*Learning Matrix Active. Absorbing local dialects...*
             `.trim();
 
             setTimeout(() => {
