@@ -7,6 +7,7 @@ import Image from 'next/image';
 
 import { ROGPhoneFrame } from './ROGPhoneFrame';
 import { MansiLearner } from '@/services/mansi/agents/learner';
+import { MansiMemory } from '@/services/mansi/agents/memory';
 
 const MANSI_DAY_LOOKS: Record<number, string> = {
     0: '/images/reels/mansi-day-0.webp',      // Sunday
@@ -225,7 +226,33 @@ export default function MansiWidget() {
         const userMessage = input.trim();
         setInput('');
 
-        // 1. SAFETY PROTOCOL (Client Side Fast Check)
+        // 1. SYSTEM COMMANDS (Secret Admin/User Checks)
+        if (userMessage.toLowerCase() === '/status' || userMessage.toLowerCase() === 'report status') {
+            setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+
+            // Fetch Learnings
+            const insights = MansiMemory.getRecentInsights() || "No recent web scans found (waiting for next 6-hour cycle).";
+
+            const report = `
+🔍 **SYSTEM DIAGNOSTIC REPORT** 🔍
+--------------------------------
+🧠 **Neural Core:** ONLINE (Gemini 2.0 / DeepSeek R1)
+🔋 **Battery:** 100%
+🔧 **Operational Mode:** Human Mechanic Protocol (Active)
+📡 **Autonomous Scans (Last 5):**
+${insights}
+
+*System healthy. ready for garage duties.*
+            `.trim();
+
+            setTimeout(() => {
+                setMessages(prev => [...prev, { role: 'assistant', content: report }]);
+                setIsLoading(false);
+            }, 500);
+            return;
+        }
+
+        // 2. SAFETY PROTOCOL (Client Side Fast Check)
         const bannedKeywords = ['sex', 'nude', 'naked', 'fuck', 'bitch', 'whore', 'slut', 'dick', 'pussy', 'xxx', 'porn', 'chut', 'lund', 'gand'];
         if (bannedKeywords.some(word => userMessage.toLowerCase().includes(word))) {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
