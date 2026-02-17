@@ -8,6 +8,8 @@ import Image from 'next/image';
 import { ROGPhoneFrame } from './ROGPhoneFrame';
 import { MansiLearner } from '@/services/mansi/agents/learner';
 import { MansiMemory } from '@/services/mansi/agents/memory';
+import { MansiContext } from '@/services/mansi/agents/context';
+import { MansiCalendar } from '@/services/mansi/agents/calendar';
 
 const MANSI_DAY_LOOKS: Record<number, string> = {
     0: '/images/reels/mansi-day-0.webp',      // Sunday
@@ -183,17 +185,33 @@ export default function MansiWidget() {
 
     const [hasUnread, setHasUnread] = useState(false);
     const [mansiImage, setMansiImage] = useState('');
+    const [isListening, setIsListening] = useState(false);
+    const [isSpeaking, setIsSpeaking] = useState(false);
+    const hasGreeted = useRef(false);
 
     useEffect(() => {
         // Deterministic Look: Persist the same image for the entire day
         const day = new Date().getDay();
         setMansiImage(MANSI_DAY_LOOKS[day] || MANSI_DAY_LOOKS[1]);
+
+        // Phase 2: Start context tracking (idle detection)
+        const cleanup = MansiContext.initTracking();
+        return cleanup;
     }, []);
 
-    // Initialize Autonomous Learning ONLY when user interacts
+    // Initialize Autonomous Learning + Context-Aware Greeting
     useEffect(() => {
         if (isOpen) {
             MansiLearner.start();
+
+            // Phase 2: Context-aware greeting on first open
+            if (!hasGreeted.current && messages.length === 0) {
+                hasGreeted.current = true;
+                const greeting = MansiContext.getPageGreeting();
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: greeting }]);
+                }, 600);
+            }
         }
     }, [isOpen]);
 
@@ -248,13 +266,15 @@ export default function MansiWidget() {
             const report = `
 🧠 **MOTOFIT 2 BRAIN STATUS** 🧠
 --------------------------------
-🔋 **Core Power:** 100% (Gemini 2.0 / DeepSeek R1)
+🔋 **Core Power:** 100% (Gemini 2.0 / Nemotron / DeepSeek R1)
 🗣️ **Language Matrix:** English | Hindi | Gujarati | Hinglish | Gujilish
 🔧 **Protocol:** Human Mechanic (Active)
+👁️ **Context:** ${MansiContext.getPageName()} page | Idle: ${MansiContext.getIdleSeconds()}s
+📅 **Calendar:** ${MansiCalendar.getTodayStatus()}
 📡 **Autonomous Scans (Last 5):**
 ${insights}
 
-*Learning Matrix Active. Absorbing local dialects...*
+*Learning Matrix Active. Eyes everywhere.*
             `.trim();
 
             setTimeout(() => {
@@ -264,7 +284,30 @@ ${insights}
             return;
         }
 
-        // 2. SAFETY PROTOCOL (Client Side Fast Check)
+        // 2. BOOKING COMMAND (Phase 3)
+        if (userMessage.toLowerCase().startsWith('/book')) {
+            setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+            const parts = userMessage.split(' ');
+            const dateStr = parts[1]; // e.g. /book 2026-02-20
+
+            if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: '📅 Booking karna hai? Format: `/book YYYY-MM-DD` — jaise `/book 2026-02-20`. Try kar! 🔧' }]);
+                }, 400);
+                return;
+            }
+
+            const result = MansiCalendar.getAvailableSlots(dateStr);
+            setTimeout(() => {
+                setMessages(prev => [...prev, { role: 'assistant', content: result.message }]);
+                if (result.available) {
+                    MansiCalendar.saveBookingIntent({ preferredDate: dateStr, ts: Date.now() });
+                }
+            }, 500);
+            return;
+        }
+
+        // 3. SAFETY PROTOCOL (Client Side Fast Check)
         const bannedKeywords = ['sex', 'nude', 'naked', 'fuck', 'bitch', 'whore', 'slut', 'dick', 'pussy', 'xxx', 'porn', 'chut', 'lund', 'gand'];
         if (bannedKeywords.some(word => userMessage.toLowerCase().includes(word))) {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
@@ -295,9 +338,13 @@ ${insights}
             // ... late night logic ...
         }
 
-        // 3. CONSTRUCT CONVERSATION FOR SERVER
+        // 4. CONSTRUCT CONVERSATION FOR SERVER (with Phase 2 + 3 context)
+        const pageHint = MansiContext.getPageHint();
+        const calendarStatus = MansiCalendar.getTodayStatus();
+        const fullContext = `${timeContext}\n${pageHint}\n${calendarStatus}`;
+
         const conversationHistory = [
-            { role: 'system', content: `${SYSTEM_PROMPT}\n\nCONTEXT: ${timeContext}` },
+            { role: 'system', content: `${SYSTEM_PROMPT}\n\nCONTEXT: ${fullContext}` },
             ...messages.slice(-4), // Keep last 4 messages for context window
             { role: 'user', content: userMessage }
         ];
@@ -322,6 +369,9 @@ ${insights}
 
             setMessages(prev => [...prev, { role: 'assistant', content: aiText }]);
 
+            // Phase 4: TTS — Speak the response
+            speakText(aiText);
+
         } catch (error) {
             console.warn("Server Brain Failed. Activating Ghost Protocol.", error);
 
@@ -331,6 +381,7 @@ ${insights}
             setTimeout(() => {
                 setMessages(prev => [...prev, { role: 'assistant', content: ghostReply }]);
                 setSentiment('neutral');
+                speakText(ghostReply);
             }, 1000);
         } finally {
             setIsLoading(false);
@@ -345,8 +396,73 @@ ${insights}
         if (e.key === 'Enter') handleSend();
     };
 
-    // Animation Classes based on Sentiment
+    // Phase 4: Voice Input (Web Speech API — Free, Browser-Native)
+    const handleVoiceInput = () => {
+        if (typeof window === 'undefined') return;
+        const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert('Browser does not support voice input.');
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'hi-IN'; // Hindi + English mixed input
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => setIsListening(true);
+        recognition.onend = () => setIsListening(false);
+        recognition.onerror = () => setIsListening(false);
+
+        recognition.onresult = (event: any) => {
+            const transcript = event.results[0][0].transcript;
+            setInput(transcript);
+            // Auto-send after voice input
+            setTimeout(() => {
+                setInput('');
+                setMessages(prev => [...prev, { role: 'user', content: transcript }]);
+            }, 300);
+        };
+
+        recognition.start();
+    };
+
+    // Phase 4: Text-to-Speech (Browser speechSynthesis — Free)
+    const speakText = (text: string) => {
+        if (typeof window === 'undefined' || !window.speechSynthesis) return;
+
+        // Clean markdown and emojis for cleaner speech
+        const cleanText = text
+            .replace(/\*\*(.*?)\*\*/g, '$1')
+            .replace(/[🔧🏍️🔥📅🧠🔋📡👁️🗣️]/g, '')
+            .replace(/---+/g, '')
+            .trim();
+
+        if (!cleanText) return;
+
+        // Cancel any ongoing speech
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'hi-IN';
+        utterance.rate = 1.05;
+        utterance.pitch = 1.1; // Slightly higher for feminine voice
+
+        // Try to find an Indian English voice
+        const voices = window.speechSynthesis.getVoices();
+        const indianVoice = voices.find(v => v.lang.includes('hi') || v.lang.includes('IN'));
+        if (indianVoice) utterance.voice = indianVoice;
+
+        utterance.onstart = () => setIsSpeaking(true);
+        utterance.onend = () => setIsSpeaking(false);
+        utterance.onerror = () => setIsSpeaking(false);
+
+        window.speechSynthesis.speak(utterance);
+    };
+
+    // Animation Classes based on Sentiment + Speaking
     const getAvatarAnimation = () => {
+        if (isSpeaking) return 'animate-pulse';
         if (sentiment === 'happy') return 'animate-bounce-subtle';
         if (sentiment === 'thinking') return 'animate-pulse';
         if (sentiment === 'serious') return 'animate-shake';
