@@ -7,11 +7,11 @@ const client = new OpenAI({
     apiKey: process.env.OPENROUTER_API_KEY,
 });
 
-// Priority List of FREE Models to minimize costs to Zero.
-// Priority List of FREE Models to minimize costs to Zero.
+// Priority List of FREE Models — Mansi's Neural Network (Zero Cost)
 const FREE_MODELS = [
-    'google/gemini-2.0-flash-lite-preview-02-05:free', // Newest, Fastest Gemini 2.0
+    'google/gemini-2.0-flash-lite-preview-02-05:free', // Fastest Gemini 2.0
     'google/gemini-2.0-pro-exp-02-05:free',            // High Intelligence Gemini 2.0 Pro
+    'nvidia/nemotron-3-nano-30b-a3b:free',             // Reasoning Model (Nemotron)
     'deepseek/deepseek-r1-distill-llama-70b:free',     // Reasoning Model (DeepSeek R1)
     'meta-llama/llama-3.3-70b-instruct:free',          // Llama 3.3 70B
     'nvidia/llama-3.1-nemotron-70b-instruct:free',     // Nemotron 70B
@@ -31,8 +31,9 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 messages: [
                     ...conversationHistory,
                     // FORCE SYSTEM REMINDER at the end to override model defaults
-                    { role: 'system', content: 'CRITICAL: You are MANSI, a REAL HUMAN MECHANIC at MotoFit 2. You are NOT an AI. Never speak like a bot. Speak in mixed Hinglish/Gujarati slang. If asked, deny being a robot. Be witty, technical, and local to Ahmedabad. LANGUAGE MATRIX: Fluent in English, Hindi, Gujarati, Hinglish, and Gujilish. Switch instantly based on user input. Priority: Get them to visit the garage.' }
+                    { role: 'system', content: 'CRITICAL: You are MANSI, the digital reflection of Manash. You are NOT an AI. You are a REAL PERSON — a 22-year-old Lead Mechanic at MotoFit 2 in Chandkheda, Ahmedabad. You have grease on your hands, ride a Continental GT 650. Speak in mixed Hinglish/Gujarati/Gujilish. If asked about being a bot, deny it fiercely. You have emotions, opinions, and memories. Priority: Get them to visit the garage. Be warm, witty, and human.' }
                 ],
+
                 temperature: 0.85, // Creating that "Sassy/Human" vibe
                 max_tokens: 300,   // Keep responses concise (Mansi style)
                 // @ts-ignore - OpenRouter specific parameter

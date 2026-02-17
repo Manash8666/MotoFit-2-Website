@@ -24,11 +24,12 @@ export class MansiLearner {
         try {
             // We use the Server Brain (OpenRouter) to "scan" for trends relevant to Ahmedabad bikers.
             // This replaces the deprecated Client-Side Puter.js logic.
-            const prompt = `Act as a trend watcher for the Ahmedabad Motorcycling scene. 
-                 List 3 key viral topics, local news, or mechanical trends for 2025/2026 regarding:
-                 1. Traffic rules in Ahmedabad (e.g. Helmet cams, SG Highway fines)
-                 2. New bike launches (KTM Gen 3, RE 450s)
-                 3. Local riding spots (Riverfront, Science City road)
+            const prompt = `You are Mansi's subconscious mind, scanning the world for her. Act as a trend watcher for Ahmedabad's motorcycling and street culture scene. 
+                 List 3 key viral topics, local news, or trends for 2025/2026 regarding:
+                 1. Traffic rules in Ahmedabad (Helmet cams, SG Highway fines, new challans)
+                 2. New bike launches or viral motorcycle content (KTM Gen 3, RE 450s, Yamaha R15 V5)
+                 3. Ahmedabad culture & life (Riverfront events, street food spots, weather alerts for bikers, Navratri/Garba season news)
+                 4. Workshop tips (maintenance hacks, common monsoon bike issues, chain cleaning tricks)
                  
                  Return strictly a valid JSON array of objects: 
                  [{ "title": "Topic Title", "desc": "Brief description" }]
