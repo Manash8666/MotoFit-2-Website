@@ -22,7 +22,7 @@ export class MansiContext {
         '/about': {
             name: 'About',
             hint: 'User is reading about MotoFit. They want to know the team, the story, the vibe.',
-            greeting: 'About page pe ho? Haan, this is the fam. Akshat sir started this from scratch. Koi sawaal ho to bolo! 💙'
+            greeting: 'About page pe ho? Haan, this is the fam. Akshat bhai started this from scratch. Koi sawaal ho to bolo! 💙'
         },
         '/parts': {
             name: 'Parts Catalog',

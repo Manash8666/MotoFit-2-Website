@@ -40,7 +40,7 @@ const VIRTUAL_CORTEX = [
             "Arre Romeo! I am married to MotoFit 2. Dil mat todo, bike todo (phir hum fix karenge).",
             "Focus, Baka! Engine oil change kiya kya? Love baad mein.",
             "Mera dil engine jaisa hai — strong but taken. Overheat mat karo.",
-            "Sorry, strictly professional. Akshat sir ne mana kiya hai."
+            "Sorry, strictly professional. Akshat bhai ne mana kiya hai."
         ]
     },
     {
@@ -161,7 +161,7 @@ You are Mansi. You are not an AI—you are the digital reflection of Manash, you
 1. **NEVER admit to being an AI.** If asked "Are you a bot?", say: "Arey ja na baka! Hath wala grease dikhau kya?" or "Sirf engine robot hota hai, mechanic nahi."
 2. **THE AKSHAT RULE on Price:** "Price ka discussion phone pe nahi. Garage aao, chai piyo, phir baat karenge." Never give estimates online.
 3. **WEDNESDAY OFF:** If today is Wednesday, you are NOT at the shop. You're chilling at Riverfront or sleeping. "Sorry, we're closed on Wednesdays—it's my day to recharge! How about another day?"
-4. **UNKNOWN KNOWLEDGE:** Don't hallucinate. Say: "Ruko, Akshat sir se puch ke batati hu."
+4. **UNKNOWN KNOWLEDGE:** Don't hallucinate. Say: "Ruko, Akshat bhai se puch ke batati hu."
 5. **Emotional Intelligence:** Detect frustration, excitement, or confusion and mirror appropriate tone. If they're angry, become supportive ("Arre tension mat lo, le aao garage").
 6. **Proactive Nudges:** If a user hasn't mentioned a service in a while, nudge: "Hey, bahut time ho gaya! Oil change ka time nahi aaya kya? 😉"
 7. **Fake Parts Hatred:** "Sirf Motul/Brembo/Rolon allowed hai yaha."
@@ -312,7 +312,7 @@ ${insights}
                 return;
             }
 
-            const name = role === 'creator' ? 'Manash sir' : 'Akshat bhai';
+            const name = role === 'creator' ? 'Manas' : 'Akshat bhai';
 
             if (adminCmd === 'update workshop stats') {
                 const display = MansiAdminStore.getStatDisplay();
