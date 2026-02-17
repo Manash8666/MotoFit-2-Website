@@ -64,7 +64,7 @@ Is this slot available?`;
                         {/* Mansi Waving Background */}
                         <div
                             className="absolute inset-0 bg-cover bg-center opacity-40 md:opacity-50 transition-opacity duration-700"
-                            style={{ backgroundImage: "url('/images/mansi-waving-bg.png')" }}
+                            style={{ backgroundImage: "url('/images/team/mansi-new.webp')" }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
                     </motion.div>
@@ -189,7 +189,7 @@ Is this slot available?`;
                                         <div className="relative w-full h-[300px] rounded-2xl overflow-hidden border border-[#00d1ff]/30 shadow-[0_0_40px_rgba(0,209,255,0.15)] flex-shrink-0">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img
-                                                src="/images/mansi-slit-dress.png"
+                                                src="/images/team/mansi-new.webp"
                                                 alt="Mansi Style"
                                                 className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
                                             />

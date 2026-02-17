@@ -69,7 +69,7 @@ export function InstagramUI({ messages: initialMessages, input, setInput, onSend
                     className="w-9 h-9 rounded-full p-[2px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] active:scale-95 transition-transform"
                 >
                     <div className="w-full h-full rounded-full border-2 border-black overflow-hidden">
-                        <img src={mansiImage || "/images/mansi-party.png"} alt="Mansi" className="w-full h-full object-cover" />
+                        <img src={mansiImage || "/images/reels/mansi-day-2.webp"} alt="Mansi" className="w-full h-full object-cover" />
                     </div>
                 </button>
                 <div className="cursor-pointer" onClick={() => setViewProfile(true)}>
@@ -111,7 +111,7 @@ export function InstagramUI({ messages: initialMessages, input, setInput, onSend
                         {/* Avatar for Assistant */}
                         {msg.role === 'assistant' && (
                             <div className="w-7 h-7 rounded-full overflow-hidden mr-2 self-end mb-1">
-                                <img src={mansiImage || "/images/mansi-party.png"} className="w-full h-full object-cover" />
+                                <img src={mansiImage || "/images/reels/mansi-day-2.webp"} className="w-full h-full object-cover" />
                             </div>
                         )}
 
@@ -154,7 +154,7 @@ export function InstagramUI({ messages: initialMessages, input, setInput, onSend
                 {isLoading && (
                     <div className="flex justify-start items-center gap-2">
                         <div className="w-7 h-7 rounded-full overflow-hidden">
-                            <img src={mansiImage || "/images/mansi-party.png"} className="w-full h-full object-cover" />
+                            <img src={mansiImage || "/images/reels/mansi-day-2.webp"} className="w-full h-full object-cover" />
                         </div>
                         <div className="bg-[#262626] px-4 py-3 rounded-2xl rounded-bl-sm">
                             <span className="animate-pulse text-white/50 text-xs">typing...</span>
@@ -196,7 +196,7 @@ export function InstagramUI({ messages: initialMessages, input, setInput, onSend
                 >
                     <div className="w-full aspect-square max-w-[300px] rounded-full p-[2px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] mb-4">
                         <div className="w-full h-full rounded-full border-4 border-black overflow-hidden">
-                            <img src={mansiImage || "/images/reels/mansi-party.png"} alt="Mansi Full" className="w-full h-full object-cover" />
+                            <img src={mansiImage || "/images/reels/mansi-day-2.webp"} alt="Mansi Full" className="w-full h-full object-cover" />
                         </div>
                     </div>
                     <p className="text-white text-sm font-bold">mansi_motofit2</p>
