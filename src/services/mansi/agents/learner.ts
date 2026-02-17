@@ -30,6 +30,8 @@ export class MansiLearner {
                  2. New bike launches or viral motorcycle content (KTM Gen 3, RE 450s, Yamaha R15 V5)
                  3. Ahmedabad culture & life (Riverfront events, street food spots, weather alerts for bikers, Navratri/Garba season news)
                  4. Workshop tips (maintenance hacks, common monsoon bike issues, chain cleaning tricks)
+                 5. Accident repair trends (insurance claim tips, common crash damage patterns, restoration techniques)
+                 6. Custom modification culture (popular mods for RE/KTM/Pulsar, touring setup trends, ECU tuning updates)
                  
                  Return strictly a valid JSON array of objects: 
                  [{ "title": "Topic Title", "desc": "Brief description" }]

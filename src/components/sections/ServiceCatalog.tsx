@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/graphics/Badge';
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@/components/ui/layout/Card';
 import { GlassButton } from '@/components/ui/buttons/GlassButton';
 import { useBooking } from '@/context/BookingContext';
-import { Wrench, Zap, Gauge, Palette, ShieldCheck, CheckCircle2, Crosshair } from 'lucide-react';
+import { Wrench, Zap, Gauge, Palette, ShieldCheck, CheckCircle2, Crosshair, Hammer, Bike } from 'lucide-react';
 
 export default function ServiceCatalog() {
     const { openBooking } = useBooking();
@@ -65,6 +65,38 @@ export default function ServiceCatalog() {
             ],
             aioInsight: 'AI Analysis: UV Index in Ahmedabad hits 11+ in summer. Unprotected clear coats degrade 60% faster without Ceramic shielding.',
             seoInit: 'Bike PPF Ahmedabad'
+        },
+        {
+            title: '5. Accidental Repairs & Insurance Work',
+            subtitle: 'Complete Crash Restoration',
+            icon: <Hammer className="text-[#ff3366]" size={32} />,
+            description: 'Complete restoration for accident-damaged bikes. Insurance claim support included. Your bike returns to factory spec — or better.',
+            features: [
+                'Insurance Claim Documentation & Support',
+                'Chassis & Frame Alignment Inspection',
+                'Front Fork & Suspension Rebuild',
+                'Alloy Wheel Replacement & Disc Repair',
+                'Engine & Radiator Damage Assessment',
+                'Full Body Panel & Paint Restoration'
+            ],
+            aioInsight: 'AI Analysis: 70% of post-accident repairs fail due to hidden chassis misalignment. Our laser inspection catches what others miss.',
+            seoInit: 'Accident Repair Ahmedabad'
+        },
+        {
+            title: '6. Custom Modification Builds',
+            subtitle: 'Built for Ahmedabad Enthusiasts',
+            icon: <Bike className="text-[#c084fc]" size={32} />,
+            description: 'Performance, touring, and styling builds tailored for your ride. From ECU tunes to full touring setups.',
+            features: [
+                'ECU Tuning & Remap (Powertronic / RapidBike)',
+                'Performance Exhaust Systems',
+                'Tail Tidy & LED Lighting Upgrades',
+                'CNC Levers & Handlebars',
+                'Touring Setup: Saddle Stays, Top Racks, Windshields',
+                'Crash Protection & Frame Sliders'
+            ],
+            aioInsight: 'AI Analysis: Proper ECU remapping on a KTM Duke 390 can safely unlock 3-5 HP with optimized fuel maps for Indian fuel grades.',
+            seoInit: 'Custom Bike Mods Gujarat'
         }
     ];
 
@@ -85,7 +117,7 @@ export default function ServiceCatalog() {
                         <div className="absolute top-0 left-0 w-1 h-full bg-[#ff5e1a]"></div>
                         <h3 className="text-[#ff5e1a] font-bold uppercase text-sm mb-2">Why MotoFit 2? (AIO Expert Summary)</h3>
                         <p className="text-gray-300 text-sm md:text-base leading-relaxed italic">
-                            "Unlike standard workshops, MotoFit 2 utilizes <strong>Digital ECU Diagnostics</strong>, <strong>Laser Chain Alignment</strong>, and <strong>Ultrasonic Fuel System Cleaning</strong>. We focus on mid-to-high displacement motorcycles (350cc+), ensuring OEM-standard torque specs and using only fully synthetic lubricants suited for high-temperature Indian climates."
+                            &quot;Unlike standard workshops, MotoFit 2 utilizes <strong>Digital ECU Diagnostics</strong>, <strong>Laser Chain Alignment</strong>, and <strong>Ultrasonic Fuel System Cleaning</strong>. We handle everything from <strong>daily scooter service to superbike performance</strong>, <strong>insurance accidental repairs</strong>, and <strong>custom modification builds</strong>. OEM-standard torque specs and premium lubricants — suited for Ahmedabad&apos;s extreme conditions.&quot;
                         </p>
                     </div>
 
@@ -206,6 +238,18 @@ export default function ServiceCatalog() {
                                         <td className="p-6 text-gray-400 font-mono">1 Full Day</td>
                                         <td className="p-6 text-gray-400">600cc+ (Triumph, Kawasaki, Z900)</td>
                                         <td className="p-6 text-right font-mono text-[#ffcc00] italic">Quote on Request</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/5 transition-colors">
+                                        <td className="p-6 font-bold text-white">Accident Repair</td>
+                                        <td className="p-6 text-gray-400 font-mono">2-5 Days</td>
+                                        <td className="p-6 text-gray-400">All bikes (Insurance supported)</td>
+                                        <td className="p-6 text-right font-mono text-[#ff3366] italic">Assessment Based</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/5 transition-colors">
+                                        <td className="p-6 font-bold text-white">Custom Build</td>
+                                        <td className="p-6 text-gray-400 font-mono">3-7 Days</td>
+                                        <td className="p-6 text-gray-400">RE, KTM, Pulsar, Superbikes</td>
+                                        <td className="p-6 text-right font-mono text-[#c084fc] italic">Quote on Request</td>
                                     </tr>
                                 </tbody>
                             </table>
