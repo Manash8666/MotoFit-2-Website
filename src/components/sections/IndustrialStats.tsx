@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useInView, useSpring, useMotionValue } from 'framer-motion';
 import { Badge } from '@/components/ui/graphics/Badge';
 import gsap from 'gsap';
+import { MansiAdminStore } from '@/services/mansi/agents/admin-store';
 
 function Counter({ value, label }: { value: number; label: string }) {
     const ref = useRef<HTMLDivElement>(null);
@@ -51,13 +52,20 @@ function Counter({ value, label }: { value: number; label: string }) {
 
 export default function IndustrialStats() {
     const currentYear = new Date().getFullYear();
-    const yearsInBusiness = currentYear - 2021; // 2021 is establishment
+    const yearsInBusiness = currentYear - 2021;
+
+    // Read from MansiAdminStore (localStorage-backed, falls back to defaults)
+    const [adminStats, setAdminStats] = useState({ bikesServiced: 5200, googleReviews: 127, satisfactionPercent: 98 });
+
+    useEffect(() => {
+        setAdminStats(MansiAdminStore.getStats());
+    }, []);
 
     const stats = [
-        { value: 5200, label: "Bikes Serviced" },
-        { value: 127, label: "Google Reviews" },
+        { value: adminStats.bikesServiced, label: "Bikes Serviced" },
+        { value: adminStats.googleReviews, label: "Google Reviews" },
         { value: yearsInBusiness, label: "Years Experience" },
-        { value: 98, label: "Satisfaction %" },
+        { value: adminStats.satisfactionPercent, label: "Satisfaction %" },
     ];
 
     return (

@@ -10,6 +10,8 @@ import { MansiLearner } from '@/services/mansi/agents/learner';
 import { MansiMemory } from '@/services/mansi/agents/memory';
 import { MansiContext } from '@/services/mansi/agents/context';
 import { MansiCalendar } from '@/services/mansi/agents/calendar';
+import { MansiAdminStore } from '@/services/mansi/agents/admin-store';
+import { MansiIdentity } from '@/services/mansi/agents/identity';
 
 const MANSI_DAY_LOOKS: Record<number, string> = {
     0: '/images/reels/mansi-day-0.webp',      // Sunday
@@ -188,6 +190,11 @@ export default function MansiWidget() {
     const [isListening, setIsListening] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const hasGreeted = useRef(false);
+    const [adminMode, setAdminMode] = useState<{
+        type: 'stats' | 'calendar' | 'blogs' | null;
+        step: number;
+        data: Record<string, any>;
+    }>({ type: null, step: 0, data: {} });
 
     useEffect(() => {
         // Deterministic Look: Persist the same image for the entire day
@@ -284,7 +291,50 @@ ${insights}
             return;
         }
 
-        // 2. BOOKING COMMAND (Phase 3)
+        // 2. ADMIN MODE FOLLOW-UP (Guided multi-step flows)
+        if (adminMode.type) {
+            setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+            handleAdminFlow(userMessage);
+            return;
+        }
+
+        // 3. ADMIN COMMANDS (Role-gated)
+        const adminCmd = userMessage.toLowerCase();
+        if (adminCmd === 'update workshop stats' || adminCmd === 'update calendar' || adminCmd === 'update blogs') {
+            setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+            const userId = 'main_user';
+            const role = MansiIdentity.getRole(userId, '');
+
+            if (role !== 'creator' && role !== 'owner') {
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: '🔒 Kyu bhai? Tu Akshat ya Manash hai? Pehle verify kar. Secret phrase bol, phir baat karte hai 😏' }]);
+                }, 400);
+                return;
+            }
+
+            const name = role === 'creator' ? 'Manash sir' : 'Akshat bhai';
+
+            if (adminCmd === 'update workshop stats') {
+                const display = MansiAdminStore.getStatDisplay();
+                setAdminMode({ type: 'stats', step: 1, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `🔐 Identity check... ✅ Welcome back, ${name}!\n\nKonsa stat update karna hai?\n${display}\n\nType the number (1, 2, or 3).` }]);
+                }, 400);
+            } else if (adminCmd === 'update calendar') {
+                setAdminMode({ type: 'calendar', step: 1, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `🔐 Verified! ✅ ${name}, calendar update mode.\n\nDate bolo (YYYY-MM-DD format):` }]);
+                }, 400);
+            } else if (adminCmd === 'update blogs') {
+                setAdminMode({ type: 'blogs', step: 1, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `🔐 Verified! ✅ ${name}, blog draft mode.\n\nBlog ka title bolo:` }]);
+                }, 400);
+            }
+            return;
+        }
+
+        // 4. BOOKING COMMAND (Phase 3)
         if (userMessage.toLowerCase().startsWith('/book')) {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
             const parts = userMessage.split(' ');
@@ -391,6 +441,99 @@ ${insights}
     // ... (keep generic imports)
 
     // ... (keep handleSend and other logic)
+
+    // ADMIN FLOW HANDLER — Multi-step guided conversation for admin commands
+    const handleAdminFlow = (userMessage: string) => {
+        const msg = userMessage.trim();
+
+        // --- WORKSHOP STATS FLOW ---
+        if (adminMode.type === 'stats') {
+            if (adminMode.step === 1) {
+                // User picked which stat to update (1, 2, or 3)
+                const choice = parseInt(msg);
+                if (choice < 1 || choice > 3 || isNaN(choice)) {
+                    setTimeout(() => {
+                        setMessages(prev => [...prev, { role: 'assistant', content: 'Baka, 1, 2, ya 3 type kar! 😤' }]);
+                    }, 300);
+                    return;
+                }
+                const statNames: Record<number, string> = { 1: 'bikesServiced', 2: 'googleReviews', 3: 'satisfactionPercent' };
+                const labels: Record<number, string> = { 1: 'Bikes Serviced', 2: 'Google Reviews', 3: 'Satisfaction %' };
+                setAdminMode({ type: 'stats', step: 2, data: { statKey: statNames[choice], label: labels[choice] } });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `Okay! **${labels[choice]}** ka naya number bolo:` }]);
+                }, 300);
+            } else if (adminMode.step === 2) {
+                // User entered the new value
+                const newVal = parseInt(msg);
+                if (isNaN(newVal) || newVal < 0) {
+                    setTimeout(() => {
+                        setMessages(prev => [...prev, { role: 'assistant', content: 'Arre, proper number do na! 🤦‍♀️' }]);
+                    }, 300);
+                    return;
+                }
+                const { statKey, label } = adminMode.data;
+                const oldStats = MansiAdminStore.getStats();
+                const oldVal = oldStats[statKey as keyof typeof oldStats];
+                MansiAdminStore.updateStat(statKey, newVal);
+                setAdminMode({ type: null, step: 0, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `✅ Done! **${label}**: ${oldVal} → **${newVal}**\n\nPage refresh karoge to dikhaega! 🔥` }]);
+                }, 400);
+            }
+        }
+
+        // --- CALENDAR FLOW ---
+        else if (adminMode.type === 'calendar') {
+            if (adminMode.step === 1) {
+                // User entered date
+                if (!/^\d{4}-\d{2}-\d{2}$/.test(msg)) {
+                    setTimeout(() => {
+                        setMessages(prev => [...prev, { role: 'assistant', content: 'Format galat hai! YYYY-MM-DD use karo, jaise: 2026-02-25 📅' }]);
+                    }, 300);
+                    return;
+                }
+                setAdminMode({ type: 'calendar', step: 2, data: { date: msg } });
+                const formatted = new Date(msg).toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `${formatted} ko kya event hai? Title bolo:` }]);
+                }, 300);
+            } else if (adminMode.step === 2) {
+                // User entered event title
+                const { date } = adminMode.data;
+                MansiAdminStore.addCalendarEvent({ date, title: msg });
+                const formatted = new Date(date).toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' });
+                setAdminMode({ type: null, step: 0, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `✅ Saved! **"${msg}"** on ${formatted}.\n\nEvent calendar mein add ho gaya! 📅🔥` }]);
+                }, 400);
+            }
+        }
+
+        // --- BLOG DRAFT FLOW ---
+        else if (adminMode.type === 'blogs') {
+            if (adminMode.step === 1) {
+                // User entered blog title
+                setAdminMode({ type: 'blogs', step: 2, data: { title: msg } });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: 'Okay! Short description/excerpt bolo:' }]);
+                }, 300);
+            } else if (adminMode.step === 2) {
+                // User entered blog excerpt
+                const { title } = adminMode.data;
+                MansiAdminStore.addBlogDraft({
+                    title,
+                    excerpt: msg,
+                    author: 'Team MotoFit',
+                    tags: ['MotoFit']
+                });
+                setAdminMode({ type: null, step: 0, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `✅ Draft saved! **"${title}"**\n\n📝 Full content baad mein add kar lena. Draft ready hai! ✨` }]);
+                }, 400);
+            }
+        }
+    };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') handleSend();
