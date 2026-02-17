@@ -195,7 +195,7 @@ export default function MansiWidget() {
     const [isSpeaking, setIsSpeaking] = useState(false);
     const hasGreeted = useRef(false);
     const [adminMode, setAdminMode] = useState<{
-        type: 'stats' | 'calendar' | 'blogs' | null;
+        type: 'stats' | 'calendar' | 'blogs' | 'wall' | 'projects' | null;
         step: number;
         data: Record<string, any>;
     }>({ type: null, step: 0, data: {} });
@@ -304,7 +304,7 @@ ${insights}
 
         // 3. ADMIN COMMANDS (Role-gated)
         const adminCmd = userMessage.toLowerCase();
-        if (adminCmd === 'update workshop stats' || adminCmd === 'update calendar' || adminCmd === 'update blogs') {
+        if (adminCmd === 'update workshop stats' || adminCmd === 'update calendar' || adminCmd === 'update blogs' || adminCmd === 'update wall of power' || adminCmd === 'update projects') {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
             const userId = 'main_user';
             const role = MansiIdentity.getRole(userId, '');
@@ -333,6 +333,18 @@ ${insights}
                 setAdminMode({ type: 'blogs', step: 1, data: {} });
                 setTimeout(() => {
                     setMessages(prev => [...prev, { role: 'assistant', content: `🔐 Verified! ✅ ${name}, blog draft mode.\n\nBlog ka title bolo:` }]);
+                }, 400);
+            } else if (adminCmd === 'update wall of power') {
+                const display = MansiAdminStore.getLeaderboardDisplay();
+                setAdminMode({ type: 'wall', step: 1, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `🔐 Verified! ✅ ${name}, Wall of Power update mode.\n\nCurrent leaderboard:\n${display}\n\nKaunsa rank update karna hai? (1, 2, 3, etc):` }]);
+                }, 400);
+            } else if (adminCmd === 'update projects') {
+                const display = MansiAdminStore.getProjectsDisplay();
+                setAdminMode({ type: 'projects', step: 1, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `🔐 Verified! ✅ ${name}, Featured Projects update mode.\n\nCurrent projects:\n${display}\n\nNaye project ka naam bolo:` }]);
                 }, 400);
             }
             return;
@@ -534,6 +546,72 @@ ${insights}
                 setAdminMode({ type: null, step: 0, data: {} });
                 setTimeout(() => {
                     setMessages(prev => [...prev, { role: 'assistant', content: `✅ Draft saved! **"${title}"**\n\n📝 Full content baad mein add kar lena. Draft ready hai! ✨` }]);
+                }, 400);
+            }
+        }
+
+        // --- WALL OF POWER FLOW (5-step: rank → bike → owner → mods → gain+total) ---
+        else if (adminMode.type === 'wall') {
+            if (adminMode.step === 1) {
+                const rank = parseInt(msg);
+                if (isNaN(rank) || rank < 1) {
+                    setTimeout(() => {
+                        setMessages(prev => [...prev, { role: 'assistant', content: 'Proper rank number bolo! 1, 2, 3... 🏁' }]);
+                    }, 300);
+                    return;
+                }
+                setAdminMode({ type: 'wall', step: 2, data: { rank } });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `Rank #${rank} update! 🏍️\n\nBike ka naam bolo (e.g. Ducati Panigale V4):` }]);
+                }, 300);
+            } else if (adminMode.step === 2) {
+                setAdminMode({ type: 'wall', step: 3, data: { ...adminMode.data, bike: msg } });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `Bike: **${msg}** ✅\n\nOwner ka naam bolo:` }]);
+                }, 300);
+            } else if (adminMode.step === 3) {
+                setAdminMode({ type: 'wall', step: 4, data: { ...adminMode.data, owner: msg } });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `Owner: **${msg}** ✅\n\nKaunse mods lagaye? (e.g. Full Akrapovic + Stage 2):` }]);
+                }, 300);
+            } else if (adminMode.step === 4) {
+                setAdminMode({ type: 'wall', step: 5, data: { ...adminMode.data, mods: msg } });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `Mods: **${msg}** ✅\n\nHP gain aur total bolo (format: +18 HP / 228 HP):` }]);
+                }, 300);
+            } else if (adminMode.step === 5) {
+                const parts = msg.split('/').map(s => s.trim());
+                const gain = parts[0] || msg;
+                const total = parts[1] || msg;
+                const { rank, bike, owner, mods } = adminMode.data;
+                MansiAdminStore.addLeaderboardEntry({ rank, bike, owner, mods, gain, total });
+                setAdminMode({ type: null, step: 0, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `✅ Wall of Power updated!\n\n🏁 #${rank} — **${bike}**\n👤 ${owner}\n⚡ ${mods}\n💪 ${gain} → ${total}\n\nRefresh karoge to dikhaega! 🔥` }]);
+                }, 400);
+            }
+        }
+
+        // --- FEATURED PROJECTS FLOW (3-step: name → type → status) ---
+        else if (adminMode.type === 'projects') {
+            if (adminMode.step === 1) {
+                setAdminMode({ type: 'projects', step: 2, data: { name: msg } });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `Project: **${msg}** ✅\n\nService type bolo (Major Service, Engine Rebuild, Crash Repair, Custom Build):` }]);
+                }, 300);
+            } else if (adminMode.step === 2) {
+                setAdminMode({ type: 'projects', step: 3, data: { ...adminMode.data, type: msg } });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `Type: **${msg}** ✅\n\nStatus bolo (In Progress, Complete, Delivered):` }]);
+                }, 300);
+            } else if (adminMode.step === 3) {
+                const { name, type } = adminMode.data;
+                const now = new Date();
+                const date = now.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+                MansiAdminStore.addProject({ name, date, status: msg, type });
+                setAdminMode({ type: null, step: 0, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `✅ Project added!\n\n🏍️ **${name}**\n🔧 ${type} — ${msg}\n📅 ${date}\n\nHomepage pe dikhaega refresh ke baad! 🔥` }]);
                 }, 400);
             }
         }

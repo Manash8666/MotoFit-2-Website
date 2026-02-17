@@ -1,10 +1,69 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Clock, MessageCircle, Bike, User, Zap } from 'lucide-react';
+import { X, Calendar, Clock, MessageCircle, Bike, User, Zap, Wrench, Shield, Gauge, Droplet, Settings } from 'lucide-react';
 import { useBooking } from '@/context/BookingContext';
 import { GlassButton } from '@/components/ui/buttons/GlassButton';
+
+// ─── SERVICE CATEGORY SYSTEM ───────────────────────────────────
+interface ServiceCategory {
+    id: string;
+    label: string;
+    icon: React.ReactNode;
+    color: string;
+    header: string;
+    subtitle: string;
+    description: string;
+}
+
+const SERVICE_CATEGORIES: ServiceCategory[] = [
+    {
+        id: 'general', label: 'Regular Service', icon: <Wrench size={14} />, color: '#ff5e1a',
+        header: 'Service Protocol', subtitle: 'Periodic Maintenance',
+        description: '',
+    },
+    {
+        id: 'accident', label: 'Accident Repair', icon: <Shield size={14} />, color: '#ff3366',
+        header: 'Crash Recovery Protocol', subtitle: 'Damage Assessment & Restoration',
+        description: 'Accident repair needed. Please assess damage and provide estimate.',
+    },
+    {
+        id: 'custom', label: 'Custom Build', icon: <Settings size={14} />, color: '#c084fc',
+        header: 'Build Configuration', subtitle: 'Custom Modification Request',
+        description: 'Custom modification build. Please discuss options.',
+    },
+    {
+        id: 'performance', label: 'Performance', icon: <Gauge size={14} />, color: '#00d1ff',
+        header: 'Performance Protocol', subtitle: 'Upgrade & Tuning',
+        description: 'Performance upgrade inquiry — ECU, exhaust, or other mods.',
+    },
+    {
+        id: 'tyre', label: 'Tyre Change', icon: <Zap size={14} />, color: '#22c55e',
+        header: 'Tyre Replacement', subtitle: 'Same-Day Fitment',
+        description: 'Tyre replacement needed.',
+    },
+    {
+        id: 'oil', label: 'Oil Change', icon: <Droplet size={14} />, color: '#eab308',
+        header: 'Oil Service Protocol', subtitle: 'Grade-Matched Oil Change',
+        description: 'Engine oil change needed.',
+    },
+];
+
+function matchCategory(serviceType: string): ServiceCategory {
+    const lower = serviceType.toLowerCase();
+    if (lower.includes('accident') || lower.includes('crash') || lower.includes('damage') || lower.includes('insurance'))
+        return SERVICE_CATEGORIES.find(c => c.id === 'accident')!;
+    if (lower.includes('custom') || lower.includes('modification') || lower.includes('build') || lower.includes('mod'))
+        return SERVICE_CATEGORIES.find(c => c.id === 'custom')!;
+    if (lower.includes('performance') || lower.includes('ecu') || lower.includes('exhaust') || lower.includes('upgrade') || lower.includes('dyno'))
+        return SERVICE_CATEGORIES.find(c => c.id === 'performance')!;
+    if (lower.includes('tyre') || lower.includes('tire'))
+        return SERVICE_CATEGORIES.find(c => c.id === 'tyre')!;
+    if (lower.includes('oil') || lower.includes('engine oil'))
+        return SERVICE_CATEGORIES.find(c => c.id === 'oil')!;
+    return SERVICE_CATEGORIES[0]; // general
+}
 
 export default function BookingModal() {
     const { isOpen, closeBooking, serviceType } = useBooking();
@@ -14,8 +73,20 @@ export default function BookingModal() {
         bikeModel: '',
         date: new Date().toISOString().split('T')[0],
         dropOffSlot: 'Morning (9 AM - 12 PM)',
-        logistics: 'Self Drop-off'
+        logistics: 'Self Drop-off',
+        description: '',
     });
+
+    const matchedCategory = useMemo(() => matchCategory(serviceType), [serviceType]);
+    const [selectedCategory, setSelectedCategory] = useState<string>(matchedCategory.id);
+
+    // Sync category when serviceType changes
+    const activeCategory = useMemo(() => {
+        return SERVICE_CATEGORIES.find(c => c.id === selectedCategory) || SERVICE_CATEGORIES[0];
+    }, [selectedCategory]);
+
+    // Reset description prefill when category changes
+    const effectiveDescription = formData.description || activeCategory.description;
 
     const slots = [
         'Morning (9 AM - 12 PM)',
@@ -37,17 +108,17 @@ export default function BookingModal() {
     
 👤 Name: ${formData.name || 'Rider'}
 🏍️ Bike: ${formData.bikeModel || 'Not specified'}
-🔧 Service: ${serviceType}
+🔧 Service: ${activeCategory.label}${serviceType !== 'General Service' ? ` (${serviceType})` : ''}
 📅 Date: ${formData.date}
 ⏰ Slot: ${formData.dropOffSlot}
-🚚 Logistics: ${formData.logistics}
+🚚 Logistics: ${formData.logistics}${effectiveDescription ? `\n📝 Notes: ${effectiveDescription}` : ''}
 
 Is this slot available?`;
 
         const encoded = encodeURIComponent(message);
         window.open(`https://wa.me/917259625881?text=${encoded}`, '_blank');
         closeBooking();
-        setTimeout(() => setStep('input'), 500); // Reset for next time
+        setTimeout(() => setStep('input'), 500);
     };
 
     return (
@@ -79,30 +150,51 @@ Is this slot available?`;
                     >
                         <div className="w-full max-w-lg bg-[#0a0a0a]/90 backdrop-blur-xl border border-[#333] rounded-3xl overflow-hidden shadow-2xl relative z-10 flex flex-col max-h-[90vh]">
 
-                            {/* Header */}
+                            {/* Dynamic Header */}
                             <div className="p-6 border-b border-[#333] bg-[#111]/50 relative overflow-hidden flex-shrink-0 text-center">
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#ff5e1a] to-[#00d1ff] opacity-50" />
+                                <div className="absolute top-0 left-0 w-full h-1 opacity-50" style={{ background: `linear-gradient(to right, ${activeCategory.color}, #00d1ff)` }} />
                                 <div className="relative flex items-center justify-center mb-1">
                                     <h3 className="text-xl font-bold text-white uppercase tracking-wider">
-                                        {step === 'input' ? 'Service Protocol' : 'Protocol Transmitted'}
+                                        {step === 'input' ? activeCategory.header : 'Protocol Transmitted'}
                                     </h3>
                                     <button onClick={closeBooking} className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors p-1">
                                         <X size={24} />
                                     </button>
                                 </div>
-                                <p className="text-xs text-[#a0a0a0] font-mono uppercase tracking-tighter">
-                                    Intake Status: {step === 'input' ? 'Awaiting Data' : 'Confirmed'} // Shop No 9
+                                <p className="text-xs font-mono uppercase tracking-tighter" style={{ color: activeCategory.color }}>
+                                    {activeCategory.subtitle} // Shop No 9
                                 </p>
                             </div>
 
                             {/* Body */}
                             <div className="p-6 overflow-y-auto custom-scrollbar overscroll-contain flex-1">
                                 {step === 'input' ? (
-                                    <div className="space-y-6">
+                                    <div className="space-y-5">
+                                        {/* Service Category Pills */}
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-mono text-gray-500 uppercase tracking-widest text-center block">Service Type</label>
+                                            <div className="flex flex-wrap gap-1.5 justify-center">
+                                                {SERVICE_CATEGORIES.map((cat) => (
+                                                    <button
+                                                        key={cat.id}
+                                                        onClick={() => setSelectedCategory(cat.id)}
+                                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-mono font-bold border transition-all ${selectedCategory === cat.id
+                                                            ? 'text-black border-transparent'
+                                                            : 'bg-transparent border-[#333] text-gray-500 hover:border-gray-600 hover:text-white'
+                                                            }`}
+                                                        style={selectedCategory === cat.id ? { backgroundColor: cat.color, borderColor: cat.color } : {}}
+                                                    >
+                                                        {cat.icon}
+                                                        {cat.label}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+
                                         {/* Grid for Name & Bike */}
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div className="space-y-2 text-center">
-                                                <label className="text-[10px] font-mono text-[#ff5e1a] uppercase tracking-widest block">Pilot Name</label>
+                                                <label className="text-[10px] font-mono uppercase tracking-widest block" style={{ color: activeCategory.color }}>Pilot Name</label>
                                                 <div className="relative group">
                                                     <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 group-focus-within:text-[#ff5e1a] transition-colors" size={16} />
                                                     <input
@@ -128,6 +220,20 @@ Is this slot available?`;
                                                 </div>
                                             </div>
                                         </div>
+
+                                        {/* Description / Notes (contextual) */}
+                                        {activeCategory.id !== 'general' && (
+                                            <div className="space-y-2 text-center">
+                                                <label className="text-[10px] font-mono text-gray-500 uppercase tracking-widest block">Notes / Details</label>
+                                                <textarea
+                                                    rows={2}
+                                                    placeholder="Describe your requirement..."
+                                                    className="w-full bg-[#050505] border border-[#222] rounded py-2.5 px-4 text-white text-sm focus:border-white/50 focus:bg-[#0f0f0f] focus:outline-none transition-all placeholder:text-gray-700 text-center resize-none"
+                                                    value={formData.description || activeCategory.description}
+                                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                                />
+                                            </div>
+                                        )}
 
                                         {/* Date Picker */}
                                         <div className="space-y-2 text-center">
@@ -172,9 +278,10 @@ Is this slot available?`;
                                                         key={slot}
                                                         onClick={() => setFormData({ ...formData, dropOffSlot: slot })}
                                                         className={`px-3 py-1.5 rounded-full text-[10px] font-mono border transition-all ${formData.dropOffSlot === slot
-                                                            ? 'bg-[#ff5e1a] border-[#ff5e1a] text-black'
+                                                            ? 'border-transparent text-black'
                                                             : 'bg-transparent border-[#333] text-gray-500 hover:border-gray-600 hover:text-white'
                                                             }`}
+                                                        style={formData.dropOffSlot === slot ? { backgroundColor: activeCategory.color, borderColor: activeCategory.color } : {}}
                                                     >
                                                         {slot}
                                                     </button>
@@ -197,7 +304,7 @@ Is this slot available?`;
 
                                             {/* Overlay Text */}
                                             <div className="absolute bottom-4 left-4 right-4">
-                                                <h3 className="text-2xl font-bold text-white italic drop-shadow-md">"Best decision, yaar!"</h3>
+                                                <h3 className="text-2xl font-bold text-white italic drop-shadow-md">&quot;Best decision, yaar!&quot;</h3>
                                             </div>
                                         </div>
 

@@ -1,17 +1,17 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/graphics/Badge';
 import { motion } from 'framer-motion';
 import { TrendingUp, Zap, Trophy, Activity } from 'lucide-react';
-
-const LEADERBOARD = [
-    { rank: 1, bike: "Ducati Panigale V4", owner: "Rajiv S.", mods: "Full Akrapovic + Stage 2", gain: "+18 HP", total: "228 HP" },
-    { rank: 2, bike: "Kawasaki ZX-10R", owner: "Amit P.", mods: "Woolich Racing Tune", gain: "+12 HP", total: "208 HP" },
-    { rank: 3, bike: "Interceptor 650", owner: "Team MotoFit", mods: "Big Bore 865cc", gain: "+24 HP", total: "71 HP" },
-    { rank: 4, bike: "KTM Duke 390", owner: "Varun K.", mods: "Powertronic + Air Filter", gain: "+5 HP", total: "49 HP" },
-];
+import { MansiAdminStore, type DynoEntry } from '@/services/mansi/agents/admin-store';
 
 export default function DynoLeaderboard() {
+    const [leaderboard, setLeaderboard] = useState<DynoEntry[]>(MansiAdminStore.DEFAULT_LEADERBOARD);
+
+    useEffect(() => {
+        setLeaderboard(MansiAdminStore.getLeaderboard());
+    }, []);
     return (
         <section className="py-24 bg-[#0a0a0a] relative overflow-hidden border-y border-[#333]/30">
             {/* Background Grid */}
@@ -36,8 +36,19 @@ export default function DynoLeaderboard() {
                         <div className="absolute top-0 right-0 p-4 opacity-20"><Trophy size={100} /></div>
                         <div>
                             <h3 className="text-2xl font-bold text-white mb-2">Highest Gain</h3>
-                            <p className="text-[#ff5e1a] text-5xl font-black font-mono">+24 HP</p>
-                            <p className="text-gray-500 mt-2">Royal Enfield 650 Big Bore</p>
+                            {(() => {
+                                const top = [...leaderboard].sort((a, b) => {
+                                    const aNum = parseInt(a.gain.replace(/[^0-9]/g, '')) || 0;
+                                    const bNum = parseInt(b.gain.replace(/[^0-9]/g, '')) || 0;
+                                    return bNum - aNum;
+                                })[0];
+                                return top ? (
+                                    <>
+                                        <p className="text-[#ff5e1a] text-5xl font-black font-mono">{top.gain}</p>
+                                        <p className="text-gray-500 mt-2">{top.bike} — {top.mods}</p>
+                                    </>
+                                ) : null;
+                            })()}
                         </div>
                         <div className="mt-8 pt-8 border-t border-[#333]">
                             <div className="flex items-center gap-3 text-sm text-gray-400">
@@ -60,7 +71,7 @@ export default function DynoLeaderboard() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[#333]">
-                                    {LEADERBOARD.map((entry, i) => (
+                                    {leaderboard.map((entry, i) => (
                                         <motion.tr
                                             key={i}
                                             initial={{ opacity: 0, x: -20 }}

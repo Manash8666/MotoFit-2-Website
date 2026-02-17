@@ -1,19 +1,21 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/graphics/Badge';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 import { useBooking } from '@/context/BookingContext';
+import { MansiAdminStore, type ProjectEntry } from '@/services/mansi/agents/admin-store';
 
 export default function FeaturedProjects() {
   const { openBooking } = useBooking();
-  const projects = [
-    { name: 'Royal Enfield 650 Twins', date: 'Jan 2026', status: 'Complete', type: 'Major Service' },
-    { name: 'KTM Duke 390', date: 'Dec 2025', status: 'Delivered', type: 'Engine Rebuild' },
-    { name: 'Triumph Street Triple', date: 'Dec 2025', status: 'Complete', type: 'Crash Repair' }
-  ];
+  const [projects, setProjects] = useState<ProjectEntry[]>(MansiAdminStore.DEFAULT_PROJECTS);
+
+  useEffect(() => {
+    setProjects(MansiAdminStore.getProjects());
+  }, []);
 
   return (
     <section className="relative bg-[#050505] py-20 overflow-hidden">

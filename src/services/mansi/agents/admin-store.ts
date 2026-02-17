@@ -23,9 +23,27 @@ export interface BlogDraft {
     ts: number;
 }
 
+export interface DynoEntry {
+    rank: number;
+    bike: string;
+    owner: string;
+    mods: string;
+    gain: string;
+    total: string;
+}
+
+export interface ProjectEntry {
+    name: string;
+    date: string;
+    status: string;
+    type: string;
+}
+
 const STATS_KEY = 'mansi_workshop_stats';
 const EVENTS_KEY = 'mansi_calendar_events';
 const BLOGS_KEY = 'mansi_blog_drafts';
+const DYNO_KEY = 'mansi_dyno_leaderboard';
+const PROJECTS_KEY = 'mansi_featured_projects';
 
 // Default values (match the hardcoded values in IndustrialStats.tsx)
 const DEFAULT_STATS: WorkshopStats = {
@@ -116,5 +134,83 @@ export class MansiAdminStore {
             localStorage.setItem(BLOGS_KEY, JSON.stringify(drafts));
         }
         return full;
+    }
+
+    // ─── DYNO LEADERBOARD (Wall of Power) ───────────────────────
+
+    static readonly DEFAULT_LEADERBOARD: DynoEntry[] = [
+        { rank: 1, bike: "Ducati Panigale V4", owner: "Rajiv S.", mods: "Full Akrapovic + Stage 2", gain: "+18 HP", total: "228 HP" },
+        { rank: 2, bike: "Kawasaki ZX-10R", owner: "Amit P.", mods: "Woolich Racing Tune", gain: "+12 HP", total: "208 HP" },
+        { rank: 3, bike: "Interceptor 650", owner: "Team MotoFit", mods: "Big Bore 865cc", gain: "+24 HP", total: "71 HP" },
+        { rank: 4, bike: "KTM Duke 390", owner: "Varun K.", mods: "Powertronic + Air Filter", gain: "+5 HP", total: "49 HP" },
+    ];
+
+    static getLeaderboard(): DynoEntry[] {
+        if (typeof window === 'undefined') return this.DEFAULT_LEADERBOARD;
+        try {
+            const raw = localStorage.getItem(DYNO_KEY);
+            if (!raw) return this.DEFAULT_LEADERBOARD;
+            const parsed = JSON.parse(raw);
+            return parsed.length > 0 ? parsed : this.DEFAULT_LEADERBOARD;
+        } catch {
+            return this.DEFAULT_LEADERBOARD;
+        }
+    }
+
+    static addLeaderboardEntry(entry: DynoEntry): DynoEntry[] {
+        const current = this.getLeaderboard();
+        // Replace if same rank exists, otherwise add
+        const idx = current.findIndex(e => e.rank === entry.rank);
+        if (idx >= 0) {
+            current[idx] = entry;
+        } else {
+            current.push(entry);
+        }
+        const sorted = current.sort((a, b) => a.rank - b.rank);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem(DYNO_KEY, JSON.stringify(sorted));
+        }
+        return sorted;
+    }
+
+    static getLeaderboardDisplay(): string {
+        const entries = this.getLeaderboard();
+        return entries.map(e => `#${e.rank} ${e.bike} — ${e.owner} — ${e.total} (${e.gain})`).join('\n');
+    }
+
+    // ─── FEATURED PROJECTS ──────────────────────────────────────
+
+    static readonly DEFAULT_PROJECTS: ProjectEntry[] = [
+        { name: 'Royal Enfield 650 Twins', date: 'Jan 2026', status: 'Complete', type: 'Major Service' },
+        { name: 'KTM Duke 390', date: 'Dec 2025', status: 'Delivered', type: 'Engine Rebuild' },
+        { name: 'Triumph Street Triple', date: 'Dec 2025', status: 'Complete', type: 'Crash Repair' },
+    ];
+
+    static getProjects(): ProjectEntry[] {
+        if (typeof window === 'undefined') return this.DEFAULT_PROJECTS;
+        try {
+            const raw = localStorage.getItem(PROJECTS_KEY);
+            if (!raw) return this.DEFAULT_PROJECTS;
+            const parsed = JSON.parse(raw);
+            return parsed.length > 0 ? parsed : this.DEFAULT_PROJECTS;
+        } catch {
+            return this.DEFAULT_PROJECTS;
+        }
+    }
+
+    static addProject(project: ProjectEntry): ProjectEntry[] {
+        const current = this.getProjects();
+        // Add to front (most recent first), keep max 6
+        current.unshift(project);
+        const trimmed = current.slice(0, 6);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem(PROJECTS_KEY, JSON.stringify(trimmed));
+        }
+        return trimmed;
+    }
+
+    static getProjectsDisplay(): string {
+        const projects = this.getProjects();
+        return projects.map((p, i) => `${i + 1}. **${p.name}** — ${p.type} (${p.status})`).join('\n');
     }
 }
