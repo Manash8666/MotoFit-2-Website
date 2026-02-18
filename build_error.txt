@@ -1,0 +1,26 @@
+
+> motofit-2@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+  - Experiments (use with caution):
+    ┬╖ optimizeCss
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Skipping linting
+   Checking validity of types ...
+Failed to compile.
+
+./src/components/Hero.tsx:6:29
+Type error: Cannot find module './HeroImageSlider' or its corresponding type declarations.
+
+  4 | import Background3D from "./Background3D";
+  5 | import HeroContent from "./HeroContent";
+> 6 | import HeroImageSlider from "./HeroImageSlider";
+    |                             ^
+  7 |
+  8 | export default function Hero() {
+  9 |   return (
+Next.js build worker exited with code: 1 and signal: null

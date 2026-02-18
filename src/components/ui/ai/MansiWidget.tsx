@@ -11,6 +11,7 @@ import { MansiMemory } from '@/services/mansi/agents/memory';
 import { MansiContext } from '@/services/mansi/agents/context';
 import { MansiCalendar } from '@/services/mansi/agents/calendar';
 import { MansiAdminStore } from '@/services/mansi/agents/admin-store';
+import HoloLauncher from './hologram/HoloLauncher';
 // import { MansiIdentity } from '@/services/mansi/agents/identity'; // Replaced with direct challenge
 
 const MANSI_DAY_LOOKS: Record<number, string> = {
@@ -759,35 +760,12 @@ ${insights}
 
     return (
         <>
-            {/* Toggle Button - "Stories" Ring */}
-            <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
-                {!isOpen && hasUnread && (
-                    <div className="bg-white text-black px-4 py-2 rounded-xl rounded-br-none shadow-xl mb-2 animate-bounce-subtle font-bold text-sm">
-                        Oye! Kem cho? 👋
-                    </div>
-                )}
+            {/* Holographic Launcher */}
+            {!isOpen && <HoloLauncher onOpen={() => setIsOpen(true)} />}
 
-                <button
-                    onClick={() => setIsOpen(!isOpen)}
-                    className="relative group w-16 h-16 rounded-full p-[2px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] shadow-lg transition-transform hover:scale-110 active:scale-95"
-                >
-                    <div className="w-full h-full rounded-full border-2 border-black overflow-hidden bg-black relative">
-                        {isOpen ? (
-                            <div className="w-full h-full flex items-center justify-center bg-[#111]">
-                                <X className="w-6 h-6 text-white" />
-                            </div>
-                        ) : (
-                            <Image
-                                src={mansiImage}
-                                alt="Mansi - MotoFit 2 AI Assistant"
-                                fill
-                                sizes="64px"
-                                className="object-cover"
-                            />
-                        )}
-                    </div>
-                </button>
-            </div>
+            {/* Close Button (Only when open, inside the frame logic or here if needed independently) */}
+            {/* Note: The frame has its own close button, but if we need an external one for some reason, we can add it. 
+                For now, keeping the launcher hidden when open is correct. */}
 
             {/* The ROG Phone 9 Experience */}
             <ROGPhoneFrame
