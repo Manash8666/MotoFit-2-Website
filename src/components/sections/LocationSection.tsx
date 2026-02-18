@@ -2,8 +2,18 @@
 
 import { MapPin, Clock, Phone, Navigation } from "lucide-react";
 import { GlassButton } from "@/components/ui/buttons/GlassButton";
-import PlaceAutocompleteMap from "@/components/maps/PlaceAutocompleteMap";
 import { COMPANY_DETAILS } from "@/config/company";
+import dynamic from 'next/dynamic';
+
+// Dynamically import LeafletMap with no SSR to avoid 'window is not defined'
+const LeafletMap = dynamic(() => import("@/components/maps/LeafletMap"), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-full min-h-[400px] bg-[#0a0a0a] border border-[#333] rounded-2xl flex items-center justify-center">
+            <span className="text-gray-500">Loading Map...</span>
+        </div>
+    )
+});
 
 export default function LocationSection() {
     return (
@@ -22,7 +32,7 @@ export default function LocationSection() {
                                 <p>Chandkheda, Ahmedabad, Gujarat 382424</p>
                                 <div className="mt-4 p-3 bg-white/5 border border-white/10 rounded-sm">
                                     <p className="text-xs font-mono text-orange-500 uppercase tracking-widest">Franchise Support Zone</p>
-                                    <p className="text-[10px] text-gray-400 mt-1">Our hub covers Naroda, Kalol, Halol, Nikol, Vastral, and Rakhiyal.</p>
+                                    <p className="text-xs text-gray-400 mt-1">Our hub covers Naroda, Kalol, Halol, Nikol, Vastral, and Rakhiyal.</p>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +60,7 @@ export default function LocationSection() {
                 </div>
 
                 <div className="h-full min-h-[400px]">
-                    <PlaceAutocompleteMap />
+                    <LeafletMap />
                 </div>
             </div>
         </section>
