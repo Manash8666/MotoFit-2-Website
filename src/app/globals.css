@@ -372,8 +372,16 @@ html {
   }
 
   /* Hide default OpenWidget Launcher to use custom UI triggers */
-  #ow-widget-launcher {
+  #ow-widget-launcher,
+  #ow-iframe-launcher,
+  .ow-widget-launcher,
+  iframe[title="OpenWidget launcher"],
+  div[data-ow-launcher],
+  #open-widget-launcher {
     display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {

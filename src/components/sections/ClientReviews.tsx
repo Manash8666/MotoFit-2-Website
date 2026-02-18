@@ -59,6 +59,7 @@ export default function ClientReviews() {
                     window.__ow.organizationId = "6fee2b77-e016-4d20-8a08-55b342da193a";
                     window.__ow.integration_name = "manual_settings";
                     window.__ow.product_name = "openwidget";
+                    window.__ow.launcher_display = "hidden"; // Attempt to hide via config
                 `}
             </Script>
             <Script
@@ -112,7 +113,7 @@ export default function ClientReviews() {
                                 </div>
 
                                 <div className="text-6xl md:text-8xl font-black text-white leading-none tracking-tighter mb-2">
-                                    4.9
+                                    4.6
                                 </div>
 
                                 <div className="flex items-center gap-1 mb-2">
