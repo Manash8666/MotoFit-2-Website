@@ -1,47 +1,80 @@
-'use server';
+import { tavily } from '@tavily/core';
 
-/**
- * Performs a real-time web search to augment Mansi's knowledge.
- * Uses Tavily Search API.
- */
-export async function searchTheWeb(query: string) {
+const getTavilyClient = () => {
     const apiKey = process.env.TAVILY_API_KEY;
     if (!apiKey) {
-        console.warn('[Mansi Internet] Search skipped: TAVILY_API_KEY not found.');
+        console.warn('[Mansi Internet] API Key missing.');
         return null;
     }
+    return tavily({ apiKey });
+};
+
+/**
+ * Performs a real-time web search.
+ */
+export async function searchTheWeb(query: string) {
+    const client = getTavilyClient();
+    if (!client) return null;
 
     try {
-        console.log(`[Mansi Internet] Searching for: ${query}`);
-
-        const response = await fetch('https://api.tavily.com/search', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                api_key: apiKey,
-                query: query,
-                search_depth: "basic",
-                include_answer: true,
-                max_results: 3
-            })
+        console.log(`[Mansi Internet] Searching: ${query}`);
+        const response = await client.search(query, {
+            searchDepth: "advanced",
+            includeAnswer: true,
+            maxResults: 5
         });
 
-        const data = await response.json();
-
-        if (data.results && data.results.length > 0) {
-            // Format the results for context injection
-            const context = data.results.map((r: any) => `${r.title}: ${r.content} (${r.url})`).join('\n\n');
+        if (response.results && response.results.length > 0) {
+            const context = response.results.map((r: any) => `${r.title}: ${r.content} (${r.url})`).join('\n\n');
             return {
-                answer: data.answer,
-                context: context
+                answer: response.answer,
+                context: context,
+                urls: response.results.map((r: any) => r.url)
             };
         }
-
         return null;
     } catch (error: any) {
         console.error('[Mansi Internet] Search failed:', error.message);
+        return null;
+    }
+}
+
+/**
+ * Deep Extraction logic for specific URLs found during search (e.g., Reddit/YouTube).
+ */
+export async function extractDeepContext(urls: string[]) {
+    const client = getTavilyClient();
+    if (!client) return null;
+
+    try {
+        console.log(`[Mansi Internet] Extracting deep context from ${urls.length} sources...`);
+        const response = await client.extract(urls);
+
+        // Extracting text content from the results
+        const context = response.results.map((r: any) => `SOURCE: ${r.url}\nCONTENT: ${r.rawContent || r.content}`).join('\n\n---\n\n');
+        return context;
+    } catch (error: any) {
+        console.error('[Mansi Internet] Extraction failed:', error.message);
+        return null;
+    }
+}
+
+/**
+ * Crawl logic for ultra-deep research on specific sites.
+ */
+export async function crawlSite(url: string) {
+    const client = getTavilyClient();
+    if (!client) return null;
+
+    try {
+        console.log(`[Mansi Internet] Crawling: ${url}`);
+        const response = await client.crawl(url, {
+            extractDepth: "advanced",
+            maxPages: 3
+        });
+        return response;
+    } catch (error: any) {
+        console.error('[Mansi Internet] Crawl failed:', error.message);
         return null;
     }
 }

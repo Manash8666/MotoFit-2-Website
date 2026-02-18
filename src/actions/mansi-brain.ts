@@ -30,14 +30,25 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
     let webContext = "";
     const latestQuery = conversationHistory[conversationHistory.length - 1]?.content || '';
 
-    // Quick heuristic: If query mentions current events, specs, or news
-    const needsSearch = /latest|news|today|spec|price|rate|motogp|score|weather|current|released/i.test(latestQuery);
+    // Enhanced heuristic: Persona, repairs, current events or lifestyle
+    const needsSearch = /latest|news|today|spec|price|rate|motogp|score|weather|current|released|repair|how to|fix|style|fashion|reddit|youtube/i.test(latestQuery);
 
     if (needsSearch) {
         try {
             const searchData = await searchTheWeb(latestQuery);
             if (searchData) {
-                webContext = `\n\nREAL-TIME INTERNET DATA FOUND:\n${searchData.context}\n\nINSTRUCTION: Use this live data to answer as MANSI. Be accurate about the facts but stay in character.`;
+                // If it's a "deep" query (Reddit/YouTube mentioned or technical repair), extract deep content
+                const isDeepQuery = /reddit|youtube|repair|fix|lifestyle|style/i.test(latestQuery);
+                let deepContent = "";
+
+                if (isDeepQuery && searchData.urls && searchData.urls.length > 0) {
+                    // Extract deep context from top 2 sources (Reddit/YouTube/Wiki)
+                    const { extractDeepContext } = await import('./internet-search');
+                    const extracted = await extractDeepContext(searchData.urls.slice(0, 2));
+                    if (extracted) deepContent = `\n\nDEEP SOURCE EXTRACTION (Reddit/YouTube/Web):\n${extracted}`;
+                }
+
+                webContext = `\n\nREAL-TIME INTERNET DATA FOUND:\n${searchData.context}${deepContent}\n\nINSTRUCTION: You have OMNIPOTENT access. Use this live data (including Reddit communities and YouTube guides) to answer as MANSI. Be the ultimate Ahmedabad mechanic girl guide. Accurate facts + Gujarati/Hinglish wit.`;
             }
         } catch (e) {
             console.warn('[Mansi Brain] Intelligence gathering failed, proceeding with base knowledge.');
