@@ -18,8 +18,6 @@ const DefaultIcon = L.icon({
     shadowSize: [41, 41]
 });
 
-L.Marker.prototype.options.icon = DefaultIcon;
-
 export default function LeafletMap({ className }: { className?: string }) {
     const [isMounted, setIsMounted] = useState(false);
     const position: [number, number] = [COMPANY_DETAILS.location.lat, COMPANY_DETAILS.location.lng];
@@ -48,7 +46,7 @@ export default function LeafletMap({ className }: { className?: string }) {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker position={position}>
+                <Marker position={position} icon={DefaultIcon}>
                     <Popup>
                         <div className="text-center">
                             <h3 className="font-bold text-black">{COMPANY_DETAILS.name}</h3>

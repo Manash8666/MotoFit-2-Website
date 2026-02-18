@@ -2,7 +2,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Script from 'next/script';
 import { chatWithMansiBrain } from '@/actions/mansi-brain';
 
 // Define the shape of an FAQ item
@@ -288,7 +287,7 @@ Provide a JSON Object with two keys:
 
         } catch (err) {
             clearInterval(interval);
-            console.error("Mansi Server Error (Switching to Simulation):", err);
+            console.warn("Mansi Server Error (Switching to Simulation):", err);
 
             // SILENT FAILOVER TO SIMULATION MODE
             // No error state set. Just use Fallback data.
