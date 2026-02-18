@@ -2,6 +2,7 @@
 
 import { MapPin, Clock, Phone, Navigation } from "lucide-react";
 import { GlassButton } from "@/components/ui/buttons/GlassButton";
+import PlaceAutocompleteMap from "@/components/maps/PlaceAutocompleteMap";
 
 export default function LocationSection() {
     return (
@@ -47,15 +48,8 @@ export default function LocationSection() {
                     </div>
                 </div>
 
-                <div className="rounded-2xl overflow-hidden border-2 border-gray-800 h-80 md:h-full min-h-[350px]">
-                    <iframe
-                        title="Google Maps Location of MotoFit 2"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3669.764432128456!2d72.593!3d23.109!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDA2JzMyLjQiTiA3MsKwMzUnMzQuOCJF!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-                        className="w-full h-full opacity-100 contrast-110"
-                        style={{ border: 0 }}
-                        allowFullScreen
-                        loading="lazy">
-                    </iframe>
+                <div className="h-full min-h-[400px]">
+                    <PlaceAutocompleteMap />
                 </div>
             </div>
         </section>
