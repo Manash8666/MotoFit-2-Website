@@ -23,6 +23,17 @@ export async function GET() {
       );
     `;
 
+        await sql`
+      CREATE TABLE IF NOT EXISTS mansi_learning (
+        id SERIAL PRIMARY KEY,
+        user_query TEXT,
+        mansi_response TEXT,
+        model_used TEXT,
+        metadata JSONB,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `;
+
         return NextResponse.json({
             message: 'Database Schema Initialized Successfully',
             table: 'leads'

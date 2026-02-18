@@ -1,6 +1,7 @@
 'use server';
 
 import OpenAI from 'openai';
+import { logMansiExperience } from './mansi-learning';
 
 const client = new OpenAI({
     baseURL: 'https://openrouter.ai/api/v1',
@@ -45,6 +46,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
             if (!reply) throw new Error("Empty response from AI");
 
             console.log(`[Mansi Brain] Success with ${model}`);
+
+            // Fire and forget logging (Mansi Learning Protocol)
+            const userQuery = conversationHistory[conversationHistory.length - 1]?.content || '';
+            logMansiExperience(userQuery, reply, model, { strategy: 'primary' });
+
             return { success: true, text: reply, model_used: model };
         } catch (error: any) {
             console.warn(`[Mansi Brain] Failed with ${model}: ${error.message}`);
@@ -77,6 +83,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
             const reply = completion.choices[0]?.message?.content;
             if (reply) {
                 console.log(`[Mansi Brain] Backup Successful via Helicone (Gemini Flash)`);
+
+                // Fire and forget logging
+                const userQuery = conversationHistory[conversationHistory.length - 1]?.content || '';
+                logMansiExperience(userQuery, reply, "gemini-2.0-flash-exp (Helicone)", { strategy: 'backup' });
+
                 return { success: true, text: reply, model_used: "gemini-2.0-flash-exp (Helicone)" };
             }
         } catch (err: any) {
@@ -108,6 +119,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
             const reply = completion.choices[0]?.message?.content;
             if (reply) {
                 console.log(`[Mansi Brain] Emergency Success via Portkey (Grok)`);
+
+                // Fire and forget logging
+                const userQuery = conversationHistory[conversationHistory.length - 1]?.content || '';
+                logMansiExperience(userQuery, reply, "grok-beta (Portkey)", { strategy: 'emergency' });
+
                 return { success: true, text: reply, model_used: "grok-beta (Portkey)" };
             }
         } catch (err: any) {
@@ -139,6 +155,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 const reply = response.message.content;
                 if (reply) {
                     console.log(`[Mansi Brain] Nuclear Success via Ollama (${oModel})`);
+
+                    // Fire and forget logging
+                    const userQuery = conversationHistory[conversationHistory.length - 1]?.content || '';
+                    logMansiExperience(userQuery, reply, `${oModel} (Ollama)`, { strategy: 'nuclear' });
+
                     return { success: true, text: reply, model_used: `${oModel} (Ollama)` };
                 }
             } catch (err: any) {
@@ -170,6 +191,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
             const reply = completion.choices[0]?.message?.content;
             if (reply) {
                 console.log(`[Mansi Brain] Ghost Protocol X Success via Bonsai (Claude)`);
+
+                // Fire and forget logging
+                const userQuery = conversationHistory[conversationHistory.length - 1]?.content || '';
+                logMansiExperience(userQuery, reply, "claude (Bonsai)", { strategy: 'ghost-x' });
+
                 return { success: true, text: reply, model_used: "claude (Bonsai)" };
             }
         } catch (err: any) {
