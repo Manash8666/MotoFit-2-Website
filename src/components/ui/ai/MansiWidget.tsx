@@ -11,7 +11,7 @@ import { MansiMemory } from '@/services/mansi/agents/memory';
 import { MansiContext } from '@/services/mansi/agents/context';
 import { MansiCalendar } from '@/services/mansi/agents/calendar';
 import { MansiAdminStore } from '@/services/mansi/agents/admin-store';
-import { MansiIdentity } from '@/services/mansi/agents/identity';
+// import { MansiIdentity } from '@/services/mansi/agents/identity'; // Replaced with direct challenge
 
 const MANSI_DAY_LOOKS: Record<number, string> = {
     0: '/images/reels/mansi-day-0.webp',      // Sunday
@@ -202,10 +202,17 @@ export default function MansiWidget() {
     const hasGreeted = useRef(false);
     const [isMuted, setIsMuted] = useState(true); // Default to muted (Part 1 of fix)
     const [adminMode, setAdminMode] = useState<{
-        type: 'stats' | 'calendar' | 'blogs' | 'wall' | 'projects' | null;
+        type: 'stats' | 'calendar' | 'blogs' | 'wall' | 'projects' | 'verify' | null;
         step: number;
         data: Record<string, any>;
     }>({ type: null, step: 0, data: {} });
+
+    // SECRET ADMIN PASSPHRASES
+    const SECRETS = {
+        "The Devil of My Word": "Samael",
+        "Trade Bullish King": "Akshat"
+    };
+    const [verifiedUser, setVerifiedUser] = useState<string | null>(null);
 
     useEffect(() => {
         // Deterministic Look: Persist the same image for the entire day
@@ -309,27 +316,27 @@ ${insights}
             return;
         }
 
-        // 3. ADMIN COMMANDS (Role-gated)
+        // 3. ADMIN COMMANDS (Secret Code Gated)
         const adminCmd = userMessage.toLowerCase();
         if (adminCmd === 'update workshop stats' || adminCmd === 'update calendar' || adminCmd === 'update blogs' || adminCmd === 'update wall of power' || adminCmd === 'update projects') {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-            const userId = 'main_user';
-            const role = MansiIdentity.getRole(userId, '');
 
-            if (role !== 'creator' && role !== 'owner') {
+            if (!verifiedUser) {
+                // If not verified, trigger the challenge
+                setAdminMode({ type: 'verify', step: 1, data: { pendingCommand: adminCmd } });
                 setTimeout(() => {
-                    setMessages(prev => [...prev, { role: 'assistant', content: '🔒 Kyu bhai? Tu Akshat ya Manash hai? Pehle verify kar. Secret phrase bol, phir baat karte hai 😏' }]);
+                    setMessages(prev => [...prev, { role: 'assistant', content: '🔒 **Security Protocol Activated.**\n\nIdentity verification required. Enter your **Secret Access Code** to proceed:' }]);
                 }, 400);
                 return;
             }
 
-            const name = role === 'creator' ? 'Manas' : 'Akshat bhai';
+            const name = verifiedUser; // "Samael" or "Akshat"
 
             if (adminCmd === 'update workshop stats') {
                 const display = MansiAdminStore.getStatDisplay();
                 setAdminMode({ type: 'stats', step: 1, data: {} });
                 setTimeout(() => {
-                    setMessages(prev => [...prev, { role: 'assistant', content: `🔐 Identity check... ✅ Welcome back, ${name}!\n\nKonsa stat update karna hai?\n${display}\n\nType the number (1, 2, or 3).` }]);
+                    setMessages(prev => [...prev, { role: 'assistant', content: `🔐 Identity verified. ✅ Welcome, ${name}!\n\nKonsa stat update karna hai?\n${display}\n\nType the number (1, 2, or 3).` }]);
                 }, 400);
             } else if (adminCmd === 'update calendar') {
                 setAdminMode({ type: 'calendar', step: 1, data: {} });
@@ -619,6 +626,25 @@ ${insights}
                 setAdminMode({ type: null, step: 0, data: {} });
                 setTimeout(() => {
                     setMessages(prev => [...prev, { role: 'assistant', content: `✅ Project added!\n\n🏍️ **${name}**\n🔧 ${type} — ${msg}\n📅 ${date}\n\nHomepage pe dikhaega refresh ke baad! 🔥` }]);
+                }, 400);
+            }
+        }
+
+        // --- IDENTITY VERIFICATION FLOW ---
+        else if (adminMode.type === 'verify') {
+            const detectedUser = SECRETS[msg as keyof typeof SECRETS];
+
+            if (detectedUser) {
+                setVerifiedUser(detectedUser);
+                const pendingCmd = adminMode.data.pendingCommand;
+                setAdminMode({ type: null, step: 0, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `🔓 **Access Granted.**\n\nIdentity verified. Welcome, **${detectedUser}**. ✅\n\nRunning: **${pendingCmd}**...` }]);
+                }, 400);
+            } else {
+                setAdminMode({ type: null, step: 0, data: {} });
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'assistant', content: '❌ **Access Denied.**\n\nIncorrect code. Security alert triggered. (Actually, just try again if you are real!)' }]);
                 }, 400);
             }
         }
