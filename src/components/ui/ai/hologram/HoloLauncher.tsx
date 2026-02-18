@@ -41,7 +41,7 @@ export default function HoloLauncher({ onOpen }: HoloLauncherProps) {
     };
 
     return (
-        <div className="fixed bottom-0 right-0 z-40 w-[200px] h-[250px] sm:w-[280px] sm:h-[350px] pointer-events-none">
+        <div className="fixed bottom-0 right-0 z-40 w-[140px] h-[180px] sm:w-[220px] sm:h-[280px] pointer-events-none">
             {/* Interactive Area */}
             <div
                 className="absolute bottom-0 right-0 w-full h-full pointer-events-auto cursor-pointer"
