@@ -117,30 +117,33 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
 
     // 4. NUCLEAR OPTION: Hosted Ollama (DeepSeek/Qwen)
     if (process.env.OLLAMA_API_KEY) {
-        try {
-            console.log("[Mansi Brain] Portkey Failed. Attempting connection to Outer Rim (Ollama)...");
-            const { Ollama } = await import('ollama');
-            const ollamaHost = process.env.OLLAMA_HOST || "http://127.0.0.1:11434";
-            const ollama = new Ollama({
-                host: ollamaHost,
-                headers: { 'Authorization': `Bearer ${process.env.OLLAMA_API_KEY}` }
-            });
+        const OLLAMA_MODELS = ['deepseek-v3.1', 'qwen3-vl'];
+        for (const oModel of OLLAMA_MODELS) {
+            try {
+                console.log(`[Mansi Brain] Attempting connection via Ollama: ${oModel}`);
+                const { Ollama } = await import('ollama');
+                const ollamaHost = process.env.OLLAMA_HOST || "http://127.0.0.1:11434";
+                const ollama = new Ollama({
+                    host: ollamaHost,
+                    headers: { 'Authorization': `Bearer ${process.env.OLLAMA_API_KEY}` }
+                });
 
-            const response = await ollama.chat({
-                model: 'deepseek-v3.1',
-                messages: [
-                    ...conversationHistory,
-                    { role: 'system', content: MANSI_PERSONA }
-                ],
-            });
+                const response = await ollama.chat({
+                    model: oModel,
+                    messages: [
+                        ...conversationHistory,
+                        { role: 'system', content: MANSI_PERSONA }
+                    ],
+                });
 
-            const reply = response.message.content;
-            if (reply) {
-                console.log(`[Mansi Brain] Nuclear Success via Ollama (DeepSeek)`);
-                return { success: true, text: reply, model_used: "deepseek-v3.1 (Ollama)" };
+                const reply = response.message.content;
+                if (reply) {
+                    console.log(`[Mansi Brain] Nuclear Success via Ollama (${oModel})`);
+                    return { success: true, text: reply, model_used: `${oModel} (Ollama)` };
+                }
+            } catch (err: any) {
+                console.warn(`[Mansi Brain] Ollama Failed with ${oModel}: ${err.message}`);
             }
-        } catch (err: any) {
-            console.error(`[Mansi Brain] Ollama Failed: ${err.message}`);
         }
     }
 
