@@ -100,7 +100,14 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansi
                         <img src={mansiImage || "/images/reels/mansi-garage.png"} alt="Mansi Full" className="w-full h-full object-cover" />
                     </div>
                     <p className="text-[#e9edef] text-sm font-medium">Mansi</p>
-                    <p className="text-[#00a884] text-xs mt-1">~ +91 999 888 7777</p>
+                    <a
+                        href="https://wa.me/916359635416"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#00a884] text-xs mt-1 hover:underline cursor-pointer"
+                    >
+                        ~ +91 63596 35416
+                    </a>
                 </div>
             )}
         </div>

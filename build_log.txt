@@ -8,3 +8,20 @@
     ┬╖ optimizeCss
 
    Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Skipping linting
+   Checking validity of types ...
+Failed to compile.
+
+./src/app/page.tsx:26:22
+Type error: Type '{ initialReviews: Review[]; }' is not assignable to type 'IntrinsicAttributes'.
+  Property 'initialReviews' does not exist on type 'IntrinsicAttributes'.
+
+  24 |       <MansiKnowledgeHub />
+  25 |       <PartsCatalog />
+> 26 |       <ClientReviews initialReviews={reviews} />
+     |                      ^
+  27 |       <LocationSection />
+  28 |     </main>
+  29 |   );
+Next.js build worker exited with code: 1 and signal: null
