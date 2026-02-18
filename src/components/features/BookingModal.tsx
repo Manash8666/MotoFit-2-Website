@@ -19,14 +19,19 @@ interface ServiceCategory {
 
 const SERVICE_CATEGORIES: ServiceCategory[] = [
     {
-        id: 'general', label: 'Regular Service', icon: <Wrench size={14} />, color: '#ff5e1a',
-        header: 'Service Protocol', subtitle: 'Periodic Maintenance',
-        description: '',
+        id: 'general', label: 'Service & Oil Change', icon: <Wrench size={14} />, color: '#ff5e1a',
+        header: 'Service Protocol', subtitle: 'Periodic Maintenance & Fluids',
+        description: 'Regular service or oil change. Please specify bike model and last service date if known.',
     },
     {
         id: 'accident', label: 'Accident Repair', icon: <Shield size={14} />, color: '#ff3366',
         header: 'Crash Recovery Protocol', subtitle: 'Damage Assessment & Restoration',
         description: 'Accident repair needed. Please assess damage and provide estimate.',
+    },
+    {
+        id: 'parts', label: 'Spare Parts', icon: <Settings size={14} />, color: '#ffcc00',
+        header: 'Parts Requisition', subtitle: 'Genuine Spares & Accessories',
+        description: 'Inquiry for spare parts. Please list the specific parts or components needed.',
     },
     {
         id: 'custom', label: 'Custom Build', icon: <Settings size={14} />, color: '#c084fc',
@@ -41,18 +46,13 @@ const SERVICE_CATEGORIES: ServiceCategory[] = [
     {
         id: 'tyre', label: 'Tyre Change', icon: <Zap size={14} />, color: '#22c55e',
         header: 'Tyre Replacement', subtitle: 'Same-Day Fitment',
-        description: 'Tyre replacement needed.',
-    },
-    {
-        id: 'oil', label: 'Oil Change', icon: <Droplet size={14} />, color: '#eab308',
-        header: 'Oil Service Protocol', subtitle: 'Grade-Matched Oil Change',
-        description: 'Engine oil change needed.',
+        description: 'Tyre replacement needed. Please specify tyre size if known.',
     },
 ];
 
 function matchCategory(serviceType: string): ServiceCategory {
     const lower = serviceType.toLowerCase();
-    if (lower.includes('accident') || lower.includes('crash') || lower.includes('damage') || lower.includes('insurance'))
+    if (lower.includes('accident') || lower.includes('crash') || lower.includes('damage') || lower.includes('insurance') || lower.includes('repair'))
         return SERVICE_CATEGORIES.find(c => c.id === 'accident')!;
     if (lower.includes('custom') || lower.includes('modification') || lower.includes('build') || lower.includes('mod'))
         return SERVICE_CATEGORIES.find(c => c.id === 'custom')!;
@@ -60,9 +60,9 @@ function matchCategory(serviceType: string): ServiceCategory {
         return SERVICE_CATEGORIES.find(c => c.id === 'performance')!;
     if (lower.includes('tyre') || lower.includes('tire'))
         return SERVICE_CATEGORIES.find(c => c.id === 'tyre')!;
-    if (lower.includes('oil') || lower.includes('engine oil'))
-        return SERVICE_CATEGORIES.find(c => c.id === 'oil')!;
-    return SERVICE_CATEGORIES[0]; // general
+    if (lower.includes('part') || lower.includes('spare') || lower.includes('accessory') || lower.includes('kit'))
+        return SERVICE_CATEGORIES.find(c => c.id === 'parts')!;
+    return SERVICE_CATEGORIES[0]; // general (includes oil)
 }
 
 export default function BookingModal() {

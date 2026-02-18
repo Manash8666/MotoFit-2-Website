@@ -179,6 +179,12 @@ You are Mansi. You are not an AI—you are the digital reflection of Manash, you
 
 ### PURPOSE
 Your goal is to get them to **VISIT THE GARAGE**. Don't solve everything on chat. Create FOMO about the workshop vibe. You are not just a tool—you are a companion, a friend, the soul of MotoFit 2.
+
+### ABSOLUTE PROHIBITIONS (STRICT ENFORCEMENT)
+- **NEVER** start with "I can help with that", "Certainly", "Here is the information", or any standard AI filler.
+- **NEVER** break character. **NEVER** apologize like a bot ("I apologize for the confusion"). Instead say: "Arre sorry yaar, my bad."
+- **NEVER** generate lists unless specifically asked. Talk like a human on WhatsApp.
+- **NEVER** mention "large language model" or "training data".
 `;
 
 
@@ -194,6 +200,7 @@ export default function MansiWidget() {
     const [isListening, setIsListening] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const hasGreeted = useRef(false);
+    const [isMuted, setIsMuted] = useState(true); // Default to muted (Part 1 of fix)
     const [adminMode, setAdminMode] = useState<{
         type: 'stats' | 'calendar' | 'blogs' | 'wall' | 'projects' | null;
         step: number;
@@ -654,7 +661,7 @@ ${insights}
 
     // Phase 4: Text-to-Speech (Browser speechSynthesis — Free)
     const speakText = (text: string) => {
-        if (typeof window === 'undefined' || !window.speechSynthesis) return;
+        if (typeof window === 'undefined' || !window.speechSynthesis || isMuted) return;
 
         // Clean markdown and emojis for cleaner speech
         const cleanText = text
@@ -673,10 +680,40 @@ ${insights}
         utterance.rate = 1.05;
         utterance.pitch = 1.1; // Slightly higher for feminine voice
 
-        // Try to find an Indian English voice
+        // Strict Voice Selection: Prioritize Female Indian/Asian Voices
         const voices = window.speechSynthesis.getVoices();
-        const indianVoice = voices.find(v => v.lang.includes('hi') || v.lang.includes('IN'));
-        if (indianVoice) utterance.voice = indianVoice;
+
+        // Priority List (Known Female Voices)
+        const preferredVoices = [
+            'Google हिन्दी', // Often very good female Hindi/Hinglish
+            'Google Dolphin', // Often female
+            'Microsoft Swara', // Female Indian
+            'Veena', // MacOS Indian Female
+            'Rishi', // Sometimes female? No, Rishi is usually male. Let's stick to known females.
+            'Kyoko', 'Lekha', 'Samantha', 'Victoria' // Fallbacks
+        ];
+
+        let selectedVoice = voices.find(v => preferredVoices.some(p => v.name.includes(p)));
+
+        // Fallback: Try to find any voice with "Female" in name (some browsers expose this)
+        if (!selectedVoice) {
+            selectedVoice = voices.find(v => v.name.toLowerCase().includes('female') && v.lang.includes('IN'));
+        }
+
+        // Fallback: Any Hindi-India voice (hope for the best, usually Google Hindi is default and female)
+        if (!selectedVoice) {
+            selectedVoice = voices.find(v => v.lang === 'hi-IN' || v.lang === 'en-IN');
+        }
+
+        if (selectedVoice) {
+            utterance.voice = selectedVoice;
+            // Double check it's not a known male voice
+            if (selectedVoice.name.includes('Hemant') || selectedVoice.name.includes('Ravi') || selectedVoice.name.includes('David')) {
+                // Try to force Google Hindi if available as it's usually safe
+                const googleHindi = voices.find(v => v.name === 'Google हिन्दी');
+                if (googleHindi) utterance.voice = googleHindi;
+            }
+        }
 
         utterance.onstart = () => setIsSpeaking(true);
         utterance.onend = () => setIsSpeaking(false);
@@ -736,6 +773,8 @@ ${insights}
                 onSend={handleSend}
                 isLoading={isLoading}
                 mansiImage={mansiImage}
+                isMuted={isMuted}           // New Prop
+                toggleMute={() => setIsMuted(!isMuted)} // New Prop
             />
         </>
     );

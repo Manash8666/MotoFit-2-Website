@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { TimeLogic, AppMode } from '@/services/mansi/utils/time-logic';
 import { WhatsAppUI } from './apps/WhatsAppUI';
 import { InstagramUI } from './apps/InstagramUI';
-import { X, Battery, Wifi, Signal } from 'lucide-react';
+import { X, Battery, Wifi, Signal, Volume2, VolumeX } from 'lucide-react';
 
 interface ROGPhoneFrameProps {
     isOpen: boolean;
@@ -15,9 +15,11 @@ interface ROGPhoneFrameProps {
     onSend: () => void;
     isLoading: boolean;
     mansiImage: string;
+    isMuted: boolean;
+    toggleMute: () => void;
 }
 
-export function ROGPhoneFrame({ isOpen, onClose, messages, input, setInput, onSend, isLoading, mansiImage }: ROGPhoneFrameProps) {
+export function ROGPhoneFrame({ isOpen, onClose, messages, input, setInput, onSend, isLoading, mansiImage, isMuted, toggleMute }: ROGPhoneFrameProps) {
     const [currentTime, setCurrentTime] = useState('');
     const [activeApp, setActiveApp] = useState<AppMode>('whatsapp'); // Default
     const [manualOverride, setManualOverride] = useState<AppMode | null>(null);
@@ -59,6 +61,9 @@ export function ROGPhoneFrame({ isOpen, onClose, messages, input, setInput, onSe
             <div className="h-8 bg-black/40 flex justify-between items-center px-4 text-white text-xs select-none z-20">
                 <span className="font-mono text-[#00c8ff] font-bold">ROG 9 ULTIMATE</span>
                 <div className="flex items-center gap-2">
+                    <button onClick={toggleMute} className="hover:text-white transition-colors">
+                        {isMuted ? <VolumeX size={12} className="text-gray-500" /> : <Volume2 size={12} className="text-[#00c8ff]" />}
+                    </button>
                     <Wifi size={12} />
                     <Signal size={12} />
                     <span>{currentTime}</span>

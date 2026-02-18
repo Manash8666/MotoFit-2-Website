@@ -62,7 +62,7 @@ export default function ServiceLandingPage({ config }: { config: ServicePageConf
             <div className="container mx-auto px-4 md:px-8 relative z-10">
 
                 {/* ── HERO ────────────────────────────────────────── */}
-                <div className="mb-20">
+                <div className="mb-12 md:mb-20">
                     <Link href="/services" className="inline-flex items-center gap-2 text-gray-500 hover:text-[#ff5e1a] transition-colors mb-8 group">
                         <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                         <span className="font-mono text-xs uppercase tracking-widest">All Services</span>
@@ -93,7 +93,7 @@ export default function ServiceLandingPage({ config }: { config: ServicePageConf
                 </div>
 
                 {/* ── SERVICE SECTIONS ─────────────────────────────── */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-20">
                     {config.sections.map((section, i) => (
                         <motion.div
                             key={i}
@@ -101,7 +101,7 @@ export default function ServiceLandingPage({ config }: { config: ServicePageConf
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            className={`bg-[#0a0a0a] border rounded-3xl p-8 ${section.highlight
+                            className={`bg-[#0a0a0a] border rounded-3xl p-6 md:p-8 ${section.highlight
                                 ? 'border-[#ff5e1a]/40 bg-gradient-to-br from-[#0a0a0a] to-[#1a0a00]'
                                 : 'border-[#333]'
                                 }`}
@@ -110,8 +110,8 @@ export default function ServiceLandingPage({ config }: { config: ServicePageConf
                             <ul className="space-y-3">
                                 {section.items.map((item, j) => (
                                     <li key={j} className="flex items-start gap-3 text-gray-300 text-sm">
-                                        <CheckCircle2 size={16} className="text-[#ff5e1a] shrink-0 mt-0.5" />
-                                        <span>{item}</span>
+                                        <CheckCircle2 size={16} className="text-[#ff5e1a] shrink-0 mt-[3px]" />
+                                        <span className="leading-tight">{item}</span>
                                     </li>
                                 ))}
                             </ul>
