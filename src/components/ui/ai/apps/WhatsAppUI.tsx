@@ -47,7 +47,7 @@ export function WhatsAppUI({ messages, input, setInput, onSend, isLoading, mansi
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-2 z-10 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-4 space-y-2 z-10 custom-scrollbar pointer-events-auto overscroll-contain">
                 {messages.map((msg, idx) => (
                     <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                         <div className={`

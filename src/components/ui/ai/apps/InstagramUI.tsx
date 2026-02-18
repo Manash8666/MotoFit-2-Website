@@ -94,7 +94,7 @@ export function InstagramUI({ messages: initialMessages, input, setInput, onSend
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar relative z-10">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar relative z-10 pointer-events-auto overscroll-contain">
                 {messages.length === 0 && (
                     <div className="text-center text-white/40 text-xs mt-10">
                         Send a message to start chatting...

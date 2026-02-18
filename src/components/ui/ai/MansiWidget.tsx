@@ -201,6 +201,7 @@ export default function MansiWidget() {
     const [isListening, setIsListening] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const hasGreeted = useRef(false);
+    const processingRef = useRef(false); // Helper to prevent double-submission
     const [isMuted, setIsMuted] = useState(true); // Default to muted (Part 1 of fix)
     const [adminMode, setAdminMode] = useState<{
         type: 'stats' | 'calendar' | 'blogs' | 'wall' | 'projects' | 'verify' | null;
@@ -277,8 +278,9 @@ export default function MansiWidget() {
     }, [isOpen, messages]);
 
     const handleSend = async () => {
-        if (!input.trim() || isLoading || isBlocked) return;
+        if (!input.trim() || isLoading || isBlocked || processingRef.current) return;
 
+        processingRef.current = true;
         const userMessage = input.trim();
         setInput('');
 
@@ -306,6 +308,7 @@ ${insights}
             setTimeout(() => {
                 setMessages(prev => [...prev, { role: 'assistant', content: report }]);
                 setIsLoading(false);
+                processingRef.current = false;
             }, 500);
             return;
         }
@@ -314,6 +317,8 @@ ${insights}
         if (adminMode.type) {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
             handleAdminFlow(userMessage);
+            processingRef.current = false;
+            setIsLoading(false);
             return;
         }
 
@@ -328,6 +333,8 @@ ${insights}
                 setTimeout(() => {
                     setMessages(prev => [...prev, { role: 'assistant', content: '🔒 **Security Protocol Activated.**\n\nIdentity verification required. Enter your **Secret Access Code** to proceed:' }]);
                 }, 400);
+                processingRef.current = false;
+                setIsLoading(false);
                 return;
             }
 
@@ -362,6 +369,9 @@ ${insights}
                     setMessages(prev => [...prev, { role: 'assistant', content: `🔐 Verified! ✅ ${name}, Featured Projects update mode.\n\nCurrent projects:\n${display}\n\nNaye project ka naam bolo:` }]);
                 }, 400);
             }
+            // Logic moved INSIDE the if(adminCmd) block so it only runs on match
+            processingRef.current = false;
+            setIsLoading(false);
             return;
         }
 
@@ -466,6 +476,7 @@ ${insights}
             }, 1000);
         } finally {
             setIsLoading(false);
+            processingRef.current = false; // Release lock
         }
     };
 
@@ -777,8 +788,8 @@ ${insights}
                 onSend={handleSend}
                 isLoading={isLoading}
                 mansiImage={mansiImage}
-                isMuted={isMuted}           // New Prop
-                toggleMute={() => setIsMuted(!isMuted)} // New Prop
+                isMuted={isMuted}
+                toggleMute={() => setIsMuted(!isMuted)}
             />
         </>
     );

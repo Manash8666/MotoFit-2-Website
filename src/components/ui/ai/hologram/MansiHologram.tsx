@@ -78,7 +78,11 @@ const HologramScene: React.FC<MansiHologramProps> = ({ mousePosition, imageSrc }
 
 export default function MansiHologram({ imageSrc, mousePosition }: MansiHologramProps) {
     return (
-        <Canvas camera={{ position: [0, 0, 5], fov: 45 }} gl={{ alpha: true, antialias: true }}>
+        <Canvas
+            camera={{ position: [0, 0, 5], fov: 45 }}
+            gl={{ alpha: true, antialias: true }}
+            style={{ pointerEvents: 'none' }} // Pass clicks to parent
+        >
             <ambientLight intensity={0.5} />
             <HologramScene mousePosition={mousePosition} imageSrc={imageSrc} />
         </Canvas>

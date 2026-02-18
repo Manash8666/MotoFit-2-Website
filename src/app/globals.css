@@ -368,7 +368,7 @@ html {
 
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
+    width: 8px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {

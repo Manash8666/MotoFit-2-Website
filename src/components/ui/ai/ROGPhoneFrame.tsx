@@ -47,8 +47,6 @@ export function ROGPhoneFrame({ isOpen, onClose, messages, input, setInput, onSe
 
     if (!isOpen) return null;
 
-    if (!isOpen) return null;
-
     return (
         // The ASUS ROG Phone 9 Shell - Widget Mode (Bottom Right)
         <div

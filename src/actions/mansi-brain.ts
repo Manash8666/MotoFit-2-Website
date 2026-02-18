@@ -9,13 +9,14 @@ const client = new OpenAI({
 
 // Priority List of FREE Models — Mansi's Neural Network (Zero Cost)
 const FREE_MODELS = [
-    'google/gemini-2.0-flash-lite-preview-02-05:free', // Fastest Gemini 2.0
-    'google/gemini-2.0-pro-exp-02-05:free',            // High Intelligence Gemini 2.0 Pro
-    'nvidia/nemotron-3-nano-30b-a3b:free',             // Reasoning Model (Nemotron)
-    'deepseek/deepseek-r1-distill-llama-70b:free',     // Reasoning Model (DeepSeek R1)
-    'meta-llama/llama-3.3-70b-instruct:free',          // Llama 3.3 70B
-    'nvidia/llama-3.1-nemotron-70b-instruct:free',     // Nemotron 70B
-    'microsoft/phi-3-medium-128k-instruct:free'        // Ultimate Fallback
+    'google/gemini-2.0-flash-lite-preview-02-05:free', // Try specific first
+    'google/gemini-2.0-pro-exp-02-05:free',
+    'meta-llama/llama-3.3-70b-instruct:free',          // Very reliable
+    'meta-llama/llama-3.1-8b-instruct:free',           // Fallback fast
+    'microsoft/phi-3-medium-128k-instruct:free',        // Good fallback
+    'nvidia/llama-3.1-nemotron-70b-instruct:free',
+    'deepseek/deepseek-r1-distill-llama-70b:free',
+    'qwen/qwen-2-7b-instruct:free'                     // Emergency
 ];
 
 export async function chatWithMansiBrain(conversationHistory: any[]) {
