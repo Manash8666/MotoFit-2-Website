@@ -1,34 +1,99 @@
 'use client';
 
-import { Star, ArrowRight } from 'lucide-react';
+import { Star, ArrowRight, MessageSquare, Clock, ShieldCheck, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Script from 'next/script';
+
+// Extend window interface for OpenWidget
+declare global {
+    interface Window {
+        __ow: any;
+        OpenWidget: any;
+    }
+}
+
+function StatCard({ icon: Icon, value, label, onClick }: { icon: any, value: string, label: string, onClick?: () => void }) {
+    return (
+        <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onClick}
+            className="relative p-6 bg-[#0a0a0a] border border-[#333]/30 flex flex-col items-center justify-center group overflow-hidden cursor-pointer h-full min-h-[160px] rounded-2xl"
+        >
+            <div className="absolute inset-0 bg-gradient-to-b from-[#ff5e1a]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            {/* Corner markers */}
+            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#ff5e1a] opacity-30 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[#ff5e1a] opacity-30 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[#ff5e1a] opacity-30 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[#ff5e1a] opacity-30 group-hover:opacity-100 transition-opacity" />
+
+            <div className="mb-3 text-[#ff5e1a] p-2 bg-[#ff5e1a]/10 rounded-full group-hover:bg-[#ff5e1a]/20 transition-colors">
+                <Icon size={24} />
+            </div>
+
+            <span className="text-2xl font-black text-white relative z-10 font-mono tracking-tighter mb-1">
+                {value}
+            </span>
+            <span className="text-[#888] text-[10px] uppercase tracking-[0.2em] relative z-10 text-center group-hover:text-white transition-colors">
+                {label}
+            </span>
+        </motion.div>
+    );
+}
 
 export default function ClientReviews() {
+
+    const handleOpenWidget = () => {
+        if (typeof window !== 'undefined' && window.OpenWidget) {
+            window.OpenWidget.call('maximize');
+        }
+    };
+
     return (
         <section className="relative py-24 bg-[#050505] overflow-hidden">
+            {/* OpenWidget Configuration */}
+            <Script id="open-widget-config" strategy="beforeInteractive">
+                {`
+                    window.__ow = window.__ow || {};
+                    window.__ow.organizationId = "6fee2b77-e016-4d20-8a08-55b342da193a";
+                    window.__ow.integration_name = "manual_settings";
+                    window.__ow.product_name = "openwidget";
+                `}
+            </Script>
+            <Script
+                src="https://cdn.openwidget.com/openwidget.js"
+                strategy="lazyOnload"
+            />
+
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#ff5e1a]/50 to-transparent" />
             <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#ff5e1a]/20 to-transparent" />
 
             <div className="container mx-auto px-4 md:px-8">
-                <div className="max-w-4xl mx-auto text-center">
+                <div className="max-w-4xl mx-auto">
 
                     {/* Header */}
-                    <motion.h2
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-6xl font-black text-white uppercase mb-12 font-heading"
+                        className="text-center mb-12"
                     >
-                        Rider <span className="text-[#ff5e1a]">Feedback</span>
-                    </motion.h2>
+                        <h2 className="text-4xl md:text-6xl font-black text-white uppercase mb-4 font-heading">
+                            Rider <span className="text-[#ff5e1a]">Feedback</span>
+                        </h2>
+                        <p className="text-gray-500 font-mono text-xs uppercase tracking-widest">
+                            Trusted by the Community // Supported by Experts
+                        </p>
+                    </motion.div>
 
                     {/* Google Rating Card */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        className="relative group"
+                        className="relative group mb-16"
                     >
                         <div className="absolute -inset-1 bg-gradient-to-r from-[#4285F4] via-[#EA4335] to-[#FBBC05] rounded-3xl opacity-20 group-hover:opacity-40 blur transition-opacity duration-500" />
 
@@ -78,6 +143,46 @@ export default function ClientReviews() {
                                 </a>
                             </div>
 
+                        </div>
+                    </motion.div>
+
+                    {/* Integrated OpenWidget Support Stats */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <div className="flex items-center justify-center gap-4 mb-8">
+                            <div className="h-px w-12 bg-[#333]" />
+                            <span className="text-[#666] font-mono text-[10px] uppercase tracking-widest">Live Support Channels</span>
+                            <div className="h-px w-12 bg-[#333]" />
+                        </div>
+
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <StatCard
+                                icon={MessageSquare}
+                                value="ONLINE"
+                                label="Live Chat"
+                                onClick={handleOpenWidget}
+                            />
+                            <StatCard
+                                icon={Clock}
+                                value="< 5 MIN"
+                                label="Response Time"
+                                onClick={handleOpenWidget}
+                            />
+                            <StatCard
+                                icon={ShieldCheck}
+                                value="100%"
+                                label="Resolution Rate"
+                                onClick={handleOpenWidget}
+                            />
+                            <StatCard
+                                icon={Zap}
+                                value="INSTANT"
+                                label="Quick Assist"
+                                onClick={handleOpenWidget}
+                            />
                         </div>
                     </motion.div>
 

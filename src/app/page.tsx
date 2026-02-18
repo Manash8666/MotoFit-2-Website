@@ -8,7 +8,6 @@ import LocationSection from '@/components/sections/LocationSection';
 import FeaturedProjects from '@/components/sections/FeaturedProjects';
 import MansiKnowledgeHub from '@/components/sections/MansiKnowledgeHub';
 import PartsCatalog from '@/components/sections/PartsCatalog';
-import OpenWidgetSection from '@/components/sections/OpenWidgetSection';
 import { fetchReviews } from '@/actions/reviews';
 
 export default async function Home() {
@@ -25,7 +24,6 @@ export default async function Home() {
       <MansiKnowledgeHub />
       <PartsCatalog />
       <ClientReviews />
-      <OpenWidgetSection />
       <LocationSection />
     </main>
   );
