@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Loader } from '@googlemaps/js-api-loader';
 import { Badge } from '@/components/ui/graphics/Badge';
 import { cn } from '@/lib/utils';
+import { COMPANY_DETAILS } from '@/config/company';
 
 // Declare custom elements to avoid TS errors
 declare global {
@@ -81,8 +82,8 @@ export default function PlaceAutocompleteMap({ className }: { className?: string
             // Create marker
             const marker = new AdvancedMarkerElement({
                 map: map,
-                title: 'MotoFit 2 Hub',
-                position: { lat: 23.109, lng: 72.593 }, // Default to MotoFit location
+                title: COMPANY_DETAILS.name,
+                position: { lat: COMPANY_DETAILS.location.lat, lng: COMPANY_DETAILS.location.lng },
             });
 
             marker.addListener('click', () => {

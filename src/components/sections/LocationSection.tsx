@@ -3,6 +3,7 @@
 import { MapPin, Clock, Phone, Navigation } from "lucide-react";
 import { GlassButton } from "@/components/ui/buttons/GlassButton";
 import PlaceAutocompleteMap from "@/components/maps/PlaceAutocompleteMap";
+import { COMPANY_DETAILS } from "@/config/company";
 
 export default function LocationSection() {
     return (
@@ -42,7 +43,7 @@ export default function LocationSection() {
                     </div>
 
                     <div className="mt-10 flex gap-4">
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=MotoFit+2+Shop+No+9+Kirtan+Complex+Chandkheda" target="_blank" className="bg-white text-black px-6 py-3 rounded-sm font-bold uppercase text-sm hover:bg-orange-500 hover:text-white transition flex items-center gap-2">
+                        <a href={COMPANY_DETAILS.location.mapsLink} target="_blank" className="bg-white text-black px-6 py-3 rounded-sm font-bold uppercase text-sm hover:bg-orange-500 hover:text-white transition flex items-center gap-2">
                             <span>🗺️</span> Get Directions
                         </a>
                     </div>
