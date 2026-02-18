@@ -6,6 +6,8 @@ import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { HoloVertexShader, HoloFragmentShader } from "./HoloShader";
 
+import { HoloConfig } from "./HoloConfig";
+
 interface MansiHologramProps {
     mousePosition: { x: number; y: number };
     imageSrc: string;
@@ -13,6 +15,12 @@ interface MansiHologramProps {
 
 const HologramScene: React.FC<MansiHologramProps> = ({ mousePosition, imageSrc }) => {
     const meshRef = useRef<THREE.Mesh>(null);
+    const { viewport } = useThree();
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        setIsMobile(window.innerWidth < 768);
+    }, []);
 
     // Load Texture
     const texture = useTexture(imageSrc);
@@ -23,19 +31,22 @@ const HologramScene: React.FC<MansiHologramProps> = ({ mousePosition, imageSrc }
             uTime: { value: 0 },
             uTexture: { value: texture },
             uMouse: { value: new THREE.Vector2(0, 0) },
-            uParallaxStrength: { value: 0.3 }, // Configurable
-            uColor: { value: new THREE.Color("#00f3ff") }, // Cyan
-            uGlowIntensity: { value: 2.0 },
-            uScanSpeed: { value: 2.0 },
+            uParallaxStrength: { value: isMobile ? HoloConfig.mobileParallaxStrength : HoloConfig.parallaxStrength },
+            uColor: { value: new THREE.Color(HoloConfig.hologramColor) },
+            uGlowIntensity: { value: HoloConfig.glowIntensity },
+            uScanSpeed: { value: HoloConfig.scanSpeed },
         }),
-        [texture]
+        [texture, isMobile]
     );
+
+    // Scale adjustment for mobile
+    const scale = isMobile ? HoloConfig.mobileScale : 1.0;
 
     // Animation Loop
     useFrame((state) => {
         if (!meshRef.current) return;
 
-        // Update Time
+        // Skip frames on mobile for performance if needed (simplified here)
         uniforms.uTime.value = state.clock.getElapsedTime();
 
         // Lerp Mouse Position for Smoothness
@@ -52,8 +63,8 @@ const HologramScene: React.FC<MansiHologramProps> = ({ mousePosition, imageSrc }
     });
 
     return (
-        <mesh ref={meshRef} position={[0, 0, 0]}>
-            <planeGeometry args={[3, 4, 32, 32]} />
+        <mesh ref={meshRef} position={[0, 0, 0]} scale={[scale, scale, 1]}>
+            <planeGeometry args={[3, 4, isMobile ? 16 : 32, isMobile ? 16 : 32]} />
             <shaderMaterial
                 vertexShader={HoloVertexShader}
                 fragmentShader={HoloFragmentShader}

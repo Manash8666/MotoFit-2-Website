@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import MansiHologram from "./MansiHologram";
 import { motion, AnimatePresence } from "framer-motion";
+import { HoloConfig } from "./HoloConfig";
 
 interface HoloLauncherProps {
     onOpen: () => void;
@@ -11,7 +12,7 @@ interface HoloLauncherProps {
 export default function HoloLauncher({ onOpen }: HoloLauncherProps) {
     const [booting, setBooting] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-    const [imageSrc, setImageSrc] = useState("/images/hologram/base.webp");
+    const [imageSrc, setImageSrc] = useState(HoloConfig.basePath + HoloConfig.defaultImage);
 
     // Track Mouse Movement for Parallax
     useEffect(() => {
@@ -26,12 +27,11 @@ export default function HoloLauncher({ onOpen }: HoloLauncherProps) {
         return () => window.removeEventListener("mousemove", handleMouseMove);
     }, []);
 
-    // Daily Image Rotation Logic (Simple)
+    // Robust Daily Image Rotation Logic
     useEffect(() => {
-        const today = new Date().getDay(); // 0-6
-        // In a real scenario, map 'today' to specific files if they exist
-        // keeping it simple for now as requested by user constraints
-        // fallback to base.webp if others are not guaranteed
+        const today = new Date().getDate(); // 1-31
+        const index = today % HoloConfig.availableImages.length;
+        setImageSrc(HoloConfig.basePath + HoloConfig.availableImages[index]);
     }, []);
 
     const handleClick = () => {
