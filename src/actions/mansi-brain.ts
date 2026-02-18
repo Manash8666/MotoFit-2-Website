@@ -108,6 +108,48 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
         }
     }
 
+    // 4. NUCLEAR OPTION: Hosted Ollama (DeepSeek/Qwen)
+    // Requires OLLAMA_HOST to be reachable from Vercel (Public IP/URL)
+    // Key: c23e0d1381a44c18b9015830b00e0979.5eJPKApn9t-30_zgeFL4Wp1l
+    if (process.env.OLLAMA_API_KEY) {
+        try {
+            console.log("[Mansi Brain] Portkey Failed. Attempting connection to Outer Rim (Ollama)...");
+
+            // Dynamic import to support potential edge environments or optional install
+            const { Ollama } = await import('ollama');
+
+            // Default to localhost if not set, but Vercel needs a real URL.
+            // If user has a specialized provider key, they likely have a specific host too.
+            // Since none provided, we default to standard env var or localhost.
+            const ollamaHost = process.env.OLLAMA_HOST || "http://127.0.0.1:11434";
+
+            const ollama = new Ollama({
+                host: ollamaHost,
+                // Some providers use standard Authorization header
+                headers: {
+                    'Authorization': `Bearer ${process.env.OLLAMA_API_KEY}`
+                }
+            });
+
+            const response = await ollama.chat({
+                model: 'deepseek-v3.1', // User preferred model
+                messages: [
+                    ...conversationHistory,
+                    { role: 'system', content: 'You are MANSI. Speak in Hinglish/Gujarati.' }
+                ],
+            });
+
+            const reply = response.message.content;
+            if (reply) {
+                console.log(`[Mansi Brain] Nuclear Success via Ollama (DeepSeek)`);
+                return { success: true, text: reply, model_used: "deepseek-v3.1 (Ollama)" };
+            }
+
+        } catch (err: any) {
+            console.error(`[Mansi Brain] Ollama Failed: ${err.message}`);
+        }
+    }
+
     // If ALL models fail, return error so Client can switch to GHOST PROTOCOL (Local Regex)
     console.error("[Mansi Brain] All satellites offline. Initiating Ghost Protocol.");
     return { success: false, error: "ALL_MODELS_BUSY" };
