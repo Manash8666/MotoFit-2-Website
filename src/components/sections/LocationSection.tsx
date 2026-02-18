@@ -60,10 +60,10 @@ export default function LocationSection() {
                 </div>
 
                 <div className="h-full min-h-[400px]">
-                    {/* <LeafletMap /> */}
-                    <div className="w-full h-full min-h-[400px] bg-[#0a0a0a] border border-[#333] rounded-2xl flex items-center justify-center">
+                    <LeafletMap />
+                    {/* <div className="w-full h-full min-h-[400px] bg-[#0a0a0a] border border-[#333] rounded-2xl flex items-center justify-center">
                         <span className="text-gray-500">Map temporarily disabled for debugging</span>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </section>
