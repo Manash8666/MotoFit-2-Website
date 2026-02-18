@@ -6,16 +6,26 @@ import { chatWithMansiBrain } from './mansi-brain';
 import OpenAI from 'openai';
 
 const SEED_TOPICS = [
-    "Common engine issues in Royal Enfield Continental GT 650 repairs in India",
-    "Honda Activa maintenance tips for Ahmedabad climate",
-    "Ahmedabad Chandkheda local food and lifestyle for 22 year olds",
-    "Hinglish and Gujarati mechanic slang used in Ahmedabad garages",
-    "Maintaining bike performance during Ahmedabad extreme summer heat",
-    "Top motorcycle accessories popular in Ahmedabad 2024",
-    "How to handle bike punctures in rain on Ahmedabad roads",
-    "Ahmedabad night life and café culture for youth in 2024",
-    "Engine oil recommendations for Indian commuter bikes",
-    "Brake pad replacement guide for Royal Enfield in Gujarati style"
+    "Royal Enfield Continental GT 650 tappet adjustment guide India",
+    "Best cafe racer modification shops in Ahmedabad 2024",
+    "Ahmedabad night riding spots and safety for solo women",
+    "Common throttle body cleaning issues in fuel injected bikes India",
+    "How to spot fake Motul engine oil in Ahmedabad markets",
+    "Gujarati slang for 'broken chain' or 'engine heat'",
+    "MotoGP Bharat 2024 updates and ticket info for Ahmedabad fans",
+    "Yamaha R15 V4 service cost in Ahmedabad authorized centers",
+    "How to clean bike chain in Ahmedabad dust conditions",
+    "Best breakfast runs for bikers near Ahmedabad within 100km",
+    "KTM Duke 390 coolant leakage issues and fixes in Indian heat",
+    "Street food recommendations for bikers in Chandkheda Ahmedabad",
+    "Difference between Indian fuel qualities (XP95 vs Power) for GT650",
+    "Ahmedabad RTO rules for modified silencers 2024",
+    "Triumph Speed 400 first service experience in Gujarat",
+    "Best places for bike detailing and ceramic coating in Ahmedabad",
+    "Common electrical failures in old RE Himalayan during monsoons",
+    "How to ride a GT 650 in heavy Ahmedabad traffic without stalling",
+    "Motorcycle tyre pressure for Indian highways in summer",
+    "Popular helmet brands with ECE rating available in Ahmedabad"
 ];
 
 const backupClient = new OpenAI({

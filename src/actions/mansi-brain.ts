@@ -30,8 +30,9 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
     let webContext = "";
     const latestQuery = conversationHistory[conversationHistory.length - 1]?.content || '';
 
-    // Enhanced heuristic: Persona, repairs, current events or lifestyle
-    const needsSearch = /latest|news|today|spec|price|rate|motogp|score|weather|current|released|repair|how to|fix|style|fashion|reddit|youtube/i.test(latestQuery);
+    // Aggressive heuristic: If query isn't a very short basic greeting, research it.
+    const isBasicGreeting = /^(hi|hello|hey|yo|hola|namaste)$/i.test(latestQuery.trim());
+    const needsSearch = !isBasicGreeting || /latest|news|today|spec|price|rate|motogp|score|weather|current|released|repair|how to|fix|style|fashion|reddit|youtube|review|best/i.test(latestQuery);
 
     if (needsSearch) {
         try {
