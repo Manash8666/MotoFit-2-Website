@@ -371,6 +371,11 @@ html {
     width: 8px;
   }
 
+  /* Hide default OpenWidget Launcher to use custom UI triggers */
+  #ow-widget-launcher {
+    display: none !important;
+  }
+
   .custom-scrollbar::-webkit-scrollbar-track {
     @apply bg-black/20;
   }

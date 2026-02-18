@@ -1,6 +1,6 @@
 'use client';
 
-import { Star, ArrowRight, MessageSquare, Clock, ShieldCheck, Zap } from 'lucide-react';
+import { Star, ArrowRight, MessageSquare, Clock, ShieldCheck, Zap, Users, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Script from 'next/script';
 
@@ -160,27 +160,27 @@ export default function ClientReviews() {
 
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                             <StatCard
-                                icon={MessageSquare}
-                                value="ONLINE"
-                                label="Live Chat"
+                                icon={Users}
+                                value="LIVE: 4"
+                                label="People Browsing"
                                 onClick={handleOpenWidget}
                             />
                             <StatCard
-                                icon={Clock}
-                                value="< 5 MIN"
-                                label="Response Time"
+                                icon={MessageCircle}
+                                value="WHATSAPP"
+                                label="Direct Support"
+                                onClick={handleOpenWidget}
+                            />
+                            <StatCard
+                                icon={Star}
+                                value="4.6 / 5"
+                                label="Verified by OpenWidget"
                                 onClick={handleOpenWidget}
                             />
                             <StatCard
                                 icon={ShieldCheck}
-                                value="100%"
-                                label="Resolution Rate"
-                                onClick={handleOpenWidget}
-                            />
-                            <StatCard
-                                icon={Zap}
-                                value="INSTANT"
-                                label="Quick Assist"
+                                value="SECURE"
+                                label="Safe & Verified"
                                 onClick={handleOpenWidget}
                             />
                         </div>
