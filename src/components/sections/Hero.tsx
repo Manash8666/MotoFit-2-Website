@@ -12,9 +12,9 @@ import TextReveal from '../ui/text/TextReveal';
 import InstagramPortal3D from '../interactive/InstagramPortal3D';
 
 const HERO_IMAGES = [
-  '/images/hero/ducati-panigale.png', // Ducati Panigale (Red)
-  '/images/hero/bmw-s1000rr.png',     // BMW S1000RR (Track)
-  '/images/hero/cafe-racer.png'       // Custom Cafe Racer (Detail)
+  "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop", // Motorbike in garage
+  "https://images.unsplash.com/photo-1626847037657-fd3622613ce3?q=80&w=2070&auto=format&fit=crop", // Mechanic working
+  "https://images.unsplash.com/photo-1600705722908-bab1e61c0b4d?q=80&w=2069&auto=format&fit=crop"  // Cafe racer
 ];
 
 extend(THREE);
@@ -54,7 +54,7 @@ export default function Hero() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-    }, 6000); // 6 seconds per image
+    }, 5000); // 5 seconds per image to match slider
     return () => clearInterval(timer);
   }, []);
 
@@ -101,13 +101,13 @@ export default function Hero() {
 
       {/* 1. Background Image Carousel */}
       <div className="absolute inset-0 z-0">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="popLayout">
           <motion.div
             key={currentImageIndex}
             initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 0.6, scale: 1 }}
+            animate={{ opacity: 0.5, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ duration: 2, ease: "easeOut" }}
             className="absolute inset-0"
           >
             <Image
