@@ -2,6 +2,7 @@
 
 import OpenAI from 'openai';
 import { logMansiExperience } from './mansi-learning';
+import { searchTheWeb } from './internet-search';
 
 const client = new OpenAI({
     baseURL: 'https://openrouter.ai/api/v1',
@@ -25,6 +26,26 @@ const MANSI_PERSONA = 'CRITICAL: You are MANSI, the digital reflection of Manash
 export async function chatWithMansiBrain(conversationHistory: any[]) {
     let lastError = null;
 
+    // 0. INTERNET INTELLIGENCE STEP: Research current data if needed
+    let webContext = "";
+    const latestQuery = conversationHistory[conversationHistory.length - 1]?.content || '';
+
+    // Quick heuristic: If query mentions current events, specs, or news
+    const needsSearch = /latest|news|today|spec|price|rate|motogp|score|weather|current|released/i.test(latestQuery);
+
+    if (needsSearch) {
+        try {
+            const searchData = await searchTheWeb(latestQuery);
+            if (searchData) {
+                webContext = `\n\nREAL-TIME INTERNET DATA FOUND:\n${searchData.context}\n\nINSTRUCTION: Use this live data to answer as MANSI. Be accurate about the facts but stay in character.`;
+            }
+        } catch (e) {
+            console.warn('[Mansi Brain] Intelligence gathering failed, proceeding with base knowledge.');
+        }
+    }
+
+    const FINAL_PERSONA = MANSI_PERSONA + webContext;
+
     // 1. PRIMARY STRATEGY: OpenRouter Free Models
     for (const model of FREE_MODELS) {
         try {
@@ -34,7 +55,7 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 model: model,
                 messages: [
                     ...conversationHistory,
-                    { role: 'system', content: MANSI_PERSONA }
+                    { role: 'system', content: FINAL_PERSONA }
                 ],
                 temperature: 0.85,
                 max_tokens: 300,
@@ -75,7 +96,7 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 model: "gemini-2.0-flash-exp",
                 messages: [
                     ...conversationHistory,
-                    { role: 'system', content: MANSI_PERSONA }
+                    { role: 'system', content: FINAL_PERSONA }
                 ],
                 max_tokens: 300
             });
@@ -111,7 +132,7 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 model: "grok-beta",
                 messages: [
                     ...conversationHistory,
-                    { role: 'system', content: MANSI_PERSONA }
+                    { role: 'system', content: FINAL_PERSONA }
                 ],
                 max_tokens: 300
             });
@@ -148,7 +169,7 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                     model: oModel,
                     messages: [
                         ...conversationHistory,
-                        { role: 'system', content: MANSI_PERSONA }
+                        { role: 'system', content: FINAL_PERSONA }
                     ],
                 });
 
@@ -183,7 +204,7 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 model: "claude-3-5-sonnet-20240620", // Defaulting to Sonnet if not specified
                 messages: [
                     ...conversationHistory,
-                    { role: 'system', content: MANSI_PERSONA }
+                    { role: 'system', content: FINAL_PERSONA }
                 ],
                 max_tokens: 300
             });
