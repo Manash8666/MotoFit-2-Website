@@ -31,6 +31,7 @@
     "next": "^14.2.5",
     "next-sanity": "^12.0.13",
     "openai": "^6.17.0",
+    "portkey-ai": "^3.0.1",
     "postprocessing": "^6.32.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
