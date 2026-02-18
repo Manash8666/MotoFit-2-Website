@@ -115,9 +115,9 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
         }
     }
 
-    // 4. NUCLEAR OPTION: Hosted Ollama (DeepSeek/Qwen)
+    // 4. NUCLEAR OPTION: Hosted Ollama (DeepSeek/Qwen/Gemma)
     if (process.env.OLLAMA_API_KEY) {
-        const OLLAMA_MODELS = ['deepseek-v3.1', 'qwen3-vl'];
+        const OLLAMA_MODELS = ['deepseek-v3.1', 'qwen3-vl', 'gemma3'];
         for (const oModel of OLLAMA_MODELS) {
             try {
                 console.log(`[Mansi Brain] Attempting connection via Ollama: ${oModel}`);
