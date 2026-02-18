@@ -1,13 +1,13 @@
 export const HoloConfig = {
-    // Appearance
+    // Appearance - TUNED FOR CLARITY
     hologramColor: "#00f3ff", // Cyan
-    glowIntensity: 2.0,
-    scanSpeed: 2.0,
-    parallaxStrength: 0.3,
+    glowIntensity: 0.5,       // Reduced from 2.0 to 0.5
+    scanSpeed: 1.5,           // Slightly slower
+    parallaxStrength: 0.2,    // Reduced for stability
 
     // Performance (Mobile Optimization)
     mobileScale: 0.8,
-    mobileParallaxStrength: 0.1,
+    mobileParallaxStrength: 0.05,
 
     // Assets
     basePath: "/images/hologram/",

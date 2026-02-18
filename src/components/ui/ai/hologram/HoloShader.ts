@@ -67,16 +67,16 @@ void main() {
     // Apply wave brightness
     color += wave * uGlowIntensity;
     
-    // Add holographic tint (Cyan/Blue)
-    color = mix(color, uColor, 0.1);
+    // Add holographic tint (Cyan/Blue) - REDUCED MIX
+    color = mix(color, uColor, 0.05);
     
-    // Edge glow (Fresnel-ish)
+    // Edge glow (Fresnel-ish) - MOVED EDGE OUT TO 0.6 and REDUCED STRENGTH
     float dist = distance(vUv, vec2(0.5));
-    float glow = smoothstep(0.4, 0.5, dist);
-    color += glow * uColor * 0.5;
+    float glow = smoothstep(0.6, 0.8, dist); // Moved further out
+    color += glow * uColor * 0.2;            // Reduced intensity
 
-    // Noise grain
-    float noise = random(vUv + uTime) * 0.05;
+    // Noise grain - REDUCED
+    float noise = random(vUv + uTime) * 0.02;
     color += noise;
 
     // Output final color

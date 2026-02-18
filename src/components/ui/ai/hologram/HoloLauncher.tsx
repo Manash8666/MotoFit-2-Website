@@ -35,13 +35,9 @@ export default function HoloLauncher({ onOpen }: HoloLauncherProps) {
     }, []);
 
     const handleClick = () => {
-        setBooting(true);
-
-        // Simulate Boot Sequence (3 seconds)
-        setTimeout(() => {
-            setBooting(false);
-            onOpen();
-        }, 2500);
+        // Immediate feedback and open
+        // The previous 2.5s delay caused the "double click" feeling
+        onOpen();
     };
 
     return (
