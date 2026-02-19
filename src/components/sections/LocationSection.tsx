@@ -60,9 +60,18 @@ export default function LocationSection() {
                 </div>
 
                 <div className="h-full min-h-[400px]">
-                    {/* <LeafletMap /> */}
-                    <div className="w-full h-full min-h-[400px] bg-[#0a0a0a] border border-[#333] rounded-2xl flex items-center justify-center">
-                        <span className="text-gray-500">Map temporarily disabled for updates</span>
+                    <div className="w-full h-full min-h-[400px] bg-[#0a0a0a] border border-[#333] rounded-2xl flex flex-col items-center justify-center p-8 text-center bg-[url('/images/grid-pattern.png')] bg-opacity-10">
+                        <h2 className="text-3xl font-black uppercase text-white mb-2 tracking-tighter">
+                            Chandkheda
+                        </h2>
+                        <h3 className="text-xl text-[#ff5e1a] font-mono mb-6">
+                            AHMEDABAD, GUJARAT
+                        </h3>
+                        <div className="space-y-1 text-gray-400 font-sans text-sm">
+                            <p>Shop No 9, Kirtan Complex</p>
+                            <p>Nigam Nagar, New CG Road</p>
+                            <p className="opacity-50 mt-2">PIN: 382424</p>
+                        </div>
                     </div>
                 </div>
             </div>
