@@ -43,12 +43,14 @@ export async function searchTheWeb(query: string) {
 /**
  * Deep Extraction logic for specific URLs found during search (e.g., Reddit/YouTube).
  */
+/*
 export async function extractDeepContext(urls: string[]) {
     const client = await getTavilyClient();
     if (!client) return null;
 
     try {
         console.log(`[Mansi Internet] Extracting deep context from ${urls.length} sources...`);
+        // @ts-ignore
         const response = await client.extract(urls);
 
         // Extracting text content from the results
@@ -60,15 +62,13 @@ export async function extractDeepContext(urls: string[]) {
     }
 }
 
-/**
- * Crawl logic for ultra-deep research on specific sites.
- */
 export async function crawlSite(url: string) {
     const client = await getTavilyClient();
     if (!client) return null;
 
     try {
         console.log(`[Mansi Internet] Crawling: ${url}`);
+        // @ts-ignore
         const response = await client.crawl(url, {
             extractDepth: "advanced",
             maxPages: 3
@@ -79,3 +79,4 @@ export async function crawlSite(url: string) {
         return null;
     }
 }
+*/
