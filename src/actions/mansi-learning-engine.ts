@@ -49,30 +49,56 @@ export async function runRapidLearningCycle() {
         // SYNTHESIS & STRUCTURE
         console.log(`[Mansi Learning] 🧠 Synthesizing Knowledge for: ${query}`);
         try {
-            const completion = await client.chat.completions.create({
-                model: "google/gemini-2.0-flash-001", // Fast & Good Context Window
-                messages: [
-                    { role: "system", content: MANSI_LEARNING_MASTER_PROMPT },
-                    { role: "user", content: `CONTEXT FROM TAVILY SEARCH:\n${searchResult.context}\n\nTASK: Extract structured garage knowledge for '${query}' based on the Master Prompt JSON format.` }
-                ],
-                temperature: 0.2, // Strict JSON/Factuality
-                response_format: { type: "json_object" }
-            });
-
-            const knowledgeJSON = completion.choices[0]?.message?.content;
-            if (knowledgeJSON) {
-                // Parse and Store
-                const knowledge = JSON.parse(knowledgeJSON);
-
-                // Store in "Vector DB" (MansiMemory Insights for now)
-                MansiMemory.storeInsight("Tavily Learning Engine", {
-                    type: "GARAGE_KNOWLEDGE",
-                    cluster: cluster.name,
-                    ...knowledge
+            // TRY PRIMARY (OpenRouter / Gemini)
+            if (process.env.OPENROUTER_API_KEY) {
+                const completion = await client.chat.completions.create({
+                    model: "google/gemini-2.0-flash-001",
+                    messages: [
+                        { role: "system", content: MANSI_LEARNING_MASTER_PROMPT },
+                        { role: "user", content: `CONTEXT FROM TAVILY SEARCH:\n${searchResult.context}\n\nTASK: Extract structured garage knowledge for '${query}' based on the Master Prompt JSON format.` }
+                    ],
+                    temperature: 0.2, // Strict JSON
+                    response_format: { type: "json_object" }
                 });
 
-                results.push({ query, success: true, knowledge });
+                const knowledgeJSON = completion.choices[0]?.message?.content;
+                if (knowledgeJSON) {
+                    const knowledge = JSON.parse(knowledgeJSON);
+                    MansiMemory.storeInsight("Tavily Learning Engine", { type: "GARAGE_KNOWLEDGE", cluster: cluster.name, ...knowledge });
+                    results.push({ query, success: true, knowledge });
+                    continue; // Success! Next cluster.
+                }
             }
+
+            // FALLBACK: SARVAM AI (Indian Context)
+            const SARVAM_KEY = process.env.SARVAM_API_KEY || "sk_gs85i0tn_ujGe15KXSh1CdlDRyVfn7VcG";
+            if (SARVAM_KEY) {
+                console.log(`[Mansi Learning] 🇮🇳 Switching to Sarvam AI for Synthesis...`);
+                const sarvamClient = new OpenAI({ baseURL: "https://api.sarvam.ai/v1", apiKey: SARVAM_KEY });
+
+                const completion = await sarvamClient.chat.completions.create({
+                    model: "sarvam-2g",
+                    messages: [
+                        { role: "system", content: MANSI_LEARNING_MASTER_PROMPT },
+                        { role: "user", content: `CONTEXT:\n${searchResult.context}\n\nTASK: Extract structured garage knowledge for '${query}'. Return ONLY VALID JSON.` }
+                    ],
+                    temperature: 0.1,
+                });
+
+                const text = completion.choices[0]?.message?.content || "";
+                // Attempt JSON extract
+                const jsonStart = text.indexOf('{');
+                const jsonEnd = text.lastIndexOf('}') + 1;
+                if (jsonStart !== -1) {
+                    const knowledge = JSON.parse(text.substring(jsonStart, jsonEnd));
+                    MansiMemory.storeInsight("Tavily Learning Engine (Sarvam)", { type: "GARAGE_KNOWLEDGE", cluster: cluster.name, ...knowledge });
+                    results.push({ query, success: true, knowledge });
+                    continue;
+                }
+            }
+
+            throw new Error("All Synthesis Brains Failed");
+
         } catch (e: any) {
             console.error(`[Mansi Learning] Synthesis Failed:`, e.message);
             results.push({ query, success: false, error: e.message });

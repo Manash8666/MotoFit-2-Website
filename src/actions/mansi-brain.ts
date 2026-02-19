@@ -3,75 +3,86 @@
 import OpenAI from 'openai';
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+const SARVAM_API_KEY = process.env.SARVAM_API_KEY || "sk_gs85i0tn_ujGe15KXSh1CdlDRyVfn7VcG"; // Fallback to provided key if env missing
 
 // Model Hierarchy
-const PRIMARY_MODEL = "google/gemini-2.0-flash-001"; // Fast, Smart, Free-tier friendly usually
+const PRIMARY_MODEL = "google/gemini-2.0-flash-001";
+const BACKUP_MODEL = "mimic-3"; // Placeholder for Sarvam if needed, but we use strict model Check
 
 export async function chatWithMansiBrain(conversationHistory: any[]) {
-    console.log(`[Mansi Brain] 🧠 SYNAPSE FIRING: Using ${PRIMARY_MODEL} via OpenRouter...`);
 
-    // Safety simulation for JSON requests (Knowledge Hub) - KEEPING THIS AS FALLBACK/HYBRID
+    // 1. PRIMARY LAYER: OPENROUTER
+    if (OPENROUTER_API_KEY) {
+        console.log(`[Mansi Brain] 🧠 TARGET: OpenRouter (${PRIMARY_MODEL})...`);
+        try {
+            const client = new OpenAI({
+                baseURL: "https://openrouter.ai/api/v1",
+                apiKey: OPENROUTER_API_KEY,
+                defaultHeaders: { "HTTP-Referer": "https://motofit.in", "X-Title": "MotoFit Mansi" }
+            });
+
+            const completion = await client.chat.completions.create({
+                model: PRIMARY_MODEL,
+                messages: conversationHistory,
+                temperature: 0.88,
+                max_tokens: 600,
+            });
+
+            const reply = completion.choices[0]?.message?.content;
+            if (reply) return { success: true, text: reply, model_used: PRIMARY_MODEL, error: null };
+
+        } catch (error: any) {
+            console.warn("[Mansi Brain] OpenRouter Failed. Switching to Neural Backup...", error.message);
+        }
+    }
+
+    // 2. RESILIENCE LAYER: SARVAM AI (Indian Context Specialist)
+    if (SARVAM_API_KEY) {
+        console.log(`[Mansi Brain] 🇮🇳 TARGET: Sarvam AI (Indian Neural Core)...`);
+        try {
+            const sarvamClient = new OpenAI({
+                baseURL: "https://api.sarvam.ai/v1",
+                apiKey: SARVAM_API_KEY,
+            });
+
+            // Clean history for Sarvam (it might stricter or have smaller context)
+            // ensuring system prompt is passed correctly.
+            const completion = await sarvamClient.chat.completions.create({
+                model: "sarvam-2g", // specialized for Hindi/Eng/Gujlish
+                messages: conversationHistory,
+                temperature: 0.7, // Sarvam is creative enough
+                max_tokens: 500,
+            });
+
+            const reply = completion.choices[0]?.message?.content;
+            if (reply) return { success: true, text: reply, model_used: "sarvam-2g", error: null };
+
+        } catch (error: any) {
+            console.warn("[Mansi Brain] Sarvam AI Failed.", error.message);
+        }
+    }
+
+    // 3. FALLBACK LAYER: SIMULATION / SAFETY NET
+    console.warn("[Mansi Brain] All Neural Links Severed. Activating Ghost Protocol.");
+
+    // JSON Request Fallback (Knowledge Hub)
     const lastUserMsg = conversationHistory[conversationHistory.length - 1]?.content || '';
     if (lastUserMsg.includes('JSON')) {
-        // We try the real model first, but if it fails or key missing, we fall back to static.
-    }
-
-    if (!OPENROUTER_API_KEY) {
-        console.warn("MISSING OPENROUTER_API_KEY. Falling back to safety simulation.");
-        // Fallback Logic from previous stub
-        if (lastUserMsg.includes('JSON')) {
-            const FALLBACK_FAQS = {
-                faqs: [
-                    { category: "AHMEDABAD SURVIVAL", question: "Why is my engine overheating near Visat Circle?", answer: "Visat traffic is a furnace! Switch to Motul 7100 (synthetic) and check coolant. It dissipates heat 15% better.", icon: "🔥" },
-                    { category: "MAINTENANCE", question: "Chain Spray or Gear Oil?", answer: "Gear oil (EP90) for Ahmedabad dust. It's messy but doubles chain life compared to sticky sprays.", icon: "⛓️" },
-                    { category: "PERFORMANCE", question: "RE 650 Vibration at 120kmph?", answer: "Likely handle-bar weights or alignment. We use computerized balancing to fix the wobble.", icon: "⚖️" },
-                    { category: "MODIFICATIONS", question: "Is Red Rooster Performance legal?", answer: "Only with the dB killer installed. Cops near SG Highway are strict about noise.", icon: "🔊" },
-                    { category: "MOTOFIT 2", question: "Are you open on Wednesdays?", answer: "NO. Wednesday is our Sabbatical. Open Thu-Tue, 10 AM - 8 PM.", icon: "📅" }
-                ],
-                learned_concepts: ["Synthetics", "EP90 Gear Oil", "Balancing", "dB Killers"]
-            };
-            return { success: true, text: JSON.stringify(FALLBACK_FAQS), model_used: "mansi-served-simulation", error: null };
-        }
-
-        // IN-CHARACTER FALLBACK (No more generic "Brain Offline")
-        return {
-            success: false,
-            text: "Arre boss! Keys kidhar hai? (API Key Missing). Vercel mein daalo na!",
-            error: "Missing Key"
+        const FALLBACK_FAQS = {
+            faqs: [
+                { category: "SURVIVAL", question: "Engine heating in Ahmedabad traffic?", answer: "Visat traffic is brutal. Use Motul 7100 10W50. It handles the 45°C heat better than stock oil.", icon: "🔥" },
+                { category: "MODS", question: "Is exhaust modification legal?", answer: "Strictly specific zones only. SG Highway police will fine you. Keep the dB killer IN.", icon: "👮" },
+                { category: "MAINTENANCE", question: "Best chain lube for dust?", answer: "EP90 Gear Oil. Messy but survives the dust. sprays dry out too fast.", icon: "⛓️" }
+            ],
+            learned_concepts: ["Synthetics", "EP90", "dB Killer"]
         };
+        return { success: true, text: JSON.stringify(FALLBACK_FAQS), model_used: "simulation-json", error: null };
     }
 
-    const client = new OpenAI({
-        baseURL: "https://openrouter.ai/api/v1",
-        apiKey: OPENROUTER_API_KEY,
-        defaultHeaders: {
-            "HTTP-Referer": "https://motofit.in",
-            "X-Title": "MotoFit Mansi"
-        }
-    });
-
-    try {
-        const completion = await client.chat.completions.create({
-            model: PRIMARY_MODEL,
-            messages: conversationHistory,
-            // Adjust temperature for more personality
-            temperature: 0.88,
-            max_tokens: 600,
-        });
-
-        const reply = completion.choices[0]?.message?.content || "Arre, kuch bolne ko nahi hai mere paas. (Brain Empty)";
-
-        return { success: true, text: reply, model_used: PRIMARY_MODEL, error: null };
-
-    } catch (error: any) {
-        console.error("[Mansi Brain] Cortex Failure:", error.message);
-
-        // IN-CHARACTER ERROR
-        return {
-            success: true,
-            text: "Oye! Connection loose hai shayad. Wi-Fi check karo ya phir se pucho! (Network Glitch 😵‍💫)",
-            model_used: "failure-fallback",
-            error: error.message
-        };
-    }
+    // Chat Fallback
+    return {
+        success: false, // Triggers Widget's local regex fallback
+        text: null,
+        error: "All Brains Offline"
+    };
 }
