@@ -2,7 +2,7 @@
 
 import { SarvamAIClient } from "sarvamai";
 
-const SARVAM_API_KEY = process.env.SARVAM_API_KEY || "sk_gs85i0tn_ujGe15KXSh1CdlDRyVfn7VcG";
+const SARVAM_API_KEY = process.env.SARVAM_API_KEY;
 
 export async function convertTextToSpeech(text: string) {
     if (!text) return { success: false, error: "No text provided" };

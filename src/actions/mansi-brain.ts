@@ -4,13 +4,13 @@ import OpenAI from 'openai';
 
 // --- ENVIRONMENT CONFIG ---
 const KEYS = {
-    OPENROUTER: process.env.OPENROUTER_API_KEY || "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",
-    SARVAM: process.env.SARVAM_API_KEY || "sk_gs85i0tn_ujGe15KXSh1CdlDRyVfn7VcG",
-    HELICONE: process.env.HELICONE_API_KEY || "sk-helicone-qqdwday-bz7engi-uaqbktq-de3gvya",
-    PORTKEY: process.env.PORTKEY_API_KEY || "OaNN85BXMuhtvXC+XK0Co+nv2DD4",
+    OPENROUTER: process.env.OPENROUTER_API_KEY,
+    SARVAM: process.env.SARVAM_API_KEY,
+    HELICONE: process.env.HELICONE_API_KEY,
+    PORTKEY: process.env.PORTKEY_API_KEY,
     OLLAMA: process.env.OLLAMA_API_KEY,
     OLLAMA_HOST: process.env.OLLAMA_HOST,
-    BONSAI: process.env.BONSAI_API_KEY || "sk_cr_3NwfsZBH8AZwwEmCacEv9Be7QMwwHk2XSNrJPEnsThvG",
+    BONSAI: process.env.BONSAI_API_KEY,
     BONSAI_HOST: process.env.BONSAI_HOST
 };
 
