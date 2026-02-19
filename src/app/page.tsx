@@ -20,11 +20,11 @@ export default async function Home() {
       <IndustrialStats />
       {/* <HolographicServices /> */}
       {/* <DynoLeaderboard /> */}
-      {/* <FeaturedProjects /> */}
+      <FeaturedProjects />
       {/* <MansiKnowledgeHub /> -- STILL DISABLED FOR SAFETY */}
-      {/* <PartsCatalog /> */}
+      <PartsCatalog />
       {/* <ClientReviews /> */}
-      {/* <LocationSection /> -- SUSPECT CONFIRMED? */}
+      {/* <LocationSection /> -- SUSPECT CONFIRMED (Leaflet SSR) */}
     </main>
   );
 }
