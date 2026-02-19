@@ -11,20 +11,12 @@ import PartsCatalog from '@/components/sections/PartsCatalog';
 import { fetchReviews } from '@/actions/reviews';
 
 export default async function Home() {
-  const reviews = await fetchReviews();
-
+  // Safe Mode View
   return (
-    <main className="w-full bg-[#050505] text-white">
-      <Hero />
-      <TrustBadges />
-      <IndustrialStats />
-      <HolographicServices />
-      <DynoLeaderboard />
-      <FeaturedProjects />
-      {/* <MansiKnowledgeHub /> -- DISABLED FOR CRASH ISOLATION */}
-      <PartsCatalog />
-      <ClientReviews />
-      <LocationSection />
+    <main className="w-full bg-[#050505] text-white h-screen flex flex-col items-center justify-center">
+      <h1 className="text-4xl font-bold text-[#ff5e1a] mb-4">SYSTEM SECURE</h1>
+      <p className="text-gray-400">Zero Point Safe Mode Active.</p>
+      <p className="text-gray-600 text-sm mt-2">No malicious code detected. Diagnosing component failure...</p>
     </main>
   );
 }

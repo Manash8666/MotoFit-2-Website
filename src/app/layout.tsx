@@ -172,15 +172,15 @@ export default function RootLayout({
       <body className={`font-sans bg-[#050505] text-white`}>
         <SchemaMarkup />
         <LenisWrapper>
-          <div className="noise-overlay" />
+          {/* <div className="noise-overlay" /> */}
           <BookingProvider>
-            <CustomCursor />
+            {/* <CustomCursor /> */}
             {/* <Background3D /> */}
-            <CyberNav />
+            {/* <CyberNav /> */}
             {children}
-            <HighVoltageFooter />
-            {/* <MansiWidget /> -- DISABLED FOR CRASH ISOLATION */}
-            <BookingModal />
+            {/* <HighVoltageFooter /> */}
+            {/* <MansiWidget /> */}
+            {/* <BookingModal /> */}
           </BookingProvider>
         </LenisWrapper>
       </body>
