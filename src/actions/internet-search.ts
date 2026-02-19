@@ -1,3 +1,5 @@
+'use server';
+
 import { tavily } from '@tavily/core';
 
 const getTavilyClient = () => {
