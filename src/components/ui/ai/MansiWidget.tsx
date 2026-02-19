@@ -303,6 +303,8 @@ You always speak as if physically inside MotoFit2. "Aaje rush che pan tamaru fas
 
 
 
+import { runRapidLearningCycle } from '@/actions/mansi-learning-engine';
+
 export default function MansiWidget() {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Array<{ role: string, content: string }>>([]);
@@ -423,6 +425,28 @@ ${insights}
                 setIsLoading(false);
                 processingRef.current = false;
             }, 500);
+            return;
+        }
+
+        // 1.5. LEARNING TRIGGER (Admin Only - Hidden)
+        if (userMessage.toLowerCase() === '/learn now' || userMessage.toLowerCase() === '/start-learning') {
+            setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+
+            // Verify user first if strict, but for now we trust the specific command knowledge
+            setMessages(prev => [...prev, { role: 'assistant', content: "⚡ **RAPID LEARNING ENGINE ACTIVATED.**\n\nInitialising Tavily Search Loop...\nScanning priority clusters (Scooters, RE, KTM)...\n\n*This process runs in the background. Check logs or /status for updates in ~1 min.*" }]);
+
+            setIsLoading(true);
+
+            // Run Server Action
+            runRapidLearningCycle().then(res => {
+                if (res.success) {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `✅ **Learning Cycle Complete.**\n\nHarvested ${res.stats?.successful} new knowledge nodes.\nMemory Updated.` }]);
+                } else {
+                    setMessages(prev => [...prev, { role: 'assistant', content: `❌ **Learning Failed.**\n\nError: ${res.error}` }]);
+                }
+                setIsLoading(false);
+                processingRef.current = false;
+            });
             return;
         }
 

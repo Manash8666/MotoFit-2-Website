@@ -47,9 +47,22 @@ export class MansiLearner {
 
             let text = response.text;
 
+            // Handle "In-Character" Error Messages (Safety Check)
+            if (text.startsWith("Oye!") || text.startsWith("Arre") || text.includes("Keys kidhar")) {
+                console.warn("[Mansi Autonomy] Brain returned persona error:", text);
+                return; // Graceful exit, do not parse
+            }
+
             // Clean up potentially malformed JSON from LLM
             const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
-            const items = JSON.parse(jsonStr);
+
+            let items;
+            try {
+                items = JSON.parse(jsonStr);
+            } catch (jsonError) {
+                console.warn("[Mansi Autonomy] JSON Parse Failed. Raw text:", text);
+                return;
+            }
 
             if (Array.isArray(items)) {
                 for (const item of items) {
