@@ -169,16 +169,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       {/* <body className={`${exo2.variable} ${alegreyaSans.variable} ${agale.variable} font-sans bg-[#050505] text-white`}> */}
-      <body className={`font-sans bg-[#050505] text-white`}>
+      <body className={`${exo2.variable} ${alegreyaSans.variable} ${agale.variable} font-sans bg-[#050505] text-white`}>
         <SchemaMarkup />
         <LenisWrapper>
           {/* <div className="noise-overlay" /> */}
           <BookingProvider>
             {/* <CustomCursor /> */}
             {/* <Background3D /> */}
-            {/* <CyberNav /> */}
+            <CyberNav />
             {children}
-            {/* <HighVoltageFooter /> */}
+            <HighVoltageFooter />
             {/* <MansiWidget /> */}
             {/* <BookingModal /> */}
           </BookingProvider>
