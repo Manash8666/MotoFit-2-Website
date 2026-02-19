@@ -45,15 +45,19 @@ function StatCard({ icon: Icon, value, label, onClick }: { icon: any, value: str
 export default function ClientReviews() {
 
     const handleOpenWidget = () => {
+        // DISABLED FOR DEBUGGING
+        /*
         if (typeof window !== 'undefined' && window.OpenWidget) {
             window.OpenWidget.call('maximize');
         }
+        */
+        alert("Live Chat is temporarily undergoing maintenance. Please contact us via WhatsApp!");
     };
 
     return (
         <section className="relative py-24 bg-[#050505] overflow-hidden">
-            {/* OpenWidget Configuration */}
-            <Script id="open-widget-config" strategy="beforeInteractive">
+            {/* OpenWidget Configuration - DISABLED FOR DEBUGGING */}
+            {/* <Script id="open-widget-config" strategy="beforeInteractive">
                 {`
                     window.__ow = window.__ow || {};
                     window.__ow.organizationId = "6fee2b77-e016-4d20-8a08-55b342da193a";
@@ -65,7 +69,7 @@ export default function ClientReviews() {
             <Script
                 src="https://cdn.openwidget.com/openwidget.js"
                 strategy="lazyOnload"
-            />
+            /> */}
 
             {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#ff5e1a]/50 to-transparent" />

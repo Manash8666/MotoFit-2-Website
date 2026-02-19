@@ -21,7 +21,7 @@ export default async function Home() {
       <HolographicServices />
       <DynoLeaderboard />
       <FeaturedProjects />
-      <MansiKnowledgeHub />
+      {/* <MansiKnowledgeHub /> -- DISABLED FOR CRASH ISOLATION */}
       <PartsCatalog />
       <ClientReviews />
       <LocationSection />
