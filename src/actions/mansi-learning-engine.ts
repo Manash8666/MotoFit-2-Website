@@ -97,6 +97,38 @@ export async function runRapidLearningCycle() {
                 }
             }
 
+            // FALLBACK 2: HELICONE GATEWAY (If Sarvam Fails)
+            const HELICONE_KEY = process.env.HELICONE_API_KEY;
+            if (HELICONE_KEY) {
+                console.log(`[Mansi Learning] 🛡️ Switching to Helicone Gateway...`);
+                // Helicone Auth is via Header "Helicone-Auth": "Bearer <KEY>"
+                // But OpenAI client needs an apiKey too (dummy if using gateway auth, or real if passthrough). 
+                // Usually for Gateway: baseURL + Helicone-Auth header.
+                const heliconeClient = new OpenAI({
+                    baseURL: "https://oai.helicone.ai/v1",
+                    apiKey: process.env.OPENROUTER_API_KEY || "placeholder",
+                    defaultHeaders: { "Helicone-Auth": `Bearer ${HELICONE_KEY}` }
+                });
+
+                const completion = await heliconeClient.chat.completions.create({
+                    model: "google/gemini-2.0-flash-001",
+                    messages: [
+                        { role: "system", content: MANSI_LEARNING_MASTER_PROMPT },
+                        { role: "user", content: `CONTEXT:\n${searchResult.context}\n\nTASK: Extract structured garage knowledge for '${query}' based on the Master Prompt JSON format.` }
+                    ],
+                    temperature: 0.2,
+                    response_format: { type: "json_object" }
+                });
+
+                const knowledgeJSON = completion.choices[0]?.message?.content;
+                if (knowledgeJSON) {
+                    const knowledge = JSON.parse(knowledgeJSON);
+                    MansiMemory.storeInsight("Tavily Learning Engine (Helicone)", { type: "GARAGE_KNOWLEDGE", cluster: cluster.name, ...knowledge });
+                    results.push({ query, success: true, knowledge });
+                    continue;
+                }
+            }
+
             throw new Error("All Synthesis Brains Failed");
 
         } catch (e: any) {

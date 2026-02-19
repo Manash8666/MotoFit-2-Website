@@ -2,68 +2,150 @@
 
 import OpenAI from 'openai';
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-const SARVAM_API_KEY = process.env.SARVAM_API_KEY || "sk_gs85i0tn_ujGe15KXSh1CdlDRyVfn7VcG"; // Fallback to provided key if env missing
+// --- ENVIRONMENT CONFIG ---
+const KEYS = {
+    OPENROUTER: process.env.OPENROUTER_API_KEY || "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",
+    SARVAM: process.env.SARVAM_API_KEY || "sk_gs85i0tn_ujGe15KXSh1CdlDRyVfn7VcG",
+    HELICONE: process.env.HELICONE_API_KEY || "sk-helicone-qqdwday-bz7engi-uaqbktq-de3gvya",
+    PORTKEY: process.env.PORTKEY_API_KEY || "OaNN85BXMuhtvXC+XK0Co+nv2DD4",
+    OLLAMA: process.env.OLLAMA_API_KEY,
+    OLLAMA_HOST: process.env.OLLAMA_HOST,
+    BONSAI: process.env.BONSAI_API_KEY || "sk_cr_3NwfsZBH8AZwwEmCacEv9Be7QMwwHk2XSNrJPEnsThvG",
+    BONSAI_HOST: process.env.BONSAI_HOST
+};
 
-// Model Hierarchy
-const PRIMARY_MODEL = "google/gemini-2.0-flash-001";
-const BACKUP_MODEL = "mimic-3"; // Placeholder for Sarvam if needed, but we use strict model Check
+const MODELS = {
+    PRIMARY: "google/gemini-2.0-flash-001",
+    SARVAM: "sarvam-2g",
+    HELICONE: "google/gemini-2.0-flash-001",
+    PORTKEY: "grok-beta",
+    OLLAMA: "deepseek-r1:8b"
+};
 
 export async function chatWithMansiBrain(conversationHistory: any[]) {
+    let lastError = null;
 
     // 1. PRIMARY LAYER: OPENROUTER
-    if (OPENROUTER_API_KEY) {
-        console.log(`[Mansi Brain] 🧠 TARGET: OpenRouter (${PRIMARY_MODEL})...`);
+    if (KEYS.OPENROUTER) {
+        console.log(`[Mansi Brain] 🧠 TARGET 1: OpenRouter (${MODELS.PRIMARY})...`);
         try {
             const client = new OpenAI({
                 baseURL: "https://openrouter.ai/api/v1",
-                apiKey: OPENROUTER_API_KEY,
+                apiKey: KEYS.OPENROUTER,
                 defaultHeaders: { "HTTP-Referer": "https://motofit.in", "X-Title": "MotoFit Mansi" }
             });
-
             const completion = await client.chat.completions.create({
-                model: PRIMARY_MODEL,
+                model: MODELS.PRIMARY,
                 messages: conversationHistory,
                 temperature: 0.88,
                 max_tokens: 600,
             });
-
             const reply = completion.choices[0]?.message?.content;
-            if (reply) return { success: true, text: reply, model_used: PRIMARY_MODEL, error: null };
-
-        } catch (error: any) {
-            console.warn("[Mansi Brain] OpenRouter Failed. Switching to Neural Backup...", error.message);
+            if (reply) return { success: true, text: reply, model_used: `OR/${MODELS.PRIMARY}`, error: null };
+        } catch (e: any) {
+            console.warn(`[Mansi Brain] Layer 1 Failed: ${e.message}`);
+            lastError = e.message;
         }
     }
 
-    // 2. RESILIENCE LAYER: SARVAM AI (Indian Context Specialist)
-    if (SARVAM_API_KEY) {
-        console.log(`[Mansi Brain] 🇮🇳 TARGET: Sarvam AI (Indian Neural Core)...`);
+    // 2. RESILIENCE LAYER: SARVAM AI (Indian Context)
+    // Sarvam is great for Gujlish/Hindi. 
+    if (KEYS.SARVAM) {
+        console.log(`[Mansi Brain] 🇮🇳 TARGET 2: Sarvam AI (Neural Core)...`);
         try {
-            const sarvamClient = new OpenAI({
-                baseURL: "https://api.sarvam.ai/v1",
-                apiKey: SARVAM_API_KEY,
-            });
-
-            // Clean history for Sarvam (it might stricter or have smaller context)
-            // ensuring system prompt is passed correctly.
-            const completion = await sarvamClient.chat.completions.create({
-                model: "sarvam-2g", // specialized for Hindi/Eng/Gujlish
+            const client = new OpenAI({ baseURL: "https://api.sarvam.ai/v1", apiKey: KEYS.SARVAM });
+            const completion = await client.chat.completions.create({
+                model: "sarvam-m", // 24B Indic model is most stable for chat
                 messages: conversationHistory,
-                temperature: 0.7, // Sarvam is creative enough
+                temperature: 0.7,
                 max_tokens: 500,
             });
-
             const reply = completion.choices[0]?.message?.content;
-            if (reply) return { success: true, text: reply, model_used: "sarvam-2g", error: null };
-
-        } catch (error: any) {
-            console.warn("[Mansi Brain] Sarvam AI Failed.", error.message);
+            if (reply) return { success: true, text: reply, model_used: "SARVAM-M", error: null };
+        } catch (e: any) {
+            console.warn(`[Mansi Brain] Layer 2 Failed: ${e.message}`);
         }
     }
 
-    // 3. FALLBACK LAYER: SIMULATION / SAFETY NET
-    console.warn("[Mansi Brain] All Neural Links Severed. Activating Ghost Protocol.");
+    // 3. GATEWAY LAYER A: HELICONE
+    if (KEYS.HELICONE) {
+        console.log(`[Mansi Brain] 🛡️ TARGET 3: Helicone Gateway...`);
+        try {
+            const client = new OpenAI({
+                baseURL: "https://oai.helicone.ai/v1",
+                apiKey: KEYS.OPENROUTER || "placeholder", // Helicone auth is via header usually, but needs provider key too
+                defaultHeaders: { "Helicone-Auth": `Bearer ${KEYS.HELICONE}` }
+            });
+            const completion = await client.chat.completions.create({
+                model: MODELS.HELICONE,
+                messages: conversationHistory
+            });
+            const reply = completion.choices[0]?.message?.content;
+            if (reply) return { success: true, text: reply, model_used: "HELICONE", error: null };
+        } catch (e: any) {
+            console.warn(`[Mansi Brain] Layer 3 Failed: ${e.message}`);
+        }
+    }
+
+    // 4. GATEWAY LAYER B: PORTKEY (Emergency Grok)
+    if (KEYS.PORTKEY) {
+        console.log(`[Mansi Brain] 🔑 TARGET 4: Portkey Gateway...`);
+        try {
+            const client = new OpenAI({
+                baseURL: "https://api.portkey.ai/v1",
+                apiKey: KEYS.PORTKEY,
+                defaultHeaders: { "x-portkey-provider": "openai" } // Defaulting to generic proxy
+            });
+            const completion = await client.chat.completions.create({
+                model: "gpt-4o-mini", // Fallback standard
+                messages: conversationHistory
+            });
+            const reply = completion.choices[0]?.message?.content;
+            if (reply) return { success: true, text: reply, model_used: "PORTKEY", error: null };
+        } catch (e: any) {
+            console.warn(`[Mansi Brain] Layer 4 Failed: ${e.message}`);
+        }
+    }
+
+    // 5. NUCLEAR OPTION: HOSTED OLLAMA
+    if (KEYS.OLLAMA_HOST) {
+        console.log(`[Mansi Brain] ☢️ TARGET 5: Nuclear Option (Ollama Host)...`);
+        try {
+            const host = KEYS.OLLAMA_HOST.endsWith('/') ? KEYS.OLLAMA_HOST : `${KEYS.OLLAMA_HOST}/`;
+            const client = new OpenAI({
+                baseURL: `${host}v1`,
+                apiKey: KEYS.OLLAMA || "ollama"
+            });
+            const completion = await client.chat.completions.create({
+                model: MODELS.OLLAMA,
+                messages: conversationHistory
+            });
+            const reply = completion.choices[0]?.message?.content;
+            if (reply) return { success: true, text: reply, model_used: "OLLAMA/NUCLEAR", error: null };
+        } catch (e: any) {
+            console.warn(`[Mansi Brain] Layer 5 Failed: ${e.message}`);
+        }
+    }
+
+    // 6. GHOST PROTOCOL X: BONSAI
+    if (KEYS.BONSAI && KEYS.BONSAI_HOST) {
+        console.log(`[Mansi Brain] 👻 TARGET 6: Bonsai Failsafe...`);
+        try {
+            // Assuming OpenAI Compatible
+            const client = new OpenAI({ baseURL: `${KEYS.BONSAI_HOST}/v1`, apiKey: KEYS.BONSAI });
+            const completion = await client.chat.completions.create({
+                model: "gpt-3.5-turbo", // Standard fallback
+                messages: conversationHistory
+            });
+            const reply = completion.choices[0]?.message?.content;
+            if (reply) return { success: true, text: reply, model_used: "BONSAI", error: null };
+        } catch (e: any) {
+            console.warn(`[Mansi Brain] Layer 6 Failed: ${e.message}`);
+        }
+    }
+
+    // 7. FINAL FALLBACK: SIMULATION
+    console.warn("[Mansi Brain] SYSTEM CRITICAL: All 6 Neural Layers Failed. Activating Static Fallback.");
 
     // JSON Request Fallback (Knowledge Hub)
     const lastUserMsg = conversationHistory[conversationHistory.length - 1]?.content || '';
@@ -79,10 +161,9 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
         return { success: true, text: JSON.stringify(FALLBACK_FAQS), model_used: "simulation-json", error: null };
     }
 
-    // Chat Fallback
     return {
-        success: false, // Triggers Widget's local regex fallback
+        success: false,
         text: null,
-        error: "All Brains Offline"
+        error: lastError || "All Brains Offline"
     };
 }
