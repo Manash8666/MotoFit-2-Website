@@ -771,8 +771,16 @@ ${insights}
 
     return (
         <>
-            {/* Holographic Launcher */}
-            {!isOpen && <HoloLauncher onOpen={() => setIsOpen(true)} />}
+            {/* Holographic Launcher - DISABLED FOR CRASH ISOLATION */}
+            {/* {!isOpen && <HoloLauncher onOpen={() => setIsOpen(true)} />} */}
+            {!isOpen && (
+                <button
+                    onClick={() => setIsOpen(true)}
+                    className="fixed bottom-6 right-6 z-50 bg-[#00f3ff] text-black w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_#00f3ff] animate-pulse"
+                >
+                    <Sparkles size={24} />
+                </button>
+            )}
 
             {/* Close Button (Only when open, inside the frame logic or here if needed independently) */}
             {/* Note: The frame has its own close button, but if we need an external one for some reason, we can add it. 
