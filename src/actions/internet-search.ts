@@ -1,13 +1,12 @@
 'use server';
 
-import { tavily } from '@tavily/core';
-
-const getTavilyClient = () => {
+const getTavilyClient = async () => {
     const apiKey = process.env.TAVILY_API_KEY;
     if (!apiKey) {
         console.warn('[Mansi Internet] API Key missing.');
         return null;
     }
+    const { tavily } = await import('@tavily/core');
     return tavily({ apiKey });
 };
 
@@ -15,7 +14,7 @@ const getTavilyClient = () => {
  * Performs a real-time web search.
  */
 export async function searchTheWeb(query: string) {
-    const client = getTavilyClient();
+    const client = await getTavilyClient();
     if (!client) return null;
 
     try {
@@ -45,7 +44,7 @@ export async function searchTheWeb(query: string) {
  * Deep Extraction logic for specific URLs found during search (e.g., Reddit/YouTube).
  */
 export async function extractDeepContext(urls: string[]) {
-    const client = getTavilyClient();
+    const client = await getTavilyClient();
     if (!client) return null;
 
     try {
@@ -65,7 +64,7 @@ export async function extractDeepContext(urls: string[]) {
  * Crawl logic for ultra-deep research on specific sites.
  */
 export async function crawlSite(url: string) {
-    const client = getTavilyClient();
+    const client = await getTavilyClient();
     if (!client) return null;
 
     try {
