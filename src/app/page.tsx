@@ -24,7 +24,7 @@ export default async function Home() {
       {/* <MansiKnowledgeHub /> -- STILL DISABLED FOR SAFETY */}
       <PartsCatalog />
       <ClientReviews />
-      {/* <LocationSection /> -- SUSPECT CONFIRMED (Leaflet SSR) */}
+      <LocationSection />
     </main>
   );
 }
