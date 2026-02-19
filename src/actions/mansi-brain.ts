@@ -2,7 +2,7 @@
 
 import OpenAI from 'openai';
 import { logMansiExperience } from './mansi-learning';
-import { searchTheWeb, extractDeepContext } from './internet-search';
+// import { searchTheWeb, extractDeepContext } from './internet-search';
 
 const client = new OpenAI({
     baseURL: 'https://openrouter.ai/api/v1',
@@ -26,8 +26,9 @@ const MANSI_PERSONA = 'CRITICAL: You are MANSI, the digital reflection of Manash
 export async function chatWithMansiBrain(conversationHistory: any[]) {
     let lastError = null;
 
-    // 0. INTERNET INTELLIGENCE STEP: Research current data if needed
+    // 0. INTERNET INTELLIGENCE STEP: Research current data if needed (DISABLED FOR STABILITY)
     let webContext = "";
+    /*
     const latestQuery = conversationHistory[conversationHistory.length - 1]?.content || '';
 
     // Aggressive heuristic: If query isn't a very short basic greeting, research it.
@@ -54,6 +55,7 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
             console.warn('[Mansi Brain] Intelligence gathering failed, proceeding with base knowledge.');
         }
     }
+    */
 
     const FINAL_PERSONA = MANSI_PERSONA + webContext;
 
