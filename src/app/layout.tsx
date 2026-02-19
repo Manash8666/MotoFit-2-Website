@@ -168,7 +168,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${exo2.variable} ${alegreyaSans.variable} ${agale.variable} font-sans bg-[#050505] text-white`}>
+      {/* <body className={`${exo2.variable} ${alegreyaSans.variable} ${agale.variable} font-sans bg-[#050505] text-white`}> */}
+      <body className={`font-sans bg-[#050505] text-white`}>
         <SchemaMarkup />
         <LenisWrapper>
           <div className="noise-overlay" />
@@ -178,7 +179,7 @@ export default function RootLayout({
             <CyberNav />
             {children}
             <HighVoltageFooter />
-            <MansiWidget />
+            {/* <MansiWidget /> -- DISABLED FOR CRASH ISOLATION */}
             <BookingModal />
           </BookingProvider>
         </LenisWrapper>
