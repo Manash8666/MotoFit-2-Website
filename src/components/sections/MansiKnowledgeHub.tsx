@@ -168,7 +168,8 @@ export default function MansiKnowledgeHub() {
                 learnedConcepts = memory.slice(0, 5).join(", ");
             }
         } catch (e) {
-            console.warn("Memory read error");
+            console.warn("Mansi Memory Corrupted. Resetting neural pathways.");
+            localStorage.removeItem(memoryKey);
         }
 
         const mansiPrompt = `
@@ -248,6 +249,14 @@ Provide a JSON Object with two keys:
             }
 
             const rawText = response.text;
+
+            // SECURITY: Check for Persona Refusals / Fallbacks
+            if (!rawText.trim().startsWith('{') && !rawText.trim().startsWith('[')) {
+                console.warn("[Mansi Knowledge] Brain returned persona text:", rawText.slice(0, 50) + "...");
+                // Throw a specific error that we can catch quietly
+                throw new Error("PERSONA_FALLBACK");
+            }
+
             const jsonStart = rawText.indexOf('{');
             const jsonEnd = rawText.lastIndexOf('}') + 1;
 
@@ -287,13 +296,18 @@ Provide a JSON Object with two keys:
             setFaqs(newFaqs);
             setLoading(false);
 
-        } catch (err) {
+        } catch (err: any) {
             clearInterval(interval);
-            console.warn("Mansi Server Error (Switching to Simulation):", err);
+
+            if (err.message === "PERSONA_FALLBACK") {
+                console.log("Mansi Knowledge: Activation Skipped (Persona Busy). Switching to Simulation.");
+            } else {
+                console.warn("Mansi Server Error (Switching to Simulation):", err);
+            }
 
             // SILENT FAILOVER TO SIMULATION MODE
             // No error state set. Just use Fallback data.
-            console.log("Activating Simulation Mode (Fallback Data)");
+            // console.log("Activating Simulation Mode (Fallback Data)"); // Reduced log spam
             setFaqs(FALLBACK_INTEL);
             setLoading(false);
         }
