@@ -6,18 +6,14 @@ const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 // Model Hierarchy
 const PRIMARY_MODEL = "google/gemini-2.0-flash-001"; // Fast, Smart, Free-tier friendly usually
-// const BACKUP_MODEL = "nvidia/nemotron-4-340b-instruct";
-// const FALLBACK_MODEL = "deepseek/deepseek-r1"; 
 
 export async function chatWithMansiBrain(conversationHistory: any[]) {
     console.log(`[Mansi Brain] 🧠 SYNAPSE FIRING: Using ${PRIMARY_MODEL} via OpenRouter...`);
 
     // Safety simulation for JSON requests (Knowledge Hub) - KEEPING THIS AS FALLBACK/HYBRID
-    // because real models might fail to output strict JSON perfectly every time without retry logic.
     const lastUserMsg = conversationHistory[conversationHistory.length - 1]?.content || '';
     if (lastUserMsg.includes('JSON')) {
         // We try the real model first, but if it fails or key missing, we fall back to static.
-        // For now, let's try Real Model for everything if Key exists.
     }
 
     if (!OPENROUTER_API_KEY) {
@@ -36,7 +32,13 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
             };
             return { success: true, text: JSON.stringify(FALLBACK_FAQS), model_used: "mansi-served-simulation", error: null };
         }
-        return { success: false, text: "Brain offline (Key Missing).", error: "Missing Key" };
+
+        // IN-CHARACTER FALLBACK (No more generic "Brain Offline")
+        return {
+            success: false,
+            text: "Arre boss! Keys kidhar hai? (API Key Missing). Vercel mein daalo na!",
+            error: "Missing Key"
+        };
     }
 
     const client = new OpenAI({
@@ -52,20 +54,22 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
         const completion = await client.chat.completions.create({
             model: PRIMARY_MODEL,
             messages: conversationHistory,
-            temperature: 0.85, // High creativity for "Mansi" persona
-            max_tokens: 500,
+            // Adjust temperature for more personality
+            temperature: 0.88,
+            max_tokens: 600,
         });
 
-        const reply = completion.choices[0]?.message?.content || "Brain empty.";
+        const reply = completion.choices[0]?.message?.content || "Arre, kuch bolne ko nahi hai mere paas. (Brain Empty)";
 
         return { success: true, text: reply, model_used: PRIMARY_MODEL, error: null };
 
     } catch (error: any) {
         console.error("[Mansi Brain] Cortex Failure:", error.message);
 
+        // IN-CHARACTER ERROR
         return {
             success: true,
-            text: "Mmm... sar dard ho raha hai. Signal weak. (Network Error, try again!)",
+            text: "Oye! Connection loose hai shayad. Wi-Fi check karo ya phir se pucho! (Network Glitch 😵‍💫)",
             model_used: "failure-fallback",
             error: error.message
         };
