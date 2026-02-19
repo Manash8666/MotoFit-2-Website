@@ -17,14 +17,14 @@ export default async function Home() {
     <main className="w-full bg-[#050505] text-white">
       <Hero />
       <TrustBadges />
-      <IndustrialStats />
-      <HolographicServices />
-      <DynoLeaderboard />
-      <FeaturedProjects />
+      {/* <IndustrialStats /> */}
+      {/* <HolographicServices /> */}
+      {/* <DynoLeaderboard /> */}
+      {/* <FeaturedProjects /> */}
       {/* <MansiKnowledgeHub /> -- STILL DISABLED FOR SAFETY */}
-      <PartsCatalog />
-      <ClientReviews />
-      <LocationSection />
+      {/* <PartsCatalog /> */}
+      {/* <ClientReviews /> */}
+      {/* <LocationSection /> */}
     </main>
   );
 }
