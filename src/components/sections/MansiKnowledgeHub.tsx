@@ -120,6 +120,7 @@ export default function MansiKnowledgeHub() {
     const generateDailyIntel = async () => {
         // 1. Check Cache
         const cacheKey = `mansi_daily_intel_${todayStr.replace(/ /g, '_')}`;
+        /*
         const cachedData = localStorage.getItem(cacheKey);
 
         if (cachedData) {
@@ -135,6 +136,7 @@ export default function MansiKnowledgeHub() {
                 console.warn("Cache corrupted, regenerating...");
             }
         }
+        */
 
         // Simulate "Internet Learning" Visuals regardless of loading state
         const learningSteps = [
