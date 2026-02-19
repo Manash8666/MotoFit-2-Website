@@ -2,7 +2,7 @@
 
 import OpenAI from 'openai';
 import { logMansiExperience } from './mansi-learning';
-import { searchTheWeb } from './internet-search';
+import { searchTheWeb, extractDeepContext } from './internet-search';
 
 const client = new OpenAI({
     baseURL: 'https://openrouter.ai/api/v1',
@@ -44,7 +44,6 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
 
                 if (isDeepQuery && searchData.urls && searchData.urls.length > 0) {
                     // Extract deep context from top 2 sources (Reddit/YouTube/Wiki)
-                    const { extractDeepContext } = await import('./internet-search');
                     const extracted = await extractDeepContext(searchData.urls.slice(0, 2));
                     if (extracted) deepContent = `\n\nDEEP SOURCE EXTRACTION (Reddit/YouTube/Web):\n${extracted}`;
                 }
