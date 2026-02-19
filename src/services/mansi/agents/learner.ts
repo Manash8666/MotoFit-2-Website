@@ -48,9 +48,10 @@ export class MansiLearner {
             let text = response.text;
 
             // Handle "In-Character" Error Messages (Safety Check)
-            if (text.startsWith("Oye!") || text.startsWith("Arre") || text.includes("Keys kidhar")) {
-                console.warn("[Mansi Autonomy] Brain returned persona error:", text);
-                return; // Graceful exit, do not parse
+            // If it's not starting with [ or {, it's likely a chat message or error text.
+            if (!text.trim().startsWith('[') && !text.trim().startsWith('{')) {
+                console.warn("[Mansi Autonomy] Brain returned non-JSON text (likely persona fallback):", text);
+                return; // Graceful exit
             }
 
             // Clean up potentially malformed JSON from LLM

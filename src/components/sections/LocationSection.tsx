@@ -60,7 +60,7 @@ export default function LocationSection() {
                 </div>
 
                 <div className="h-full min-h-[400px]">
-                    <div className="w-full h-full min-h-[400px] bg-[#0a0a0a] border border-[#333] rounded-2xl flex flex-col items-center justify-center p-8 text-center bg-[url('/images/grid-pattern.png')] bg-opacity-10">
+                    <div className="w-full h-full min-h-[400px] bg-[#0a0a0a] border border-[#333] rounded-2xl flex flex-col items-center justify-center p-8 text-center bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:16px_16px]">
                         <h2 className="text-3xl font-black uppercase text-white mb-2 tracking-tighter">
                             Chandkheda
                         </h2>
