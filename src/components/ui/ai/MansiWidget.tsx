@@ -858,11 +858,38 @@ ${insights}
         recognition.start();
     };
 
-    // Phase 4: Text-to-Speech (Browser speechSynthesis — Free)
-    const speakText = (text: string) => {
-        if (typeof window === 'undefined' || !window.speechSynthesis || isMuted) return;
+    // Phase 4: Text-to-Speech (Sarvam AI Bulbul v3 Integration)
+    const speakText = async (text: string) => {
+        if (typeof window === 'undefined' || isMuted) return;
 
-        // Clean markdown and emojis for cleaner speech
+        console.log("[Mansi Voice] Requesting High-Fidelity Neural Speech...");
+
+        try {
+            const { convertTextToSpeech } = await import('@/actions/mansi-tts');
+            const res = await convertTextToSpeech(text);
+
+            if (res.success && res.audio_content) {
+                // Play Base64 Audio
+                const audio = new Audio(`data:audio/wav;base64,${res.audio_content}`);
+
+                audio.onplay = () => setIsSpeaking(true);
+                audio.onended = () => setIsSpeaking(false);
+                audio.onerror = () => setIsSpeaking(false);
+
+                audio.play();
+            } else {
+                console.warn("[Mansi Voice] Sarvam Failed. Falling back to Browser TTS.", res.error);
+                fallbackSpeak(text);
+            }
+        } catch (err) {
+            console.error("[Mansi Voice] Neural Speech Error:", err);
+            fallbackSpeak(text);
+        }
+    };
+
+    const fallbackSpeak = (text: string) => {
+        if (!window.speechSynthesis) return;
+
         const cleanText = text
             .replace(/\*\*(.*?)\*\*/g, '$1')
             .replace(/[🔧🏍️🔥📅🧠🔋📡👁️🗣️]/g, '')
@@ -871,53 +898,18 @@ ${insights}
 
         if (!cleanText) return;
 
-        // Cancel any ongoing speech
         window.speechSynthesis.cancel();
-
         const utterance = new SpeechSynthesisUtterance(cleanText);
         utterance.lang = 'hi-IN';
         utterance.rate = 1.05;
-        utterance.pitch = 1.1; // Slightly higher for feminine voice
+        utterance.pitch = 1.1;
 
-        // Strict Voice Selection: Prioritize Female Indian/Asian Voices
         const voices = window.speechSynthesis.getVoices();
-
-        // Priority List (Known Female Voices)
-        const preferredVoices = [
-            'Google हिन्दी', // Often very good female Hindi/Hinglish
-            'Google Dolphin', // Often female
-            'Microsoft Swara', // Female Indian
-            'Veena', // MacOS Indian Female
-            'Rishi', // Sometimes female? No, Rishi is usually male. Let's stick to known females.
-            'Kyoko', 'Lekha', 'Samantha', 'Victoria' // Fallbacks
-        ];
-
-        let selectedVoice = voices.find(v => preferredVoices.some(p => v.name.includes(p)));
-
-        // Fallback: Try to find any voice with "Female" in name (some browsers expose this)
-        if (!selectedVoice) {
-            selectedVoice = voices.find(v => v.name.toLowerCase().includes('female') && v.lang.includes('IN'));
-        }
-
-        // Fallback: Any Hindi-India voice (hope for the best, usually Google Hindi is default and female)
-        if (!selectedVoice) {
-            selectedVoice = voices.find(v => v.lang === 'hi-IN' || v.lang === 'en-IN');
-        }
-
-        if (selectedVoice) {
-            utterance.voice = selectedVoice;
-            // Double check it's not a known male voice
-            if (selectedVoice.name.includes('Hemant') || selectedVoice.name.includes('Ravi') || selectedVoice.name.includes('David')) {
-                // Try to force Google Hindi if available as it's usually safe
-                const googleHindi = voices.find(v => v.name === 'Google हिन्दी');
-                if (googleHindi) utterance.voice = googleHindi;
-            }
-        }
+        const selectedVoice = voices.find(v => v.lang.includes('IN') && (v.name.includes('Google') || v.name.includes('Swara')));
+        if (selectedVoice) utterance.voice = selectedVoice;
 
         utterance.onstart = () => setIsSpeaking(true);
         utterance.onend = () => setIsSpeaking(false);
-        utterance.onerror = () => setIsSpeaking(false);
-
         window.speechSynthesis.speak(utterance);
     };
 
