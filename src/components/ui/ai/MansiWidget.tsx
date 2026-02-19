@@ -543,13 +543,31 @@ ${insights}
         }
 
         // 4. CONSTRUCT CONVERSATION FOR SERVER (with Phase 2 + 3 context)
+        // 4. CONSTRUCT CONVERSATION FOR SERVER (with Phase 2 + 3 + Behavioral Layer)
         const pageHint = MansiContext.getPageHint();
         const calendarStatus = MansiCalendar.getTodayStatus();
-        const fullContext = `${timeContext}\n${pageHint}\n${calendarStatus}`;
+
+        // INJECTING BEHAVIORAL TRAINING DATASET (RAG Lite)
+        const { MANSI_TRAINING_DATASET } = require('@/services/mansi/data/conversation-dataset');
+
+        // 5. SMART LEAD PRIORITY DETECTION (Logic Layer 5)
+        let leadPriorityContext = "";
+        const highIntentKeywords = ['price', 'cost', 'book', 'appointment', 'visit', 'location', 'address', 'kab aavu', 'shop'];
+        if (highIntentKeywords.some(k => userMessage.toLowerCase().includes(k))) {
+            leadPriorityContext = "\n📢 SYSTEM ALERT: HIGH INTENT DETECTED. SHIFT TO 'VISIT MODE'. Guide them to the shop. Do not be vague.";
+        }
+
+        // 7. ENTHUSIAST MODE TRIGGER (Logic Layer 7)
+        const enthusiastKeywords = ['ktm', 'remap', 'stage 1', 'stage 2', 'hp', 'torque', 'exhaust', 'akrapovic', 'top speed'];
+        if (enthusiastKeywords.some(k => userMessage.toLowerCase().includes(k))) {
+            leadPriorityContext += "\n🔥 SYSTEM ALERT: ENTHUSIAST MODE ON. Increase technical depth. Be excited.";
+        }
+
+        const fullContext = `${timeContext}\n${pageHint}\n${calendarStatus}\n${leadPriorityContext}`;
 
         const conversationHistory = [
-            { role: 'system', content: `${SYSTEM_PROMPT}\n\nCONTEXT: ${fullContext}` },
-            ...messages.slice(-4), // Keep last 4 messages for context window
+            { role: 'system', content: `${SYSTEM_PROMPT}\n\n${MANSI_TRAINING_DATASET}\n\nCONTEXT: ${fullContext}` },
+            ...messages.slice(-6), // Increased context window for better flow
             { role: 'user', content: userMessage }
         ];
 
@@ -561,6 +579,7 @@ ${insights}
                 throw new Error(response.error || "Brain disconnect");
             }
 
+            // ... (rest is same)
             let aiText = response.text;
 
             // Sentiment Extract
@@ -575,6 +594,11 @@ ${insights}
 
             // Phase 4: TTS — Speak the response
             speakText(aiText);
+
+            // AUTO-SAVE USER PROFILE (Simple Heuristic for Name/Bike)
+            // If the AI detected a name or bike, we could parse it, but for now relies on self-identification in future turns.
+            // Simpler: If user says "My name is X", we can capture perfectly later. 
+            // For now, we trust the flow.
 
         } catch (error) {
             console.warn("Server Brain Failed. Activating Ghost Protocol.", error);

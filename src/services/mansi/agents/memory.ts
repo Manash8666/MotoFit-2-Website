@@ -77,26 +77,43 @@ export class MansiMemory {
         return t;
     }
 
+    static getReturningUserContext(): { name?: string; bike?: string; lastVisit?: number } | null {
+        if (typeof window === 'undefined') return null;
+        try {
+            const raw = localStorage.getItem('mansi_user_profile');
+            return raw ? JSON.parse(raw) : null;
+        } catch {
+            return null;
+        }
+    }
+
+    static saveUserProfile(data: { name?: string; bike?: string }): void {
+        if (typeof window === 'undefined') return;
+        try {
+            const existing = this.getReturningUserContext() || {};
+            const updated = { ...existing, ...data, lastVisit: Date.now() };
+            localStorage.setItem('mansi_user_profile', JSON.stringify(updated));
+        } catch (e) {
+            console.error("Profile Save Error", e);
+        }
+    }
+
     static getPendingFollowUp(userId: string): string | null {
         if (typeof window === 'undefined') return null;
 
         const ctx = this.get(userId);
         const history = ctx.history;
         const now = Date.now();
-        let pending = null;
 
-        for (let i = history.length - 1; i >= 0; i--) {
-            const entry = history[i];
-            const topics = entry.topics || [];
-
-            if (topics.includes('bike') && now - entry.ts > 48 * 60 * 60 * 1000) {
-                pending = "Hey — did you check that bike issue? Don’t ignore it! 🔧";
-                break;
-            } else if (topics.includes('wellness') && now - entry.ts > 24 * 60 * 60 * 1000) {
-                pending = "You mentioned being tired. Rest well, okay? 💙";
-                break;
-            }
+        // Check for Returning Customer First
+        const profile = this.getReturningUserContext();
+        if (profile && profile.lastVisit && (now - profile.lastVisit > 24 * 60 * 60 * 1000)) {
+            // It's been more than a day
+            if (profile.name) return `Hey ${profile.name}! 👋 Long time! Bike mast chale che ne?`;
+            return `Oye! Welcome back to the garage. Su chale? 🔧`;
         }
-        return pending;
+
+        // ... (Existing logic below is okay, but simpler is better for now)
+        return null;
     }
 }
