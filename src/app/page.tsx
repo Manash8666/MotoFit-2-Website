@@ -18,12 +18,12 @@ export default async function Home() {
       <Hero />
       <TrustBadges />
       <IndustrialStats />
-      {/* <HolographicServices /> */}
-      {/* <DynoLeaderboard /> */}
+      <HolographicServices />
+      <DynoLeaderboard />
       <FeaturedProjects />
       {/* <MansiKnowledgeHub /> -- STILL DISABLED FOR SAFETY */}
       <PartsCatalog />
-      {/* <ClientReviews /> */}
+      <ClientReviews />
       {/* <LocationSection /> -- SUSPECT CONFIRMED (Leaflet SSR) */}
     </main>
   );
