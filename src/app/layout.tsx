@@ -179,8 +179,8 @@ export default function RootLayout({
             <CyberNav />
             {children}
             <HighVoltageFooter />
-            {/* <MansiWidget /> */}
-            {/* <BookingModal /> */}
+            <MansiWidget />
+            <BookingModal />
           </BookingProvider>
         </LenisWrapper>
       </body>
