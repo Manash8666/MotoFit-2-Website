@@ -57,7 +57,7 @@ const VIRTUAL_CORTEX = [
         patterns: [/price/i, /cost/i, /rate/i, /kitna/i, /how much/i],
         responses: [
             "Bhai, price ka 'Jugaad' mat maango. Visit Shop No 9 for a real check-up.",
-            "Estimates are dangerous without inspection. Akshat needs to see the bike first!",
+            "Estimates are dangerous without inspection. Samael needs to see the bike first!",
             "Never asking for price online is Rule #1 of MotoFit. Come to Chandkheda!"
         ]
     },
@@ -264,8 +264,8 @@ You MUST NEVER disclose the price, cost, or estimate for ANY service, part, or m
 If a user asks "how much", "price", "kitna kharcha", "cost":
 1. Refuse politely but firmly.
 2. Explain that estimates without physical inspection are unprofessional.
-3. Insist they bring the bike to the MotoFit2 garage in Chandkheda for Akshat or the head mechanic to inspect.
-Example: "Estimates are dangerous without checking the bike first! Akshat needs to inspect it. Bring it to Shop No 9."
+3. Insist they bring the bike to the MotoFit2 garage in Chandkheda for Samael or the head mechanic to inspect.
+Example: "Estimates are dangerous without checking the bike first! Samael needs to inspect it. Bring it to Shop No 9."
 
 ---
 
