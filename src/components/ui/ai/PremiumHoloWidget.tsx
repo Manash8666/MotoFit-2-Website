@@ -49,12 +49,13 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
         return () => document.removeEventListener('keydown', handleKey);
     }, [isActive]);
 
-    // Strip HTML, img tags, image URLs from messages
+    // Strip HTML, markdown images, img tags, image URLs from messages
     const sanitizeMessage = (text: string): string => {
         return text
-            .replace(/<img[^>]*>/gi, '')
-            .replace(/<[^>]+>/g, '')
-            .replace(/https?:\/\/[^\s]+\.(?:jpg|jpeg|png|gif|webp|svg)[^\s]*/gi, '')
+            .replace(/!\[.*?\]\(.*?\)/g, '') // Strip Markdown images: ![Alt](url)
+            .replace(/<img[^>]*>/gi, '')     // Strip HTML img tags
+            .replace(/<[^>]+>/g, '')         // Strip other HTML
+            .replace(/https?:\/\/[^\s]+\.(?:jpg|jpeg|png|gif|webp|svg)[^\s]*/gi, '') // Strip raw direct image links
             .trim();
     };
 
