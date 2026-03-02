@@ -1098,6 +1098,7 @@ ${insights}
         <>
             <PremiumHoloWidget
                 onSend={handleHoloBridgeSend}
+                avatarUrl={mansiImage}
                 isMuted={isMuted}
                 onToggleMute={() => setIsMuted(v => !v)}
                 initialGreeting="Oye! Kem cho? Mansi here — MotoFit 2 ki jaan. Bike mein kya hua? 🏍️"

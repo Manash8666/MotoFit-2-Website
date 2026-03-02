@@ -13,9 +13,10 @@ interface PremiumHoloWidgetProps {
     initialGreeting?: string;
     isMuted?: boolean;
     onToggleMute?: () => void;
+    avatarUrl?: string;
 }
 
-export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem cho? Mansi here. Bike mein kya issue hai? 🏍️", isMuted, onToggleMute }: PremiumHoloWidgetProps) {
+export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem cho? Mansi here. Bike mein kya issue hai? 🏍️", isMuted, onToggleMute, avatarUrl = '/images/team/mansi-new.webp' }: PremiumHoloWidgetProps) {
     const [isActive, setIsActive] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -229,7 +230,7 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
 
                 /* ====== CHAT ZONE (bottom) ====== */
                 .holo-chat-zone {
-                    background: #000c12 url('/images/reels/mansi-day-0.png') center/cover no-repeat;
+                    background: #000c12 url('${avatarUrl}') center/cover no-repeat;
                     background-blend-mode: overlay;
                     border-top: 1px solid rgba(0,240,255,0.15);
                     display: flex;
@@ -387,7 +388,7 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
 
                         {/* Mansi Photo */}
                         <Image
-                            src="/images/mansi-holo.png"
+                            src={avatarUrl}
                             alt="Mansi — MotoFit 2 AI"
                             width={220}
                             height={210}
