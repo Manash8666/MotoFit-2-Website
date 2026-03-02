@@ -950,7 +950,7 @@ ${insights}
         const cmd = userMessage.trim().toLowerCase();
 
         // ── /learn now ──────────────────────────────────────────────────────
-        if (cmd === '/learn now' || cmd === '/start-learning' || cmd === 'learn now') {
+        if (cmd.includes('learn now') || cmd.includes('start-learning')) {
             try {
                 const { runRapidLearningCycle } = await import('@/actions/mansi-learning-engine');
                 const res = await runRapidLearningCycle();
@@ -961,15 +961,16 @@ ${insights}
         }
 
         // ── /status ──────────────────────────────────────────────────────────
-        if (cmd === '/status' || cmd === '/motofit2 brain status') {
+        if (cmd.includes('/status') || cmd.includes('brain status')) {
             const insights = MansiMemory.getRecentInsights() || 'No recent web scans.';
             return `🧠 **MOTOFIT 2 BRAIN STATUS**\n────────────────────────\n🔋 Core: 100% (Gemini 2.0 / DeepSeek)\n🗣️ Languages: EN | HI | GU | Hinglish\n👁️ Context: ${MansiContext.getPageName()} | Idle: ${MansiContext.getIdleSeconds()}s\n📅 ${MansiCalendar.getTodayStatus()}\n📡 Scans: ${insights}\n\n*Learning Matrix Active.*`;
         }
 
         // ── /book YYYY-MM-DD ─────────────────────────────────────────────────
-        if (cmd.startsWith('/book')) {
-            const dateStr = userMessage.trim().split(' ')[1];
-            if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr))
+        if (cmd.includes('/book')) {
+            const dateMatch = userMessage.match(/\d{4}-\d{2}-\d{2}/);
+            const dateStr = dateMatch ? dateMatch[0] : null;
+            if (!dateStr)
                 return '📅 Format: `/book YYYY-MM-DD` — e.g. `/book 2026-03-10`. Try kar! 🔧';
             const result = MansiCalendar.getAvailableSlots(dateStr);
             if (result.available) MansiCalendar.saveBookingIntent({ preferredDate: dateStr, ts: Date.now() });
@@ -1024,9 +1025,9 @@ ${insights}
 
         // ── Admin commands (gated by secret) ─────────────────────────────────
         const adminCmds = ['update workshop stats', 'update calendar', 'update blogs', 'update wall of power', 'update projects', 'generate blog'];
-        const isGenerateBlogCmd = cmd.startsWith('generate blog');
+        const isGenerateBlogCmd = cmd.includes('generate blog');
 
-        if (adminCmds.includes(cmd) || isGenerateBlogCmd) {
+        if (adminCmds.some(c => cmd.includes(c)) || isGenerateBlogCmd) {
             if (!holoVerifiedUser) {
                 setHoloAdminMode({ type: 'verify', step: 1, data: { pendingCommand: cmd } });
                 return '🔒 **Security Protocol Activated.**\n\nIdentity verification required. Enter your **Secret Access Code**:';
@@ -1046,11 +1047,11 @@ ${insights}
                 return `🔐 Welcome, **${name}**! ✅\n\nInitiating AI Synthesis for **"${topic}"**. This will take ~10-15 seconds. The article will be automatically published to the \`/blog\` page. ✍️🚀`;
             }
 
-            if (cmd === 'update workshop stats') {
+            if (cmd.includes('update workshop stats')) {
                 setHoloAdminMode({ type: 'stats', step: 1, data: {} });
                 return `🔐 Welcome, **${name}**! ✅\n\n${MansiAdminStore.getStatDisplay()}\n\nType the number (1, 2, or 3).`;
             }
-            if (cmd === 'update projects') {
+            if (cmd.includes('update projects')) {
                 setHoloAdminMode({ type: 'projects', step: 1, data: {} });
                 return `🔐 Welcome, **${name}**! ✅\n\n${MansiAdminStore.getProjectsDisplay()}\n\nNaye project ka naam bolo:`;
             }
