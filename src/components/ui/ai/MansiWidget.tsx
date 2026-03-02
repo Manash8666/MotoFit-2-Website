@@ -138,6 +138,7 @@ const runGhostProtocol = (text: string) => {
 };
 
 import { chatWithMansiBrain } from '@/actions/mansi-brain';
+import PremiumHoloWidget from './PremiumHoloWidget';
 
 const SYSTEM_PROMPT = `
 # 🧠 MANSI — DIGITAL HUMAN CORE SYSTEM PROMPT (MOTOFIT2)
@@ -932,35 +933,60 @@ ${insights}
         return '';
     };
 
+    // ===== PREMIUM HOLO WIDGET BRIDGE =====
+    // This function connects the new cinematic UI to the existing 6-layer AI brain
+    const handleHoloBridgeSend = async (userMessage: string, history: Array<{ role: 'user' | 'assistant'; content: string }>): Promise<string> => {
+        const now = new Date();
+        const isWednesday = now.getDay() === 3;
+        let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
+        if (isWednesday) timeContext += '\nSTATUS: WEDNESDAY SABBATICAL. Shop Closed.';
+
+        const pageHint = MansiContext.getPageHint();
+        const calendarStatus = MansiCalendar.getTodayStatus();
+        const { MANSI_TRAINING_DATASET } = require('@/services/mansi/data/conversation-dataset');
+
+        let leadPriorityContext = '';
+        const highIntentKw = ['price', 'cost', 'book', 'appointment', 'visit', 'location', 'address', 'kab aavu', 'shop'];
+        if (highIntentKw.some(k => userMessage.toLowerCase().includes(k))) {
+            leadPriorityContext = '\n📢 SYSTEM ALERT: HIGH INTENT DETECTED. SHIFT TO VISIT MODE. Guide them to MotoFit 2.';
+        }
+        const enthusiastKw = ['ktm', 'remap', 'stage 1', 'stage 2', 'hp', 'torque', 'exhaust', 'akrapovic', 'top speed'];
+        if (enthusiastKw.some(k => userMessage.toLowerCase().includes(k))) {
+            leadPriorityContext += '\n🔥 SYSTEM ALERT: ENTHUSIAST MODE ON. Increase technical depth.';
+        }
+
+        const fullContext = `${timeContext}\n${pageHint}\n${calendarStatus}\n${leadPriorityContext}`;
+        const conversationHistory = [
+            { role: 'system', content: `${SYSTEM_PROMPT}\n\n${MANSI_TRAINING_DATASET}\n\nCONTEXT: ${fullContext}` },
+            ...history.slice(-6),
+            { role: 'user', content: userMessage }
+        ];
+
+        // Ghost Protocol fast-check
+        const bannedKw = ['sex', 'nude', 'naked', 'fuck', 'bitch', 'chut', 'lund', 'gand', 'xxx', 'porn'];
+        if (bannedKw.some(w => userMessage.toLowerCase().includes(w))) {
+            return 'Mmm. Disharmony detected. Tame bhan bhulya cho. Behave karo. 🚫';
+        }
+
+        try {
+            const response = await chatWithMansiBrain(conversationHistory);
+            if (!response.success || !response.text) throw new Error(response.error || 'Brain disconnect');
+            let aiText = response.text;
+            aiText = aiText.replace(/\[SENTIMENT:.*?\]/g, '').trim();
+            speakText(aiText);
+            return aiText;
+        } catch {
+            const ghostReply = runGhostProtocol(userMessage);
+            speakText(ghostReply);
+            return ghostReply;
+        }
+    };
+
     return (
         <>
-            {/* Holographic Launcher */}
-            {!isOpen && <HoloLauncher onOpen={() => setIsOpen(true)} />}
-            {/* {!isOpen && (
-                <button
-                    onClick={() => setIsOpen(true)}
-                    className="fixed bottom-6 right-6 z-50 bg-[#00f3ff] text-black w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_#00f3ff] animate-pulse"
-                >
-                    <Sparkles size={24} />
-                </button>
-            )} */}
-
-            {/* Close Button (Only when open, inside the frame logic or here if needed independently) */}
-            {/* Note: The frame has its own close button, but if we need an external one for some reason, we can add it. 
-                For now, keeping the launcher hidden when open is correct. */}
-
-            {/* The ROG Phone 9 Experience */}
-            <ROGPhoneFrame
-                isOpen={isOpen}
-                onClose={() => setIsOpen(false)}
-                messages={messages}
-                input={input}
-                setInput={setInput}
-                onSend={handleSend}
-                isLoading={isLoading}
-                mansiImage={mansiImage}
-                isMuted={isMuted}
-                toggleMute={() => setIsMuted(!isMuted)}
+            <PremiumHoloWidget
+                onSend={handleHoloBridgeSend}
+                initialGreeting="Oye! Kem cho? Mansi here — MotoFit 2 ki jaan. Bike mein kya hua? 🏍️"
             />
         </>
     );
