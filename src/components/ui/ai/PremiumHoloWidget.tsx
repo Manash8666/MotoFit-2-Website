@@ -214,24 +214,23 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
 
                 /* Mansi Figure */
                 .holo-figure {
-                    position: absolute; bottom: 55px; width: 100%; height: 75%;
+                    position: absolute; bottom: 52px; width: 100%; height: 78%;
                     display: flex; justify-content: center; align-items: flex-end; z-index: 10;
                 }
                 .holo-image {
                     max-height: 100%; object-fit: contain;
-                    filter: hue-rotate(165deg) saturate(200%) brightness(1.4) contrast(1.1) drop-shadow(0 0 15px rgba(0,240,255,0.9));
+                    filter: brightness(1.08) contrast(1.05) drop-shadow(0 0 12px rgba(0,240,255,0.7)) drop-shadow(0 0 30px rgba(0,240,255,0.35));
                     opacity: 0; transform: translateY(20px); transition: all 0.5s;
-                    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
-                    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
-                    animation: holo-flicker 0.18s infinite;
+                    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+                    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
                 }
-                .holo-projection.active .holo-image { opacity: 0.92; transform: translateY(0); }
+                .holo-projection.active .holo-image { opacity: 1; transform: translateY(0); }
                 .holo-figure-glow {
-                    position: absolute; bottom: 0; width: 100%; height: 50%;
-                    background: radial-gradient(ellipse at bottom, rgba(0,240,255,0.6) 0%, transparent 70%);
-                    filter: blur(20px); opacity: 0; transition: opacity 0.4s;
+                    position: absolute; bottom: 0; width: 100%; height: 45%;
+                    background: radial-gradient(ellipse at bottom, rgba(0,240,255,0.5) 0%, transparent 70%);
+                    filter: blur(22px); opacity: 0; transition: opacity 0.4s;
                 }
-                .holo-projection.active .holo-figure-glow { opacity: 0.5; }
+                .holo-projection.active .holo-figure-glow { opacity: 0.6; }
 
                 /* Scanlines */
                 .holo-scanlines {
@@ -445,9 +444,9 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
                     <div className="holo-figure">
                         <Image
                             src="/images/mansi-holo.png"
-                            alt="Mansi Hologram"
-                            width={240}
-                            height={380}
+                            alt="Mansi - MotoFit 2 AI"
+                            width={260}
+                            height={400}
                             className="holo-image"
                             priority
                         />
