@@ -130,10 +130,15 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
                     background: radial-gradient(circle, #00f0ff, transparent 70%);
                     opacity: 0.45; animation: core-pulse 2s ease-in-out infinite;
                 }
+                .puck-img {
+                    position: absolute; inset: 2px; border-radius: 50%;
+                    overflow: hidden; z-index: 5;
+                    transition: all 0.35s;
+                }
                 .puck-icons { position: relative; z-index: 10; width: 22px; height: 22px; }
                 .puck-icon { position: absolute; top:0; left:0; transition: all 0.35s; }
                 .puck-x { opacity:0; transform: rotate(-90deg) scale(0.5); }
-                .holo-puck.open .puck-chat  { opacity:0; transform: rotate(90deg) scale(0.5); }
+                .holo-puck.open .puck-img   { opacity:0; transform: scale(0.5); }
                 .holo-puck.open .puck-x     { opacity:1; transform: rotate(0deg) scale(1); }
 
                 /* ====== MAIN PANEL ====== */
@@ -224,11 +229,23 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
 
                 /* ====== CHAT ZONE (bottom) ====== */
                 .holo-chat-zone {
-                    background: #000c12;
+                    background: #000c12 url('/images/reels/mansi-day-0.png') center/cover no-repeat;
+                    background-blend-mode: overlay;
                     border-top: 1px solid rgba(0,240,255,0.15);
                     display: flex;
                     flex-direction: column;
                     overflow: hidden;
+                    position: relative;
+                }
+                .holo-chat-zone::before {
+                    content: '';
+                    position: absolute; inset: 0;
+                    background: rgba(0, 12, 18, 0.85); /* Dark overlay so chat is readable */
+                    pointer-events: none;
+                    z-index: 0;
+                }
+                .holo-msgs, .holo-input-row {
+                    position: relative; z-index: 10;
                 }
                 .holo-msgs {
                     height: 200px;
@@ -442,10 +459,13 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
                     <div className="puck-ring puck-ring-1" />
                     <div className="puck-ring puck-ring-2" />
                     <div className="puck-core" />
+
+                    {/* Mansi Face on Puck */}
+                    <div className="puck-img">
+                        <Image src="/images/reels/mansi-day-2.webp" alt="Mansi" fill className="object-cover" />
+                    </div>
+
                     <div className="puck-icons">
-                        <svg className="puck-icon puck-chat" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                        </svg>
                         <svg className="puck-icon puck-x" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
                             <line x1="18" y1="6" x2="6" y2="18" />
                             <line x1="6" y1="6" x2="18" y2="18" />
