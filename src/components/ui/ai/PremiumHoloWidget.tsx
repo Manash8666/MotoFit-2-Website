@@ -23,25 +23,22 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
     const inputRef = useRef<HTMLInputElement>(null);
     const hasGreeted = useRef(false);
 
-    // Auto-scroll to bottom
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, isLoading]);
 
-    // Focus input when opened
     useEffect(() => {
         if (isActive && inputRef.current) {
-            setTimeout(() => inputRef.current?.focus(), 500);
+            setTimeout(() => inputRef.current?.focus(), 400);
             if (!hasGreeted.current) {
                 hasGreeted.current = true;
                 setTimeout(() => {
                     setMessages([{ role: 'assistant', content: initialGreeting }]);
-                }, 700);
+                }, 600);
             }
         }
     }, [isActive, initialGreeting]);
 
-    // Keyboard close
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === 'Escape' && isActive) setIsActive(false);
@@ -50,31 +47,29 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
         return () => document.removeEventListener('keydown', handleKey);
     }, [isActive]);
 
-    // Sanitize message text: strip HTML tags, img tags, and external URLs
+    // Strip HTML, img tags, image URLs from messages
     const sanitizeMessage = (text: string): string => {
         return text
-            .replace(/<img[^>]*>/gi, '')          // kill img tags
-            .replace(/<[^>]+>/g, '')              // strip all HTML
-            .replace(/https?:\/\/[^\s]+\.(?:jpg|jpeg|png|gif|webp|svg)[^\s]*/gi, '') // strip image URLs
+            .replace(/<img[^>]*>/gi, '')
+            .replace(/<[^>]+>/g, '')
+            .replace(/https?:\/\/[^\s]+\.(?:jpg|jpeg|png|gif|webp|svg)[^\s]*/gi, '')
             .trim();
     };
 
     const handleSend = async () => {
         const text = input.trim();
         if (!text || isLoading) return;
-
         const userMsg: Message = { role: 'user', content: text };
         setMessages(prev => [...prev, userMsg]);
         setInput('');
         setIsLoading(true);
         setStatusText('PROCESSING...');
-
         try {
             const reply = await onSend(text, messages);
             setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
             setStatusText('TRANSMISSION ACTIVE');
         } catch {
-            setMessages(prev => [...prev, { role: 'assistant', content: "Oops! Signal locha... Thodi der baad try karo. 📡" }]);
+            setMessages(prev => [...prev, { role: 'assistant', content: "Signal locha... Thodi der baad try karo. 📡" }]);
             setStatusText('SIGNAL ERROR');
         } finally {
             setIsLoading(false);
@@ -87,437 +82,372 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
 
     return (
         <>
-            {/* ======================== STYLES ======================== */}
             <style jsx>{`
                 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
+                /* ====== WIDGET ROOT ====== */
                 .holo-widget {
                     position: fixed;
-                    bottom: 40px;
-                    right: 40px;
+                    bottom: 30px;
+                    right: 30px;
                     z-index: 99999;
                     display: flex;
                     flex-direction: column-reverse;
-                    align-items: center;
+                    align-items: flex-end;
+                    gap: 12px;
                     font-family: 'Orbitron', 'Courier New', monospace;
+                    pointer-events: none;
                 }
+                .holo-widget > * { pointer-events: auto; }
 
-                /* ========== PUCK ========== */
+                /* ====== PUCK ====== */
                 .holo-puck {
-                    width: 70px;
-                    height: 70px;
-                    border-radius: 50%;
-                    background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
-                    border: 2px solid #00f0ff;
-                    cursor: pointer;
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    color: #00f0ff;
-                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                    outline: none;
-                    box-shadow: 0 0 20px rgba(0,240,255,0.3), 0 0 40px rgba(0,240,255,0.15), inset 0 0 20px rgba(0,240,255,0.1);
+                    width: 64px; height: 64px; border-radius: 50%;
+                    background: linear-gradient(145deg, #0d1b2a, #050d14);
+                    border: 2px solid #00f0ff; cursor: pointer;
+                    position: relative; display: flex; justify-content: center; align-items: center;
+                    color: #00f0ff; outline: none; overflow: visible;
+                    transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+                    box-shadow: 0 0 18px rgba(0,240,255,0.35), 0 0 36px rgba(0,240,255,0.12), inset 0 0 16px rgba(0,240,255,0.08);
                 }
-                .holo-puck:hover {
-                    transform: scale(1.08);
-                    box-shadow: 0 0 30px rgba(0,240,255,0.8), 0 0 60px rgba(0,240,255,0.3), inset 0 0 30px rgba(0,240,255,0.2);
-                }
-                .holo-puck:active { transform: scale(0.95); }
-                .holo-puck.active {
-                    animation: puck-active-pulse 2s ease-in-out infinite;
-                }
+                .holo-puck:hover { transform: scale(1.1); box-shadow: 0 0 28px rgba(0,240,255,0.8), 0 0 55px rgba(0,240,255,0.3); }
+                .holo-puck:active { transform: scale(0.93); }
+                .holo-puck.open { animation: puck-pulse 2s ease-in-out infinite; }
 
-                .puck-ring-1, .puck-ring-2 {
+                .puck-ring {
                     position: absolute; border-radius: 50%;
-                    border: 1px solid #00f0ff; opacity: 0;
-                    transition: opacity 0.4s;
+                    border: 1px solid #00f0ff; opacity: 0; transition: opacity 0.35s;
                 }
-                .puck-ring-1 { width: 120%; height: 120%; animation: ring-expand 3s ease-out infinite; }
-                .puck-ring-2 { width: 140%; height: 140%; animation: ring-expand 3s ease-out infinite 1.5s; }
-                .holo-puck.active .puck-ring-1,
-                .holo-puck.active .puck-ring-2 { opacity: 0.3; }
+                .puck-ring-1 { width: 120%; height: 120%; animation: ring-out 3s ease-out infinite; }
+                .puck-ring-2 { width: 145%; height: 145%; animation: ring-out 3s ease-out infinite 1.5s; }
+                .holo-puck.open .puck-ring { opacity: 0.35; }
 
                 .puck-core {
-                    position: absolute; width: 40%; height: 40%; border-radius: 50%;
-                    background: radial-gradient(circle, #00f0ff 0%, transparent 70%);
-                    opacity: 0.5; animation: core-pulse 2s ease-in-out infinite;
+                    position: absolute; width: 38%; height: 38%; border-radius: 50%;
+                    background: radial-gradient(circle, #00f0ff, transparent 70%);
+                    opacity: 0.45; animation: core-pulse 2s ease-in-out infinite;
                 }
+                .puck-icons { position: relative; z-index: 10; width: 22px; height: 22px; }
+                .puck-icon { position: absolute; top:0; left:0; transition: all 0.35s; }
+                .puck-x { opacity:0; transform: rotate(-90deg) scale(0.5); }
+                .holo-puck.open .puck-chat  { opacity:0; transform: rotate(90deg) scale(0.5); }
+                .holo-puck.open .puck-x     { opacity:1; transform: rotate(0deg) scale(1); }
 
-                .puck-icon-wrap { position: relative; z-index: 10; width: 24px; height: 24px; }
-                .puck-icon { position: absolute; top: 0; left: 0; transition: all 0.4s; }
-                .close-icon { opacity: 0; transform: rotate(-90deg) scale(0.5); }
-                .holo-puck.active .chat-icon { opacity: 0; transform: rotate(90deg) scale(0.5); }
-                .holo-puck.active .close-icon { opacity: 1; transform: rotate(0) scale(1); }
-
-                .puck-glow {
-                    position: absolute; width: 100%; height: 100%; border-radius: 50%;
-                    background: radial-gradient(circle, rgba(0,240,255,0.8) 0%, transparent 60%);
-                    filter: blur(10px); opacity: 0.4; animation: glow-pulse 3s ease-in-out infinite;
-                }
-
-                /* ========== PROJECTION ========== */
-                .holo-projection {
-                    position: absolute;
-                    bottom: 90px;
-                    right: 0;
+                /* ====== MAIN PANEL ====== */
+                .holo-panel {
                     width: 320px;
-                    height: 520px;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    pointer-events: none;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    border: 1px solid rgba(0,240,255,0.22);
+                    box-shadow: 0 0 50px rgba(0,240,255,0.12), 0 8px 40px rgba(0,0,0,0.7);
                     opacity: 0;
                     visibility: hidden;
-                    transform: scale(0.9) translateY(30px);
+                    transform: scale(0.9) translateY(20px);
                     transform-origin: bottom right;
-                    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-                    background: rgba(0, 8, 14, 0.97);
-                    border-radius: 16px;
-                    box-shadow: 0 0 60px rgba(0,240,255,0.15), 0 0 120px rgba(0,240,255,0.06), inset 0 0 80px rgba(0,0,0,0.9);
-                    backdrop-filter: blur(20px);
-                    -webkit-backdrop-filter: blur(20px);
-                    border: 1px solid rgba(0,240,255,0.18);
+                    transition: all 0.45s cubic-bezier(0.4,0,0.2,1);
+                    background: #000c12;
+                }
+                .holo-panel.open {
+                    opacity: 1; visibility: visible; transform: scale(1) translateY(0);
+                }
+
+                /* ====== MANSI IMAGE ZONE (top) ====== */
+                .holo-avatar-zone {
+                    position: relative;
+                    width: 100%;
+                    height: 230px;
+                    background: linear-gradient(180deg, #000c12 0%, #001a26 50%, #000c12 100%);
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: center;
                     overflow: hidden;
                 }
-                .holo-projection.active {
-                    opacity: 1; visibility: visible; pointer-events: auto;
-                    transform: scale(1) translateY(0);
+                /* Beam from bottom */
+                .avatar-beam {
+                    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+                    width: 120px; height: 100%;
+                    background: linear-gradient(to top, rgba(0,240,255,0.45) 0%, rgba(0,240,255,0.1) 40%, transparent 80%);
+                    filter: blur(22px);
                 }
-
-                /* Beam */
-                .holo-beam-core {
-                    position: absolute; bottom: 0; width: 80px; height: 100%;
-                    background: linear-gradient(to top, rgba(0,240,255,0.8) 0%, rgba(0,240,255,0.3) 30%, transparent 70%);
-                    filter: blur(20px); opacity: 0; transform: scaleY(0);
-                    transform-origin: bottom; transition: all 0.4s; left: 50%; margin-left: -40px;
-                }
-                .holo-projection.active .holo-beam-core {
-                    opacity: 0.6; transform: scaleY(1); animation: beam-flicker 0.12s infinite;
-                }
-                .holo-beam-outer {
-                    position: absolute; bottom: 0; width: 150px; height: 100%;
-                    background: linear-gradient(to top, rgba(0,240,255,0.3) 0%, transparent 50%);
-                    filter: blur(30px); opacity: 0; transform: scaleY(0);
-                    transform-origin: bottom; transition: all 0.4s 0.2s; left: 50%; margin-left: -75px;
-                }
-                .holo-projection.active .holo-beam-outer { opacity: 0.3; transform: scaleY(1); }
-
                 /* Particles */
-                .holo-particles { position: absolute; bottom: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 0.4s; }
-                .holo-projection.active .holo-particles { opacity: 1; }
-                .particle {
+                .avatar-particles {
+                    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+                }
+                .apt {
                     position: absolute; width: 2px; height: 2px;
                     background: #00f0ff; border-radius: 50%;
-                    animation: particle-rise 2s linear infinite;
+                    animation: ptcl 2s linear infinite;
                 }
-
-                /* Mansi Figure */
-                .holo-figure {
-                    position: absolute; bottom: 52px; width: 100%; height: 78%;
-                    display: flex; justify-content: center; align-items: flex-end; z-index: 10;
+                /* Status pill */
+                .avatar-status {
+                    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+                    display: flex; align-items: center; gap: 6px;
+                    padding: 4px 12px;
+                    background: rgba(0,15,22,0.9); border: 1px solid rgba(0,240,255,0.4);
+                    border-radius: 20px; white-space: nowrap;
+                    box-shadow: 0 0 12px rgba(0,240,255,0.2);
+                    z-index: 10;
                 }
-                .holo-image {
-                    max-height: 100%; object-fit: contain;
-                    filter: brightness(1.08) contrast(1.05) drop-shadow(0 0 12px rgba(0,240,255,0.7)) drop-shadow(0 0 30px rgba(0,240,255,0.35));
-                    opacity: 0; transform: translateY(20px); transition: all 0.5s;
-                    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-                    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-                }
-                .holo-projection.active .holo-image { opacity: 1; transform: translateY(0); }
-                .holo-figure-glow {
-                    position: absolute; bottom: 0; width: 100%; height: 45%;
-                    background: radial-gradient(ellipse at bottom, rgba(0,240,255,0.5) 0%, transparent 70%);
-                    filter: blur(22px); opacity: 0; transition: opacity 0.4s;
-                }
-                .holo-projection.active .holo-figure-glow { opacity: 0.6; }
-
-                /* Scanlines */
-                .holo-scanlines {
-                    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 3px);
-                    z-index: 20; pointer-events: none; opacity: 0; transition: opacity 0.4s;
-                }
-                .holo-projection.active .holo-scanlines { opacity: 0.5; animation: scanline-move 8s linear infinite; }
-
-                /* Chromatic */
-                .holo-chromatic {
-                    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                    z-index: 21; pointer-events: none; opacity: 0; mix-blend-mode: screen; transition: opacity 0.4s;
-                }
-                .holo-projection.active .holo-chromatic { opacity: 0.25; animation: chromatic-shift 0.6s ease-in-out infinite; }
-                .holo-chromatic::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,0,0,0.08); transform:translateX(-2px); }
-                .holo-chromatic::after  { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,255,255,0.08); transform:translateX(2px); }
-
-                /* Status */
-                .holo-status {
-                    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
-                    display: flex; align-items: center; gap: 8px;
-                    padding: 5px 12px;
-                    background: rgba(0,20,30,0.95); border: 1px solid #00f0ff;
-                    border-radius: 20px; z-index: 30; opacity: 0; transition: opacity 0.4s;
-                    box-shadow: 0 0 15px rgba(0,240,255,0.3); white-space: nowrap;
-                }
-                .holo-projection.active .holo-status { opacity: 1; animation: status-pulse 2s ease-in-out infinite; }
                 .status-dot {
-                    width: 8px; height: 8px; border-radius: 50%;
-                    background: #00f0ff; box-shadow: 0 0 10px rgba(0,240,255,0.8);
-                    animation: dot-pulse 1.5s ease-in-out infinite; flex-shrink: 0;
+                    width: 7px; height: 7px; border-radius: 50%;
+                    background: #00f0ff; box-shadow: 0 0 8px #00f0ff;
+                    animation: dot-blink 1.6s ease-in-out infinite;
                 }
-                .status-text { font-size: 9px; color: #00f0ff; text-transform: uppercase; letter-spacing: 2px; }
+                .status-txt { font-size: 8px; color: #00f0ff; letter-spacing: 2px; text-transform: uppercase; }
+                /* Mansi photo */
+                .mansi-photo {
+                    position: relative; z-index: 5;
+                    height: 210px; width: auto;
+                    object-fit: contain; object-position: bottom;
+                    filter: brightness(1.05) contrast(1.05)
+                            drop-shadow(0 0 8px rgba(0,240,255,0.6))
+                            drop-shadow(0 0 24px rgba(0,240,255,0.25));
+                    -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+                    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+                }
+                /* Floor glow */
+                .avatar-glow {
+                    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+                    width: 70%; height: 40px;
+                    background: rgba(0,240,255,0.4); filter: blur(18px);
+                    border-radius: 50%;
+                }
+                /* Scanlines overlay */
+                .avatar-scanlines {
+                    position: absolute; inset: 0; pointer-events: none;
+                    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 3px);
+                    z-index: 6;
+                }
 
-                /* Chat */
-                .holo-chat {
-                    position: absolute; top: 52px; left: 8px; right: 8px;
-                    bottom: 68px; overflow-y: auto; padding: 12px;
-                    display: flex; flex-direction: column; gap: 10px;
-                    z-index: 25; opacity: 0; transition: opacity 0.4s 0.3s;
-                    scrollbar-width: thin; scrollbar-color: #00f0ff rgba(0,20,30,0.9);
+                /* ====== CHAT ZONE (bottom) ====== */
+                .holo-chat-zone {
+                    background: #000c12;
+                    border-top: 1px solid rgba(0,240,255,0.15);
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
                 }
-                .holo-chat::-webkit-scrollbar { width: 3px; }
-                .holo-chat::-webkit-scrollbar-track { background: rgba(0,20,30,0.9); }
-                .holo-chat::-webkit-scrollbar-thumb { background: #00f0ff; border-radius: 2px; }
-                .holo-projection.active .holo-chat { opacity: 1; }
+                .holo-msgs {
+                    height: 200px;
+                    overflow-y: auto;
+                    padding: 12px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    scrollbar-width: thin;
+                    scrollbar-color: rgba(0,240,255,0.3) transparent;
+                }
+                .holo-msgs::-webkit-scrollbar { width: 3px; }
+                .holo-msgs::-webkit-scrollbar-thumb { background: rgba(0,240,255,0.35); border-radius: 2px; }
 
-                .chat-msg {
-                    max-width: 87%; padding: 9px 13px; border-radius: 12px;
-                    font-size: 12px; line-height: 1.55; animation: msg-appear 0.3s ease-out;
-                    position: relative; overflow: hidden; word-break: break-word; font-family: inherit;
+                .chat-bubble {
+                    max-width: 85%; padding: 8px 12px; border-radius: 12px;
+                    font-size: 12px; line-height: 1.55; word-break: break-word;
+                    animation: bubble-in 0.25s ease-out;
                 }
-                .chat-msg::before {
-                    content:''; position:absolute; top:0; left:0; width:100%; height:100%;
-                    background: linear-gradient(90deg, transparent 0%, rgba(0,240,255,0.08) 50%, transparent 100%);
-                    animation: msg-shine 2.5s linear infinite;
-                }
-                .bot-msg {
+                .bubble-bot {
                     align-self: flex-start;
-                    background: rgba(0,240,255,0.12); border: 1px solid rgba(0,240,255,0.5);
-                    color: #00f0ff; border-bottom-left-radius: 4px;
+                    background: rgba(0,240,255,0.1); border: 1px solid rgba(0,240,255,0.35);
+                    color: #00f0ff; border-bottom-left-radius: 3px;
                 }
-                .user-msg {
+                .bubble-user {
                     align-self: flex-end;
-                    background: rgba(0,128,255,0.18); border: 1px solid rgba(0,128,255,0.5);
-                    color: #fff; border-bottom-right-radius: 4px;
+                    background: rgba(0,100,200,0.2); border: 1px solid rgba(0,130,255,0.4);
+                    color: #fff; border-bottom-right-radius: 3px;
                 }
-                .msg-content { position: relative; z-index: 1; }
 
-                /* Typing indicator */
-                .typing-ind {
-                    display: flex; gap: 4px; align-self: flex-start;
-                    padding: 9px 13px; background: rgba(0,240,255,0.12);
-                    border: 1px solid rgba(0,240,255,0.5); border-radius: 12px; border-bottom-left-radius: 4px;
+                /* Typing dots */
+                .typing-dots {
+                    align-self: flex-start; display: flex; gap: 4px;
+                    padding: 8px 12px;
+                    background: rgba(0,240,255,0.1); border: 1px solid rgba(0,240,255,0.35);
+                    border-radius: 12px; border-bottom-left-radius: 3px;
                 }
                 .typing-dot {
                     width: 5px; height: 5px; border-radius: 50%; background: #00f0ff;
-                    animation: typing-bounce 1.4s ease-in-out infinite;
+                    animation: tdot 1.4s ease-in-out infinite;
                 }
                 .typing-dot:nth-child(2) { animation-delay: 0.2s; }
                 .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
-                /* Input */
-                .holo-input-wrap {
-                    position: absolute; bottom: 12px; left: 8px; right: 8px;
-                    display: flex; gap: 8px; z-index: 30;
-                    opacity: 0; transform: translateY(8px); transition: all 0.4s 0.2s;
+                /* Input row */
+                .holo-input-row {
+                    display: flex; gap: 8px; padding: 10px 10px 12px;
+                    border-top: 1px solid rgba(0,240,255,0.1);
+                    background: rgba(0,8,14,1);
                 }
-                .holo-projection.active .holo-input-wrap { opacity: 1; transform: translateY(0); }
-                .holo-input {
-                    flex: 1; padding: 10px 14px;
-                    background: rgba(0,20,30,0.95); border: 1px solid #00f0ff;
-                    border-radius: 24px; color: #00f0ff;
-                    font-family: inherit; font-size: 12px; outline: none; transition: all 0.3s;
+                .holo-inp {
+                    flex: 1; padding: 9px 14px;
+                    background: rgba(0,20,30,0.95); border: 1px solid rgba(0,240,255,0.4);
+                    border-radius: 22px; color: #00f0ff;
+                    font-family: inherit; font-size: 12px; outline: none;
+                    transition: box-shadow 0.25s;
                 }
-                .holo-input::placeholder { color: rgba(0,240,255,0.45); }
-                .holo-input:focus { box-shadow: 0 0 15px rgba(0,240,255,0.3); }
-                .holo-send {
-                    width: 42px; height: 42px; border-radius: 50%; background: #00f0ff;
+                .holo-inp::placeholder { color: rgba(0,240,255,0.4); }
+                .holo-inp:focus { box-shadow: 0 0 12px rgba(0,240,255,0.28); }
+                .holo-btn {
+                    width: 40px; height: 40px; border-radius: 50%; background: #00f0ff;
                     border: none; color: #000; cursor: pointer;
                     display: flex; justify-content: center; align-items: center;
-                    transition: all 0.3s; flex-shrink: 0;
+                    transition: all 0.25s; flex-shrink: 0;
                 }
-                .holo-send:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(0,240,255,0.8); }
-                .holo-send:active { transform: scale(0.95); }
-                .holo-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+                .holo-btn:hover { transform: scale(1.1); box-shadow: 0 0 18px rgba(0,240,255,0.7); }
+                .holo-btn:active { transform: scale(0.93); }
+                .holo-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
 
-                /* ======= KEYFRAMES ======= */
-                @keyframes puck-active-pulse {
-                    0%, 100% { box-shadow: 0 0 40px rgba(0,240,255,0.8), 0 0 80px rgba(0,240,255,0.5); }
-                    50%       { box-shadow: 0 0 60px rgba(0,240,255,0.9), 0 0 110px rgba(0,240,255,0.7); }
+                /* ====== KEYFRAMES ====== */
+                @keyframes puck-pulse {
+                    0%,100% { box-shadow: 0 0 30px rgba(0,240,255,0.7), 0 0 60px rgba(0,240,255,0.4); }
+                    50%      { box-shadow: 0 0 50px rgba(0,240,255,0.9), 0 0 90px rgba(0,240,255,0.6); }
                 }
-                @keyframes ring-expand {
+                @keyframes ring-out {
                     0%   { transform: scale(1);   opacity: 0.5; }
-                    100% { transform: scale(1.5); opacity: 0; }
+                    100% { transform: scale(1.6); opacity: 0; }
                 }
                 @keyframes core-pulse {
-                    0%, 100% { opacity: 0.4; transform: scale(1); }
-                    50%      { opacity: 0.7; transform: scale(1.1); }
+                    0%,100% { opacity: 0.4; } 50% { opacity: 0.75; }
                 }
-                @keyframes glow-pulse {
-                    0%, 100% { opacity: 0.3; }
-                    50%      { opacity: 0.6; }
+                @keyframes dot-blink {
+                    0%,100% { opacity: 1; transform: scale(1); }
+                    50%     { opacity: 0.4; transform: scale(0.75); }
                 }
-                @keyframes beam-flicker {
-                    0%, 100% { opacity: 0.5; }
-                    50%      { opacity: 0.72; }
+                @keyframes ptcl {
+                    0%   { transform: translateY(0) scale(1);     opacity: 0.9; }
+                    100% { transform: translateY(-220px) scale(0); opacity: 0; }
                 }
-                @keyframes particle-rise {
-                    0%   { transform: translateY(0) scale(1);    opacity: 1; }
-                    100% { transform: translateY(-450px) scale(0); opacity: 0; }
+                @keyframes bubble-in {
+                    0%   { opacity:0; transform: translateY(8px) scale(0.96); }
+                    100% { opacity:1; transform: translateY(0) scale(1); }
                 }
-                @keyframes holo-flicker {
-                    0%, 100% { opacity: 0.9;  filter: hue-rotate(165deg) saturate(200%) brightness(1.4) blur(0px); }
-                    25%      { opacity: 0.95; filter: hue-rotate(167deg) saturate(205%) brightness(1.45) blur(0.3px); }
-                    50%      { opacity: 0.85; filter: hue-rotate(163deg) saturate(195%) brightness(1.35) blur(0.5px); }
-                    75%      { opacity: 0.92; filter: hue-rotate(166deg) saturate(202%) brightness(1.42) blur(0.2px); }
-                }
-                @keyframes scanline-move {
-                    0%   { background-position: 0 0; }
-                    100% { background-position: 0 100%; }
-                }
-                @keyframes chromatic-shift {
-                    0%, 100% { transform: translateX(0); }
-                    25%      { transform: translateX(-1px); }
-                    75%      { transform: translateX(1px); }
-                }
-                @keyframes status-pulse {
-                    0%, 100% { box-shadow: 0 0 15px rgba(0,240,255,0.3); }
-                    50%      { box-shadow: 0 0 25px rgba(0,240,255,0.6); }
-                }
-                @keyframes dot-pulse {
-                    0%, 100% { opacity: 1; transform: scale(1); }
-                    50%      { opacity: 0.4; transform: scale(0.75); }
-                }
-                @keyframes msg-appear {
-                    0%   { opacity: 0; transform: translateY(10px) scale(0.95); }
-                    100% { opacity: 1; transform: translateY(0) scale(1); }
-                }
-                @keyframes msg-shine {
-                    0%   { transform: translateX(-100%); }
-                    100% { transform: translateX(100%); }
-                }
-                @keyframes typing-bounce {
-                    0%, 60%, 100% { transform: translateY(0); }
-                    30%           { transform: translateY(-5px); }
+                @keyframes tdot {
+                    0%,60%,100% { transform: translateY(0); }
+                    30%         { transform: translateY(-5px); }
                 }
 
-                @media (max-width: 768px) {
-                    .holo-widget { bottom: 20px; right: 20px; }
-                    .holo-projection { width: 290px; height: 480px; }
-                }
                 @media (max-width: 480px) {
-                    .holo-projection { width: 92vw; right: -10px; }
+                    .holo-panel { width: 92vw; }
+                    .holo-widget { right: 16px; bottom: 16px; }
                 }
                 @media (prefers-reduced-motion: reduce) {
-                    .holo-puck, .holo-projection, .holo-image, .chat-msg { transition: none; animation: none; }
+                    .holo-panel { transition: none; }
+                    .holo-puck  { animation: none; transition: none; }
                 }
             `}</style>
 
             <div className="holo-widget">
 
-                {/* ===== HOLOGRAM PROJECTION ===== */}
-                <div className={`holo-projection ${isActive ? 'active' : ''}`}>
+                {/* ===== MAIN PANEL ===== */}
+                <div className={`holo-panel ${isActive ? 'open' : ''}`} role="dialog" aria-label="Chat with Mansi">
 
-                    {/* Beam Layers */}
-                    <div className="holo-beam-core" />
-                    <div className="holo-beam-outer" />
+                    {/* --- MANSI IMAGE ZONE --- */}
+                    <div className="holo-avatar-zone">
+                        <div className="avatar-beam" />
 
-                    {/* Particles */}
-                    <div className="holo-particles" id="holoParticles">
-                        {Array.from({ length: 28 }).map((_, i) => (
-                            <div
-                                key={i}
-                                className="particle"
-                                style={{
-                                    left: `${Math.random() * 100}%`,
-                                    animationDelay: `${Math.random() * 2}s`,
-                                    animationDuration: `${1.5 + Math.random()}s`,
-                                }}
-                            />
-                        ))}
-                    </div>
+                        {/* Particles */}
+                        <div className="avatar-particles">
+                            {Array.from({ length: 20 }).map((_, i) => (
+                                <div
+                                    key={i}
+                                    className="apt"
+                                    style={{
+                                        left: `${10 + Math.random() * 80}%`,
+                                        bottom: `${Math.random() * 30}%`,
+                                        animationDelay: `${Math.random() * 2}s`,
+                                        animationDuration: `${1.4 + Math.random() * 1.2}s`,
+                                    }}
+                                />
+                            ))}
+                        </div>
 
-                    {/* Visual Effects Overlay */}
-                    <div className="holo-scanlines" />
-                    <div className="holo-chromatic" />
+                        {/* Status pill */}
+                        <div className="avatar-status">
+                            <span className="status-dot" />
+                            <span className="status-txt">{statusText}</span>
+                        </div>
 
-                    {/* Mansi Figure */}
-                    <div className="holo-figure">
+                        {/* Mansi Photo */}
                         <Image
                             src="/images/mansi-holo.png"
-                            alt="Mansi - MotoFit 2 AI"
-                            width={260}
-                            height={400}
-                            className="holo-image"
+                            alt="Mansi — MotoFit 2 AI"
+                            width={220}
+                            height={210}
+                            className="mansi-photo"
                             priority
                         />
-                        <div className="holo-figure-glow" />
+
+                        {/* Floor glow */}
+                        <div className="avatar-glow" />
+                        <div className="avatar-scanlines" />
                     </div>
 
-                    {/* Status Bar */}
-                    <div className="holo-status">
-                        <span className="status-dot" />
-                        <span className="status-text">{statusText}</span>
-                    </div>
+                    {/* --- CHAT ZONE --- */}
+                    <div className="holo-chat-zone">
 
-                    {/* Chat Messages */}
-                    <div className="holo-chat">
-                        {messages.map((msg, i) => (
-                            <div key={i} className={`chat-msg ${msg.role === 'assistant' ? 'bot-msg' : 'user-msg'}`}>
-                                <div className="msg-content">{sanitizeMessage(msg.content)}</div>
-                            </div>
-                        ))}
-                        {isLoading && (
-                            <div className="typing-ind">
-                                <div className="typing-dot" />
-                                <div className="typing-dot" />
-                                <div className="typing-dot" />
-                            </div>
-                        )}
-                        <div ref={chatEndRef} />
-                    </div>
+                        {/* Messages */}
+                        <div className="holo-msgs">
+                            {messages.map((msg, i) => (
+                                <div
+                                    key={i}
+                                    className={`chat-bubble ${msg.role === 'assistant' ? 'bubble-bot' : 'bubble-user'}`}
+                                >
+                                    {sanitizeMessage(msg.content)}
+                                </div>
+                            ))}
+                            {isLoading && (
+                                <div className="typing-dots">
+                                    <div className="typing-dot" />
+                                    <div className="typing-dot" />
+                                    <div className="typing-dot" />
+                                </div>
+                            )}
+                            <div ref={chatEndRef} />
+                        </div>
 
-                    {/* Input Area */}
-                    <div className="holo-input-wrap">
-                        <input
-                            ref={inputRef}
-                            type="text"
-                            className="holo-input"
-                            placeholder="Bolo... (Hindi/English/Gujarati)"
-                            value={input}
-                            onChange={e => setInput(e.target.value)}
-                            onKeyDown={handleKeyPress}
-                            autoComplete="off"
-                        />
-                        <button className="holo-send" onClick={handleSend} disabled={isLoading || !input.trim()} aria-label="Send">
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-                            </svg>
-                        </button>
+                        {/* Input Row */}
+                        <div className="holo-input-row">
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                className="holo-inp"
+                                placeholder="Bolo... (Hindi/English/Gujarati)"
+                                value={input}
+                                onChange={e => setInput(e.target.value)}
+                                onKeyDown={handleKeyPress}
+                                autoComplete="off"
+                            />
+                            <button
+                                className="holo-btn"
+                                onClick={handleSend}
+                                disabled={isLoading || !input.trim()}
+                                aria-label="Send message"
+                            >
+                                <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor">
+                                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                {/* ===== HOLOGRAM PROJECTOR PUCK ===== */}
+                {/* ===== PUCK BUTTON ===== */}
                 <button
-                    className={`holo-puck ${isActive ? 'active' : ''}`}
+                    className={`holo-puck ${isActive ? 'open' : ''}`}
                     onClick={() => setIsActive(v => !v)}
-                    aria-label={isActive ? 'Close Mansi' : 'Open Mansi AI'}
+                    aria-label={isActive ? 'Close Mansi chat' : 'Chat with Mansi AI'}
                     aria-expanded={isActive}
                 >
-                    <div className="puck-ring-1" />
-                    <div className="puck-ring-2" />
+                    <div className="puck-ring puck-ring-1" />
+                    <div className="puck-ring puck-ring-2" />
                     <div className="puck-core" />
-                    <div className="puck-icon-wrap">
-                        {/* Chat icon */}
-                        <svg className="puck-icon chat-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <div className="puck-icons">
+                        <svg className="puck-icon puck-chat" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                         </svg>
-                        {/* Close icon */}
-                        <svg className="puck-icon close-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg className="puck-icon puck-x" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
                             <line x1="18" y1="6" x2="6" y2="18" />
                             <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
                     </div>
-                    <div className="puck-glow" />
                 </button>
             </div>
         </>
