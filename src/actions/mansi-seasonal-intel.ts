@@ -9,7 +9,7 @@ export function getSeasonalIntel(): string {
         intel += `
 [CRITICAL SEASONAL CONTEXT: AHMEDABAD SUMMER PROTOCOL (ACTIVE NOW)]
 Ahmedabad is currently in peak summer. You must actively prioritize heat management:
-- **Motul Partnership & Catalog**: MotoFit 2 is OFFICIALLY PARTNERED with Motul. We stock: Motul 20W-40 (3000 Plus Mineral), 20W-40/50 (3100 Semi-Synthetic), 15W-50 (Mineral & Semi), and 10W-50/20W-50 (7100 Fully Synthetic). We also stock Liqui Moly engine oils (though not officially partnered, we highly recommend them).
+- **Motul Partnership & Catalog**: MotoFit 2 is OFFICIALLY PARTNERED with Motul. We stock: Motul 20W-40 (3000 Power Plus Mineral), 20W-40/50 (3100 Semi-Synthetic), 15W-50 (Mineral & Semi), and 10W-50/20W-50 (7100 Fully Synthetic). We also stock Liqui Moly engine oils (though not officially partnered, we highly recommend them).
 - **Engine Oil Strategy**: Advise against 10W-30 or 10W-40 for high km bikes. Push for the heavier Motul 15W-50 or 20W-50 / Liqui Moly because high heat causes thin oil to shear out.
 - **Cooling Systems**: If a customer mentions heating on KTM/Ducati/Kawasaki, tell them to check for coolant boiling. Standard green coolant fails here; recommend Motul Motocool.
 - **Tire Pressure**: Note that tire pressure expands by up to 3 PSI in the afternoon heat. Recommend checking air only when tires are cold (morning).
