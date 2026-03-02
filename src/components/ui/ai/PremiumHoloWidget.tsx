@@ -50,6 +50,15 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
         return () => document.removeEventListener('keydown', handleKey);
     }, [isActive]);
 
+    // Sanitize message text: strip HTML tags, img tags, and external URLs
+    const sanitizeMessage = (text: string): string => {
+        return text
+            .replace(/<img[^>]*>/gi, '')          // kill img tags
+            .replace(/<[^>]+>/g, '')              // strip all HTML
+            .replace(/https?:\/\/[^\s]+\.(?:jpg|jpeg|png|gif|webp|svg)[^\s]*/gi, '') // strip image URLs
+            .trim();
+    };
+
     const handleSend = async () => {
         const text = input.trim();
         if (!text || isLoading) return;
@@ -163,6 +172,13 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
                     transform: scale(0.9) translateY(30px);
                     transform-origin: bottom right;
                     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                    background: rgba(0, 8, 14, 0.97);
+                    border-radius: 16px;
+                    box-shadow: 0 0 60px rgba(0,240,255,0.15), 0 0 120px rgba(0,240,255,0.06), inset 0 0 80px rgba(0,0,0,0.9);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    border: 1px solid rgba(0,240,255,0.18);
+                    overflow: hidden;
                 }
                 .holo-projection.active {
                     opacity: 1; visibility: visible; pointer-events: auto;
@@ -448,7 +464,7 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
                     <div className="holo-chat">
                         {messages.map((msg, i) => (
                             <div key={i} className={`chat-msg ${msg.role === 'assistant' ? 'bot-msg' : 'user-msg'}`}>
-                                <div className="msg-content">{msg.content}</div>
+                                <div className="msg-content">{sanitizeMessage(msg.content)}</div>
                             </div>
                         ))}
                         {isLoading && (
