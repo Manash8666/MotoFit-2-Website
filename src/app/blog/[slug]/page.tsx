@@ -1,16 +1,17 @@
-import { blogs } from '@/data/blogs';
+import { blogs as staticBlogs } from '@/data/blogs';
+import { getBlogBySlug } from '@/actions/mansi-get-blogs';
 import { notFound } from 'next/navigation';
 import BlogPostClient from './BlogPostClient';
 
-// For Static Export
+// Pre-render static blogs
 export async function generateStaticParams() {
-    return blogs.map((blog) => ({
+    return staticBlogs.map((blog) => ({
         slug: blog.slug,
     }));
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
-    const blog = blogs.find(b => b.slug === params.slug);
+export default async function BlogPost({ params }: { params: { slug: string } }) {
+    const blog = await getBlogBySlug(params.slug);
 
     if (!blog) {
         notFound();

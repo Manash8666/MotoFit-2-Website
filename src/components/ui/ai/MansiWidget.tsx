@@ -12,6 +12,7 @@ import { MansiContext } from '@/services/mansi/agents/context';
 import { MansiCalendar } from '@/services/mansi/agents/calendar';
 import { MansiAdminStore } from '@/services/mansi/agents/admin-store';
 import HoloLauncher from './hologram/HoloLauncher';
+import { generateTrendingBlog } from '@/actions/mansi-auto-blog';
 // import { MansiIdentity } from '@/services/mansi/agents/identity'; // Replaced with direct challenge
 
 const MANSI_DAY_LOOKS: Record<number, string> = {
@@ -1022,13 +1023,29 @@ ${insights}
         }
 
         // ── Admin commands (gated by secret) ─────────────────────────────────
-        const adminCmds = ['update workshop stats', 'update calendar', 'update blogs', 'update wall of power', 'update projects'];
-        if (adminCmds.includes(cmd)) {
+        const adminCmds = ['update workshop stats', 'update calendar', 'update blogs', 'update wall of power', 'update projects', 'generate blog'];
+        const isGenerateBlogCmd = cmd.startsWith('generate blog');
+
+        if (adminCmds.includes(cmd) || isGenerateBlogCmd) {
             if (!holoVerifiedUser) {
                 setHoloAdminMode({ type: 'verify', step: 1, data: { pendingCommand: cmd } });
                 return '🔒 **Security Protocol Activated.**\n\nIdentity verification required. Enter your **Secret Access Code**:';
             }
             const name = holoVerifiedUser;
+
+            if (isGenerateBlogCmd) {
+                const topic = cmd.replace('generate blog', '').trim();
+                if (!topic) return `🔐 Welcome, **${name}**! Please provide a topic: \`/generate blog [Topic]\``;
+
+                // Trigger async auto-blog so UI doesn't freeze the chat loop completely while LLM generates
+                generateTrendingBlog(topic).then(res => {
+                    if (res.success) {
+                        console.log(`[Auto-Blog] Successfully deployed blog: ${res.slug}`);
+                    }
+                });
+                return `🔐 Welcome, **${name}**! ✅\n\nInitiating AI Synthesis for **"${topic}"**. This will take ~10-15 seconds. The article will be automatically published to the \`/blog\` page. ✍️🚀`;
+            }
+
             if (cmd === 'update workshop stats') {
                 setHoloAdminMode({ type: 'stats', step: 1, data: {} });
                 return `🔐 Welcome, **${name}**! ✅\n\n${MansiAdminStore.getStatDisplay()}\n\nType the number (1, 2, or 3).`;

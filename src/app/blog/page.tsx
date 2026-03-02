@@ -1,13 +1,21 @@
 'use client';
 
-import { blogs } from '@/data/blogs';
+import { blogs as staticBlogs, BlogPost } from '@/data/blogs';
+import { getAllBlogs } from '@/actions/mansi-get-blogs';
 import { Badge } from '@/components/ui/graphics/Badge';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Calendar, Clock, User } from 'lucide-react';
+import { ArrowUpRight, Calendar, Clock } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function BlogIndex() {
+    const [blogs, setBlogs] = useState<BlogPost[]>(staticBlogs);
+
+    useEffect(() => {
+        getAllBlogs().then(setBlogs);
+    }, []);
+
     return (
         <main className="min-h-screen bg-[#050505] pt-24 pb-12 relative overflow-hidden">
             {/* Background Texture */}

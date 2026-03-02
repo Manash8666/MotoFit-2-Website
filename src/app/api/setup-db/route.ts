@@ -4,11 +4,11 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-    try {
-        // SECURITY: In production, you might want to protect this route or delete it after use
-        // For now, we will just proceed to create the table
+  try {
+    // SECURITY: In production, you might want to protect this route or delete it after use
+    // For now, we will just proceed to create the table
 
-        await sql`
+    await sql`
       CREATE TABLE IF NOT EXISTS leads (
         id SERIAL PRIMARY KEY,
         name TEXT,
@@ -23,7 +23,7 @@ export async function GET() {
       );
     `;
 
-        await sql`
+    await sql`
       CREATE TABLE IF NOT EXISTS mansi_learning (
         id SERIAL PRIMARY KEY,
         user_query TEXT,
@@ -34,12 +34,28 @@ export async function GET() {
       );
     `;
 
-        return NextResponse.json({
-            message: 'Database Schema Initialized Successfully',
-            table: 'leads'
-        }, { status: 200 });
+    await sql`
+      CREATE TABLE IF NOT EXISTS mansi_blogs (
+        id SERIAL PRIMARY KEY,
+        slug TEXT UNIQUE,
+        title TEXT,
+        excerpt TEXT,
+        author TEXT,
+        date TEXT,
+        read_time TEXT,
+        image TEXT,
+        tags JSONB,
+        content TEXT,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `;
 
-    } catch (error: any) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+    return NextResponse.json({
+      message: 'Database Schema Initialized Successfully',
+      table: 'leads'
+    }, { status: 200 });
+
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }

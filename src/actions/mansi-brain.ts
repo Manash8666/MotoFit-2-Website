@@ -2,6 +2,7 @@
 
 import OpenAI from 'openai';
 import { logMansiExperience } from './mansi-learning';
+import { getSeasonalIntel } from './mansi-seasonal-intel';
 
 // --- ENVIRONMENT CONFIG ---
 const KEYS = {
@@ -26,6 +27,16 @@ const MODELS = {
 export async function chatWithMansiBrain(conversationHistory: any[]) {
     let lastError = null;
     const lastUserMessage = conversationHistory.filter(m => m.role === 'user').pop()?.content || "";
+
+    // ── INJECT SEASONAL INTELLIGENCE ──
+    // Find the primary system prompt and append the dynamic season context
+    const systemMessageIndex = conversationHistory.findIndex(m => m.role === 'system');
+    if (systemMessageIndex !== -1) {
+        const intel = getSeasonalIntel();
+        if (intel) {
+            conversationHistory[systemMessageIndex].content += `\n\n${intel}`;
+        }
+    }
 
     // 1. PRIMARY LAYER: OPENROUTER
     if (KEYS.OPENROUTER) {
