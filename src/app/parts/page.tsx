@@ -73,11 +73,11 @@ const inventoryCategories = [
         color: "green"
     },
     {
-        title: "The Fluids Lab: Engine Oils",
+        title: "The Fluids Lab: Diagnostics & Oils",
         icon: <Zap className="text-[#ff5e1a]" size={32} />,
-        brands: "Motul, Liqui Moly, Mobil, Castrol, Shell, HP Lubricants",
-        description: "Thermal stability for the Ahmedabad summer. We use high-performance synthetics for race-spec machines and reliable HP series for the daily grind.",
-        features: ["Motul 300V / 7100 / 5100", "Liqui Moly Street Race 10W50", "Castrol Power1 Racing", "Genuine Manufacturer Oils"],
+        brands: "Motul (Official Partner), Liqui Moly, Mobil, Castrol",
+        description: "Official Motul Partner Hub. We use high-performance synthetics to defeat the Ahmedabad heat and Engine Flush / E20 additives for modern fuel compliance.",
+        features: ["Motul 3000 Power Plus / 3100 / 7100", "Liqui Moly Street Race", "Motul E20 Petrol Additives", "Engine Flush Treatments"],
         color: "orange"
     }
 ];
@@ -214,6 +214,59 @@ export default function PartsPage() {
                         ))}
                     </div>
                 </div>
+
+                {/* --- OFFICIAL PARTNER: MOTUL --- */}
+                <section className="mb-20 bg-gradient-to-br from-[#df0024] to-[#800000] border border-[#ff3333]/30 rounded-[2rem] p-10 md:p-16 relative overflow-hidden group">
+                    <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-white blur-[150px] opacity-10 rounded-full group-hover:opacity-20 transition-opacity duration-700" />
+
+                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
+                        <div className="max-w-2xl">
+                            <Badge variant="white" className="mb-6 font-black text-[#df0024] tracking-widest bg-white hover:bg-white select-none">
+                                OFFICIAL PARTNER
+                            </Badge>
+                            <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tight mb-6 leading-none">
+                                MOTUL <span className="text-white/70 block md:inline text-3xl md:text-5xl mt-2 md:mt-0">PERFORMANCE LAB</span>
+                            </h2>
+                            <p className="text-white/90 text-lg leading-relaxed mb-8 font-medium">
+                                MotoFit 2 is officially partnered with Motul to bring track-level fluid dynamics to the streets of Ahmedabad. We don&apos;t just pour oil; we engineered a survival protocol for the 45°C summer and the grueling E20 Petrol Mandate.
+                            </p>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mb-8 text-white/90 font-medium text-sm">
+                                <div className="flex items-start gap-3">
+                                    <div className="mt-1 bg-white text-[#df0024] p-1 rounded-full"><Trophy size={14} /></div>
+                                    <p><b>Heavy Duty Oils:</b> 15W-50 & 20W-50 (3000 Power Plus, 3100, 7100 Fully Synthetic) to defeat heat shear.</p>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <div className="mt-1 bg-white text-[#df0024] p-1 rounded-full"><ShieldCheck size={14} /></div>
+                                    <p><b>E20 Defense:</b> Motul Engine Flush & E20 Additives to protect carburetor seals from ethanol melting.</p>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <div className="mt-1 bg-white text-[#df0024] p-1 rounded-full"><Activity size={14} /></div>
+                                    <p><b>Cooling:</b> Motocool Expert for extreme temperatures.</p>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <div className="mt-1 bg-white text-[#df0024] p-1 rounded-full"><Link2 size={14} /></div>
+                                    <p><b>Drivetrain:</b> Professional Chain Clean & Lube sessions.</p>
+                                </div>
+                            </div>
+
+                            <GlassButton variant="white" onClick={() => openBooking('Motul E20 Protection Service')} className="font-bold text-[#df0024] hover:bg-gray-100 uppercase tracking-widest text-xs px-8">
+                                Secure Your Engine
+                            </GlassButton>
+                        </div>
+
+                        <div className="hidden lg:block relative w-72 h-72">
+                            {/* Abstract Motul visual placeholder / representation, using an icon cluster instead of a raw image to avoid ugly missing refs */}
+                            <div className="absolute inset-0 border-[8px] border-white/20 rounded-full border-t-white animate-spin-slow" />
+                            <div className="absolute inset-4 border-[4px] border-white/10 rounded-full border-b-white animate-reverse-spin" />
+                            <div className="absolute inset-0 flex items-center justify-center flex-col">
+                                <Zap size={64} className="text-white mb-2" />
+                                <span className="text-white font-black italic tracking-widest text-xl">300V</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 {/* 3. Inventory Grid (8 Categories) */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">

@@ -13,6 +13,7 @@ const glassButtonVariants = cva(
                 orange: "bg-[#ff5e1a]/10 backdrop-blur-sm border border-[#ff5e1a]/20",
                 cyan: "bg-[#00d1ff]/10 backdrop-blur-sm border border-[#00d1ff]/20",
                 industrial: "bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] border border-[#333]",
+                white: "bg-white/90 backdrop-blur-sm border border-white hover:bg-white text-black",
             },
             size: {
                 sm: "text-sm",
@@ -52,6 +53,7 @@ const glassButtonTextVariants = cva(
                 orange: "text-[#ff8a3d] group-hover:text-white",
                 cyan: "text-[#33dcff] group-hover:text-white",
                 industrial: "text-white",
+                white: "text-black",
             },
             size: {
                 sm: "px-4 py-2.5 text-xs",
@@ -113,6 +115,7 @@ const GlassButton = React.forwardRef<HTMLButtonElement, GlassButtonProps>(
                         variant === "orange" && "bg-gradient-to-r from-[#ff5e1a]/20 to-[#ff8a3d]/20",
                         variant === "cyan" && "bg-gradient-to-r from-[#00d1ff]/20 to-[#33dcff]/20",
                         variant === "default" && "bg-white/10",
+                        variant === "white" && "bg-white",
                     )} />
 
                     {/* Border glow effect */}

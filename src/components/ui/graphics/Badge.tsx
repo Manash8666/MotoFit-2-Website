@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 
 interface BadgeProps {
-    variant?: 'default' | 'orange' | 'cyan' | 'success' | 'warning' | 'error';
+    variant?: 'default' | 'orange' | 'cyan' | 'success' | 'warning' | 'error' | 'white';
     size?: 'sm' | 'md' | 'lg';
     glow?: boolean;
     children: React.ReactNode;
@@ -40,6 +40,10 @@ export function Badge({
         error: cn(
             'bg-[#ff3366]/10 border-[#ff3366]/20 text-[#ff6688]',
             glow && 'shadow-sm shadow-[#ff3366]/20'
+        ),
+        white: cn(
+            'bg-white/10 border-white/20 text-white',
+            glow && 'shadow-sm shadow-white/20'
         ),
     };
 
