@@ -463,7 +463,7 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
 
                     {/* Mansi Face on Puck */}
                     <div className="puck-img">
-                        <Image src="/images/reels/mansi-day-2.webp" alt="Mansi" fill className="object-cover" />
+                        <Image src={avatarUrl} alt="Mansi" fill className="object-cover" />
                     </div>
 
                     <div className="puck-icons">
