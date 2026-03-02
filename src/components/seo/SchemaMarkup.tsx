@@ -10,7 +10,7 @@ export default function SchemaMarkup() {
         "telephone": "+919898123456", // Placeholder, user can update
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "Shop No 9, Kirtan Complex",
+            "streetAddress": "Kirtan Complex, Nigam Nagar",
             "addressLocality": "Chandkheda",
             "addressRegion": "Ahmedabad",
             "postalCode": "382424",
