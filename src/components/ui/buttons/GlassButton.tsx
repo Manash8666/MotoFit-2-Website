@@ -182,6 +182,7 @@ export const IndustrialButton = React.forwardRef<HTMLButtonElement, Omit<GlassBu
         />
     )
 );
+IndustrialButton.displayName = "IndustrialButton";
 
 export const MechanicalButton = React.forwardRef<HTMLButtonElement, Omit<GlassButtonProps, 'variant' | 'glow'>>(
     (props, ref) => (
@@ -194,6 +195,7 @@ export const MechanicalButton = React.forwardRef<HTMLButtonElement, Omit<GlassBu
         />
     )
 );
+MechanicalButton.displayName = "MechanicalButton";
 
 export const DigitalButton = React.forwardRef<HTMLButtonElement, Omit<GlassButtonProps, 'variant' | 'glow'>>(
     (props, ref) => (
@@ -206,6 +208,7 @@ export const DigitalButton = React.forwardRef<HTMLButtonElement, Omit<GlassButto
         />
     )
 );
+DigitalButton.displayName = "DigitalButton";
 
 export { GlassButton, glassButtonVariants };
 export default GlassButton;

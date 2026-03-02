@@ -32,10 +32,10 @@ const isWebGLSupported = (): boolean => {
 
 import { useBooking } from '@/context/BookingContext';
 
+const titleWords = ['MOTOFIT', '2'];
+
 // Main Hero Component
 export default function Hero() {
-  const titleWords = ['MOTOFIT', '2'];
-
   const CAPTIONS = [
     "Precision Engine Rebuilds",
     "Dyno Tuning & Diagnostics",

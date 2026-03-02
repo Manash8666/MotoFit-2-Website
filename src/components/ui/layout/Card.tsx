@@ -243,6 +243,7 @@ const ServiceCard = React.forwardRef<
     {children}
   </Card>
 ));
+ServiceCard.displayName = "ServiceCard";
 
 const ProjectCard = React.forwardRef<
   HTMLDivElement,
@@ -258,6 +259,7 @@ const ProjectCard = React.forwardRef<
     {children}
   </Card>
 ));
+ProjectCard.displayName = "ProjectCard";
 
 const TechCard = React.forwardRef<
   HTMLDivElement,
@@ -273,6 +275,7 @@ const TechCard = React.forwardRef<
     {children}
   </Card>
 ));
+TechCard.displayName = "TechCard";
 
 export {
   Card,

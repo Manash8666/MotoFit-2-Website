@@ -2,3 +2,29 @@
 > motofit-2@0.1.0 lint
 > next lint
 
+
+./src/components/features/BookingModal.tsx
+165:62  Error: Comments inside children section of tag should be placed inside braces  react/jsx-no-comment-textnodes
+
+./src/components/sections/Hero.tsx
+89:6  Warning: React Hook useEffect has a missing dependency: 'titleWords'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/ui/ai/MansiWidget.tsx
+370:8  Warning: React Hook useEffect has a missing dependency: 'messages.length'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/ui/buttons/GlassButton.tsx
+174:33  Error: Component definition is missing display name  react/display-name
+186:33  Error: Component definition is missing display name  react/display-name
+198:30  Error: Component definition is missing display name  react/display-name
+
+./src/components/ui/layout/Card.tsx
+231:21  Error: Component definition is missing display name  react/display-name
+247:21  Error: Component definition is missing display name  react/display-name
+262:18  Error: Component definition is missing display name  react/display-name
+
+./src/components/ui/scroll/ContainerScroll.tsx
+302:5  Error: Do not pass children as props. Instead, nest children between the opening and closing tags.  react/no-children-prop
+319:5  Error: Do not pass children as props. Instead, nest children between the opening and closing tags.  react/no-children-prop
+336:5  Error: Do not pass children as props. Instead, nest children between the opening and closing tags.  react/no-children-prop
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

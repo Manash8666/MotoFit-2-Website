@@ -367,7 +367,7 @@ export default function MansiWidget() {
                 }, 600);
             }
         }
-    }, [isOpen]);
+    }, [isOpen, messages.length]);
 
     const [isBlocked, setIsBlocked] = useState(false);
 

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, Clock, MessageCircle, Bike, User, Zap, Wrench, Shield, Gauge, Droplet, Settings } from 'lucide-react';
 import { useBooking } from '@/context/BookingContext';
 import { GlassButton } from '@/components/ui/buttons/GlassButton';
+import Image from 'next/image';
 
 // ─── SERVICE CATEGORY SYSTEM ───────────────────────────────────
 interface ServiceCategory {
@@ -162,7 +163,7 @@ Is this slot available?`;
                                     </button>
                                 </div>
                                 <p className="text-xs font-mono uppercase tracking-tighter" style={{ color: activeCategory.color }}>
-                                    {activeCategory.subtitle} // Shop No 9
+                                    {activeCategory.subtitle} {/* Shop No 9 */}
                                 </p>
                             </div>
 
@@ -294,11 +295,12 @@ Is this slot available?`;
                                     <div className="flex flex-col h-full">
                                         {/* Large High-Impact Image */}
                                         <div className="relative w-full h-[300px] rounded-2xl overflow-hidden border border-[#00d1ff]/30 shadow-[0_0_40px_rgba(0,209,255,0.15)] flex-shrink-0">
-                                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img
+                                            <Image
                                                 src="/images/team/mansi-new.webp"
                                                 alt="Mansi Style"
-                                                className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
+                                                fill
+                                                sizes="(max-width: 768px) 100vw, 500px"
+                                                className="object-cover object-top hover:scale-105 transition-transform duration-700"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
 

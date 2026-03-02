@@ -299,12 +299,13 @@ export const MotorcycleGalleryScroll = ({
 }) => (
   <ContainerScroll
     titleComponent={titleComponent}
-    children={children}
     variant="mechanical"
     height="70rem"
     perspective="1200px"
     className="bg-gradient-to-b from-[#050505] via-[#0a0a0a] to-[#050505]"
-  />
+  >
+    {children}
+  </ContainerScroll>
 );
 
 export const TechDemoScroll = ({
@@ -316,12 +317,13 @@ export const TechDemoScroll = ({
 }) => (
   <ContainerScroll
     titleComponent={titleComponent}
-    children={children}
     variant="digital"
     height="80rem"
     perspective="1500px"
     className="bg-gradient-to-b from-[#050505] via-[#0a0a0a] to-[#00101a]"
-  />
+  >
+    {children}
+  </ContainerScroll>
 );
 
 export const WorkshopScroll = ({
@@ -333,10 +335,11 @@ export const WorkshopScroll = ({
 }) => (
   <ContainerScroll
     titleComponent={titleComponent}
-    children={children}
     variant="industrial"
     height="60rem"
     perspective="1000px"
     className="bg-gradient-to-b from-[#050505] to-[#1a1a1a]"
-  />
+  >
+    {children}
+  </ContainerScroll>
 );
