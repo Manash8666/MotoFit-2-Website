@@ -11,9 +11,11 @@ interface Message {
 interface PremiumHoloWidgetProps {
     onSend: (message: string, history: Message[]) => Promise<string>;
     initialGreeting?: string;
+    isMuted?: boolean;
+    onToggleMute?: () => void;
 }
 
-export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem cho? Mansi here. Bike mein kya issue hai? 🏍️" }: PremiumHoloWidgetProps) {
+export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem cho? Mansi here. Bike mein kya issue hai? 🏍️", isMuted, onToggleMute }: PremiumHoloWidgetProps) {
     const [isActive, setIsActive] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');

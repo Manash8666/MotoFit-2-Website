@@ -934,60 +934,140 @@ ${insights}
     };
 
     // ===== PREMIUM HOLO WIDGET BRIDGE =====
-    // This function connects the new cinematic UI to the existing 6-layer AI brain
+    // Bridge-local state for admin verification + multi-step flows
+    const [holoAdminMode, setHoloAdminMode] = useState<{
+        type: 'stats' | 'calendar' | 'blogs' | 'wall' | 'projects' | 'verify' | null;
+        step: number; data: Record<string, any>;
+    }>({ type: null, step: 0, data: {} });
+    const [holoVerifiedUser, setHoloVerifiedUser] = useState<string | null>(null);
+    const HOLO_SECRETS: Record<string, string> = {
+        'The Devil of My Word': 'Samael',
+        'Trade Bullish King': 'Akshat'
+    };
+
     const handleHoloBridgeSend = async (userMessage: string, history: Array<{ role: 'user' | 'assistant'; content: string }>): Promise<string> => {
-        // ===== COMMAND INTERCEPT: /learn now =====
         const cmd = userMessage.trim().toLowerCase();
+
+        // ── /learn now ──────────────────────────────────────────────────────
         if (cmd === '/learn now' || cmd === '/start-learning' || cmd === 'learn now') {
             try {
                 const { runRapidLearningCycle } = await import('@/actions/mansi-learning-engine');
                 const res = await runRapidLearningCycle();
-                if (res.success) {
-                    return `⚡ **Learning Cycle Complete!**\n\nHarvested fresh garage knowledge from the internet — Scooters, Royal Enfield, KTM clusters updated. Mansi is smarter now. 🧠`;
-                } else {
-                    return `❌ Learning failed: ${res.error}. Tavily ya OpenRouter key check karo!`;
-                }
-            } catch (e: any) {
-                return `❌ Learning Engine Error: ${e.message}`;
+                return res.success
+                    ? `⚡ **Learning Cycle Complete!**\n\nHarvested fresh garage knowledge — Scooters, RE, KTM clusters updated. Mansi is smarter now. 🧠`
+                    : `❌ Learning failed: ${res.error}`;
+            } catch (e: any) { return `❌ Engine Error: ${e.message}`; }
+        }
+
+        // ── /status ──────────────────────────────────────────────────────────
+        if (cmd === '/status' || cmd === '/motofit2 brain status') {
+            const insights = MansiMemory.getRecentInsights() || 'No recent web scans.';
+            return `🧠 **MOTOFIT 2 BRAIN STATUS**\n────────────────────────\n🔋 Core: 100% (Gemini 2.0 / DeepSeek)\n🗣️ Languages: EN | HI | GU | Hinglish\n👁️ Context: ${MansiContext.getPageName()} | Idle: ${MansiContext.getIdleSeconds()}s\n📅 ${MansiCalendar.getTodayStatus()}\n📡 Scans: ${insights}\n\n*Learning Matrix Active.*`;
+        }
+
+        // ── /book YYYY-MM-DD ─────────────────────────────────────────────────
+        if (cmd.startsWith('/book')) {
+            const dateStr = userMessage.trim().split(' ')[1];
+            if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr))
+                return '📅 Format: `/book YYYY-MM-DD` — e.g. `/book 2026-03-10`. Try kar! 🔧';
+            const result = MansiCalendar.getAvailableSlots(dateStr);
+            if (result.available) MansiCalendar.saveBookingIntent({ preferredDate: dateStr, ts: Date.now() });
+            return result.message;
+        }
+
+        // ── Admin verification flow ──────────────────────────────────────────
+        if (holoAdminMode.type === 'verify') {
+            const detected = HOLO_SECRETS[userMessage.trim()];
+            if (detected) {
+                setHoloVerifiedUser(detected);
+                const pendingCmd = holoAdminMode.data.pendingCommand;
+                setHoloAdminMode({ type: null, step: 0, data: {} });
+                return `🔓 **Access Granted.** Welcome, **${detected}**! ✅\n\nType the command again: **${pendingCmd}**`;
+            }
+            setHoloAdminMode({ type: null, step: 0, data: {} });
+            return '❌ **Access Denied.** Wrong secret code.';
+        }
+
+        // ── Admin multi-step: stats ──────────────────────────────────────────
+        if (holoAdminMode.type === 'stats') {
+            const statMap: Record<string, string> = { '1': 'bikes_serviced', '2': 'years_of_trust', '3': 'happy_customers' };
+            if (holoAdminMode.step === 1 && statMap[cmd]) {
+                setHoloAdminMode({ type: 'stats', step: 2, data: { statKey: statMap[cmd] } });
+                return `Got it! Enter the new value for **${statMap[cmd]}**:`;
+            }
+            if (holoAdminMode.step === 2) {
+                MansiAdminStore.updateStat(holoAdminMode.data.statKey, parseInt(userMessage.trim(), 10) || 0);
+                setHoloAdminMode({ type: null, step: 0, data: {} });
+                return '✅ Stat updated! 🔧';
             }
         }
+
+        // ── Admin multi-step: projects ───────────────────────────────────────
+        if (holoAdminMode.type === 'projects') {
+            if (holoAdminMode.step === 1) {
+                setHoloAdminMode({ type: 'projects', step: 2, data: { name: userMessage } });
+                return `Name: **${userMessage}** ✅\n\nType (e.g. Full Service, Modification, Paint):`;
+            }
+            if (holoAdminMode.step === 2) {
+                setHoloAdminMode({ type: 'projects', step: 3, data: { ...holoAdminMode.data, type: userMessage } });
+                return `Type: **${userMessage}** ✅\n\nStatus (In Progress, Complete, Delivered):`;
+            }
+            if (holoAdminMode.step === 3) {
+                const { name, type } = holoAdminMode.data;
+                const date = new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+                MansiAdminStore.addProject({ name, date, status: userMessage, type });
+                setHoloAdminMode({ type: null, step: 0, data: {} });
+                return `✅ Project **${name}** added! 🔥`;
+            }
+        }
+
+        // ── Admin commands (gated by secret) ─────────────────────────────────
+        const adminCmds = ['update workshop stats', 'update calendar', 'update blogs', 'update wall of power', 'update projects'];
+        if (adminCmds.includes(cmd)) {
+            if (!holoVerifiedUser) {
+                setHoloAdminMode({ type: 'verify', step: 1, data: { pendingCommand: cmd } });
+                return '🔒 **Security Protocol Activated.**\n\nIdentity verification required. Enter your **Secret Access Code**:';
+            }
+            const name = holoVerifiedUser;
+            if (cmd === 'update workshop stats') {
+                setHoloAdminMode({ type: 'stats', step: 1, data: {} });
+                return `🔐 Welcome, **${name}**! ✅\n\n${MansiAdminStore.getStatDisplay()}\n\nType the number (1, 2, or 3).`;
+            }
+            if (cmd === 'update projects') {
+                setHoloAdminMode({ type: 'projects', step: 1, data: {} });
+                return `🔐 Welcome, **${name}**! ✅\n\n${MansiAdminStore.getProjectsDisplay()}\n\nNaye project ka naam bolo:`;
+            }
+            return `🔐 Welcome, **${name}**! ✅ Command noted: **${cmd}**.`;
+        }
+
+        // ── Abuse filter ─────────────────────────────────────────────────────
+        const bannedKw = ['sex', 'nude', 'naked', 'fuck', 'bitch', 'whore', 'slut', 'chut', 'lund', 'gand', 'xxx', 'porn'];
+        if (bannedKw.some(w => userMessage.toLowerCase().includes(w)))
+            return 'Mmm. Disharmony detected. Behave karo. 🚫';
+
+        // ── AI Brain ─────────────────────────────────────────────────────────
         const now = new Date();
-        const isWednesday = now.getDay() === 3;
         let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
-        if (isWednesday) timeContext += '\nSTATUS: WEDNESDAY SABBATICAL. Shop Closed.';
+        if (now.getDay() === 3) timeContext += '\nSTATUS: WEDNESDAY SABBATICAL. Shop Closed.';
 
-        const pageHint = MansiContext.getPageHint();
-        const calendarStatus = MansiCalendar.getTodayStatus();
         const { MANSI_TRAINING_DATASET } = require('@/services/mansi/data/conversation-dataset');
+        let leadCtx = '';
+        if (['price', 'cost', 'book', 'appointment', 'visit', 'location', 'address'].some(k => cmd.includes(k)))
+            leadCtx = '\n📢 HIGH INTENT: Guide them to MotoFit 2 for inspection.';
+        if (['ktm', 'remap', 'stage 1', 'hp', 'torque', 'exhaust', 'top speed'].some(k => cmd.includes(k)))
+            leadCtx += '\n🔥 ENTHUSIAST MODE: Increase technical depth.';
 
-        let leadPriorityContext = '';
-        const highIntentKw = ['price', 'cost', 'book', 'appointment', 'visit', 'location', 'address', 'kab aavu', 'shop'];
-        if (highIntentKw.some(k => userMessage.toLowerCase().includes(k))) {
-            leadPriorityContext = '\n📢 SYSTEM ALERT: HIGH INTENT DETECTED. SHIFT TO VISIT MODE. Guide them to MotoFit 2.';
-        }
-        const enthusiastKw = ['ktm', 'remap', 'stage 1', 'stage 2', 'hp', 'torque', 'exhaust', 'akrapovic', 'top speed'];
-        if (enthusiastKw.some(k => userMessage.toLowerCase().includes(k))) {
-            leadPriorityContext += '\n🔥 SYSTEM ALERT: ENTHUSIAST MODE ON. Increase technical depth.';
-        }
-
-        const fullContext = `${timeContext}\n${pageHint}\n${calendarStatus}\n${leadPriorityContext}`;
         const conversationHistory = [
-            { role: 'system', content: `${SYSTEM_PROMPT}\n\n${MANSI_TRAINING_DATASET}\n\nCONTEXT: ${fullContext}` },
+            { role: 'system', content: `${SYSTEM_PROMPT}\n\n${MANSI_TRAINING_DATASET}\n\nCONTEXT: ${timeContext}\n${MansiContext.getPageHint()}\n${MansiCalendar.getTodayStatus()}${leadCtx}` },
             ...history.slice(-6),
             { role: 'user', content: userMessage }
         ];
 
-        // Ghost Protocol fast-check
-        const bannedKw = ['sex', 'nude', 'naked', 'fuck', 'bitch', 'chut', 'lund', 'gand', 'xxx', 'porn'];
-        if (bannedKw.some(w => userMessage.toLowerCase().includes(w))) {
-            return 'Mmm. Disharmony detected. Tame bhan bhulya cho. Behave karo. 🚫';
-        }
-
         try {
             const response = await chatWithMansiBrain(conversationHistory);
             if (!response.success || !response.text) throw new Error(response.error || 'Brain disconnect');
-            let aiText = response.text;
-            aiText = aiText.replace(/\[SENTIMENT:.*?\]/g, '').trim();
+            let aiText = response.text.replace(/\[SENTIMENT:.*?\]/g, '').trim();
+            MansiMemory.update('holo_user', userMessage, aiText); // ← memory logging restored
             speakText(aiText);
             return aiText;
         } catch {
@@ -1001,6 +1081,8 @@ ${insights}
         <>
             <PremiumHoloWidget
                 onSend={handleHoloBridgeSend}
+                isMuted={isMuted}
+                onToggleMute={() => setIsMuted(v => !v)}
                 initialGreeting="Oye! Kem cho? Mansi here — MotoFit 2 ki jaan. Bike mein kya hua? 🏍️"
             />
         </>
