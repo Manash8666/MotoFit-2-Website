@@ -936,6 +936,21 @@ ${insights}
     // ===== PREMIUM HOLO WIDGET BRIDGE =====
     // This function connects the new cinematic UI to the existing 6-layer AI brain
     const handleHoloBridgeSend = async (userMessage: string, history: Array<{ role: 'user' | 'assistant'; content: string }>): Promise<string> => {
+        // ===== COMMAND INTERCEPT: /learn now =====
+        const cmd = userMessage.trim().toLowerCase();
+        if (cmd === '/learn now' || cmd === '/start-learning' || cmd === 'learn now') {
+            try {
+                const { runRapidLearningCycle } = await import('@/actions/mansi-learning-engine');
+                const res = await runRapidLearningCycle();
+                if (res.success) {
+                    return `⚡ **Learning Cycle Complete!**\n\nHarvested fresh garage knowledge from the internet — Scooters, Royal Enfield, KTM clusters updated. Mansi is smarter now. 🧠`;
+                } else {
+                    return `❌ Learning failed: ${res.error}. Tavily ya OpenRouter key check karo!`;
+                }
+            } catch (e: any) {
+                return `❌ Learning Engine Error: ${e.message}`;
+            }
+        }
         const now = new Date();
         const isWednesday = now.getDay() === 3;
         let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
