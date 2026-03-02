@@ -1,6 +1,7 @@
 'use server';
 
 import OpenAI from 'openai';
+import { logMansiExperience } from './mansi-learning';
 
 // --- ENVIRONMENT CONFIG ---
 const KEYS = {
@@ -16,7 +17,7 @@ const KEYS = {
 
 const MODELS = {
     PRIMARY: "google/gemini-2.0-flash-001",
-    SARVAM: "sarvam-2g",
+    SARVAM: "sarvam-m",
     HELICONE: "google/gemini-2.0-flash-001",
     PORTKEY: "grok-beta",
     OLLAMA: "deepseek-r1:8b"
@@ -24,6 +25,7 @@ const MODELS = {
 
 export async function chatWithMansiBrain(conversationHistory: any[]) {
     let lastError = null;
+    const lastUserMessage = conversationHistory.filter(m => m.role === 'user').pop()?.content || "";
 
     // 1. PRIMARY LAYER: OPENROUTER
     if (KEYS.OPENROUTER) {
@@ -41,7 +43,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 max_tokens: 600,
             });
             const reply = completion.choices[0]?.message?.content;
-            if (reply) return { success: true, text: reply, model_used: `OR/${MODELS.PRIMARY}`, error: null };
+            if (reply) {
+                console.log("[Mansi Brain] ✅ LAYER 1 SUCCESS");
+                logMansiExperience(lastUserMessage, reply, `OR/${MODELS.PRIMARY}`);
+                return { success: true, text: reply, model_used: `OR/${MODELS.PRIMARY}`, error: null };
+            }
         } catch (e: any) {
             console.warn(`[Mansi Brain] Layer 1 Failed: ${e.message}`);
             lastError = e.message;
@@ -61,7 +67,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 max_tokens: 500,
             });
             const reply = completion.choices[0]?.message?.content;
-            if (reply) return { success: true, text: reply, model_used: "SARVAM-M", error: null };
+            if (reply) {
+                console.log("[Mansi Brain] ✅ LAYER 2 SUCCESS");
+                logMansiExperience(lastUserMessage, reply, "SARVAM-M");
+                return { success: true, text: reply, model_used: "SARVAM-M", error: null };
+            }
         } catch (e: any) {
             console.warn(`[Mansi Brain] Layer 2 Failed: ${e.message}`);
         }
@@ -81,7 +91,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 messages: conversationHistory
             });
             const reply = completion.choices[0]?.message?.content;
-            if (reply) return { success: true, text: reply, model_used: "HELICONE", error: null };
+            if (reply) {
+                console.log("[Mansi Brain] ✅ LAYER 3 SUCCESS");
+                logMansiExperience(lastUserMessage, reply, "HELICONE");
+                return { success: true, text: reply, model_used: "HELICONE", error: null };
+            }
         } catch (e: any) {
             console.warn(`[Mansi Brain] Layer 3 Failed: ${e.message}`);
         }
@@ -101,7 +115,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 messages: conversationHistory
             });
             const reply = completion.choices[0]?.message?.content;
-            if (reply) return { success: true, text: reply, model_used: "PORTKEY", error: null };
+            if (reply) {
+                console.log("[Mansi Brain] ✅ LAYER 4 SUCCESS");
+                logMansiExperience(lastUserMessage, reply, "PORTKEY");
+                return { success: true, text: reply, model_used: "PORTKEY", error: null };
+            }
         } catch (e: any) {
             console.warn(`[Mansi Brain] Layer 4 Failed: ${e.message}`);
         }
@@ -121,7 +139,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 messages: conversationHistory
             });
             const reply = completion.choices[0]?.message?.content;
-            if (reply) return { success: true, text: reply, model_used: "OLLAMA/NUCLEAR", error: null };
+            if (reply) {
+                console.log("[Mansi Brain] ✅ LAYER 5 SUCCESS");
+                logMansiExperience(lastUserMessage, reply, "OLLAMA/NUCLEAR");
+                return { success: true, text: reply, model_used: "OLLAMA/NUCLEAR", error: null };
+            }
         } catch (e: any) {
             console.warn(`[Mansi Brain] Layer 5 Failed: ${e.message}`);
         }
@@ -138,7 +160,11 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
                 messages: conversationHistory
             });
             const reply = completion.choices[0]?.message?.content;
-            if (reply) return { success: true, text: reply, model_used: "BONSAI", error: null };
+            if (reply) {
+                console.log("[Mansi Brain] ✅ LAYER 6 SUCCESS");
+                logMansiExperience(lastUserMessage, reply, "BONSAI");
+                return { success: true, text: reply, model_used: "BONSAI", error: null };
+            }
         } catch (e: any) {
             console.warn(`[Mansi Brain] Layer 6 Failed: ${e.message}`);
         }
