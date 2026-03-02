@@ -29,6 +29,7 @@ const agale = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://motofit2.in"),
   title: {
     default: "MotoFit 2 | #1 Bike Garage in Chandkheda, Ahmedabad",
     template: "%s | MotoFit 2 Ahmedabad",
