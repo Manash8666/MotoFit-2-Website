@@ -5,9 +5,9 @@ export default function SchemaMarkup() {
         "@context": "https://schema.org",
         "@type": "MotorcycleRepairShop",
         "name": "MotoFit 2",
-        "image": "https://motofit2.in/images/hero/ducati-panigale.png",
+        "image": "https://motofit2.in/og-image.png",
         "url": "https://motofit2.in",
-        "telephone": "+919898123456", // Placeholder, user can update
+        "telephone": "+917259625881",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Kirtan Complex, Nigam Nagar",
