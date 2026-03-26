@@ -345,9 +345,39 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
                     30%         { transform: translateY(-5px); }
                 }
 
+                /* TABLET / SHORT LAPTOPS */
+                @media (max-height: 720px) {
+                    .holo-avatar-zone { height: 160px; }
+                    /* Note: The Image tag sets inline height, so CSS requires !important to squish it nicely */
+                    .mansi-photo { height: 150px !important; width: auto !important; }
+                    .holo-msgs { height: 160px; }
+                }
+
+                @media (max-width: 768px) {
+                    .holo-widget { right: 20px; bottom: 20px; }
+                }
+
+                /* MOBILE / IPHONES */
                 @media (max-width: 480px) {
-                    .holo-panel { width: 92vw; }
                     .holo-widget { right: 16px; bottom: 16px; }
+                    /* Align perfectly between left and right screen edges */
+                    .holo-panel { width: calc(100vw - 32px); }
+                    
+                    /* Shrink heights to guarantee it never floats off the top boundary */
+                    .holo-avatar-zone { height: 150px; }
+                    .mansi-photo { height: 140px !important; width: auto !important; }
+                    .holo-msgs { height: 20vh; min-height: 140px; }
+                    
+                    /* Shrink puck for thumb optimization */
+                    .holo-puck { width: 56px; height: 56px; }
+                }
+
+                /* NANO SCREENS (Landscape mode) */
+                @media (max-height: 500px) {
+                    .holo-avatar-zone { height: 100px; }
+                    .mansi-photo { height: 90px !important; }
+                    .holo-msgs { height: 120px; }
+                    .holo-puck { width: 48px; height: 48px; }
                 }
                 @media (prefers-reduced-motion: reduce) {
                     .holo-panel { transition: none; }
