@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import { MerchHero } from '@/components/MerchHero';
 
 // ── INVENTORY CATEGORIES (existing 6 + 2 new) ──────────────────────
 
@@ -198,6 +199,13 @@ export default function PartsPage() {
                         </div>
                     </div>
                 </div>
+
+            </div>
+
+            {/* NEW: Merch Hero Teaser */}
+            <MerchHero />
+
+            <div className="container mx-auto px-4 md:px-8 relative z-10 mt-20">
 
                 {/* 2. Brand Marquee (Expanded) */}
                 <div className="bg-[#111] border-y border-[#333] py-6 mb-20 overflow-hidden whitespace-nowrap">

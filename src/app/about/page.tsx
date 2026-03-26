@@ -6,6 +6,7 @@ import { TeamCard } from '@/components/ui/cards/TeamCard';
 import Image from 'next/image';
 import { useBooking } from '@/context/BookingContext';
 import { useEffect, useState } from 'react';
+import { WomenRidersStandard } from '@/components/WomenRidersStandard';
 
 export default function AboutPage() {
     const { openBooking } = useBooking();
@@ -135,6 +136,13 @@ export default function AboutPage() {
                         </div>
                     </div>
                 </section>
+
+            </div>
+
+            {/* NEW: MotoFit 2 Protocol: Women Riders Standard */}
+            <WomenRidersStandard />
+
+            <div className="container mx-auto px-4 md:px-8 relative z-10">
 
                 {/* 5. Final CTA: Join the Elite */}
                 <section className="py-20 text-center">
