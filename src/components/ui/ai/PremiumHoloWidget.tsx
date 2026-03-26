@@ -96,7 +96,7 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
                     right: 30px;
                     z-index: 99999;
                     display: flex;
-                    flex-direction: column-reverse;
+                    flex-direction: column;
                     align-items: flex-end;
                     gap: 12px;
                     font-family: 'Orbitron', 'Courier New', monospace;
