@@ -16,13 +16,13 @@ import { generateTrendingBlog } from '@/actions/mansi-auto-blog';
 // import { MansiIdentity } from '@/services/mansi/agents/identity'; // Replaced with direct challenge
 
 const MANSI_DAY_LOOKS: Record<number, string> = {
-    0: '/images/reels/mansi-day-0.png',      // Sunday
-    1: '/images/reels/mansi-day-1.png',      // Monday
-    2: '/images/reels/mansi-day-2.png',      // Tuesday
-    3: '/images/reels/mansi-day-3.png',      // Wednesday
-    4: '/images/reels/mansi-day-4.png',      // Thursday
-    5: '/images/reels/mansi-day-5.png',      // Friday
-    6: '/images/reels/mansi-day-6.png'       // Saturday
+    0: '/images/reels/mansi-day-0.webp',      // Sunday
+    1: '/images/reels/mansi-day-1.webp',      // Monday
+    2: '/images/reels/mansi-day-2.webp',      // Tuesday
+    3: '/images/reels/mansi-day-3.webp',      // Wednesday
+    4: '/images/reels/mansi-day-4.webp',      // Thursday
+    5: '/images/reels/mansi-day-5.webp',      // Friday
+    6: '/images/reels/mansi-day-6.webp'       // Saturday
 };
 
 // --- GHOST PROTOCOL: LOCAL FALLBACK BRAIN ---
