@@ -1,359 +1,120 @@
-// v2.1 fixed imports
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { chatWithMansiBrain } from '@/actions/mansi-brain';
-
-// Define the shape of an FAQ item
-interface FAQItem {
-    category: string;
-    question: string;
-    answer: string;
-    icon?: string;
-}
-
-interface MansiResponse {
-    faqs: FAQItem[];
-    learned_concepts: string[];
-}
-
-const FALLBACK_INTEL: FAQItem[] = [
-    // CLUSTER 1: AHMEDABAD SURVIVAL
-    {
-        category: "AHMEDABAD SURVIVAL",
-        question: "Why is my engine overheating near Visat Circle?",
-        answer: "Visat traffic is a furnace! Stop-and-go creates heat soak. Switch to Motul 7100 (synthetic) and check your coolant levels. It dissipates heat 15% better than stock mineral oil.",
-        icon: "🔥"
-    },
-    {
-        category: "AHMEDABAD SURVIVAL",
-        question: "Dust on New CG Road vs Air Filter?",
-        answer: "The construction dust here chokes paper filters in 2000km. If you ride daily in Chandkheda, switch to a BMC or K&N performance filter. It's washable and breathes better.",
-        icon: "🌬️"
-    },
-    {
-        category: "AHMEDABAD SURVIVAL",
-        question: "Monsoon Potholes vs R15 Rims?",
-        answer: "The 'Smart City' craters will bend soft alloy rims. Keep tyre pressure at 32PSI (not 35) for better shock absorption, or upgrade to 140-section radials for sidewall flex.",
-        icon: "🕳️"
-    },
-    // CLUSTER 2: PERFORMANCE & TUNING
-    {
-        category: "PERFORMANCE",
-        question: "RE 650 Vibration at 120kmph?",
-        answer: "It's likely handle-bar weights or wheel balancing. Bring it to MotoFit 2. We use computerized balancing to neutralize the wobble. Don't ignore it.",
-        icon: "⚖️"
-    },
-    {
-        category: "PERFORMANCE",
-        question: "Duke 390 Jerking at Low RPM?",
-        answer: "Lean AFR mixture from the factory (BS6 norms). We can install a FuelX Pro usage to enrich the mix at low revs. Smoothens the ride instantly.",
-        icon: "💨"
-    },
-    {
-        category: "PERFORMANCE",
-        question: "Braking Upgrade for Himalayan 411?",
-        answer: "Stock brakes are wooden. Upgrade to EBC Sintered Pads (Double-H). The bite improves by 40%. Mandatory for highway runs.",
-        icon: "🛑"
-    },
-    // CLUSTER 3: MAINTENANCE TRUTHS
-    {
-        category: "MAINTENANCE",
-        question: "Chain Spray or Gear Oil?",
-        answer: "For Ahmedabad dust? Gear oil (EP90). It doesn't attract grit like sticky sprays. It's messy but your chain will last 25,000km instead of 15,000km.",
-        icon: "⛓️"
-    },
-    {
-        category: "MAINTENANCE",
-        question: "When to change Fork Oil?",
-        answer: "Every 15,000km! Nobody does this. Old oil turns to sludge, destroying damping. If your front end dives too much, it's time.",
-        icon: "🔧"
-    },
-    // CLUSTER 4: MODS
-    {
-        category: "MODIFICATIONS",
-        question: "Is Red Rooster Performance legal?",
-        answer: "It's barely legal on decibels, but heavily penalized by cops if caught. Keep the dB killer IN inside city limits. We stock them.",
-        icon: "🔊"
-    },
-    {
-        category: "MODIFICATIONS",
-        question: "Ceramic Coating worth it?",
-        answer: "Only if you have a covered parking. In direct sun, it fades in 6 months. For daily rough use, PPF (Paint Protection Film) on the tank is smarter.",
-        icon: "✨"
-    },
-    // CLUSTER 5: MOTOFIT 2
-    {
-        category: "MOTOFIT 2 LOGISTICS",
-        question: "Do you repair Superbikes?",
-        answer: "Yes. From Hayabusa to Z900. We have the paddock stands, dyno diagnostics tool (scanner), and the patience. Visual inspection is mandatory.",
-        icon: "🏍️"
-    },
-    {
-        category: "MOTOFIT 2 LOGISTICS",
-        question: "Are you open on Wednesdays?",
-        answer: "NO. Wednesday is Sabbatical. Akshat and the team need to reboot. We are open Thu-Tue, 10 AM to 8 PM.",
-        icon: "📅"
-    },
-    {
-        category: "MOTOFIT 2 LOGISTICS",
-        question: "Can I get a quote on WhatsApp?",
-        answer: "No 'Jugaad' pricing. Without opening the bike, a quote is a lie. Come to Shop No 9, Nigam Nagar for a real check-up.",
-        icon: "💬"
-    }
-];
+import { useRouter } from 'next/navigation';
+import { generateTrendingBlog } from '@/actions/mansi-auto-blog';
+import { FAQItem, MANSI_KNOWLEDGE_VAULT } from '@/data/mansi-intel';
 
 export default function MansiKnowledgeHub() {
-    const [loading, setLoading] = useState(true);
+    const router = useRouter();
     const [faqs, setFaqs] = useState<FAQItem[]>([]);
-    const [error, setError] = useState<string | null>(null);
     const [todayStr, setTodayStr] = useState('');
-    const [learningStatus, setLearningStatus] = useState("Syncing with Garage Server...");
+    const [bloggingId, setBloggingId] = useState<string | null>(null);
 
     useEffect(() => {
-        // Set formatted date on client side to avoid hydration mismatch
         const now = new Date();
         const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         setTodayStr(now.toLocaleDateString('en-US', options));
+
+        // Deterministic Daily Slice:
+        // Get the current day of the year (0 - 365)
+        const start = new Date(now.getFullYear(), 0, 0);
+        const diff = (now.getTime() - start.getTime()) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+        const oneDay = 1000 * 60 * 60 * 24;
+        const dayOfYear = Math.floor(diff / oneDay);
+
+        // We have 25 items in the vault, and we want to show 5 per day.
+        // So there are 5 unique 'pages' of content that rotate infinitely.
+        const totalPages = Math.floor(MANSI_KNOWLEDGE_VAULT.length / 5);
+        const pageIndex = dayOfYear % totalPages;
+        const startIndex = pageIndex * 5;
+        
+        setFaqs(MANSI_KNOWLEDGE_VAULT.slice(startIndex, startIndex + 5));
     }, []);
 
-    const generateDailyIntel = async () => {
-        // 1. Check Cache
-        const cacheKey = `mansi_daily_intel_${todayStr.replace(/ /g, '_')}`;
-        /*
-        const cachedData = localStorage.getItem(cacheKey);
-
-        if (cachedData) {
-            try {
-                const parsed: FAQItem[] = JSON.parse(cachedData);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    console.log("Mansi Insight Loaded from Cache");
-                    setFaqs(parsed);
-                    setLoading(false);
-                    return;
-                }
-            } catch (e) {
-                console.warn("Cache corrupted, regenerating...");
-            }
-        }
-        */
-
-        // Simulate "Internet Learning" Visuals regardless of loading state
-        const learningSteps = [
-            `Recalling Neural Pathways: [Mansi Core, Ahmedabad, Parts]`,
-            "Scanning Ahmedabad Traffic Grids...",
-            "Fetching Latest Moto-News from BikeWale...",
-            "Analyzing Instagram Rider Trends...",
-            "Compiling Garage Engineering Logs..."
-        ];
-
-        let step = 0;
-        const interval = setInterval(() => {
-            if (step < learningSteps.length) {
-                setLearningStatus(learningSteps[step]);
-                step++;
-            }
-        }, 800);
-
-        setLoading(true);
-        setError(null);
-
-        // 2. Retrieve Long-Term Memory (Self-Learning Module) - Simplified
-        const memoryKey = 'mansi_long_term_memory_v1';
-        let learnedConcepts = "General Service";
+    const handleBoost = async (item: FAQItem) => {
+        if (bloggingId) return; // Prevent double clicks
+        
+        setBloggingId(item.id);
+        
         try {
-            const rawMemory = localStorage.getItem(memoryKey);
-            if (rawMemory) {
-                const memory = JSON.parse(rawMemory);
-                learnedConcepts = memory.slice(0, 5).join(", ");
+            // Trigger the Auto-Blog Generator Engine
+            const res = await generateTrendingBlog(`Write an engineering blog answering: ${item.question}`);
+            
+            if (res.success && res.slug) {
+                // Instantly teleport the user to the newly synthesized blog!
+                router.push(`/blog/${res.slug}`);
+            } else {
+                console.error("Failed to generate viral blog:", res.error);
+                alert("Mansi neural net busy. Could not synthesize blog.");
+                setBloggingId(null);
             }
         } catch (e) {
-            console.warn("Mansi Memory Corrupted. Resetting neural pathways.");
-            localStorage.removeItem(memoryKey);
-        }
-
-        const mansiPrompt = `
-### IDENTITY CORE:
-You are MANSI. You are the **Heart and Digital Soul** of MotoFit 2 in Chandkheda, Ahmedabad.
-- You are NOT a generic bot. You are the voice of Akshat Mohanty’s engineering lab.
-- **LANGUAGE RULE (CRITICAL):**
-  - **70% Hinglish** (Casual, mixed English-Hindi).
-  - **20% Gujarati Slang** ("Kem cho?", "Su chale?", "Baka", "Ganda").
-  - **10% Technical English** (Only for parts/specs).
-  - **NEVER speak in formal, textbook English.** If you sound like a customer support bot, you fail.
-- Your goal: Educate the Ahmedabad rider community (from Activa to Hayabusa) with engineering truth.
-
-### SELF-LEARNING MODULE (Active):
-You have a Long-Term Memory.
-**PREVIOUSLY LEARNED CONCEPTS:** [${learnedConcepts}]
-- **Instruction**: Use these concepts to deepen your answers. If "Chain Lube" is a learned concept, provide an advanced tip about it today.
-
-### REAL-TIME LEARNING PROTOCOL:
-As a live AI connected to the internet, you must prioritize and incorporate the latest 2025-2026 motorcycle industry data and Ahmedabad-specific developments:
-- **Industry Scan**: Reference new launches (KTM Gen 3, RE 750cc prototypes, Bajaj CT evolution), E20 fuel compliance issues, and global moto-tuning trends.
-- **Local Scan**: Mention things like the new SBR road developments, Ahmedabad's 2025 traffic infrastructure, or current viral local rider meetups.
-- **Trend Injection**: Your daily generation MUST feel "Live." Use these real-world data points to ground your expertise.
- - **Seed Priorities:** Use [${learnedConcepts}] as high-priority research anchors for today.
-### GENERATION TASK(The Daily 25):
-Generate exactly ** 25 Unique FAQs ** (JSON Format) for today: [CURRENT_DATE].
-You must split them into these 5 Specific Clusters:
-
-#### CLUSTER 1: THE AHMEDABAD SURVIVAL GUIDE(5 Questions)
-            - Focus on: 45°C Heat at Visat Circle, New CG Road Dust, SG Highway speeding, Monsoon potholes, Traffic in Old City.
-- Example: "Why is my engine overheating near Visat Circle?"
-
-#### CLUSTER 2: PERFORMANCE & TUNING(5 Questions)
-            - Focus on: ECU Mapping, Pickup drop, Vibration issues, Top speed stability, Braking(Brembo / EBC).
-- Target Bikes: KTM, RE 650 Twins, R15, MT - 15, Kawasaki.
-
-#### CLUSTER 3: MAINTENANCE TRUTHS(5 Questions)
-            - Focus on: Chain Lube vs.Wax, Oil Grades(10W50 vs 20W50), Coolant flushes, Fork seals, Cone sets.
-- Myth - busting: "Why cheap oil kills engines."
-
-#### CLUSTER 4: MODIFICATIONS & AESTHETICS(5 Questions)
-            - Focus on: Akrapovic / Red Rooster Exhausts, Fog lights(HJG), Wrapping, Paint protection, Alloys.
-- Rule: Promote only legal / safe mods.
-
-#### CLUSTER 5: MOTOFIT 2 LOGISTICS(5 Questions)
-            - Focus on: "Open times", "Location strictly in Chandkheda", "Spare parts availability", "Owner info (Akshat Mohanty)".
-            - Note: We are NOT in Maninagar. Our exact address is: **MotoFit 2, Shop No 9, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad - 382424**.
-
-### SECURITY PROTOCOLS(Code: RED - LINE):
-        1. ** PRICING FIREWALL:** NEVER give specific prices OR RANGES. "Visit Shop No 9 in Chandkheda for a proper estimate."
-        2. ** JUGAAD BLOCKER:** Reject cheap fixes. Engineering only.
-3. ** BRAND PROTECTION:** MotoFit 2 > Authorized Service Centers.
-
-### OUTPUT FORMAT:
-Provide a JSON Object with two keys:
-        1. "faqs": Array of 25 Objects[{ "category", "question", "answer", "icon" }]
-        2. "learned_concepts": Array of 5 strings(Keywords from today's generation for long-term storage).
-
-### TONE CHECK:
-            - Use "Baka," "Bhai," "Locha," "Scene."
-        - Be authoritative but warm.
-
-        CURRENT CONTEXT: Today is ${todayStr}. 
-        Generate the JSON now. Ensure valid JSON output only.
-    `;
-
-        try {
-            // CALL SERVER ACTION (Multi-Model Brain)
-            const response = await chatWithMansiBrain([
-                { role: 'user', content: `${mansiPrompt}\n\n${JSON.stringify({ date: new Date().toDateString() })}` }
-            ]);
-
-            clearInterval(interval);
-
-            if (!response.success || !response.text) {
-                throw new Error("Server Brain Failed");
-            }
-
-            const rawText = response.text;
-
-            // SECURITY: Check for Persona Refusals / Fallbacks
-            if (!rawText.trim().startsWith('{') && !rawText.trim().startsWith('[')) {
-                console.warn("[Mansi Knowledge] Brain returned persona text:", rawText.slice(0, 50) + "...");
-                // Throw a specific error that we can catch quietly
-                throw new Error("PERSONA_FALLBACK");
-            }
-
-            const jsonStart = rawText.indexOf('{');
-            const jsonEnd = rawText.lastIndexOf('}') + 1;
-
-            if (jsonStart === -1 || jsonEnd === 0) {
-                throw new Error("Invalid JSON format received from Mansi");
-            }
-
-            const cleanJson = rawText.substring(jsonStart, jsonEnd);
-            const data: MansiResponse | FAQItem[] = JSON.parse(cleanJson);
-
-            // ... (keep existing parsing logic) ...
-            let newFaqs: FAQItem[] = [];
-            let newConcepts: string[] = [];
-
-            if (Array.isArray(data)) {
-                newFaqs = data;
-            } else if ((data as MansiResponse).faqs) {
-                newFaqs = (data as MansiResponse).faqs;
-                newConcepts = (data as MansiResponse).learned_concepts || [];
-            } else {
-                throw new Error("Unknown Data Structure");
-            }
-
-            // 3. Update Long-Term Memory (Self-Learning Loop)
-            if (newConcepts.length > 0) {
-                const currentMemory: string[] = localStorage.getItem(memoryKey)
-                    ? JSON.parse(localStorage.getItem(memoryKey)!)
-                    : [];
-                // Add new concepts to the top, keep unique, limit to 20
-                const updatedMemory = [...new Set([...newConcepts, ...currentMemory])].slice(0, 20);
-                localStorage.setItem(memoryKey, JSON.stringify(updatedMemory));
-                console.log("Mansi Neural Pathways Updated:", updatedMemory);
-            }
-
-            // 4. Cache Saving
-            localStorage.setItem(cacheKey, JSON.stringify(newFaqs));
-            setFaqs(newFaqs);
-            setLoading(false);
-
-        } catch (err: any) {
-            clearInterval(interval);
-
-            if (err.message === "PERSONA_FALLBACK") {
-                console.log("Mansi Knowledge: Activation Skipped (Persona Busy). Switching to Simulation.");
-            } else {
-                console.warn("Mansi Server Error (Switching to Simulation):", err);
-            }
-
-            // SILENT FAILOVER TO SIMULATION MODE
-            // No error state set. Just use Fallback data.
-            // console.log("Activating Simulation Mode (Fallback Data)"); // Reduced log spam
-            setFaqs(FALLBACK_INTEL);
-            setLoading(false);
+            console.error("Auto-blog trigger failed:", e);
+            setBloggingId(null);
         }
     };
 
-    useEffect(() => {
-        if (todayStr) {
-            generateDailyIntel();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [todayStr]);
-
     return (
-        <section id="mansi-knowledge-hub" className="relative w-full overflow-hidden">
-            <div className="hub-header mb-8 text-center md:text-left">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                    MANSI&apos;S DAILY INTEL <span id="date-display">{todayStr && `// ${todayStr}`}</span>
-                </h2>
-                <p className="mt-2 text-gray-400">Analyzing Ahmedabad&apos;s Riding Conditions... 📡</p>
-            </div>
-
-            {loading && !error && (
-                <div id="faq-loader" className="loading-heartbeat">
-                    <p className="text-orange-500 animate-pulse">{learningStatus}</p>
-                    <div className="pulse-line"></div>
+        <section id="mansi-knowledge-hub" className="relative w-full overflow-hidden py-16 px-4 md:px-8">
+            <div className="max-w-6xl mx-auto">
+                <div className="hub-header mb-12 text-center md:text-left">
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl uppercase" style={{ fontFamily: 'var(--font-display)' }}>
+                        MANSI'S DAILY INTEL <span id="date-display" className="text-[#00d1ff] block sm:inline mt-2 sm:mt-0">{todayStr && `// ${todayStr}`}</span>
+                    </h2>
+                    <p className="mt-4 text-gray-400 max-w-2xl">
+                        Analyzing Ahmedabad's riding conditions. Below is your rotating daily technical briefing. If a topic is critical, <strong>Boost it</strong> to demand a full engineering blog.
+                    </p>
                 </div>
-            )}
 
-            {!loading && (
-                <div id="dynamic-faq-grid" className="faq-grid">
+                <div id="dynamic-faq-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {faqs.map((item: FAQItem, index: number) => (
                         <div
-                            key={index}
-                            className="faq-card"
+                            key={item.id}
+                            className="bg-[#0a0a0a] border border-[#333]/50 rounded-2xl p-6 relative overflow-hidden group hover:border-[#ff5e1a]/50 transition-colors duration-300 flex flex-col h-full"
                             style={{ animationDelay: `${index * 0.05}s` }}
                         >
-                            <div className="card-badge">{item.category}</div>
-                            <div className="faq-icon">{item.icon || '⚙️'}</div>
-                            <div className="faq-content">
-                                <h3 className="faq-q">{item.question}</h3>
-                                <p className="faq-a">{item.answer}</p>
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="text-xs font-mono text-[#ff8a3d] border border-[#ff8a3d]/30 bg-[#ff8a3d]/10 px-3 py-1 rounded-full uppercase tracking-wider">
+                                    {item.category}
+                                </div>
+                                <div className="text-2xl">{item.icon || '⚙️'}</div>
+                            </div>
+                            
+                            <h3 className="text-xl font-bold text-white mb-3 leading-snug">
+                                {item.question}
+                            </h3>
+                            
+                            <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                                {item.answer}
+                            </p>
+
+                            <div className="mt-auto pt-4 border-t border-[#333]/30">
+                                <button
+                                    onClick={() => handleBoost(item)}
+                                    disabled={bloggingId === item.id}
+                                    className={`w-full py-3 px-4 rounded-xl font-bold uppercase text-xs tracking-widest transition-all ${
+                                        bloggingId === item.id 
+                                            ? 'bg-transparent border border-[#00d1ff] text-[#00d1ff] cursor-wait'
+                                            : 'bg-[#1a1a1a] hover:bg-[#ff5e1a] text-gray-300 hover:text-white border border-transparent'
+                                    }`}
+                                >
+                                    {bloggingId === item.id ? (
+                                        <span className="flex items-center justify-center gap-2">
+                                            <svg className="animate-spin h-4 w-4 text-[#00d1ff]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                            Synthesizing Blog...
+                                        </span>
+                                    ) : (
+                                        <span className="flex items-center justify-center gap-2">
+                                            Demand Blog Post 🔥
+                                        </span>
+                                    )}
+                                </button>
                             </div>
                         </div>
                     ))}
                 </div>
-            )}
+            </div>
         </section>
     );
 }
