@@ -618,6 +618,9 @@ ${insights}
             // ... (rest is same)
             let aiText = response.text;
 
+            // Strip out <think> tags (originating from DeepSeek-R1 or CoT models)
+            aiText = aiText.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+
             // Sentiment Extract
             const sentimentMatch = aiText.match(/\[SENTIMENT:(.*?)\]/);
             if (sentimentMatch) {
