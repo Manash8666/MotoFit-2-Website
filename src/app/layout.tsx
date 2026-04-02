@@ -160,6 +160,7 @@ export const metadata: Metadata = {
 };
 
 import HighVoltageFooter from '@/components/sections/HighVoltageFooter';
+import GlobalTrustNetwork from '@/components/ui/GlobalTrustNetwork';
 import MansiWidget from '@/components/ui/ai/MansiWidget';
 
 export default function RootLayout({
@@ -180,6 +181,7 @@ export default function RootLayout({
             {/* <Background3D /> */}
             <CyberNav />
             {children}
+            <GlobalTrustNetwork />
             <HighVoltageFooter />
           </LenisWrapper>
         </BookingProvider>
