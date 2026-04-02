@@ -5,8 +5,8 @@ import { ShieldCheck, Tags, Wrench } from "lucide-react";
 const badges = [
     {
         icon: ShieldCheck,
-        title: "Genuine Parts Only",
-        description: "We use only OEM or high-grade aftermarket parts.",
+        title: "1-Year Engine Guarantee",
+        description: "1-Yr Warranty on Full-Engine, 8-Months on Half. The only garage in Ahmedabad that guarantees overhauls.",
     },
     {
         icon: Tags,

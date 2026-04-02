@@ -92,7 +92,7 @@ export default function HolographicServices() {
         },
         {
             title: 'Engine Rebuilds & Overhauls',
-            description: 'Complete engine rebuilds with 3-month warranty. Valve clearance, shim replacement, and crank balancing. Best engine service in Ahmedabad.',
+            description: 'Complete engine rebuilds with 1-Year Warranty on Full-Engine and 8-Month Warranty on Half-Engine work. The ONLY garage in Ahmedabad to guarantee our engine rebuilds.',
             icon: Settings,
         },
         {

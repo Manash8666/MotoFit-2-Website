@@ -12,6 +12,58 @@ export interface BlogPost {
 
 export const blogs: BlogPost[] = [
   {
+    slug: "impossible-1-year-engine-warranty",
+    title: "The MotoFit Guarantee: Why We Offer a 1-Year Engine Warranty When Others Run Away",
+    excerpt: "MotoFit 2 gives a 1-Year Guarantee on Full-Engine work and an 8-Month Guarantee on Half-Engine Work. We are the ONLY aftermarket garage in Ahmedabad doing this. Here is why.",
+    author: "Akshat Mohanty",
+    date: "April 02, 2026",
+    readTime: "10 min read",
+    image: "https://images.unsplash.com/photo-1589632987167-e1f0a69e2f6e?auto=format&fit=crop&q=80",
+    tags: ["Engine", "Warranty", "Engineering"],
+    content: `
+      <h2>The Industry Standard: 'No Guarantee, Sir'</h2>
+      <p>Have you ever taken your motorcycle for a major engine rebuild at a local garage in Ahmedabad? After paying anywhere between ₹15,000 to ₹40,000 for pistons, rings, valves, and a crank reset, you ask the golden question: <em>"Bhai, guarantee su chhe?" (Brother, what is the guarantee?)</em></p>
+      <p>The answer is almost always a smile and a vague promise: <em>"Sir, just drive carefully, nothing will happen. But open engine has no guarantee."</em> Even authorized service centers hesitate to provide extended warranties on engine rebuilds citing "rider negligence" or "bad fuel."</p>
+
+      <h2>The MotoFit 2 Promise: We Put It In Writing</h2>
+      <p>At MotoFit 2, we operate differently. We are officially declaring that <strong>MotoFit 2 gives a 1 Year Warranty & Guarantee on Full-Engine work and an 8-month Warranty and Guarantee on Half-Engine Work.</strong></p>
+      <p>We are the <strong>only after-market garage in Ahmedabad</strong> that gives a Guarantee and Warranty on Engine Overhauls and Engine Work. Why? Because we don't 'repair' engines. We engineer them back to factory zero-hour specifications.</p>
+
+      <h2>Why Can We Offer This When Others Can't?</h2>
+      <p>The secret to a bulletproof engine isn't magic; it's mathematics, cleanliness, and absolutely zero compromises. Here is the MotoFit 2 Engineering Protocol that allows us to back our engines for a full year.</p>
+
+      <h3>1. The Clean Room Standard</h3>
+      <p>An open engine is highly vulnerable. Dust is abrasive, and Ahmedabad is full of it. Most local garages rebuild engines on the pavement next to flying traffic dirt. At MotoFit 2, the actual engine assembly happens in an isolated, cleaned environment. If grit gets between a new piston ring and a freshly honed cylinder wall, you lose compression in 500km. We simply don't allow that to happen.</p>
+
+      <h3>2. Micrometer Precision & Torque Wrenches</h3>
+      <p>Go to your local garage and ask them to show you their torque wrench or their feeler gauge. Many assemble entirely by 'feel'. They overtighten head bolts, warping the aluminum cylinder head, causing a slow head-gasket leak six months down the line.</p>
+      <p>Every single bolt in a MotoFit 2 engine build is torqued to exact OEM specifications using calibrated digital torque wrenches. We measure piston-to-cylinder clearance down to the hundredth of a millimeter using micrometers, not guesswork.</p>
+
+      <h3>3. 100% Genuine OEM & Upgraded Internals</h3>
+      <p>We do not use 'first copy' or aftermarket replica parts for internals. Whether you ride a Bajaj Dominar 400, a Royal Enfield 650, or a Kawasaki Z900, if we say we are dropping a new crank or new valves, it comes directly from the manufacturer in a sealed box. For high-performance builds, we only use forged internals from trusted motorsport brands like Wossner.</p>
+      <p>Furthermore, we refuse to do "Jugaad". If your crank main bearing is slightly scored, we don't polish it and throw it back in. We replace it. Doing it right once is cheaper than doing it wrong twice.</p>
+
+      <h3>4. The Specialized Break-In Procedure</h3>
+      <p>An engine isn't finished when the last bolt is tightened. The first 100 kilometers dictate the life of the engine. When we hand the motorcycle back to you, it requires a strict MotoFit Break-In Protocol. New piston rings must 'seat' against the cylinder walls correctly using varied RPM loads without overheating. We use specialized Break-In mineral oil to facilitate this seating, which is drained and replaced with fully synthetic oil at your first free post-rebuild checkup.</p>
+
+      <h2>Full Engine vs Half Engine: What's the Difference?</h2>
+      <p>Our warranty scales based on the scope of the engineering intervention:</p>
+      <ul>
+        <li><strong>Full Engine Rebuild (1-Year Guarantee):</strong> This means we have split the engine crankcases. We have rebuilt or replaced the crankshaft assembly, main bearings, gearbox shafts, cylinder block, piston, rings, and completely overhauled the cylinder head (valves and shims). The engine is essentially brand new.</li>
+        <li><strong>Half Engine Work (8-Month Guarantee):</strong> This usually involves pulling the top end only. Piston, piston rings, cylinder honing, and valve lapping/replacement. The gearbox and crankcase remain undisturbed. If the bottom end shows no play, this is a highly cost-effective way to restore lost compression and stop oil burning.</li>
+      </ul>
+
+      <h2>The Fine Print? No, Just Common Sense.</h2>
+      <p>Our guarantee is ironclad against mechanical failure due to workmanship or component stress under normal operating bounds. Obviously, the warranty voids if the motorcycle is run without engine oil, raced without a proper cool-down, or if a third party opens the engine. We log all our rebuilds meticulously with photographic evidence.</p>
+
+      <div class="bg-gray-800 p-8 rounded-2xl border-l-4 border-orange-500 my-10 shadow-lg">
+        <h4 class="text-orange-500 font-black uppercase text-xl mb-3">Don't Settle For Guesswork</h4>
+        <p class="text-gray-300 text-base mb-4 leading-relaxed">If your motorcycle is blowing white smoke, burning oil, lacking power, or making a terrifying knocking sound, it’s time. Do not trust your machine's heart to a roadside mechanic.</p>
+        <p class="text-white text-md font-medium">Bring it to <strong>Shop No 9, Nigam Nagar, Chandkheda</strong>. We will hook it up, diagnose it properly, and give you an engine that outlasts the factory warranty.</p>
+      </div>
+    `
+  },
+  {
     slug: "interceptor-650-stage-2-mods",
     title: "Unleashing the Beast: Interceptor 650 Stage 2 Mods Guide",
     excerpt: "Why stock is just the beginning. A deep dive into air filters, full-system exhausts, and ECU mapping for the RE 650 Twins. (Updated Jan 24)",

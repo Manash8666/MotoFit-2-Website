@@ -251,6 +251,21 @@ export default function Hero() {
               Book Your Service
             </IndustrialButton>
 
+            {/* Core USP Injection */}
+            <motion.div 
+               initial={{ opacity: 0, y: 10 }}
+               animate={subtitleVisible ? { opacity: 1, y: 0 } : {}}
+               transition={{ duration: 0.5, delay: 0.8 }}
+               className="mt-6 flex justify-center"
+            >
+              <div className="bg-[#1a1a1a]/80 backdrop-blur-md border border-[#ff5e1a]/30 px-4 py-2 rounded-lg flex items-center justify-center gap-2 max-w-sm sm:max-w-md">
+                <span className="text-xl">🛡️</span>
+                <span className="text-xs sm:text-sm font-bold text-[#e0e0e0] leading-tight text-left">
+                  The only garage in Ahmedabad with a <span className="text-[#ff5e1a]">1-Year Engine Warranty</span>.
+                </span>
+              </div>
+            </motion.div>
+
             <div className="mt-8 flex justify-center">
               <InstagramPortal3D />
             </div>
