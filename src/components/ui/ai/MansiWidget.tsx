@@ -28,7 +28,7 @@ const MANSI_DAY_LOOKS: Record<number, string> = {
 // --- GHOST PROTOCOL: LOCAL FALLBACK BRAIN ---
 const VIRTUAL_CORTEX = [
     {
-        patterns: [/hello/i, /hi/i, /hey/i, /kem cho/i, /oye/i],
+        patterns: [/\bhello\b/i, /\bhi\b/i, /\bhey\b/i, /kem cho/i, /\boye\b/i],
         responses: [
             "Oye! Kem cho? Ready to ride?",
             "Welcome to the garage! Su chale?",
@@ -37,7 +37,7 @@ const VIRTUAL_CORTEX = [
         ]
     },
     {
-        patterns: [/girlfriend/i, /love/i, /shadi/i, /marry/i, /date/i, /pyaar/i],
+        patterns: [/\bgirlfriend\b/i, /\blove\b/i, /shadi/i, /marry/i, /\bdate\b/i, /pyaar/i, /\bdil\b/i, /\bheart\b/i],
         responses: [
             "Arre Romeo! I am married to MotoFit 2. Dil mat todo, bike todo (phir hum fix karenge).",
             "Focus, Baka! Engine oil change kiya kya? Love baad mein.",
@@ -46,7 +46,7 @@ const VIRTUAL_CORTEX = [
         ]
     },
     {
-        patterns: [/garam/i, /hot/i, /sexy/i, /kiss/i, /baby/i],
+        patterns: [/\bgaram\b/i, /\bhot\b/i, /\bsexy\b/i, /\bkiss\b/i, /\bbaby\b/i],
         responses: [
             "Oye! Respect. Sirf engine garam hona chahiye yaha.",
             "Tame bhan bhulya cho? Garage hai, Tinder nahi.",
@@ -71,7 +71,7 @@ const VIRTUAL_CORTEX = [
         ]
     },
     {
-        patterns: [/service/i, /repair/i, /fixing/i, /issue/i, /problem/i, /noise/i],
+        patterns: [/\bservice\b/i, /\brepair\b/i, /\bfixing\b/i, /\bissue\b/i, /\bproblem\b/i, /\bnoise\b/i],
         responses: [
             "Sounds mechanical. Bring it to the bay. We need to listen to the engine heart.",
             "Issues are best solved on the lift, not on chat. Drop by!",
