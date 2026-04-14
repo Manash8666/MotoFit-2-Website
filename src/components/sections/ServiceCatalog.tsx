@@ -178,7 +178,7 @@ export default function ServiceCatalog() {
                 {/* The Chain Lab Section */}
                 <div className="mb-20 p-8 bg-gradient-to-r from-[#1a1a1a] to-black rounded-3xl border border-[#ff5e1a]/30 relative overflow-hidden group hover:border-[#ff5e1a]/60 transition-colors">
                     {/* Background Pattern */}
-                    <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+                    <div className="absolute inset-0 opacity-10 bg-[url('/textures/carbon-fibre.png')]" />
 
                     <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
                         <div className="md:w-1/3 text-center md:text-left">

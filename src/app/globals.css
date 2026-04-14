@@ -80,7 +80,7 @@
 @layer base {
   body {
     @apply bg-[#050505] text-white font-sans overflow-x-hidden;
-    background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+    background-image: url("/textures/carbon-fibre.png");
     color-scheme: dark;
   }
 

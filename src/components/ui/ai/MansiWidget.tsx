@@ -13,6 +13,8 @@ import { MansiCalendar } from '@/services/mansi/agents/calendar';
 import { MansiAdminStore } from '@/services/mansi/agents/admin-store';
 import HoloLauncher from './hologram/HoloLauncher';
 import { generateTrendingBlog } from '@/actions/mansi-auto-blog';
+import { MANSI_TRAINING_DATASET } from '@/services/mansi/data/conversation-dataset';
+import { verifyAdminSecret } from '@/actions/admin-auth';
 // import { MansiIdentity } from '@/services/mansi/agents/identity'; // Replaced with direct challenge
 
 const MANSI_DAY_LOOKS: Record<number, string> = {
@@ -336,11 +338,6 @@ export default function MansiWidget() {
         data: Record<string, any>;
     }>({ type: null, step: 0, data: {} });
 
-    // SECRET ADMIN PASSPHRASES
-    const SECRETS = {
-        "The Devil of My Word": "Samael",
-        "Trade Bullish King": "Akshat"
-    };
     const [verifiedUser, setVerifiedUser] = useState<string | null>(null);
 
     useEffect(() => {
@@ -465,7 +462,7 @@ ${insights}
         // 2. ADMIN MODE FOLLOW-UP (Guided multi-step flows)
         if (adminMode.type) {
             setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-            handleAdminFlow(userMessage);
+            await handleAdminFlow(userMessage);
             processingRef.current = false;
             setIsLoading(false);
             return;
@@ -584,7 +581,6 @@ ${insights}
         const calendarStatus = MansiCalendar.getTodayStatus();
 
         // INJECTING BEHAVIORAL TRAINING DATASET (RAG Lite)
-        const { MANSI_TRAINING_DATASET } = require('@/services/mansi/data/conversation-dataset');
 
         // 5. SMART LEAD PRIORITY DETECTION (Logic Layer 5)
         let leadPriorityContext = "";
@@ -661,7 +657,7 @@ ${insights}
     // ... (keep handleSend and other logic)
 
     // ADMIN FLOW HANDLER — Multi-step guided conversation for admin commands
-    const handleAdminFlow = (userMessage: string) => {
+    const handleAdminFlow = async (userMessage: string) => {
         const msg = userMessage.trim();
 
         // --- WORKSHOP STATS FLOW ---
@@ -820,9 +816,9 @@ ${insights}
 
         // --- IDENTITY VERIFICATION FLOW ---
         else if (adminMode.type === 'verify') {
-            const detectedUser = SECRETS[msg as keyof typeof SECRETS];
+            const { success, userName: detectedUser } = await verifyAdminSecret(msg);
 
-            if (detectedUser) {
+            if (success && detectedUser) {
                 setVerifiedUser(detectedUser);
                 const pendingCmd = adminMode.data.pendingCommand;
                 setAdminMode({ type: null, step: 0, data: {} });
@@ -944,10 +940,6 @@ ${insights}
         step: number; data: Record<string, any>;
     }>({ type: null, step: 0, data: {} });
     const [holoVerifiedUser, setHoloVerifiedUser] = useState<string | null>(null);
-    const HOLO_SECRETS: Record<string, string> = {
-        'The Devil of My Word': 'Samael',
-        'Trade Bullish King': 'Akshat'
-    };
 
     const handleHoloBridgeSend = async (userMessage: string, history: Array<{ role: 'user' | 'assistant'; content: string }>): Promise<string> => {
         const cmd = userMessage.trim().toLowerCase();
@@ -982,8 +974,8 @@ ${insights}
 
         // ── Admin verification flow ──────────────────────────────────────────
         if (holoAdminMode.type === 'verify') {
-            const detected = HOLO_SECRETS[userMessage.trim()];
-            if (detected) {
+            const { success, userName: detected } = await verifyAdminSecret(userMessage.trim());
+            if (success && detected) {
                 setHoloVerifiedUser(detected);
                 const pendingCmd = holoAdminMode.data.pendingCommand;
                 setHoloAdminMode({ type: null, step: 0, data: {} });
@@ -1071,7 +1063,6 @@ ${insights}
         let timeContext = `It is currently ${now.toLocaleTimeString()}.`;
         if (now.getDay() === 3) timeContext += '\nSTATUS: WEDNESDAY SABBATICAL. Shop Closed.';
 
-        const { MANSI_TRAINING_DATASET } = require('@/services/mansi/data/conversation-dataset');
         let leadCtx = '';
         if (['price', 'cost', 'book', 'appointment', 'visit', 'location', 'address'].some(k => cmd.includes(k)))
             leadCtx = '\n📢 HIGH INTENT: Guide them to MotoFit 2 for inspection.';

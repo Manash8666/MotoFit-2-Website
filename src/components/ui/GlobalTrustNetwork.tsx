@@ -86,7 +86,7 @@ export default function GlobalTrustNetwork() {
     return (
         <section className="w-full bg-[#050505] border-t border-[#1a1a1a] pt-20 pb-24 relative overflow-hidden">
             {/* Background Texture & Gradients */}
-            <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none" />
+            <div className="absolute inset-0 opacity-[0.03] bg-[url('/textures/carbon-fibre.png')] pointer-events-none" />
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-full bg-gradient-to-b from-[#111111] to-transparent pointer-events-none opacity-50" />
             
             <div className="max-w-[90rem] mx-auto px-4 md:px-8 relative z-10">

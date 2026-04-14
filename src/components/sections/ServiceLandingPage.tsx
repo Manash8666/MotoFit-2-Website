@@ -57,7 +57,7 @@ export default function ServiceLandingPage({ config }: { config: ServicePageConf
     return (
         <main className="min-h-screen bg-[#050505] pt-24 pb-20 relative overflow-hidden">
             {/* Background Texture */}
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none" />
+            <div className="absolute inset-0 opacity-10 bg-[url('/textures/carbon-fibre.png')] pointer-events-none" />
 
             <div className="container mx-auto px-4 md:px-8 relative z-10">
 

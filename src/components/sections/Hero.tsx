@@ -126,7 +126,7 @@ export default function Hero() {
       {/* 2. Gradient Overlay */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#050505] to-[#1a0a00] opacity-80" />
-        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+        <div className="absolute inset-0 opacity-20 bg-[url('/textures/carbon-fibre.png')]" />
 
         {/* Grid overlay */}
         <div className="absolute inset-0 grid grid-cols-12 gap-4 pointer-events-none">

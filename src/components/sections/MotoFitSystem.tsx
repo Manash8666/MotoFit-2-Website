@@ -18,7 +18,7 @@ export default function MotoFitSystem() {
     return (
         <div className="space-y-20 py-24 relative overflow-hidden bg-[#050505] text-white">
             {/* Background Texture */}
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none" />
+            <div className="absolute inset-0 opacity-10 bg-[url('/textures/carbon-fibre.png')] pointer-events-none" />
 
             {/* Hero Section */}
             <section className="container mx-auto px-4 md:px-8 relative z-10 max-w-4xl space-y-6">

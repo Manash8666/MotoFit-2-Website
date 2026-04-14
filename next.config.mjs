@@ -21,9 +21,8 @@ const nextConfig = {
         // reactCompiler: true - excluding as it might be unstable or require specific setup
     },
     eslint: {
-        // Warning: This allows production builds to successfully complete even if
-        // your project has ESLint errors.
-        ignoreDuringBuilds: true,
+        // ESLint runs during builds. Fix any lint errors before deploying.
+        ignoreDuringBuilds: false,
     },
     // Mid-Tier Cybersecurity Headers
     async headers() {

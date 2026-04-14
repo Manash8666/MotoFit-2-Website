@@ -165,7 +165,7 @@ export default function PartsPage() {
     return (
         <main className="min-h-screen bg-[#050505] pt-24 pb-20 relative overflow-hidden">
             {/* Background Texture */}
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none" />
+            <div className="absolute inset-0 opacity-10 bg-[url('/textures/carbon-fibre.png')] pointer-events-none" />
 
             <div className="container mx-auto px-4 md:px-8 relative z-10">
 
@@ -225,7 +225,7 @@ export default function PartsPage() {
 
                 {/* --- OFFICIAL PARTNER: MOTUL --- */}
                 <section className="mb-20 bg-gradient-to-br from-[#df0024] to-[#800000] border border-[#ff3333]/30 rounded-[2rem] p-10 md:p-16 relative overflow-hidden group">
-                    <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+                    <div className="absolute inset-0 opacity-10 bg-[url('/textures/carbon-fibre.png')]" />
                     <div className="absolute top-0 right-0 w-96 h-96 bg-white blur-[150px] opacity-10 rounded-full group-hover:opacity-20 transition-opacity duration-700" />
 
                     <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">

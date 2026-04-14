@@ -72,6 +72,10 @@ export class MansiAdminStore {
         if (typeof window !== 'undefined') {
             localStorage.setItem(STATS_KEY, JSON.stringify(updated));
         }
+        // Sync to Neon DB (fire-and-forget — UI stays instant)
+        import('@/actions/admin-store-db').then(({ updateStatInDB }) => {
+            updateStatInDB(key, value).catch(console.error);
+        });
         return updated;
     }
 
@@ -170,6 +174,10 @@ export class MansiAdminStore {
         if (typeof window !== 'undefined') {
             localStorage.setItem(DYNO_KEY, JSON.stringify(sorted));
         }
+        // Sync to Neon DB (fire-and-forget)
+        import('@/actions/admin-store-db').then(({ upsertLeaderboardEntryInDB }) => {
+            upsertLeaderboardEntryInDB(entry).catch(console.error);
+        });
         return sorted;
     }
 
@@ -206,6 +214,10 @@ export class MansiAdminStore {
         if (typeof window !== 'undefined') {
             localStorage.setItem(PROJECTS_KEY, JSON.stringify(trimmed));
         }
+        // Sync to Neon DB (fire-and-forget)
+        import('@/actions/admin-store-db').then(({ addProjectToDB }) => {
+            addProjectToDB(project).catch(console.error);
+        });
         return trimmed;
     }
 

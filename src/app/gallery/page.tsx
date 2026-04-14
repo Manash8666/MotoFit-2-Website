@@ -80,7 +80,7 @@ export default function GalleryPage() {
     return (
         <main className="min-h-screen bg-[#050505] pt-24 pb-12 relative overflow-hidden">
             {/* Background Texture */}
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none" />
+            <div className="absolute inset-0 opacity-10 bg-[url('/textures/carbon-fibre.png')] pointer-events-none" />
 
             <div className="container mx-auto px-4 md:px-8 relative z-10">
                 {/* 1. Header: Authority & Action */}
@@ -179,7 +179,7 @@ export default function GalleryPage() {
                             </a>
                         </div>
                         {/* Abstract Pattern overlay */}
-                        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+                        <div className="absolute inset-0 opacity-10 bg-[url('/textures/carbon-fibre.png')]" />
                     </div>
 
                     <AnimatePresence mode="popLayout">

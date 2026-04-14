@@ -1,21 +1,24 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/graphics/Badge';
 import { motion } from 'framer-motion';
-import { TrendingUp, Zap, Trophy, Activity } from 'lucide-react';
-import { MansiAdminStore, type DynoEntry } from '@/services/mansi/agents/admin-store';
+import { Zap, Trophy, Activity } from 'lucide-react';
+import type { DynoEntry } from '@/services/mansi/agents/admin-store';
 
-export default function DynoLeaderboard() {
-    const [leaderboard, setLeaderboard] = useState<DynoEntry[]>(MansiAdminStore.DEFAULT_LEADERBOARD);
+interface Props {
+    leaderboard: DynoEntry[];
+}
 
-    useEffect(() => {
-        setLeaderboard(MansiAdminStore.getLeaderboard());
-    }, []);
+export default function DynoLeaderboard({ leaderboard }: Props) {
+    const topGain = [...leaderboard].sort((a, b) => {
+        const aNum = parseInt(a.gain.replace(/[^0-9]/g, '')) || 0;
+        const bNum = parseInt(b.gain.replace(/[^0-9]/g, '')) || 0;
+        return bNum - aNum;
+    })[0];
+
     return (
         <section className="py-24 bg-[#0a0a0a] relative overflow-hidden border-y border-[#333]/30">
-            {/* Background Grid */}
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+            <div className="absolute inset-0 opacity-10 bg-[url('/textures/carbon-fibre.png')]" />
 
             <div className="container mx-auto px-4 md:px-8 relative z-10">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12">
@@ -31,24 +34,17 @@ export default function DynoLeaderboard() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Stats Card */}
+                    {/* Highest Gain Card */}
                     <div className="lg:col-span-1 bg-[#050505] border border-[#333] p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between">
                         <div className="absolute top-0 right-0 p-4 opacity-20"><Trophy size={100} /></div>
                         <div>
                             <h3 className="text-2xl font-bold text-white mb-2">Highest Gain</h3>
-                            {(() => {
-                                const top = [...leaderboard].sort((a, b) => {
-                                    const aNum = parseInt(a.gain.replace(/[^0-9]/g, '')) || 0;
-                                    const bNum = parseInt(b.gain.replace(/[^0-9]/g, '')) || 0;
-                                    return bNum - aNum;
-                                })[0];
-                                return top ? (
-                                    <>
-                                        <p className="text-[#ff5e1a] text-5xl font-black font-mono">{top.gain}</p>
-                                        <p className="text-gray-500 mt-2">{top.bike} — {top.mods}</p>
-                                    </>
-                                ) : null;
-                            })()}
+                            {topGain && (
+                                <>
+                                    <p className="text-[#ff5e1a] text-5xl font-black font-mono">{topGain.gain}</p>
+                                    <p className="text-gray-500 mt-2">{topGain.bike} — {topGain.mods}</p>
+                                </>
+                            )}
                         </div>
                         <div className="mt-8 pt-8 border-t border-[#333]">
                             <div className="flex items-center gap-3 text-sm text-gray-400">
@@ -58,7 +54,7 @@ export default function DynoLeaderboard() {
                         </div>
                     </div>
 
-                    {/* Table */}
+                    {/* Leaderboard Table */}
                     <div className="lg:col-span-2 bg-[#1a1a1a]/50 backdrop-blur-sm border border-[#333] rounded-3xl overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
@@ -73,7 +69,7 @@ export default function DynoLeaderboard() {
                                 <tbody className="divide-y divide-[#333]">
                                     {leaderboard.map((entry, i) => (
                                         <motion.tr
-                                            key={i}
+                                            key={entry.rank}
                                             initial={{ opacity: 0, x: -20 }}
                                             whileInView={{ opacity: 1, x: 0 }}
                                             transition={{ delay: i * 0.1 }}

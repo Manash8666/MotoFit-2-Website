@@ -56,7 +56,7 @@ export default function PartsCatalog() {
     return (
         <section className="relative py-32 bg-[#050505] overflow-hidden border-t border-[#333]/30">
             {/* Background Texture */}
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none" />
+            <div className="absolute inset-0 opacity-10 bg-[url('/textures/carbon-fibre.png')] pointer-events-none" />
 
             <div className="container mx-auto px-4 md:px-8 relative z-10">
                 {/* Header */}
