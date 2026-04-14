@@ -67,12 +67,12 @@ export default function ServiceCatalog() {
             seoInit: 'Bike PPF Ahmedabad'
         },
         {
-            title: '5. Accidental Repairs & Insurance Work',
+            title: '5. Accidental Repairs & Lapsed Insurance',
             subtitle: 'Complete Crash Restoration',
             icon: <Hammer className="text-[#ff3366]" size={32} />,
-            description: 'Complete restoration for accident-damaged bikes. Insurance claim support included. Your bike returns to factory spec — or better.',
+            description: 'Complete restoration for accident-damaged bikes. We do not do insurance support, but we do renew lapsed insurance for vehicles. Your bike returns to factory spec — or better.',
             features: [
-                'Insurance Claim Documentation & Support',
+                'Lapsed Insurance Renewal Support',
                 'Chassis & Frame Alignment Inspection',
                 'Front Fork & Suspension Rebuild',
                 'Alloy Wheel Replacement & Disc Repair',
@@ -209,8 +209,9 @@ export default function ServiceCatalog() {
                         <p className="text-gray-500 text-sm">Transparency is our Policy. No hidden costs.</p>
                     </div>
 
-                    <div className="bg-[#1a1a1a]/50 backdrop-blur border border-[#333] rounded-2xl overflow-hidden">
-                        <div className="overflow-x-auto">
+                    <div className="bg-[#1a1a1a]/50 backdrop-blur border border-[#333] rounded-2xl overflow-hidden hover:border-[#00d1ff]/50 hover:shadow-[0_0_40px_rgba(0,209,255,0.15)] transition-all duration-500 group relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#00d1ff]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] pointer-events-none" />
+                        <div className="overflow-x-auto relative z-10">
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="bg-[#050505] text-xs font-mono uppercase text-gray-500 border-b border-[#333]">
@@ -223,31 +224,31 @@ export default function ServiceCatalog() {
                                 <tbody className="divide-y divide-[#333] text-sm md:text-base">
                                     <tr className="hover:bg-white/5 transition-colors">
                                         <td className="p-6 font-bold text-white">Express Service</td>
-                                        <td className="p-6 text-gray-400 font-mono">90 Mins</td>
+                                        <td className="p-6 text-gray-400 font-mono">1 Full Day</td>
                                         <td className="p-6 text-gray-400">Commuters (Activa, Shine, Pulsar)</td>
                                         <td className="p-6 text-right font-mono text-[#00d1ff]">₹XXX</td>
                                     </tr>
                                     <tr className="hover:bg-white/5 transition-colors">
                                         <td className="p-6 font-bold text-white">Pro Performance</td>
-                                        <td className="p-6 text-gray-400 font-mono">4 Hours</td>
+                                        <td className="p-6 text-gray-400 font-mono">1 Full Day</td>
                                         <td className="p-6 text-gray-400">Mid-segment (RE, KTM, Dominar)</td>
                                         <td className="p-6 text-right font-mono text-[#ff5e1a]">₹XXXX</td>
                                     </tr>
                                     <tr className="hover:bg-white/5 transition-colors">
                                         <td className="p-6 font-bold text-white">Superbike Lab</td>
-                                        <td className="p-6 text-gray-400 font-mono">1 Full Day</td>
+                                        <td className="p-6 text-gray-400 font-mono">2-3 Days</td>
                                         <td className="p-6 text-gray-400">600cc+ (Triumph, Kawasaki, Z900)</td>
                                         <td className="p-6 text-right font-mono text-[#ffcc00] italic">Quote on Request</td>
                                     </tr>
                                     <tr className="hover:bg-white/5 transition-colors">
                                         <td className="p-6 font-bold text-white">Accident Repair</td>
-                                        <td className="p-6 text-gray-400 font-mono">2-5 Days</td>
-                                        <td className="p-6 text-gray-400">All bikes (Insurance supported)</td>
+                                        <td className="p-6 text-gray-400 font-mono">5-15 Days</td>
+                                        <td className="p-6 text-gray-400">All bikes (Lapsed Insurance Renewal)</td>
                                         <td className="p-6 text-right font-mono text-[#ff3366] italic">Assessment Based</td>
                                     </tr>
                                     <tr className="hover:bg-white/5 transition-colors">
                                         <td className="p-6 font-bold text-white">Custom Build</td>
-                                        <td className="p-6 text-gray-400 font-mono">3-7 Days</td>
+                                        <td className="p-6 text-gray-400 font-mono">30-90 Days</td>
                                         <td className="p-6 text-gray-400">RE, KTM, Pulsar, Superbikes</td>
                                         <td className="p-6 text-right font-mono text-[#c084fc] italic">Quote on Request</td>
                                     </tr>

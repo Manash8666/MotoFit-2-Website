@@ -2,6 +2,29 @@
 
 ---
 
+## Update 005 — April 14, 2026
+
+**Author:** Kiro AI (reviewed by Samael M.)
+**Scope:** Service catalog pricing matrix updates, Lapsed Insurance focus, electric hover UI
+**Status:** Applied to local codebase. Pending git push to `main`.
+
+---
+
+### 1. Updated: `src/components/sections/ServiceCatalog.tsx` — Pricing Matrix & Insurance Terms
+
+**Problem / Need:**
+The service catalog listed "Insurance supported" which MotoFit 2 does not offer. Additionally, the time estimates were incorrect for the current workflow.
+
+**Fix:**
+- Replaced "Insurance Supported" with "Lapsed Insurance Renewal Support" across the component descriptions and table.
+- Adjusted Service and Pro Performance times to **1 Full Day**.
+- Adjusted Superbikes to **2-3 Days**.
+- Adjusted Accident Repair to **5-15 Days**.
+- Adjusted Custom Builds to **30-90 Days**.
+- Enhanced the Service Matrix table wrapper with an "electric" cyan cyan-glow overlay on hover using `group-hover` and `before/after` gradient pseudo-elements to make it feel premium.
+
+---
+
 ## Update 004 — April 14, 2026
 
 **Author:** Kiro AI (reviewed by Samael M.)
