@@ -24,7 +24,71 @@ The secret admin passphrases ("The Devil of My Word", etc.) were hardcoded into 
 
 ---
 
-## Update 003 — April 14, 2026
+## Update 004 — April 14, 2026
+
+**Author:** Kiro AI (reviewed by Samael M.)
+**Scope:** Custom branded favicon replacing the generic default
+**Status:** Applied to local codebase. Pending git push to `main`.
+
+---
+
+### 1. New: Branded MotoFit 2 favicon — all sizes
+
+Replaced the generic black circle favicon with a custom branded mark. The design uses:
+- Deep black background (`#050505`) with rounded corners
+- Orange top stripe (`#ff5e1a`) — brand accent
+- Bold white **M** letterform
+- Orange **2** — matching the hero title treatment
+- Subtle orange dot at the bottom as a brand mark
+
+Files generated:
+
+| File | Size | Purpose |
+|---|---|---|
+| `public/favicon.ico` | 16/32/48px multi-size | Browser tab icon (all browsers) |
+| `public/favicon.svg` | Scalable | Modern browsers, crisp at any size |
+| `public/icons/favicon-16x16.png` | 16×16 | Legacy fallback |
+| `public/icons/favicon-32x32.png` | 32×32 | Standard tab icon |
+| `public/icons/favicon-48x48.png` | 48×48 | Windows taskbar |
+| `public/icons/apple-touch-icon.png` | 180×180 | iOS home screen icon |
+| `public/icons/android-chrome-192x192.png` | 192×192 | Android PWA icon |
+| `public/icons/android-chrome-512x512.png` | 512×512 | Android splash screen |
+| `public/apple-touch-icon.png` | 180×180 | Root copy for iOS auto-discovery |
+
+The `favicon.ico` is also copied to `src/app/favicon.ico` which is the path Next.js App Router uses for the browser tab.
+
+---
+
+### 2. New: `public/site.webmanifest` — PWA manifest
+
+Added a Web App Manifest so MotoFit 2 can be installed as a PWA on Android devices. Includes:
+- App name, short name, description
+- Theme color `#ff5e1a` (orange — matches brand)
+- Background color `#050505` (black)
+- 192px and 512px icons for Android
+
+---
+
+### 3. Updated: `src/app/layout.tsx` — full icon metadata
+
+Updated the `icons` metadata to reference all new favicon sizes:
+```ts
+icons: {
+  icon: [
+    { url: '/favicon.ico', sizes: 'any' },
+    { url: '/favicon.svg', type: 'image/svg+xml' },
+    { url: '/icons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+    { url: '/icons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+  ],
+  shortcut: '/favicon.ico',
+  apple: '/apple-touch-icon.png',
+}
+```
+Also added `manifest: '/site.webmanifest'` and `themeColor: '#ff5e1a'` to the metadata object.
+
+---
+
+
 
 **Author:** Kiro AI (reviewed by Samael M.)
 **Scope:** Neon DB migration for admin data — Workshop Stats, Dyno Leaderboard, Featured Projects

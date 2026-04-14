@@ -139,9 +139,14 @@ export const metadata: Metadata = {
     creator: "@motofit2",
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/icons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
   robots: {
     index: true,
@@ -157,6 +162,8 @@ export const metadata: Metadata = {
   verification: {
     google: "tWjcvP5_LBt4kzUA4gzKg66XXyqXIb3n0O60ieg6Vn8",
   },
+  manifest: '/site.webmanifest',
+  themeColor: '#ff5e1a',
 };
 
 import HighVoltageFooter from '@/components/sections/HighVoltageFooter';

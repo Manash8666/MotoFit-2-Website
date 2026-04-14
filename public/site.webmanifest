@@ -1,0 +1,21 @@
+{
+  "name": "MotoFit 2 — Bike Garage Ahmedabad",
+  "short_name": "MotoFit 2",
+  "description": "Ahmedabad's #1 multi-brand motorcycle workshop in Chandkheda.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#ff5e1a",
+  "icons": [
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

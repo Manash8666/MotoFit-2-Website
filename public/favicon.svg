@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Background: deep black with slight rounded square feel -->
+  <rect width="32" height="32" rx="6" fill="#050505"/>
+
+  <!-- Orange accent bar — top edge brand stripe -->
+  <rect x="0" y="0" width="32" height="3" rx="1.5" fill="#ff5e1a"/>
+
+  <!-- "M" letterform — bold, geometric, uppercase -->
+  <path d="M4 26 L4 10 L9 10 L13 18 L17 10 L22 10 L22 26 L18.5 26 L18.5 16.5 L14.5 24 L11.5 24 L7.5 16.5 L7.5 26 Z" fill="#ffffff"/>
+
+  <!-- "2" letterform — orange, right side -->
+  <path d="M23.5 14.5 C23.5 12.0 25.2 10.5 27.2 10.5 C29.2 10.5 30.5 11.8 30.5 13.5 C30.5 15.0 29.5 16.2 27.8 17.5 L25.5 19.5 L30.5 19.5 L30.5 22 L23 22 L23 20 L26.8 16.8 C27.9 15.8 28.5 15.1 28.5 14.0 C28.5 13.2 27.9 12.5 27.0 12.5 C26.0 12.5 25.5 13.2 25.5 14.5 Z" fill="#ff5e1a"/>
+
+  <!-- Bottom accent dot — orange, brand mark -->
+  <circle cx="16" cy="29" r="1.2" fill="#ff5e1a" opacity="0.7"/>
+</svg>
