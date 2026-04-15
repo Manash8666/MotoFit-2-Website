@@ -6,6 +6,7 @@ import { getSeasonalIntel } from './mansi-seasonal-intel';
 
 // --- ENVIRONMENT CONFIG ---
 const KEYS = {
+    OPENAI: process.env.OPENAI_API_KEY,
     OPENROUTER: process.env.OPENROUTER_API_KEY,
     SARVAM: process.env.SARVAM_API_KEY,
     HELICONE: process.env.HELICONE_API_KEY,
@@ -17,6 +18,7 @@ const KEYS = {
 };
 
 const MODELS = {
+    OPENAI: "gpt-4o-mini",
     PRIMARY: "google/gemini-2.0-flash-001",
     SARVAM: "sarvam-m",
     HELICONE: "google/gemini-2.0-flash-001",
@@ -24,7 +26,7 @@ const MODELS = {
     OLLAMA: "deepseek-r1:8b"
 };
 
-export async function chatWithMansiBrain(conversationHistory: any[]) {
+export async function chatWithMansiBrain(conversationHistory: any[], contextType: 'chat' | 'learning' = 'chat') {
     let lastError = null;
     const lastUserMessage = conversationHistory.filter(m => m.role === 'user').pop()?.content || "";
 
@@ -35,6 +37,31 @@ export async function chatWithMansiBrain(conversationHistory: any[]) {
         const intel = getSeasonalIntel();
         if (intel) {
             conversationHistory[systemMessageIndex].content += `\n\n${intel}`;
+        }
+    }
+
+    // 0. NATIVE LAYER: OPENAI (Only for direct user chat)
+    if (KEYS.OPENAI && contextType === 'chat') {
+        console.log(`[Mansi Brain] 🧠 TARGET 0: Native OpenAI (${MODELS.OPENAI})...`);
+        try {
+            const client = new OpenAI({
+                apiKey: KEYS.OPENAI
+            });
+            const completion = await client.chat.completions.create({
+                model: MODELS.OPENAI,
+                messages: conversationHistory,
+                temperature: 0.88,
+                max_tokens: 600,
+            });
+            const reply = completion.choices[0]?.message?.content;
+            if (reply) {
+                console.log("[Mansi Brain] ✅ LAYER 0 SUCCESS");
+                logMansiExperience(lastUserMessage, reply, `OPENAI/${MODELS.OPENAI}`);
+                return { success: true, text: reply, model_used: `OPENAI/${MODELS.OPENAI}`, error: null };
+            }
+        } catch (e: any) {
+            console.warn(`[Mansi Brain] Layer 0 Failed: ${e.message}`);
+            lastError = e.message;
         }
     }
 

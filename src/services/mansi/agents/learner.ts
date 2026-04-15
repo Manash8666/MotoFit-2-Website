@@ -39,7 +39,7 @@ export class MansiLearner {
 
             const response = await chatWithMansiBrain([
                 { role: 'user', content: prompt }
-            ]);
+            ], 'learning');
 
             if (!response.success || !response.text) {
                 throw new Error("Server Brain failed to fetch trends");
