@@ -123,7 +123,7 @@ export default function ServiceCatalog() {
 
                     <div className="flex items-center justify-center gap-2 text-[#ffcc00] font-mono text-sm mt-4">
                         <div className="flex">{'⭐⭐⭐⭐⭐'}</div>
-                        <span className="text-gray-400">Rated 4.9/5 by 127+ Riders on Google</span>
+                        <span className="text-gray-400">Rated 4.9/5 by 162+ Riders on Google</span>
                     </div>
                 </div>
 

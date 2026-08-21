@@ -117,7 +117,7 @@ export default function ClientReviews() {
                                 </div>
 
                                 <div className="text-6xl md:text-8xl font-black text-white leading-none tracking-tighter mb-2">
-                                    4.6
+                                    4.7
                                 </div>
 
                                 <div className="flex items-center gap-1 mb-2">
@@ -125,7 +125,7 @@ export default function ClientReviews() {
                                         <Star key={i} size={24} className="fill-[#FBBC05] text-[#FBBC05]" />
                                     ))}
                                 </div>
-                                <p className="text-gray-400 font-mono text-sm tracking-wide uppercase">Based on 127+ Reviews</p>
+                                <p className="text-gray-400 font-mono text-sm tracking-wide uppercase">Based on 162+ Reviews</p>
                             </div>
 
                             {/* Divider (Desktop) */}
@@ -178,7 +178,7 @@ export default function ClientReviews() {
                             />
                             <StatCard
                                 icon={Star}
-                                value="4.6 / 5"
+                                value="4.7 / 5"
                                 label="Verified by OpenWidget"
                                 onClick={handleOpenWidget}
                             />

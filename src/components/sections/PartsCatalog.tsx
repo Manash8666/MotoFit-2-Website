@@ -22,7 +22,7 @@ const parts = [
         name: 'Surgical ECU Tuning',
         brand: 'Powertronic',
         category: 'Electronics',
-        image: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80',
+        image: '/images/parts/ecu_tuning.jpg',
         description: 'Unlocking hidden power for BS6 engines and precision timing for vintage legends.',
         priceRange: 'Surgical Tuning',
     },

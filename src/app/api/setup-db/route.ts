@@ -63,8 +63,10 @@ export async function GET() {
     // Seed default stats if table is empty
     await sql`
       INSERT INTO motofit_admin_stats (key, value) VALUES
-        ('bikesServiced', '5200'),
-        ('googleReviews', '127'),
+        ('bikesServiced', '5370'),
+        ('googleReviews', '162'),
+        ('googleReviewsScore', '4.7'),
+        ('engineRebuilds', '240'),
         ('satisfactionPercent', '98')
       ON CONFLICT (key) DO NOTHING;
     `;
