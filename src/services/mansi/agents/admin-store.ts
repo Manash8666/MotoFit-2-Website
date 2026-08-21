@@ -5,6 +5,8 @@
 export interface WorkshopStats {
     bikesServiced: number;
     googleReviews: number;
+    googleReviewsScore: number;
+    engineRebuilds: number;
     satisfactionPercent: number;
 }
 
@@ -45,10 +47,11 @@ const BLOGS_KEY = 'mansi_blog_drafts';
 const DYNO_KEY = 'mansi_dyno_leaderboard';
 const PROJECTS_KEY = 'mansi_featured_projects';
 
-// Default values (match the hardcoded values in IndustrialStats.tsx)
 const DEFAULT_STATS: WorkshopStats = {
-    bikesServiced: 5200,
-    googleReviews: 127,
+    bikesServiced: 5370,
+    googleReviews: 162,
+    googleReviewsScore: 4.7,
+    engineRebuilds: 240,
     satisfactionPercent: 98,
 };
 

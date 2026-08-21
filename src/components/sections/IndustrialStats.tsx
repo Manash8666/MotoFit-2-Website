@@ -9,7 +9,7 @@ interface Props {
     stats: WorkshopStats;
 }
 
-function Counter({ value, label }: { value: number; label: string }) {
+function Counter({ value, label, isFloat = false }: { value: number; label: string; isFloat?: boolean }) {
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
     const motionValue = useMotionValue(0);
@@ -24,10 +24,10 @@ function Counter({ value, label }: { value: number; label: string }) {
     useEffect(() => {
         return springValue.on("change", (latest) => {
             if (ref.current) {
-                ref.current.textContent = Math.floor(latest).toLocaleString();
+                ref.current.textContent = isFloat ? latest.toFixed(1) : Math.floor(latest).toLocaleString();
             }
         });
-    }, [springValue]);
+    }, [springValue, isFloat]);
 
     return (
         <div className="relative p-6 bg-[#0a0a0a] border border-[#333]/30 flex flex-col items-center justify-center group overflow-hidden">
@@ -38,7 +38,7 @@ function Counter({ value, label }: { value: number; label: string }) {
             <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[#ff5e1a] opacity-50" />
             <span
                 ref={ref}
-                className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-500 relative z-10 font-mono tracking-tighter"
+                className="text-4xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-500 relative z-10 font-mono tracking-tighter"
             >
                 0
             </span>
@@ -50,13 +50,11 @@ function Counter({ value, label }: { value: number; label: string }) {
 }
 
 export default function IndustrialStats({ stats }: Props) {
-    const currentYear = new Date().getFullYear();
-    const yearsInBusiness = currentYear - 2021;
-
     const statItems = [
         { value: stats.bikesServiced, label: "Bikes Serviced" },
         { value: stats.googleReviews, label: "Google Reviews" },
-        { value: yearsInBusiness, label: "Years Experience" },
+        { value: stats.googleReviewsScore, label: "Rating", isFloat: true },
+        { value: stats.engineRebuilds, label: "Engine Rebuilds" },
         { value: stats.satisfactionPercent, label: "Satisfaction %" },
     ];
 
@@ -74,9 +72,9 @@ export default function IndustrialStats({ stats }: Props) {
                         <p className="text-[#666] font-mono text-xs">CHANDKHEDA // SINCE 2021</p>
                     </div>
                 </div>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
                     {statItems.map((stat, i) => (
-                        <Counter key={i} value={stat.value} label={stat.label} />
+                        <Counter key={i} value={stat.value} label={stat.label} isFloat={stat.isFloat} />
                     ))}
                 </div>
             </div>

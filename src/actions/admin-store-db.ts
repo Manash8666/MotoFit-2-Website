@@ -17,8 +17,10 @@ import type { WorkshopStats, DynoEntry, ProjectEntry } from '@/services/mansi/ag
 // ─── DEFAULT VALUES (mirrors admin-store.ts) ──────────────────────────────────
 
 const DEFAULT_STATS: WorkshopStats = {
-    bikesServiced: 5200,
-    googleReviews: 127,
+    bikesServiced: 5370,
+    googleReviews: 162,
+    googleReviewsScore: 4.7,
+    engineRebuilds: 240,
     satisfactionPercent: 98,
 };
 
@@ -45,11 +47,13 @@ export async function getStatsFromDB(): Promise<WorkshopStats> {
         if (!rows.length) return DEFAULT_STATS;
 
         const map: Record<string, number> = {};
-        rows.forEach(r => { map[r.key] = parseInt(r.value, 10); });
+        rows.forEach(r => { map[r.key] = parseFloat(r.value); });
 
         return {
             bikesServiced: map['bikesServiced'] ?? DEFAULT_STATS.bikesServiced,
             googleReviews: map['googleReviews'] ?? DEFAULT_STATS.googleReviews,
+            googleReviewsScore: map['googleReviewsScore'] ?? DEFAULT_STATS.googleReviewsScore,
+            engineRebuilds: map['engineRebuilds'] ?? DEFAULT_STATS.engineRebuilds,
             satisfactionPercent: map['satisfactionPercent'] ?? DEFAULT_STATS.satisfactionPercent,
         };
     } catch (e: any) {
