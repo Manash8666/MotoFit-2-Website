@@ -10,11 +10,7 @@ interface Props {
 }
 
 export default function DynoLeaderboard({ leaderboard }: Props) {
-    const topGain = [...leaderboard].sort((a, b) => {
-        const aNum = parseInt(a.gain.replace(/[^0-9]/g, '')) || 0;
-        const bNum = parseInt(b.gain.replace(/[^0-9]/g, '')) || 0;
-        return bNum - aNum;
-    })[0];
+    // topGain calculation removed in favor of static high score
 
     return (
         <section className="py-24 bg-[#0a0a0a] relative overflow-hidden border-y border-[#333]/30">
@@ -39,12 +35,8 @@ export default function DynoLeaderboard({ leaderboard }: Props) {
                         <div className="absolute top-0 right-0 p-4 opacity-20"><Trophy size={100} /></div>
                         <div>
                             <h3 className="text-2xl font-bold text-white mb-2">Highest Gain</h3>
-                            {topGain && (
-                                <>
-                                    <p className="text-[#ff5e1a] text-5xl font-black font-mono">{topGain.gain}</p>
-                                    <p className="text-gray-500 mt-2">{topGain.bike} — {topGain.mods}</p>
-                                </>
-                            )}
+                            <p className="text-[#ff5e1a] text-5xl font-black font-mono">+35 CC</p>
+                            <p className="text-gray-500 mt-2">Bajaj Pulsar NS 200 — Upgrade to 235 CC from 200 CC Stage 2 Tune, Big Bore NMV Racing Forged Block-Piston, KTM 250CC Clutch Assembly & NMV Racing CDI.</p>
                         </div>
                         <div className="mt-8 pt-8 border-t border-[#333]">
                             <div className="flex items-center gap-3 text-sm text-gray-400">

@@ -25,10 +25,11 @@ const DEFAULT_STATS: WorkshopStats = {
 };
 
 const DEFAULT_LEADERBOARD: DynoEntry[] = [
-    { rank: 1, bike: "Ducati Panigale V4", owner: "Rajiv S.", mods: "Full Akrapovic + Stage 2", gain: "+18 HP", total: "228 HP" },
-    { rank: 2, bike: "Kawasaki ZX-10R", owner: "Amit P.", mods: "Woolich Racing Tune", gain: "+12 HP", total: "208 HP" },
-    { rank: 3, bike: "Interceptor 650", owner: "Team MotoFit", mods: "Big Bore 865cc", gain: "+24 HP", total: "71 HP" },
-    { rank: 4, bike: "KTM Duke 390", owner: "Varun K.", mods: "Powertronic + Air Filter", gain: "+5 HP", total: "49 HP" },
+    { rank: 1, bike: "RE Thunderbird 350", owner: "Utsav U.", mods: "Custom Rebuild", gain: "-", total: "-" },
+    { rank: 2, bike: "Yezdi Scrambler 400", owner: "Sai Dinesh.", mods: "Engine Rebuild", gain: "-", total: "-" },
+    { rank: 3, bike: "KTM Duke 200", owner: "Palanpur.", mods: "Restoration Rebuild", gain: "-", total: "-" },
+    { rank: 4, bike: "RE Classic 350", owner: "Manash Dash", mods: "BS4 to BS6 Upgrade Build", gain: "-", total: "-" },
+    { rank: 5, bike: "RE Classic 350", owner: "Ajay Sir.", mods: "BS4 Accidental Restoration Rebuild", gain: "-", total: "-" },
 ];
 
 const DEFAULT_PROJECTS: ProjectEntry[] = [
