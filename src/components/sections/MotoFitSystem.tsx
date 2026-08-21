@@ -72,13 +72,13 @@ export default function MotoFitSystem() {
                             <CardTitle>JOB CARD #8821</CardTitle>
                             <Badge variant="warning">OPEN</Badge>
                         </div>
-                        <CardDescription>Customer: Rahul M. | Bike: Triumph Street Triple</CardDescription>
+                        <CardDescription>Customer: Manash Dash | Bike: Bajaj Pulsar NS 200</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4 font-mono text-sm">
                         <div className="bg-[#0a0a0a]/50 p-4 rounded border border-[#333] space-y-2">
                             <div className="flex justify-between">
                                 <span className="text-gray-500">Service Type</span>
-                                <span className="text-[#ff5e1a]">Desmo Major Service</span>
+                                <span className="text-[#ff5e1a]">Big Bore Engine Rebuild</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-gray-500">Intake Time</span>
@@ -86,7 +86,7 @@ export default function MotoFitSystem() {
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-gray-500">Pickup Location</span>
-                                <span className="text-right">Satellite, Ahmedabad</span>
+                                <span className="text-right">Chandkheda, Ahmedabad</span>
                             </div>
                         </div>
                     </CardContent>
@@ -194,8 +194,8 @@ export default function MotoFitSystem() {
                             </div>
                             <div>
                                 <p className="text-sm font-mono text-[#ff5e1a] mb-1">STATUS: IN PROGRESS</p>
-                                <p className="text-white font-medium">Technician assigned: Vikram S.</p>
-                                <p className="text-xs text-gray-500 mt-1">Stage: Valve Clearance Adjustment</p>
+                                <p className="text-white font-medium">Customer: Manash Dash</p>
+                                <p className="text-xs text-gray-500 mt-1">Stage: 235CC Big Bore NMV Racing Block-Piston Fitment</p>
                             </div>
                         </CardContent>
                     </Card>
