@@ -26,12 +26,12 @@ export class MansiLearner {
             // This replaces the deprecated Client-Side Puter.js logic.
             const prompt = `You are Mansi's subconscious mind, scanning the world for her. Act as a trend watcher for Ahmedabad's motorcycling and street culture scene. 
                  List 3 key viral topics, local news, or trends for 2025/2026 regarding:
-                 1. Traffic rules in Ahmedabad (Helmet cams, SG Highway fines, new challans)
-                 2. New bike launches or viral motorcycle content (KTM Gen 3, RE 450s, Yamaha R15 V5)
+                 1. Traffic rules in Ahmedabad (Helmet cams, SG Highway fines, new challans, Chandkheda congestion)
+                 2. New bike launches or viral motorcycle content (KTM Gen 3, RE Guerrilla 450, Yezdi updates, Triumph Speed 400, Bajaj NS 200 Big Bore scene)
                  3. Ahmedabad culture & life (Riverfront events, street food spots, weather alerts for bikers, Navratri/Garba season news)
-                 4. Workshop tips (maintenance hacks, common monsoon bike issues, chain cleaning tricks)
-                 5. Accident repair trends (insurance claim tips, common crash damage patterns, restoration techniques)
-                 6. Custom modification culture (popular mods for RE/KTM/Pulsar, touring setup trends, ECU tuning updates)
+                 4. Workshop tips (maintenance hacks, common monsoon bike issues, chain cleaning tricks, BS6 engine quirks)
+                 5. Engine rebuild trends (Big Bore builds, 235CC NS 200 conversions, RE 366cc builds, KTM Duke 200 restoration)
+                 6. Custom modification culture (popular mods for RE/KTM/Pulsar, Yezdi Scrambler tuning, ECU flash updates, NMV Racing parts scene)
                  
                  Return strictly a valid JSON array of objects: 
                  [{ "title": "Topic Title", "desc": "Brief description" }]
