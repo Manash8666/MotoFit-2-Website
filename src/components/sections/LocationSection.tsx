@@ -53,7 +53,13 @@ export default function LocationSection() {
                     </div>
 
                     <div className="mt-10 flex gap-4">
-                        <a href={COMPANY_DETAILS.location.mapsLink} target="_blank" className="bg-white text-black px-6 py-3 rounded-sm font-bold uppercase text-sm hover:bg-orange-500 hover:text-white transition flex items-center gap-2">
+                        <a
+                            href={COMPANY_DETAILS.location.mapsLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Get directions to MotoFit 2 on Google Maps"
+                            className="bg-white text-black px-6 py-3 rounded-sm font-bold uppercase text-sm hover:bg-orange-500 hover:text-white transition flex items-center gap-2"
+                        >
                             <span>🗺️</span> Get Directions
                         </a>
                     </div>
@@ -67,11 +73,11 @@ export default function LocationSection() {
                         <h3 className="text-xl text-[#ff5e1a] font-mono mb-6">
                             AHMEDABAD, GUJARAT
                         </h3>
-                        <div className="space-y-1 text-gray-400 font-sans text-sm">
+                        <address className="not-italic space-y-1 text-gray-400 font-sans text-sm">
                             <p>Shop No 9, Kirtan Complex</p>
                             <p>Nigam Nagar, New CG Road</p>
                             <p className="opacity-50 mt-2">PIN: 382424</p>
-                        </div>
+                        </address>
                     </div>
                 </div>
             </div>

@@ -8,6 +8,7 @@ import LocationSection from '@/components/sections/LocationSection';
 import FeaturedProjects from '@/components/sections/FeaturedProjects';
 import MansiKnowledgeHub from '@/components/sections/MansiKnowledgeHub';
 import PartsCatalog from '@/components/sections/PartsCatalog';
+import FAQSection from '@/components/sections/FAQSection';
 import { getStatsFromDB, getLeaderboardFromDB, getProjectsFromDB } from '@/actions/admin-store-db';
 
 // Revalidate every 60s so admin updates via Mansi chat appear quickly
@@ -22,7 +23,7 @@ export default async function Home() {
   ]);
 
   return (
-    <main className="w-full bg-[#050505] text-white">
+    <main id="main-content" className="w-full bg-[#050505] text-white">
       <Hero />
       <TrustBadges />
       <IndustrialStats stats={stats} />
@@ -31,6 +32,7 @@ export default async function Home() {
       <FeaturedProjects projects={projects} />
       <MansiKnowledgeHub />
       <PartsCatalog />
+      <FAQSection />
       <ClientReviews />
       <LocationSection />
     </main>

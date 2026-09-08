@@ -1,0 +1,915 @@
+[
+  {
+    "id": "DEFECT_RE650_CLUSTER_FAILURE",
+    "bikeModel": "RE650",
+    "failureMode": "Electrical",
+    "symptom": "Gauges not reading or flickering, speedometer non-functional, warning lights not illuminating or flickering randomly",
+    "rootCause": {
+      "designFlaw": "Manufacturing defect in cluster connectors and circuit board soldering. Poor electrical connections in factory assembly.",
+      "affectedProductionRun": "2022-2024 batches",
+      "engineeringExplanation": "Inadequate solder joint inspection and connector crimping during assembly leads to intermittent electrical contacts.",
+      "frequency": "Frequent"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 3000,
+        "max": 10000
+      },
+      "progressionPattern": "Intermittent failure → frequent malfunction → complete failure",
+      "catastrophicFailureKm": {
+        "min": 15000,
+        "max": 25000
+      }
+    },
+    "warrantyStatus": "Covered",
+    "durabilityMods": [
+      {
+        "modName": "RE OEM Cluster Replacement",
+        "description": "Factory replacement cluster assembly with improved connector quality",
+        "partNumber": "RE-ICP-650-CLUSTER",
+        "cost": {
+          "min": 4500,
+          "max": 5500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "expectedLifeExtension": "+50,000 km under normal conditions",
+        "permanentFix": true,
+        "notes": "Solves root issue; new batches have improved assembly process"
+      },
+      {
+        "modName": "Electrical Connector Upgrade",
+        "description": "Upgrade to higher-quality connectors with better crimping standards",
+        "partNumber": "RE-ELEC-CONNECTOR",
+        "cost": {
+          "min": 800,
+          "max": 1200,
+          "currency": "INR"
+        },
+        "installationComplexity": "Hard",
+        "expectedLifeExtension": "+15,000 km",
+        "permanentFix": false,
+        "notes": "Partial fix; addresses connector quality but not solder joints"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2024-01-15",
+      "segment": "RE 650 Instrument Cluster Failure Analysis",
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "discoveryDate": "2024-01-15",
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "DEFECT_RE650_THROTTLE_BODY",
+    "bikeModel": "RE650",
+    "failureMode": "Mechanical",
+    "symptom": "Throttle feels spongy or unresponsive, throttle sometimes sticks, erratic power delivery, throttle cable tension changes unexpectedly",
+    "rootCause": {
+      "designFlaw": "Poor quality throttle body manufacturing, cable routing defects, or sensor calibration errors from factory.",
+      "engineeringExplanation": "Factory throttle body has inadequate quality control on cable routing and sensor alignment",
+      "frequency": "Occasional"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 5000,
+        "max": 15000
+      },
+      "progressionPattern": "Occasional sticking → frequent issue → dangerous throttle stickiness",
+      "catastrophicFailureKm": {
+        "min": 20000,
+        "max": 30000
+      }
+    },
+    "warrantyStatus": "Covered",
+    "durabilityMods": [
+      {
+        "modName": "Throttle Cable Replacement",
+        "description": "Premium quality throttle cable with proper routing guides",
+        "partNumber": "RE-CABLE-THROTTLE",
+        "cost": {
+          "min": 800,
+          "max": 1200,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "permanentFix": false,
+        "notes": "Often resolves issue by ensuring proper cable routing"
+      },
+      {
+        "modName": "Throttle Body Replacement",
+        "description": "Complete throttle body replacement with factory recalibration",
+        "partNumber": "RE-THROTTLE-BODY-650",
+        "cost": {
+          "min": 3500,
+          "max": 4500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Hard",
+        "permanentFix": true,
+        "notes": "Full replacement recommended for permanent fix"
+      },
+      {
+        "modName": "Throttle Position Sensor Recalibration",
+        "description": "Professional recalibration of TPS sensor to factory specifications",
+        "partNumber": "RE-TPS-CALIBRATION",
+        "cost": {
+          "min": 1500,
+          "max": 2000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "permanentFix": false,
+        "notes": "Often free at authorized dealership during warranty period"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2024-02-10",
+      "segment": "RE 650 Throttle Body Diagnosis",
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "discoveryDate": "2024-02-10",
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "DEFECT_RE650_SUSPENSION_CORROSION",
+    "bikeModel": "RE650",
+    "failureMode": "Material Quality",
+    "symptom": "Rear shock feels mushy or loses damping, front forks lose firmness, clunking from suspension, visible rust/corrosion on shock, suspension sags under load",
+    "rootCause": {
+      "designFlaw": "Poor quality suspension seals and corrosion-resistant coating. Inadequate protective coating on shock internals. Water ingress into damper tubes.",
+      "engineeringExplanation": "Factory suspension uses inadequate sealing and coating for Indian climate, especially monsoon conditions",
+      "frequency": "Common"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 10000,
+        "max": 20000
+      },
+      "progressionPattern": "Minor corrosion → reduced damping → complete loss of shock function",
+      "catastrophicFailureKm": {
+        "min": 25000,
+        "max": 40000
+      }
+    },
+    "warrantyStatus": "CaseByCase",
+    "durabilityMods": [
+      {
+        "modName": "OEM Shock Replacement",
+        "description": "Factory replacement rear shock absorber",
+        "partNumber": "RE-SHOCK-REAR-650",
+        "cost": {
+          "min": 9000,
+          "max": 12000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Hard",
+        "permanentFix": false,
+        "notes": "Same quality as original; issue may reoccur"
+      },
+      {
+        "modName": "Aftermarket Suspension (Ohlins/Öziim)",
+        "description": "Premium aftermarket monoshock with better sealing and corrosion resistance",
+        "partNumber": "OHLINS-RE650-SHOCK",
+        "cost": {
+          "min": 25000,
+          "max": 35000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Hard",
+        "expectedLifeExtension": "+80,000 km with proper maintenance",
+        "permanentFix": true,
+        "notes": "Permanent solution with significantly better quality"
+      },
+      {
+        "modName": "Suspension Corrosion Protective Coating",
+        "description": "Ceramic coating applied to suspension components to prevent corrosion",
+        "partNumber": "CERAMIC-COAT-SHOCK",
+        "cost": {
+          "min": 2000,
+          "max": 3000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "permanentFix": false,
+        "notes": "Preventive measure only; reapply periodically"
+      },
+      {
+        "modName": "Protective Shock Covers Kit",
+        "description": "Rubber covers for suspension components to reduce water ingress",
+        "partNumber": "SHOCK-COVER-KIT",
+        "cost": {
+          "min": 800,
+          "max": 1200,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "permanentFix": false,
+        "notes": "Reduces water ingress; effective preventive measure"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2024-03-05",
+      "segment": "RE 650 Suspension Corrosion Analysis",
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "discoveryDate": "2024-03-05",
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "DEFECT_RE650_ELECTRICAL_WIRING",
+    "bikeModel": "RE650",
+    "failureMode": "Electrical",
+    "symptom": "Lights flickering, fuel pump cuts out randomly, alternator charging issues, ignition cuts out occasionally, battery drains faster than expected",
+    "rootCause": {
+      "designFlaw": "Poor quality electrical connectors, inadequate crimping during factory assembly, corrosion-prone connector design.",
+      "engineeringExplanation": "Factory electrical harness has poor connector quality and inadequate corrosion protection",
+      "frequency": "Frequent"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 5000,
+        "max": 15000
+      },
+      "progressionPattern": "Intermittent issues → frequent failures → complete electrical loss",
+      "catastrophicFailureKm": {
+        "min": 18000,
+        "max": 30000
+      }
+    },
+    "warrantyStatus": "Covered",
+    "durabilityMods": [
+      {
+        "modName": "Complete Harness Replacement",
+        "description": "Full electrical harness replacement with improved connectors and routing",
+        "partNumber": "RE-WIRING-HARNESS-650",
+        "cost": {
+          "min": 5000,
+          "max": 7000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Hard",
+        "expectedLifeExtension": "+50,000 km",
+        "permanentFix": true,
+        "notes": "Full replacement recommended for permanent solution"
+      },
+      {
+        "modName": "Connector Upgrade (Gold-plated)",
+        "description": "Upgrade connectors with gold-plated contacts for better conductivity",
+        "partNumber": "CONNECTOR-KIT-GOLD",
+        "cost": {
+          "min": 2000,
+          "max": 3000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Hard",
+        "expectedLifeExtension": "+15,000 km",
+        "permanentFix": false,
+        "notes": "Improves connections temporarily; partial fix"
+      },
+      {
+        "modName": "Dielectric Grease Application",
+        "description": "Protective dielectric grease applied to connectors to prevent corrosion",
+        "partNumber": "DIELECTRIC-GREASE",
+        "cost": {
+          "min": 500,
+          "max": 800,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "permanentFix": false,
+        "notes": "Preventive measure; reapply every 12 months"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2024-04-12",
+      "segment": "RE 650 Electrical Wiring Diagnosis",
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "discoveryDate": "2024-04-12",
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "DEFECT_RE650_EXHAUST_CORROSION",
+    "bikeModel": "RE650",
+    "failureMode": "Corrosion",
+    "symptom": "Visible rust/orange discoloration on exhaust, exhaust manifold cracks, exhaust gases leak from cracks (hissing sound), silencer deteriorates, performance loss due to exhaust leaks",
+    "rootCause": {
+      "designFlaw": "Low-quality stainless steel or inadequate protective coating on exhaust components. Poor weld quality from factory.",
+      "engineeringExplanation": "Factory uses substandard stainless steel grade and inadequate protective coating for monsoon/coastal riding",
+      "frequency": "Common"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 8000,
+        "max": 18000
+      },
+      "progressionPattern": "Surface corrosion → deep corrosion → cracks form → exhaust leaks",
+      "catastrophicFailureKm": {
+        "min": 25000,
+        "max": 35000
+      }
+    },
+    "warrantyStatus": "NotCovered",
+    "durabilityMods": [
+      {
+        "modName": "Aftermarket Exhaust (Akrapovic/Custom)",
+        "description": "Premium aftermarket exhaust with high-grade stainless steel and protective coating",
+        "partNumber": "AKRAPOVIC-650-EXHAUST",
+        "cost": {
+          "min": 15000,
+          "max": 25000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "expectedLifeExtension": "+80,000 km",
+        "permanentFix": true,
+        "notes": "Higher quality steel; permanent solution"
+      },
+      {
+        "modName": "Protective Exhaust Coating",
+        "description": "Ceramic heat-resistant coating applied to exhaust to slow corrosion",
+        "partNumber": "CERAMIC-EXHAUST-COAT",
+        "cost": {
+          "min": 3000,
+          "max": 5000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "expectedLifeExtension": "+10,000 km",
+        "permanentFix": false,
+        "notes": "Slows corrosion; temporary solution requiring reapplication"
+      },
+      {
+        "modName": "Stock Silencer Replacement",
+        "description": "OEM replacement silencer assembly",
+        "partNumber": "RE-SILENCER-STOCK",
+        "cost": {
+          "min": 2500,
+          "max": 3500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "permanentFix": false,
+        "notes": "Same quality as original; issue may reoccur"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2024-05-18",
+      "segment": "RE 650 Exhaust Corrosion Prevention",
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "discoveryDate": "2024-05-18",
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "DEFECT_RE650_KEYSET_LOCK",
+    "bikeModel": "RE650",
+    "failureMode": "Mechanical",
+    "symptom": "Key becomes hard to turn, key locks/gets stuck in ignition, lock cylinder wears prematurely, key wobbles in lock, cannot remove key from ignition",
+    "rootCause": {
+      "designFlaw": "Poor quality lock cylinder manufacturing, incorrect key cut tolerances, defective tumbler pins.",
+      "engineeringExplanation": "Factory lock has poor manufacturing tolerances and inadequate quality control on tumbler pins",
+      "frequency": "Occasional"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 5000,
+        "max": 15000
+      },
+      "progressionPattern": "Key gets sticky → key locks → lock becomes unusable",
+      "catastrophicFailureKm": {
+        "min": 18000,
+        "max": 25000
+      }
+    },
+    "warrantyStatus": "Covered",
+    "durabilityMods": [
+      {
+        "modName": "Lock Cylinder Replacement",
+        "description": "OEM lock cylinder replacement with new keys",
+        "partNumber": "RE-LOCK-IGNITION-650",
+        "cost": {
+          "min": 1800,
+          "max": 2500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "permanentFix": true,
+        "notes": "Factory quality replacement; permanent solution"
+      },
+      {
+        "modName": "Aftermarket Lock Upgrade",
+        "description": "Higher quality aftermarket lock cylinder with better manufacturing tolerances",
+        "partNumber": "MOTORCYCLE-LOCK-UPGRADE",
+        "cost": {
+          "min": 3000,
+          "max": 5000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Hard",
+        "expectedLifeExtension": "+80,000 km",
+        "permanentFix": true,
+        "notes": "Significantly better quality aftermarket option"
+      },
+      {
+        "modName": "Lock Lubrication Service",
+        "description": "Professional lock lubrication with graphite-based lubricant",
+        "partNumber": "LOCK-LUBE-SERVICE",
+        "cost": {
+          "min": 300,
+          "max": 500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "permanentFix": false,
+        "notes": "Temporary fix; requires reapplication every 6 months"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2024-06-22",
+      "segment": "RE 650 Ignition Lock Issues",
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "discoveryDate": "2024-06-22",
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "DEFECT_HIMALAYAN411_HEAT_VIBRATION",
+    "bikeModel": "Himalayan411",
+    "failureMode": "Design Characteristic",
+    "symptom": "Excessive engine heat during riding, handlebar vibration at highway speeds (60-80 kmph), footpegs get hot, tank heat transfer to rider legs, steering head vibration transmitted to hands",
+    "rootCause": {
+      "designFlaw": "Single-cylinder design with inadequate heat dissipation. Poor engine mounting isolation. Thumper-style vibration not adequately dampened.",
+      "engineeringExplanation": "Single-cylinder architecture inherently produces vibration; engine mounting bushings inadequate for vibration isolation",
+      "frequency": "Frequent"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 0,
+        "max": 100
+      },
+      "progressionPattern": "Present from day one (design characteristic, not defect)"
+    },
+    "warrantyStatus": "NotCovered",
+    "durabilityMods": [
+      {
+        "modName": "Engine Guard Installation",
+        "description": "Metal engine guard that reduces radiant engine heat to rider",
+        "partNumber": "RE-ENGINE-GUARD-HIMALAYAN",
+        "cost": {
+          "min": 2000,
+          "max": 3500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "permanentFix": false,
+        "notes": "Reduces radiant heat slightly; partial mitigation"
+      },
+      {
+        "modName": "Thermal Exhaust Wrap",
+        "description": "Heat-resistant wrap for exhaust pipes to reduce heat transmission",
+        "partNumber": "THERMAL-WRAP-EXHAUST",
+        "cost": {
+          "min": 1500,
+          "max": 2500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "permanentFix": false,
+        "notes": "Reduces heat transmission; requires periodic replacement"
+      },
+      {
+        "modName": "Handlebar Heat Grip",
+        "description": "Insulated handlebar grips that reduce heat transfer to hands",
+        "partNumber": "HANDLEBAR-GRIP-THERMAL",
+        "cost": {
+          "min": 800,
+          "max": 1500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "permanentFix": false,
+        "notes": "Reduces handlebar heat perception; comfort improvement"
+      },
+      {
+        "modName": "Highway Pegs Installation",
+        "description": "Footpegs mounted higher and farther forward to move feet away from engine heat",
+        "partNumber": "RE-HIGHWAY-PEGS",
+        "cost": {
+          "min": 1200,
+          "max": 2000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "permanentFix": false,
+        "notes": "Changes foot position; reduces heat exposure"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2024-07-08",
+      "segment": "Himalayan 411 Heat and Vibration Solutions",
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "discoveryDate": "2024-07-08",
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "DEFECT_HIMALAYAN411_OIL_LEAKS",
+    "bikeModel": "Himalayan411",
+    "failureMode": "Material Quality",
+    "symptom": "Oil stains under bike after parking, oil smell near engine, low oil level on dipstick after short rides, visible oil on engine external surfaces",
+    "rootCause": {
+      "designFlaw": "Poor quality gasket materials, improper torque specifications during assembly, defective seal designs.",
+      "engineeringExplanation": "Factory gasket material inadequate for tropical climate; assembly torque specs not properly controlled",
+      "frequency": "Common"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 3000,
+        "max": 10000
+      },
+      "progressionPattern": "Minor seeping → steady leak → significant oil loss",
+      "catastrophicFailureKm": {
+        "min": 20000,
+        "max": 35000
+      }
+    },
+    "warrantyStatus": "Covered",
+    "durabilityMods": [
+      {
+        "modName": "Gasket Set Replacement",
+        "description": "Complete gasket set replacement with higher quality materials",
+        "partNumber": "RE-GASKET-SET-411",
+        "cost": {
+          "min": 2000,
+          "max": 3000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Hard",
+        "expectedLifeExtension": "+40,000 km",
+        "permanentFix": true,
+        "notes": "Complete gasket set recommended for comprehensive fix"
+      },
+      {
+        "modName": "High-Temperature Silicone Sealant Upgrade",
+        "description": "Premium silicone sealant for better sealing under heat stress",
+        "partNumber": "HIGH-TEMP-SILICONE",
+        "cost": {
+          "min": 500,
+          "max": 1000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "permanentFix": false,
+        "notes": "Temporary fix before full gasket service"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2024-08-14",
+      "segment": "Himalayan 411 Oil Leak Diagnosis",
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "discoveryDate": "2024-08-14",
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "DEFECT_HIMALAYAN411_GEAR_SHIFT",
+    "bikeModel": "Himalayan411",
+    "failureMode": "Transmission",
+    "symptom": "Gear changes feel notchy or grinding, difficulty selecting certain gears (especially 2nd/3rd), clunking sounds during gear change, gear shift lever resistance increases, occasional gear slip-out",
+    "rootCause": {
+      "designFlaw": "Inadequate transmission oil, worn synchronizers from factory, poor manufacturing tolerances.",
+      "engineeringExplanation": "Factory transmission has poor synchronizer quality and inadequate oil viscosity specification",
+      "frequency": "Occasional"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 15000,
+        "max": 25000
+      },
+      "progressionPattern": "Occasional roughness → consistent grinding → difficulty selecting gears",
+      "catastrophicFailureKm": {
+        "min": 35000,
+        "max": 50000
+      }
+    },
+    "warrantyStatus": "PartialCoverage",
+    "durabilityMods": [
+      {
+        "modName": "Transmission Oil Upgrade",
+        "description": "Premium synthetic transmission oil with better viscosity and lubrication properties",
+        "partNumber": "MOTUL-GEARBOX-OIL-411",
+        "cost": {
+          "min": 1500,
+          "max": 2500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "expectedLifeExtension": "+8,000 km",
+        "permanentFix": false,
+        "notes": "Synthetic oil improves shifts significantly; temporary improvement"
+      },
+      {
+        "modName": "Gearbox Oil Change Service",
+        "description": "Professional gearbox fluid flush and refill with proper torque specifications",
+        "partNumber": "SERVICE-GEARBOX",
+        "cost": {
+          "min": 1000,
+          "max": 2000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "permanentFix": false,
+        "notes": "Often resolves minor roughness when done properly"
+      },
+      {
+        "modName": "Synchronizer Replacement",
+        "description": "Complete synchronizer set replacement to factory specifications",
+        "partNumber": "RE-SYNCHRO-SET-411",
+        "cost": {
+          "min": 4500,
+          "max": 7000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Hard",
+        "expectedLifeExtension": "+50,000 km",
+        "permanentFix": true,
+        "notes": "Permanent fix but expensive; considered if grinding persists"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2024-09-20",
+      "segment": "Himalayan 411 Transmission Issues",
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "discoveryDate": "2024-09-20",
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "DEFECT_KTM390_ECU_STALLING",
+    "bikeModel": "KTM390Adventure",
+    "failureMode": "Electrical",
+    "symptom": "Engine unexpectedly stalls at low speeds, engine stalls at traffic lights/idle, hard starting after stall, loss of throttle response followed by stall, stalling during slow-speed maneuvers",
+    "rootCause": {
+      "designFlaw": "ECU software calibration defect in factory programming. Incorrectly tuned idle control and fuel injection algorithm for low-RPM conditions.",
+      "affectedProductionRun": "2024-2025 model years",
+      "engineeringExplanation": "Factory ECU firmware has defective low-RPM fuel management algorithm",
+      "frequency": "Frequent"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 0,
+        "max": 1000
+      },
+      "progressionPattern": "Frequent stalling from day one → consistent issue",
+      "catastrophicFailureKm": {
+        "min": 5000,
+        "max": 10000
+      }
+    },
+    "warrantyStatus": "Covered",
+    "durabilityMods": [
+      {
+        "modName": "ECU Software Flash (NHTSA Recall 25V825)",
+        "description": "Official manufacturer ECU firmware update to fix stalling defect",
+        "partNumber": "KTM-ECU-FLASH-RECALL",
+        "cost": {
+          "min": 0,
+          "max": 0,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "expectedLifeExtension": "Complete resolution",
+        "permanentFix": true,
+        "notes": "Free manufacturer recall fix; must be applied at authorized KTM dealership"
+      },
+      {
+        "modName": "Aftermarket ECU Tune (Powertronic)",
+        "description": "Third-party ECU tuning that improves idle control and low-RPM response",
+        "partNumber": "POWERTRONIC-390-TUNE",
+        "cost": {
+          "min": 8000,
+          "max": 12000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "expectedLifeExtension": "Complete resolution plus performance gains",
+        "permanentFix": true,
+        "notes": "Alternative to factory recall; provides additional performance benefits"
+      },
+      {
+        "modName": "Temporary Idle RPM Adjustment",
+        "description": "Manual idle screw adjustment to increase idle RPM temporarily",
+        "partNumber": "MANUAL-IDLE-ADJUST",
+        "cost": {
+          "min": 0,
+          "max": 0,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "permanentFix": false,
+        "notes": "Temporary workaround until factory recall can be applied"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2025-01-15",
+      "segment": "KTM 390 Adventure ECU Stalling - NHTSA Recall 25V825",
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "discoveryDate": "2025-01-15",
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "DEFECT_KTM390_THROTTLE_CARBON",
+    "bikeModel": "KTM390Adventure",
+    "failureMode": "Mechanical",
+    "symptom": "Rough idle at cold start, power loss at low RPM, throttle response feels sluggish, check engine light may appear, hesitation during acceleration",
+    "rootCause": {
+      "designFlaw": "Poor fuel atomization design in throttle body. Inadequate thermal management causing fuel residue buildup. Low-quality EFI fuel injectors.",
+      "engineeringExplanation": "Factory throttle body design has poor fuel spray pattern leading to carbon deposits",
+      "frequency": "Common"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 8000,
+        "max": 15000
+      },
+      "progressionPattern": "Minor roughness → noticeable power loss → consistent performance issue",
+      "catastrophicFailureKm": {
+        "min": 25000,
+        "max": 40000
+      }
+    },
+    "warrantyStatus": "NotCovered",
+    "durabilityMods": [
+      {
+        "modName": "Throttle Body Professional Cleaning",
+        "description": "Professional ultrasonic throttle body cleaning to remove carbon deposits",
+        "partNumber": "SERVICE-THROTTLE-CLEAN",
+        "cost": {
+          "min": 1500,
+          "max": 2500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "permanentFix": false,
+        "notes": "Requires regular maintenance; carbon accumulates over time"
+      },
+      {
+        "modName": "Premium Fuel Usage",
+        "description": "Consistent use of premium 93+ octane fuel to reduce carbon buildup",
+        "partNumber": "PREMIUM-PETROL-93",
+        "cost": {
+          "min": 10,
+          "max": 20,
+          "currency": "INR per liter extra"
+        },
+        "installationComplexity": "Easy",
+        "permanentFix": false,
+        "notes": "Preventive measure; reduces carbon formation"
+      },
+      {
+        "modName": "Fuel Injector Upgrade",
+        "description": "Higher quality fuel injectors with better atomization pattern",
+        "partNumber": "FUEL-INJECTOR-QUALITY",
+        "cost": {
+          "min": 3000,
+          "max": 5000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Hard",
+        "permanentFix": false,
+        "notes": "Improves atomization; reduces carbon over time"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2024-10-25",
+      "segment": "KTM 390 Throttle Carbon Buildup",
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "discoveryDate": "2024-10-25",
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "DEFECT_KTM390_THERMOSTAT",
+    "bikeModel": "KTM390Adventure",
+    "failureMode": "Thermal",
+    "symptom": "Temperature gauge reads high/critical, engine feels hot to touch, radiator fan runs constantly, steam/white smoke from radiator area, power loss during extended riding, engine thermal protection cuts ignition",
+    "rootCause": {
+      "designFlaw": "Poor quality thermostat manufacturing, stuck thermostat valve, defective temperature sensor calibration.",
+      "engineeringExplanation": "Factory thermostat has inadequate quality control and poor seal design",
+      "frequency": "Frequent"
+    },
+    "failureTimeline": {
+      "firstAppearanceKm": {
+        "min": 5000,
+        "max": 15000
+      },
+      "progressionPattern": "Occasional high temp readings → consistent overheating → engine thermal shutdown",
+      "catastrophicFailureKm": {
+        "min": 20000,
+        "max": 30000
+      }
+    },
+    "warrantyStatus": "Covered",
+    "durabilityMods": [
+      {
+        "modName": "Thermostat OEM Replacement",
+        "description": "Factory thermostat replacement with proper coolant flush",
+        "partNumber": "KTM-THERMOSTAT-390",
+        "cost": {
+          "min": 2500,
+          "max": 3500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "expectedLifeExtension": "+30,000 km",
+        "permanentFix": true,
+        "notes": "OEM replacement recommended; ensures factory specifications"
+      },
+      {
+        "modName": "Temperature Sensor Replacement",
+        "description": "Replacement of engine temperature sensor with proper calibration",
+        "partNumber": "KTM-TEMP-SENSOR-390",
+        "cost": {
+          "min": 1500,
+          "max": 2000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "permanentFix": false,
+        "notes": "Sometimes resolves issue if sensor calibration was faulty"
+      },
+      {
+        "modName": "Coolant System Flush Service",
+        "description": "Professional coolant system flush to remove contaminants and air pockets",
+        "partNumber": "SERVICE-COOLANT-FLUSH",
+        "cost": {
+          "min": 1500,
+          "max": 2500,
+          "currency": "INR"
+        },
+        "installationComplexity": "Easy",
+        "permanentFix": false,
+        "notes": "Removes contaminants; improves cooling capacity"
+      },
+      {
+        "modName": "Radiator Fan Upgrade",
+        "description": "Higher capacity radiator fan for improved cooling performance",
+        "partNumber": "RADIATOR-FAN-UPGRADE",
+        "cost": {
+          "min": 3000,
+          "max": 5000,
+          "currency": "INR"
+        },
+        "installationComplexity": "Medium",
+        "permanentFix": false,
+        "notes": "Improves cooling capacity; partial fix if thermostat is OK"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Art of Motorcycles",
+      "videoUrl": "https://www.youtube.com/@artofmotorcycles3041",
+      "date": "2024-11-30",
+      "segment": "KTM 390 Thermostat and Overheating",
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "discoveryDate": "2024-11-30",
+    "integratedIntoMansi": false
+  }
+]

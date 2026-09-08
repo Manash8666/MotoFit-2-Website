@@ -16,13 +16,17 @@ const nextConfig = {
         ],
     },
     experimental: {
-        optimizeCss: true,
+        // optimizeCss: true, // Disabled on Windows due to critters worker crash
         optimizePackageImports: ["@react-three/fiber"],
         // reactCompiler: true - excluding as it might be unstable or require specific setup
     },
     eslint: {
         // ESLint runs during builds. Fix any lint errors before deploying.
         ignoreDuringBuilds: false,
+    },
+    webpack: (config) => {
+        config.cache = false;
+        return config;
     },
     // Mid-Tier Cybersecurity Headers
     async headers() {
@@ -57,6 +61,10 @@ const nextConfig = {
                     {
                         key: 'Permissions-Policy',
                         value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()'
+                    },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://maps.googleapis.com https://maps.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://maps.googleapis.com https://maps.gstatic.com https://*.tile.openstreetmap.org; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://openrouter.ai https://api.sarvam.ai https://api.portkey.ai https://api.tavily.com https://maps.googleapis.com; frame-src 'self' https://www.google.com https://maps.google.com; object-src 'none'; base-uri 'self';"
                     }
                 ]
             }

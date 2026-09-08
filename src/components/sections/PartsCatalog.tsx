@@ -115,7 +115,8 @@ export default function PartsCatalog() {
                                     <span className="text-white font-mono text-sm uppercase tracking-tighter">{part.priceRange}</span>
                                     <button
                                         onClick={() => handleRequestPrice(part.name)}
-                                        className="text-[#ff5e1a] hover:text-white transition-colors"
+                                        aria-label={`Inquire about ${part.name} on WhatsApp`}
+                                        className="text-[#ff5e1a] hover:text-white transition-colors p-1"
                                     >
                                         <MessageCircle size={20} />
                                     </button>

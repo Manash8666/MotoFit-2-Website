@@ -17,6 +17,7 @@ const navLinks = [
     { name: 'Gallery', href: '/gallery' },
     { name: 'Blog', href: '/blog' },
     { name: 'About', href: '/about' },
+    { name: 'Contact', href: '/contact' },
 ];
 
 import { useBooking } from '@/context/BookingContext';
@@ -47,12 +48,12 @@ export default function CyberNav() {
             >
                 <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
                     {/* Logo */}
-                    <Link href="/" className="relative group block py-1">
+                    <Link href="/" className="relative group block py-1" aria-label="MotoFit 2 Home">
                         <MotoFitLogo size="md" />
                     </Link>
 
                     {/* Desktop Nav */}
-                    <nav className="hidden md:flex items-center gap-8">
+                    <nav className="hidden md:flex items-center gap-8" aria-label="Main Navigation">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.name}
@@ -83,7 +84,9 @@ export default function CyberNav() {
 
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="md:hidden text-white hover:text-[#ff5e1a] transition-colors"
+                            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+                            aria-expanded={isOpen}
+                            className="md:hidden text-white hover:text-[#ff5e1a] transition-colors p-1"
                         >
                             {isOpen ? <X /> : <Menu />}
                         </button>

@@ -40,6 +40,8 @@
     "node_modules",
     "pulse-burner.js",
     "harvest.js",
-    "test-tavily.js"
+    "test-tavily.js",
+    "src/**/__tests__/**",
+    "tests/**"
   ]
 }

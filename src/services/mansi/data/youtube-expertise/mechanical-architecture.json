@@ -1,0 +1,1070 @@
+{
+  "REClassic350": [
+    {
+      "id": "ARCH_CLASSIC350_WHEELBASE_STABILITY",
+      "bikeModel": "REClassic350",
+      "architecturePrinciple": "Long Wheelbase Impact on Comfort vs. Agility",
+      "description": "The Classic 350's extended wheelbase (1,395 mm) is a deliberate design choice to optimize for comfort and stability at highway speeds, sacrificing low-speed agility.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 29,
+        "wheelbaseHmm": 1395,
+        "centerOfGravityHeightMm": 650,
+        "frameType": "Cradle frame with single central spine",
+        "frameRigidity": "Medium",
+        "steeringHeadDesign": "Relaxed steering geometry",
+        "swingarmDesign": "Single-sided style mounting"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Stable, planted highway cruising; less quick in mid-corner adjustments",
+        "handlingCharacteristic": "Requires deliberate wrist effort to change direction; strong self-centering",
+        "performanceImplication": "Ideal for highway cruising; compromised agility for street riding",
+        "boardRiskFactors": "Wheel bounces gently over expansion joints; confident cruise at 80+ km/h"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Suspension fork upgrade (43mm USD)",
+          "consequence": "Front end becomes lighter; more responsive steering; improved damping reduces chatter",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Trellis-style fork brace stiffening reduces unsprung mass effects; geometry shift within design envelope",
+          "mitigationStrategy": "Verify fork compatibility with cradle frame cradle mountings"
+        },
+        {
+          "modificationType": "Shorter seat/lower CoG mod",
+          "consequence": "Improves low-speed stability; reduces highway comfort",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "CoG drop of 15-20mm helps cornering but increases seat pressure",
+          "mitigationStrategy": "Test seat comfort before committing to modification"
+        },
+        {
+          "modificationType": "Passenger pegs addition",
+          "consequence": "Extends wheelbase effect laterally; adds stress on frame lugs",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Classic 350 already rated for passenger + luggage touring",
+          "mitigationStrategy": "Use factory or quality aftermarket pegs designed for platform"
+        },
+        {
+          "modificationType": "Heavier wheels (alloy upgrades)",
+          "consequence": "Shifts CoG forward due to unsprung mass increase",
+          "riskLevel": "Low",
+          "reasonForConsequence": "2kg wheel increase equals ~8mm CoG shift; minimal impact",
+          "mitigationStrategy": "Balance weight gain against aesthetic and durability benefits"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["RE650", "KTMDuke200"],
+        "principalDifference": "Classic 350 has long wheelbase (1,395mm) with steep rake (29°) for stability; RE 650 is longer (1,465mm) with moderate rake (26°) for sport-cruise; KTM 200 is short (1,357mm) with shallow rake (25°) for agility",
+        "whyPrincipleDiffers": "650 is heavier so needs longer wheelbase for highway stability; KTM is lightweight so prioritizes quick steering",
+        "performanceImpact": "Classic 350 most stable cruiser; RE 650 sport-cruise hybrid; KTM quickest corner entry"
+      },
+      "engineeringRationale": "Extended wheelbase optimizes weight distribution for highway stability; steep rake angle creates relaxed steering geometry; cradle frame simplicity supports cost-effective manufacturing",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-02-01",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    },
+    {
+      "id": "ARCH_CLASSIC350_CRADLE_FRAME_STIFFNESS",
+      "bikeModel": "REClassic350",
+      "architecturePrinciple": "Cradle Frame Stiffness Limitations & Load Path Characteristics",
+      "description": "The Classic 350 uses a traditional cradle frame with engine cradle and central spine tubes, which provides simplicity but creates load path limitations at frame lugs and welded joints.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 29,
+        "wheelbaseHmm": 1395,
+        "centerOfGravityHeightMm": 650,
+        "frameType": "Single-spine cradle with engine cradle",
+        "frameRigidity": "Low",
+        "steeringHeadDesign": "Standard cradle connection",
+        "swingarmDesign": "Single pivot mounting"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Frame feels solid for highway cruising; occasional buzz through bars at 5,000-5,500 RPM",
+        "handlingCharacteristic": "Slight frame flex under aggressive cornering; engine cradle resonance creates harmonic vibration",
+        "performanceImplication": "Adequate for stock loads; marginal for major upgrades",
+        "boardRiskFactors": "Frame fatigue risk if subjected to constant heavy loading beyond design envelope"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Engine stroker (440cc, heavier crankshaft)",
+          "consequence": "Increases dynamic loads 15-20%; stress concentrates at cradle lugs",
+          "riskLevel": "High",
+          "reasonForConsequence": "Crankshaft weight +2.5kg equals 25% load increase at connection points",
+          "mitigationStrategy": "Add frame bracing; monitor for stress cracks after 40,000+ km"
+        },
+        {
+          "modificationType": "Monoshock rear suspension upgrade",
+          "consequence": "Changes rear frame load distribution; reduces frame twisting",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Monoshock eliminates dual-shock frame unbalance",
+          "mitigationStrategy": "Standard upgrade; widely compatible with cradle frames"
+        },
+        {
+          "modificationType": "Big brake front upgrade (320mm disc)",
+          "consequence": "Increases fork load 30%; transfers braking force through steering head",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "320mm disc vs 280mm equals 14% more braking torque through frame",
+          "mitigationStrategy": "Add fork braces to manage increased steering head load"
+        },
+        {
+          "modificationType": "Aluminum pannier racks (50kg load)",
+          "consequence": "Adds concentrated load at rear frame lugs; can cause stress cracks",
+          "riskLevel": "High",
+          "reasonForConsequence": "Pannier loading concentrates stress at single weld joint",
+          "mitigationStrategy": "Use reinforced racks; distribute load across multiple frame attachment points"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["Himalayan411"],
+        "principalDifference": "Classic 350 has basic single cradle (6-8 critical welds); Himalayan 411 has duplex cradle with reinforcement (12-14 reinforced welds)",
+        "whyPrincipleDiffers": "Himalayan needs off-road load capability; multiple load paths provide redundancy",
+        "performanceImpact": "Himalayan better for adventure riding and asymmetric loads; Classic 350 better for symmetrical highway touring"
+      },
+      "engineeringRationale": "Cradle frame design prioritizes simplicity and cost; engine mounts at four points; load concentration at lugs limits modification potential",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-02-15",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    },
+    {
+      "id": "ARCH_CLASSIC350_RAKE_STABILITY_TRADEOFF",
+      "bikeModel": "REClassic350",
+      "architecturePrinciple": "Rake Angle Trade-off: Stability vs. Steering Response",
+      "description": "The Classic 350's steeper rake angle (~29°) prioritizes straight-line stability and highway cruise comfort, but compromises steering agility. This is a fundamental design choice.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 29,
+        "wheelbaseHmm": 1395,
+        "centerOfGravityHeightMm": 650,
+        "frameType": "Cradle frame",
+        "frameRigidity": "Low",
+        "steeringHeadDesign": "Relaxed steering geometry with high trail",
+        "swingarmDesign": "Standard single-sided"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Front wheel feels heavy at low speeds; steering requires deliberate wrist movements; strong self-centering",
+        "handlingCharacteristic": "Very stable at highway speeds; resists lane-change inputs; requires patience in technical riding",
+        "performanceImplication": "Trail distance ~105-110mm creates heavy steering feel",
+        "boardRiskFactors": "Minimal shimmy; good feedback through bars at highway speeds"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Fork slider/guard installation (10mm lower)",
+          "consequence": "Increases rake by ~0.5°; increases trail by 4-6mm",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Lower mounting point creates deeper rake angle",
+          "mitigationStrategy": "Minimal geometry change; compatible with stock handling"
+        },
+        {
+          "modificationType": "High-rise handlebar conversion",
+          "consequence": "Shifts weight distribution backward; changes steering feel",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Bar position doesn't change steering geometry",
+          "mitigationStrategy": "Purely aesthetic change; no handling impact"
+        },
+        {
+          "modificationType": "Inverted fork swap (if compatible)",
+          "consequence": "Decreases fork offset by 5-8mm; reduces trail by 8-12mm",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Shorter offset makes steering quicker but loses stability",
+          "mitigationStrategy": "Requires triple-clamp work; verify compatibility with cradle mount"
+        },
+        {
+          "modificationType": "Steering damper addition",
+          "consequence": "Adds mechanical damping to steering input",
+          "riskLevel": "Low",
+          "reasonForConsequence": "No geometry change; purely damping solution",
+          "mitigationStrategy": "Adjustable dampers allow tuning to rider preference"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["KTMDuke200"],
+        "principalDifference": "Classic 350 has 29° rake with ~110mm trail (stable); KTM Duke 200 has 25° rake with ~92mm trail (quick steering)",
+        "whyPrincipleDiffers": "KTM designed for active street riding; Classic prioritizes beginner-friendly stability",
+        "performanceImpact": "Classic stable at low speeds; KTM quick turn-in response; 4° rake difference = significant handling character change"
+      },
+      "engineeringRationale": "Steep rake angle matched to low-RPM cruising powerband; steering responsiveness less critical at sub-5,000 RPM operation",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-03-01",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    }
+  ],
+  "RE650": [
+    {
+      "id": "ARCH_RE650_PARALLEL_TWIN_MOUNT",
+      "bikeModel": "RE650",
+      "architecturePrinciple": "Parallel-Twin Engine Mount & Vibration Isolation",
+      "description": "The RE 650's parallel-twin engine creates higher unbalanced masses compared to single-cylinder bikes. The duplex cradle frame routes loads around the engine, preventing resonance transmission.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 26,
+        "wheelbaseHmm": 1465,
+        "centerOfGravityHeightMm": 670,
+        "frameType": "Duplex cradle with cross-bracing",
+        "frameRigidity": "High",
+        "steeringHeadDesign": "41mm steering head tube",
+        "swingarmDesign": "Aluminum box-section"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Smooth power delivery; minimal vibration through pegs; handlebars receive 60% less vibration than equivalent single-cylinder",
+        "handlingCharacteristic": "Stiffer frame prevents engine rocking motions; better engine feedback; less vibration transmission overall",
+        "performanceImplication": "Smooth highway cruising; excellent long-distance comfort",
+        "boardRiskFactors": "Counterbalancer shaft runs at 2x crank speed; reduces vibration at higher RPMs"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Engine stroker (745cc, heavier pistons)",
+          "consequence": "Increases inertial forces 15%; vibration increases despite smoother balance",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Heavier pistons create more vibration force despite same engine type",
+          "mitigationStrategy": "Upgrade isolation bushings; monitor handlebar buzz after 10,000 km"
+        },
+        {
+          "modificationType": "Rigid engine mounts (stiffer bushings)",
+          "consequence": "Transmits engine vibration directly to frame; increases handlebar buzz",
+          "riskLevel": "High",
+          "reasonForConsequence": "Isolation bushings deliberately designed for damping",
+          "mitigationStrategy": "Keep OEM isolation system; don't replace with rigid mounts"
+        },
+        {
+          "modificationType": "Aftermarket clutch (heavier flywheel)",
+          "consequence": "Increases primary mass; makes rev-matching smoother",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Flywheel balance doesn't affect engine-frame coupling",
+          "mitigationStrategy": "Improves rideability without vibration concerns"
+        },
+        {
+          "modificationType": "Balancer shaft delete (weight reduction)",
+          "consequence": "Dramatically increases vibration; destroys isolation effectiveness",
+          "riskLevel": "Critical",
+          "reasonForConsequence": "Balancer shaft removes 60% of engine vibration",
+          "mitigationStrategy": "Never recommended; balancer shaft is essential for twin-cylinder operation"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["Himalayan411"],
+        "principalDifference": "RE 650 twin: ~20-30% primary imbalance, smoother; Himalayan 411 single: 100% primary imbalance, more vibration",
+        "whyPrincipleDiffers": "650 has two cylinders firing at 270° crank angle; single-cylinder has all unbalanced mass",
+        "performanceImpact": "650's twin design reduces vibration 60-70% compared to equivalent-displacement single"
+      },
+      "engineeringRationale": "Parallel-twin engine inherently smoother than single; duplex cradle provides frame rigidity; isolation bushings decouple engine vibration from chassis",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-02-20",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    },
+    {
+      "id": "ARCH_RE650_DUPLEX_CRADLE_LOAD",
+      "bikeModel": "RE650",
+      "architecturePrinciple": "Duplex Cradle Frame Load Distribution in 650cc Displacement",
+      "description": "The RE 650 uses a duplex cradle (two main frame spines with cross-bracing) to handle 648cc engine stresses and touring loads. This distributes suspension and load forces more evenly than single-spine designs.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 26,
+        "wheelbaseHmm": 1465,
+        "centerOfGravityHeightMm": 670,
+        "frameType": "Duplex cradle with cross-bracing",
+        "frameRigidity": "High",
+        "steeringHeadDesign": "Stiffened double spine connection",
+        "swingarmDesign": "Reinforced with cross-members"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Minimal flex under hard acceleration; planted mid-corner; stable under hard braking",
+        "handlingCharacteristic": "Confident turn-in feel; minimal shimmy even loaded with luggage; engine vibration isolated from chassis",
+        "performanceImplication": "Handles mono-shock loading well; passenger + luggage doesn't induce frame stress",
+        "boardRiskFactors": "Torsional stiffness ~6.8 Hz prevents resonance with engine operating frequencies"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Monoshock rear shock upgrade (Ohlins)",
+          "consequence": "Changes suspension force geometry; duplex frame handles shock loads well",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Monoshock concentrates force; duplex cradle distributes it effectively",
+          "mitigationStrategy": "Frame designed for high shock loads; upgrade well-supported"
+        },
+        {
+          "modificationType": "Sidecar installation",
+          "consequence": "Adds lateral asymmetric loads; duplex frame better distributes than single-cradle",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Duplex frame has redundant load paths for asymmetric loading",
+          "mitigationStrategy": "Consider sidecar installation as designed-for modification"
+        },
+        {
+          "modificationType": "Luggage pannier racks (50kg each side)",
+          "consequence": "Concentrates loads at rear frame lugs; duplex cradle handles well",
+          "riskLevel": "Low",
+          "reasonForConsequence": "100kg total luggage within frame design envelope",
+          "mitigationStrategy": "Excellent for touring; duplex frame distributes load evenly"
+        },
+        {
+          "modificationType": "Engine stroker (745cc displacement)",
+          "consequence": "Increases engine bay stresses; duplex frame still adequate",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Duplex handles load; isolation bushings see increased stress",
+          "mitigationStrategy": "Frame holds load; monitor vibration after stroker"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["REClassic350"],
+        "principalDifference": "RE 650 duplex cradle: 45% engine / 55% rear load distribution; Classic 350 single cradle: 60% engine / 40% rear",
+        "whyPrincipleDiffers": "650's heavier displacement needs more balanced loading; Classic's simplicity trades load distribution for cost",
+        "performanceImpact": "650 better for heavy touring loads; Classic lighter and simpler but limited for passenger + luggage"
+      },
+      "engineeringRationale": "Duplex cradle's cross-bracing provides redundant load paths; frame weight 45kg supports 648cc twin-cylinder engine; rated for 180kg passenger",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-03-05",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    },
+    {
+      "id": "ARCH_RE650_CENTER_OF_GRAVITY_HEIGHT",
+      "bikeModel": "RE650",
+      "architecturePrinciple": "Center of Gravity Height Impact on Confidence & Modification Trade-offs",
+      "description": "The RE 650's center of gravity (~670 mm height, ~45% front / 55% rear longitudinal) creates a platform affecting how riders perceive stability, how modifications change handling, and weight distribution shifts.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 26,
+        "wheelbaseHmm": 1465,
+        "centerOfGravityHeightMm": 670,
+        "frameType": "Duplex cradle",
+        "frameRigidity": "High",
+        "steeringHeadDesign": "Standard duplex connection",
+        "swingarmDesign": "Aluminum box-section with monoshock"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Stable at highway speeds; slight rollover tendency at very low speeds; confident cornering platform",
+        "handlingCharacteristic": "Balanced braking feel; rear wheel maintains traction under hard braking; good acceleration traction",
+        "performanceImplication": "Neutral handling; equal effort to turn left and right; predictable weight transfer in corners",
+        "boardRiskFactors": "CoG vertical shift 5-8mm per 10° lean angle creates smooth power delivery in corners"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "43mm USD fork upgrade (5kg heavier)",
+          "consequence": "Shifts CoG forward 10-15mm; affects brake balance",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Heavier fork moves CoG forward; needs rear suspension tune",
+          "mitigationStrategy": "Adjust brake bias or suspension preload to compensate"
+        },
+        {
+          "modificationType": "Lighter aluminum wheels (6kg saved)",
+          "consequence": "Shifts CoG down ~15mm; improves low-speed balance",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Unsprung weight reduction improves handling response",
+          "mitigationStrategy": "Universally beneficial; improves handling and acceleration"
+        },
+        {
+          "modificationType": "Top box addition (5kg, 150mm height)",
+          "consequence": "Raises CoG by 8-12mm; changes weight distribution to rear-biased",
+          "riskLevel": "Low",
+          "reasonForConsequence": "CoG rises but rear-mounted; good for luggage touring",
+          "mitigationStrategy": "Rear-biased CoG improves traction under acceleration"
+        },
+        {
+          "modificationType": "Low-rise seat alternative",
+          "consequence": "Lowers CoG by 20mm; easier ground reach",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Lower seat equals lower CoG equals better low-speed confidence",
+          "mitigationStrategy": "Comfort and handling benefit with minimal trade-off"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["KTM390Adventure"],
+        "principalDifference": "RE 650 CoG: ~670mm, 45% front / 55% rear; KTM 390 Adventure CoG: ~680mm, 48% front / 52% rear",
+        "whyPrincipleDiffers": "KTM's higher CoG and more forward bias supports adventure riding; RE 650's balance optimized for sport-cruise",
+        "performanceImpact": "RE 650 sportier feel; KTM 390 more upright adventure character"
+      },
+      "engineeringRationale": "Parallel-twin engine height creates 670mm CoG; duplex frame distributes weight evenly; balanced braking and acceleration feel",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-03-10",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    },
+    {
+      "id": "ARCH_RE650_RAKE_ANGLE_SPORTCRUISE",
+      "bikeModel": "RE650",
+      "architecturePrinciple": "Rake Angle Balance: Sport-Cruise Hybrid Geometry (26°)",
+      "description": "The RE 650's 26° rake angle balances the Classic 350's stability (29°) with the KTM Duke's agility (24°). This creates a sport-cruise hybrid that excels at all-rounder riding.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 26,
+        "wheelbaseHmm": 1465,
+        "centerOfGravityHeightMm": 670,
+        "frameType": "Duplex cradle",
+        "frameRigidity": "High",
+        "steeringHeadDesign": "Moderate steering geometry",
+        "swingarmDesign": "Aluminum box with good stiffness"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Responsive steering without twitchiness; highway stability with street agility",
+        "handlingCharacteristic": "Turn-in quicker than Classic 350; more stable than KTM Duke; confidence in all situations",
+        "performanceImplication": "Trail distance ~108mm creates balanced steering feel (vs Classic's 110mm, KTM's 90mm)",
+        "boardRiskFactors": "Versatile handling works equally well for touring and sport riding"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Suspension geometry changes (fork offset adjustment)",
+          "consequence": "Trail change ~8mm per offset adjustment; affects steering response",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "26° rake already optimized for balanced handling; small trail changes have noticeable effect",
+          "mitigationStrategy": "Test suspension changes thoroughly before committing"
+        },
+        {
+          "modificationType": "Steering damper installation",
+          "consequence": "Reduces steering oscillation; increases highway stability",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Damper adds nothing to geometry; purely damping solution",
+          "mitigationStrategy": "Beneficial for highway riding; improves directional stability"
+        },
+        {
+          "modificationType": "High-rise or low-rise bar swap",
+          "consequence": "No rake angle change; shifts weight distribution",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Bar position doesn't affect steering geometry",
+          "mitigationStrategy": "Purely ergonomic change; no handling impact"
+        },
+        {
+          "modificationType": "Trail braking technique improvement",
+          "consequence": "26° rake allows smooth trail-braking; better corner exit control",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Moderate rake angle perfect for trail-braking technique",
+          "mitigationStrategy": "RE 650 geometry enables advanced riding techniques"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["REClassic350", "KTMDuke200"],
+        "principalDifference": "RE 650 (26°) sits between Classic 350 (29°) for stability and KTM Duke (24°) for agility",
+        "whyPrincipleDiffers": "650's larger displacement warrants faster steering; twin-engine mass requires stability; balanced 26° rake optimizes all-rounder capability",
+        "performanceImpact": "650 better for general touring + spirited riding; Classic better for pure stability; KTM better for pure sport"
+      },
+      "engineeringRationale": "26° rake represents optimal balance for 648cc twin-cylinder platform; trail of ~108mm enables responsive steering without sacrificing stability",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-03-15",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    }
+  ],
+  "Himalayan411": [
+    {
+      "id": "ARCH_HIMALAYAN_WHEELBASE_STABILITY_OFFROAD",
+      "bikeModel": "Himalayan411",
+      "architecturePrinciple": "Adventure Frame Geometry: Longer Wheelbase for Stability & Ground Clearance Trade-off",
+      "description": "The Himalayan 411 uses a longer wheelbase (1,510 mm) combined with increased ground clearance (220 mm) and higher center of gravity to balance off-road capability with highway stability.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 27,
+        "wheelbaseHmm": 1510,
+        "centerOfGravityHeightMm": 710,
+        "frameType": "Duplex cradle with reinforced rear triangle",
+        "frameRigidity": "High",
+        "steeringHeadDesign": "Adventure geometry connection",
+        "swingarmDesign": "Reinforced for off-road impact"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Stable on highway; resists lane-change inputs; excellent in gravel (less tendency to tip suddenly)",
+        "handlingCharacteristic": "Can navigate rocky terrain; high-center pegs; confident on uneven surfaces",
+        "performanceImplication": "Frame handles off-road impacts; absorbs rocks/roots through frame compliance",
+        "boardRiskFactors": "Moderate steering effort; balanced agility and stability; better ground clearance than road bikes"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Longer-travel suspension (50mm → 60mm)",
+          "consequence": "Increases CoG by 8-10mm; affects approach/departure angles",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "More travel raises CoG; needs steering geometry check",
+          "mitigationStrategy": "Verify breakover angles remain adequate for adventure riding"
+        },
+        {
+          "modificationType": "Shorter suspension (travel reduced 20mm)",
+          "consequence": "Lowers CoG; reduces ground clearance; changes escape angle",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Lower suspension helps agility but loses off-road clearance",
+          "mitigationStrategy": "Trade-off between handling and ground clearance"
+        },
+        {
+          "modificationType": "Heavy top box addition (8kg, 200mm tall)",
+          "consequence": "Raises CoG 15-20mm; affects power delivery in corners",
+          "riskLevel": "Low",
+          "reasonForConsequence": "CoG rise notable at high lean angles",
+          "mitigationStrategy": "Acceptable for adventure touring; rear-mounted helps traction"
+        },
+        {
+          "modificationType": "Auxiliary fuel tank addition (10kg)",
+          "consequence": "Lowers CoG (mounted low); extends range",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Low-mounted fuel tank reduces CoG; beneficial",
+          "mitigationStrategy": "Improves both range and handling; ideal modification"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["KTM390Adventure"],
+        "principalDifference": "Himalayan 411: 1,510mm wheelbase, 220mm clearance, 27° rake; KTM 390: 1,480mm wheelbase, 230mm clearance, 27.5° rake",
+        "whyPrincipleDiffers": "Himalayan prioritizes stability (longer wheelbase); KTM prioritizes clearance (slightly taller)",
+        "performanceImpact": "Himalayan more stable on gravel; KTM slightly more nimble; nearly equivalent adventure capability"
+      },
+      "engineeringRationale": "Long wheelbase optimizes weight distribution for highway stability; 220mm clearance adequate for adventure riding; 27° rake balances agility and stability",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-03-20",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    },
+    {
+      "id": "ARCH_HIMALAYAN_FRAME_STIFFNESS_OFFROAD_IMPACTS",
+      "bikeModel": "Himalayan411",
+      "architecturePrinciple": "Frame Stiffness for Off-Road Impacts vs. Comfort Trade-off",
+      "description": "The Himalayan's frame must absorb off-road impacts (rocks, roots, jumps) while maintaining chassis stiffness for on-road stability. The architecture employs selective stiffness zones.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 27,
+        "wheelbaseHmm": 1510,
+        "centerOfGravityHeightMm": 710,
+        "frameType": "Duplex cradle with selective reinforcement",
+        "frameRigidity": "Medium",
+        "steeringHeadDesign": "Adventure-rated connection",
+        "swingarmDesign": "Reinforced for impact absorption"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Absorbs off-road vibrations; slightly higher buzz at highway speeds than sportier bikes",
+        "handlingCharacteristic": "Rocks impact frame rather than rider; steering remains stable despite uneven terrain",
+        "performanceImplication": "Confident lean angles on both road and gravel; no noodly feeling",
+        "boardRiskFactors": "Frame designed to deform elastically (return to shape); absorbs 50kg rock impact safely"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Rigid sub-frame (replace OEM)",
+          "consequence": "Increases frame stiffness by 15%; reduces impact absorption",
+          "riskLevel": "High",
+          "reasonForConsequence": "Stiffer frame transmits impacts to rider; dangerous on rocks",
+          "mitigationStrategy": "Never recommended; keep OEM compliant frame for adventure riding"
+        },
+        {
+          "modificationType": "Frame bracing/gusseting (add reinforcement)",
+          "consequence": "Increases stiffness locally; doesn't reduce overall compliance",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Adds strength without hurting absorption",
+          "mitigationStrategy": "Beneficial for increasing frame durability; improves reliability"
+        },
+        {
+          "modificationType": "Engine crash bars/frame sliders",
+          "consequence": "Protect frame from impact damage; don't change stiffness",
+          "riskLevel": "Low",
+          "reasonForConsequence": "External protection; no architecture change",
+          "mitigationStrategy": "Excellent protective modification; improves crash resilience"
+        },
+        {
+          "modificationType": "Lighter aluminum frame (if available)",
+          "consequence": "Would reduce stiffness further; impact absorption increases",
+          "riskLevel": "High",
+          "reasonForConsequence": "Lighter material with same stiffness is hard to achieve; trade-off likely",
+          "mitigationStrategy": "Not practical; don't pursue lighter frame for adventure bike"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["RE650"],
+        "principalDifference": "Himalayan: ~6.0 Hz natural frequency for off-road compliance; RE 650: ~6.8 Hz stiffer for sport-cruise",
+        "whyPrincipleDiffers": "Himalayan designed for adventure forgiveness; RE 650 for sport-cruise precision",
+        "performanceImpact": "Himalayan absorbs impacts; RE 650 transmits feedback; different design philosophies for different use cases"
+      },
+      "engineeringRationale": "Selective stiffness balances impact absorption with on-road stability; frame compliant for off-road but stiff enough for highway confidence",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-03-25",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    },
+    {
+      "id": "ARCH_HIMALAYAN_ADVENTURE_GEOMETRY_PHILOSOPHY",
+      "bikeModel": "Himalayan411",
+      "architecturePrinciple": "Adventure Geometry Philosophy: Off-Road Capability Over Pure Sport",
+      "description": "The Himalayan's geometry prioritizes off-road capability through high ground clearance, long wheelbase, and taller riding position. This architecture sacrifice some sport-riding agility for adventure versatility.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 27,
+        "wheelbaseHmm": 1510,
+        "centerOfGravityHeightMm": 710,
+        "frameType": "Duplex cradle",
+        "frameRigidity": "Medium",
+        "steeringHeadDesign": "Adventure-optimized geometry",
+        "swingarmDesign": "Reinforced for off-road use"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Upright seating; good visibility; high ground reach; confident on rough terrain",
+        "handlingCharacteristic": "Moderate corner speed capability; excellent directional stability on loose surfaces",
+        "performanceImplication": "Not as quick through tight corners as sportier bikes; excellent for adventure exploration",
+        "boardRiskFactors": "Higher CoG (~710mm) and taller riding position trade sport-riding confidence for adventure visibility"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Lower seat modification (reduce height 30mm)",
+          "consequence": "Lowers CoG by 30mm; improves low-speed confidence; reduces adventure riding position benefits",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Lower seat compromises original adventure design; trade-off between comfort and capability",
+          "mitigationStrategy": "Consider if adventure riding is priority; alternative seats preserve geometry"
+        },
+        {
+          "modificationType": "Upright handlebar conversion",
+          "consequence": "Increases upright posture further; improves long-distance comfort",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Complements Himalayan's adventure philosophy",
+          "mitigationStrategy": "Excellent modification aligned with design purpose"
+        },
+        {
+          "modificationType": "Sport fairings (reduce wind turbulence)",
+          "consequence": "Compromises adventure design; creates aerodynamic drag reduction",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Fairings conflict with upright adventure posture",
+          "mitigationStrategy": "Consider windscreen instead of full fairings"
+        },
+        {
+          "modificationType": "Lightweight bodywork",
+          "consequence": "Reduces mass; improves handling response; maintains adventure geometry",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Weight reduction benefits all platforms",
+          "mitigationStrategy": "Ideal modification; improves performance without compromising design"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["KTMDuke200"],
+        "principalDifference": "Himalayan: 27° rake, 1,510mm wheelbase, 820mm seat for adventure; KTM Duke: 25° rake, 1,357mm wheelbase, 780mm seat for sport",
+        "whyPrincipleDiffers": "Himalayan designed for exploration and touring; KTM designed for street sport riding",
+        "performanceImpact": "Himalayan superior for adventure; KTM superior for cornering speed; each excels in intended purpose"
+      },
+      "engineeringRationale": "Adventure geometry optimizes visibility, ground clearance, and off-road confidence over pure sport performance. Design choice reflects market positioning.",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-04-01",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    }
+  ],
+  "KTMDuke200": [
+    {
+      "id": "ARCH_KTMDUKE_TRELLIS_FRAME_AGILITY",
+      "bikeModel": "KTMDuke200",
+      "architecturePrinciple": "KTM Trellis Frame Design & Handling Agility",
+      "description": "KTM Duke 200 uses a trellis frame (lattice-like steel tube welding) instead of traditional cradle frames. This prioritizes lean, agile handling over simplicity and cost.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 25,
+        "wheelbaseHmm": 1357,
+        "centerOfGravityHeightMm": 680,
+        "frameType": "Welded steel tube trellis with triangulated bracing",
+        "frameRigidity": "High",
+        "steeringHeadDesign": "Precise trellis connection",
+        "swingarmDesign": "Lightweight aluminum box-section"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Very responsive steering; precise mid-corner control; minimal flex even under aggressive cornering",
+        "handlingCharacteristic": "Light but stiff; every input from rider is immediately responsive; direct steering feel",
+        "performanceImplication": "Engine is structural component; frame-engine as unified system",
+        "boardRiskFactors": "Strength distributed across 15+ precise welds; elegant engineering solution"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Heavier displacement engine (500cc)",
+          "consequence": "Increases engine mass; trellis frame already maximally stiff",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Heavier engine makes steering feel slower; frame already at limit",
+          "mitigationStrategy": "Frame strong enough; but handling agility decreases with mass increase"
+        },
+        {
+          "modificationType": "Welded frame reinforcement (gusseting)",
+          "consequence": "Can't increase stiffness meaningfully; already optimized",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Trellis design already uses optimal tube placement",
+          "mitigationStrategy": "Not necessary; frame already optimized for efficiency"
+        },
+        {
+          "modificationType": "USD forks with frame braces",
+          "consequence": "Adds bracing; trellis frame minimal improvement",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Trellis frame already so stiff that braces add little",
+          "mitigationStrategy": "USD forks compatible; marginal stiffness gain"
+        },
+        {
+          "modificationType": "Lower subframe modification",
+          "consequence": "Lowers CoG without changing frame stiffness",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Frame stiffness not affected by seat height change",
+          "mitigationStrategy": "Improves handling; beneficial modification"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["RE650"],
+        "principalDifference": "KTM 200 trellis: ~7.2 Hz stiffness, 26kg frame, immediate steering; RE 650 duplex: ~6.8 Hz stiffness, 45kg frame, responsive steering",
+        "whyPrincipleDiffers": "Trellis achieves stiffness with minimal weight for sport performance; duplex cradle prioritizes load distribution for touring",
+        "performanceImpact": "KTM quicker turn-in and more precise handling; RE 650 more stable at speed; each optimized for intended purpose"
+      },
+      "engineeringRationale": "Trellis frame distributes loads through triangulated geometry; small-diameter tubes with thin walls achieve high stiffness-to-weight ratio",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-04-05",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    },
+    {
+      "id": "ARCH_KTMDUKE_SHALLOW_RAKE_QUICK_STEERING",
+      "bikeModel": "KTMDuke200",
+      "architecturePrinciple": "Steering Head Design & KTM's Aggressive Rake Angle (25°)",
+      "description": "KTM Duke 200 uses a steep rake angle (~25°) to prioritize quick steering response. Combined with reduced trail and aggressive steering geometry, this creates a demanding but precise platform.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 25,
+        "wheelbaseHmm": 1357,
+        "centerOfGravityHeightMm": 680,
+        "frameType": "Trellis frame",
+        "frameRigidity": "High",
+        "steeringHeadDesign": "Quick-response geometry",
+        "swingarmDesign": "Lightweight aluminum"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Quick turn-in; immediate steering response; feels sharp at low speeds",
+        "handlingCharacteristic": "Minimal self-centering; rider must apply correction input to maintain straight line",
+        "performanceImplication": "Trail of ~92mm enables trail-braking and corner exit control",
+        "boardRiskFactors": "No shimmy; confident feedback through bars; steering feel crisp and responsive"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Increasing fork offset (decreasing trail)",
+          "consequence": "Trail reduced further; steering becomes twitchy",
+          "riskLevel": "High",
+          "reasonForConsequence": "Short trail already near minimum; more reduction equals instability",
+          "mitigationStrategy": "Never recommended; unsaleable at highway speed"
+        },
+        {
+          "modificationType": "Decreasing fork offset (increasing trail)",
+          "consequence": "Trail increased; steering becomes slower",
+          "riskLevel": "Low",
+          "reasonForConsequence": "~5mm offset change equals ~8mm trail change; noticeable but manageable",
+          "mitigationStrategy": "Improves highway stability; excellent modification for comfort"
+        },
+        {
+          "modificationType": "Raising front end (springs softer)",
+          "consequence": "Changes effective rake slightly (0.5°); turns-in slower",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Suspension geometry shift is small; trail change ~2-3mm",
+          "mitigationStrategy": "Minimal geometry change; primarily suspension effect"
+        },
+        {
+          "modificationType": "Lowering front end (springs stiffer)",
+          "consequence": "Changes rake to be steeper; turns-in quicker",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Stiffer front lowers front 2-3mm; rake increases ~0.3°",
+          "mitigationStrategy": "Further decreases trail; enhances quick steering feel"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["REClassic350"],
+        "principalDifference": "KTM Duke 200: 25° rake, ~92mm trail (quick steering); Classic 350: 29° rake, ~110mm trail (stable cruising)",
+        "whyPrincipleDiffers": "KTM designed for street sport agility; Classic designed for beginner stability",
+        "performanceImpact": "KTM quicker turn-in response (~0.3s faster); Classic more self-centering for highway relaxation"
+      },
+      "engineeringRationale": "Shallow rake angle matched to trellis frame's light weight; enables sport riding and responsive steering; requires active rider input for line maintenance",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-04-10",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    }
+  ],
+  "KTM390Adventure": [
+    {
+      "id": "ARCH_KTM390_ADVENTURE_GROUND_CLEARANCE",
+      "bikeModel": "KTM390Adventure",
+      "architecturePrinciple": "Adventure Geometry: Higher Seat, Greater Ground Clearance (230mm), Steeper Rake",
+      "description": "The KTM 390 Adventure combines trellis frame technology with adventure geometry (higher seat, increased clearance, steeper rake). This creates an agile adventure platform with sport-level handling.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 27,
+        "wheelbaseHmm": 1480,
+        "centerOfGravityHeightMm": 720,
+        "frameType": "Trellis frame with adventure tuning",
+        "frameRigidity": "High",
+        "steeringHeadDesign": "Adventure-tuned geometry",
+        "swingarmDesign": "Lightweight aluminum with adventure travel"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Upright seating; excellent visibility; confident on rough terrain; responsive steering despite adventure positioning",
+        "handlingCharacteristic": "Higher CoG and taller seat vs. sport Duke; maintains trellis precision; excellent for adventure riding",
+        "performanceImplication": "230mm ground clearance highest of comparable bikes; allows steep approach/departure angles",
+        "boardRiskFactors": "Adventure geometry trades some sport precision for capability; still more agile than touring bikes"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Longer-travel suspension (80-100mm additional)",
+          "consequence": "Raises CoG by 12-15mm; increases breakover height; affects rake angle effective trail",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Adventure geometry already optimized; longer travel requires recalibration",
+          "mitigationStrategy": "Verify new geometry works with existing rake angle; may need steering adjustments"
+        },
+        {
+          "modificationType": "Lower seat option (reduce height 20mm)",
+          "consequence": "Lowers CoG; reduces adventure riding position benefits",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Lower seat compromises visibility and adventure capability",
+          "mitigationStrategy": "Consider if sport riding outweighs adventure benefits"
+        },
+        {
+          "modificationType": "Sport fairings conversion",
+          "consequence": "Compromises adventure design; reduces drag; changes aerodynamics",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Trellis frame handles fairings well; purely aesthetic/aerodynamic change",
+          "mitigationStrategy": "Possible but deviates from adventure philosophy"
+        },
+        {
+          "modificationType": "Lightweight wheels (1.5kg reduction)",
+          "consequence": "Lowers unsprung mass; improves suspension response and handling",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Benefits all platforms; no geometry change",
+          "mitigationStrategy": "Excellent modification; improves agility while maintaining adventure capability"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["Himalayan411"],
+        "principalDifference": "KTM 390: 1,480mm wheelbase, 230mm clearance, 27.5° rake, trellis frame; Himalayan: 1,510mm wheelbase, 220mm clearance, 27° rake, cradle frame",
+        "whyPrincipleDiffers": "KTM prioritizes agility via trellis frame and lighter weight; Himalayan prioritizes stability via longer wheelbase",
+        "performanceImpact": "KTM more nimble in tight adventure terrain; Himalayan more planted on open gravel; nearly equivalent adventure capability"
+      },
+      "engineeringRationale": "Trellis frame technology applied to adventure geometry; creates agile adventure bike vs. stable touring bike. Higher CoG traded for better visibility and engagement.",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-04-15",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    },
+    {
+      "id": "ARCH_KTM390_TRELLIS_ADVENTURE_HYBRID",
+      "bikeModel": "KTM390Adventure",
+      "architecturePrinciple": "Trellis Frame Applied to Adventure Platform: Sport Agility Meets Adventure Capability",
+      "description": "KTM 390 Adventure applies trellis frame technology to adventure riding, creating a unique hybrid that maintains sport-level precision while enabling adventure-style exploration.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 27,
+        "wheelbaseHmm": 1480,
+        "centerOfGravityHeightMm": 720,
+        "frameType": "Trellis frame optimized for adventure",
+        "frameRigidity": "High",
+        "steeringHeadDesign": "Adventure-tuned trellis connection",
+        "swingarmDesign": "Aluminum with adventure travel rating"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Nimble handling despite adventure positioning; trellis frame provides sport-bike precision",
+        "handlingCharacteristic": "Quick response available despite adventure geometry; rare combination of capabilities",
+        "performanceImplication": "Trellis frame prevents soft feeling despite taller riding position and adventure focus",
+        "boardRiskFactors": "Combines sport-level stiffness (~7.2 Hz) with adventure geometry; unique platform"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Additional frame bracing (for adventure load capacity)",
+          "consequence": "Already maximized by trellis design; additional bracing minimal benefit",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Trellis frame inherently efficient; already optimal for stiffness/weight",
+          "mitigationStrategy": "Not necessary; frame already well-optimized"
+        },
+        {
+          "modificationType": "Rally-specific suspension tuning",
+          "consequence": "Trellis frame supports high-performance suspension well",
+          "riskLevel": "Low",
+          "reasonForConsequence": "High frame stiffness enables precise suspension calibration",
+          "mitigationStrategy": "Excellent upgrade option; frame supports performance modifications"
+        },
+        {
+          "modificationType": "Engine performance modifications",
+          "consequence": "Frame strong enough; but heavier displacement affects handling agility",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Trellis frame handles loads; but mass increase reduces sport agility",
+          "mitigationStrategy": "Possible but trade-off vs. original lightweight advantage"
+        },
+        {
+          "modificationType": "Weight reduction (remove non-essential parts)",
+          "consequence": "Preserves sport agility while maintaining adventure capability",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Trellis frame was designed light; weight reduction aligns with design",
+          "mitigationStrategy": "Excellent modification; improves all performance aspects"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["KTMDuke200"],
+        "principalDifference": "KTM 390 Adventure: Same trellis frame as Duke 200 but adventure geometry (higher seat, longer wheelbase, steeper rake, higher CoG)",
+        "whyPrincipleDiffers": "Adventure version sacrifices some sport precision for adventure versatility and visibility",
+        "performanceImpact": "Duke 200 quicker on roads; 390 Adventure better for varied terrain; same frame technology but different geometry"
+      },
+      "engineeringRationale": "KTM successfully adapted sport trellis frame to adventure platform; maintains precision while enabling adventure riding. Rare engineering achievement.",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-04-20",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    }
+  ],
+  "CrossPlatform": [
+    {
+      "id": "ARCH_CROSS_FRAME_TYPE_MODIFICATION_ENVELOPE",
+      "bikeModel": "REClassic350",
+      "architecturePrinciple": "Frame Type Determines Modification Envelope: Cradle vs. Trellis",
+      "description": "The frame type fundamentally determines what modifications are possible. Cradle frames can tolerate engine displacement increases with bracing; trellis frames are already optimized and can't absorb further stiffness.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 26,
+        "wheelbaseHmm": 1400,
+        "centerOfGravityHeightMm": 680,
+        "frameType": "Multiple types compared",
+        "frameRigidity": "Variable by platform",
+        "steeringHeadDesign": "Platform-specific",
+        "swingarmDesign": "Platform-specific"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Varies by frame type and modification choice",
+        "handlingCharacteristic": "Frame type is fundamental constraint on modifications",
+        "performanceImplication": "Cradle frames allow diverse modification paths; trellis frames restricted",
+        "boardRiskFactors": "Understanding frame type is critical for modification planning"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Engine displacement increase on cradle frame",
+          "consequence": "Possible with reinforcement; frame has load distribution redundancy",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Cradle frames allow bracing to accommodate larger displacement",
+          "mitigationStrategy": "Feasible up to ~90cc increase with proper reinforcement"
+        },
+        {
+          "modificationType": "Engine displacement increase on trellis frame",
+          "consequence": "Frame strong enough but handling agility decreases; already optimized",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Trellis frame can't stiffen further; mass increase reduces sport benefit",
+          "mitigationStrategy": "Not recommended; compromises sport platform philosophy"
+        },
+        {
+          "modificationType": "Luggage capacity on cradle frame",
+          "consequence": "Excellent; frame designed for touring loads",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Cradle frames have redundant load paths for diverse loading",
+          "mitigationStrategy": "Ideal modification; within design envelope"
+        },
+        {
+          "modificationType": "Luggage capacity on trellis frame",
+          "consequence": "Limited; frame optimized for minimal load",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Trellis design doesn't accommodate asymmetric touring loads well",
+          "mitigationStrategy": "Not recommended for heavy touring; use cradle-frame adventure platform"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["RE650", "Himalayan411", "KTMDuke200", "KTM390Adventure"],
+        "principalDifference": "Cradle frames (RE 650, Himalayan): Moderate modification tolerance with bracing; Trellis frames (KTM 200/390): Low modification tolerance; already optimized",
+        "whyPrincipleDiffers": "Frame type reflects design philosophy: Cradle for versatility, Trellis for sport efficiency",
+        "performanceImpact": "Cradle frames enable diverse upgrade paths; trellis frames require respecting original design intent"
+      },
+      "engineeringRationale": "Cradle frames distribute loads through multiple paths; allow bracing additions. Trellis frames are already at maximum efficiency; additions contradict design.",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-04-25",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    },
+    {
+      "id": "ARCH_CROSS_RAKE_WHEELBASE_COMBINED_HANDLING",
+      "bikeModel": "REClassic350",
+      "architecturePrinciple": "Rake Angle vs. Wheelbase: Why Different Platforms Handle Differently",
+      "description": "Rake angle and wheelbase work together to create handling character. It's not one or the other—it's the combination that determines overall chassis character.",
+      "architecturalDetails": {
+        "rakeAngleDegrees": 27,
+        "wheelbaseHmm": 1430,
+        "centerOfGravityHeightMm": 690,
+        "frameType": "Various platforms compared",
+        "frameRigidity": "Variable",
+        "steeringHeadDesign": "Platform-specific",
+        "swingarmDesign": "Platform-specific"
+      },
+      "howItManifests": {
+        "ridingFeeling": "Combination of rake and wheelbase creates overall character",
+        "handlingCharacteristic": "Long wheelbase + steep rake = stable cruiser; short wheelbase + shallow rake = agile sport",
+        "performanceImplication": "No single parameter defines handling; interaction of multiple factors critical",
+        "boardRiskFactors": "Modifying one parameter without considering the other creates imbalance"
+      },
+      "modificationImplications": [
+        {
+          "modificationType": "Changing rake angle without adjusting wheelbase",
+          "consequence": "Creates handling imbalance; corner entry vs. midcorner feel mismatched",
+          "riskLevel": "High",
+          "reasonForConsequence": "Rake and wheelbase are fundamentally coupled in handling",
+          "mitigationStrategy": "Avoid solo rake changes; modify as integrated geometry"
+        },
+        {
+          "modificationType": "Adding fork geometry (changes trail)",
+          "consequence": "Requires suspension tuning to rebalance handling",
+          "riskLevel": "Medium",
+          "reasonForConsequence": "Trail change affects rake + wheelbase equilibrium",
+          "mitigationStrategy": "Suspension adjustments necessary after trail-changing modifications"
+        },
+        {
+          "modificationType": "Lengthening swingarm (increases wheelbase)",
+          "consequence": "Makes turning-in slower; affects corner speed",
+          "riskLevel": "High",
+          "reasonForConsequence": "Wheelbase change alters fundamental handling balance",
+          "mitigationStrategy": "Not recommended; verify desired handling changes before modifying"
+        },
+        {
+          "modificationType": "Integrated geometry tuning (rake + wheelbase + trail together)",
+          "consequence": "Can optimize handling for specific use case",
+          "riskLevel": "Low",
+          "reasonForConsequence": "Holistic approach respects fundamental coupling",
+          "mitigationStrategy": "Expert-level tuning; requires understanding of complete geometry"
+        }
+      ],
+      "comparativeAnalysis": {
+        "comparedBikeModels": ["RE650", "Himalayan411", "KTMDuke200", "KTM390Adventure"],
+        "principalDifference": "All platforms show rake + wheelbase + trail working together: Classic 350 (29°+1395mm=stable), RE 650 (26°+1465mm=sport-cruise), Himalayan (27°+1510mm=stable-explorer), KTM 200 (25°+1357mm=quick), KTM 390 (27°+1480mm=agile-adventure)",
+        "whyPrincipleDiffers": "Each platform optimizes rake + wheelbase combination for intended use case",
+        "performanceImpact": "Combination creates handling character; no single parameter defines it"
+      },
+      "engineeringRationale": "Rake angle + wheelbase + trail form integrated system. Changing one requires compensating changes in others to maintain handling balance.",
+      "videoReference": {
+        "channelName": "MotorInc",
+        "videoUrl": "https://www.youtube.com/@motorinc",
+        "date": "2024-04-30",
+        "authority": "Deep"
+      },
+      "authority": "Deep",
+      "integratedIntoMansi": false
+    }
+  ]
+}

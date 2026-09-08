@@ -22,7 +22,8 @@ const badges = [
 
 export default function TrustBadges() {
     return (
-        <div className="w-full bg-[#0a0a0a] border-y border-neutral-800 py-8">
+        <section className="w-full bg-[#0a0a0a] border-y border-neutral-800 py-8" aria-label="Core Workshop Guarantees">
+            <h2 className="sr-only">MotoFit 2 Core Workshop Guarantees & Engine Warranty</h2>
             <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
                 {badges.map((badge, index) => (
                     <div key={index} className="flex items-center gap-4 group">
@@ -40,6 +41,6 @@ export default function TrustBadges() {
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     );
 }

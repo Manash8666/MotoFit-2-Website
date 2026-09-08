@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Exo_2, Alegreya_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     default: "MotoFit 2 | #1 Bike Garage in Chandkheda, Ahmedabad",
     template: "%s | MotoFit 2 Ahmedabad",
   },
-  description: "Looking for a reliable bike garage near you in Ahmedabad? MotoFit 2 is the top-rated multi-brand motorcycle workshop in Chandkheda, New CG Road. Expert mechanics for Royal Enfield, KTM, Ducati, Kawasaki, and all superbikes. Free pickup & drop. Call: 72596 25881",
+  description: "MotoFit 2 is Ahmedabad's premier motorcycle workshop in Chandkheda. Expert superbike repairs, dyno tuning, OEM parts & 1-year engine warranty. Call: 72596 25881.",
   keywords: [
     // Primary Local Keywords
     "garage near me ahmedabad",
@@ -114,6 +114,9 @@ export const metadata: Metadata = {
   publisher: "MotoFit 2 Workshop Pvt. Ltd.",
   alternates: {
     canonical: "https://motofit2.in",
+    types: {
+      'text/markdown': 'https://motofit2.in/llms.txt',
+    },
   },
   openGraph: {
     type: "website",
@@ -151,18 +154,19 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
     },
   },
   verification: {
     google: "tWjcvP5_LBt4kzUA4gzKg66XXyqXIb3n0O60ieg6Vn8",
   },
   manifest: '/site.webmanifest',
+};
+
+export const viewport: Viewport = {
   themeColor: '#ff5e1a',
 };
 
@@ -179,6 +183,12 @@ export default function RootLayout({
     <html lang="en" className="dark">
       {/* <body className={`${exo2.variable} ${alegreyaSans.variable} ${agale.variable} font-sans bg-[#050505] text-white`}> */}
       <body className={`${exo2.variable} ${alegreyaSans.variable} ${agale.variable} font-sans bg-[#050505] text-white`}>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999999] focus:px-4 focus:py-2 focus:bg-[#ff5e1a] focus:text-white focus:font-bold focus:rounded-md focus:shadow-lg focus:outline-none"
+        >
+          Skip to main content
+        </a>
         <SchemaMarkup />
         <BookingProvider>
           <MansiWidget />

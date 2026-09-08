@@ -188,7 +188,7 @@ export const blogs: BlogPost[] = [
     author: "Akshat Mohanty",
     date: "Dec 15, 2025",
     readTime: "7 min read",
-    image: "/hero/dyno.png",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80",
     tags: ["Dyno", "Tuning", "Tech"],
     content: `
       <h2>The Factory Truth</h2>
@@ -304,7 +304,7 @@ export const blogs: BlogPost[] = [
     author: "Akshat Mohanty",
     date: "Nov 01, 2025",
     readTime: "7 min read",
-    image: "/hero/custom.png",
+    image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80",
     tags: ["Gear", "Touring", "Safety"],
     content: `
       <h2>The Illusion of Warmth</h2>

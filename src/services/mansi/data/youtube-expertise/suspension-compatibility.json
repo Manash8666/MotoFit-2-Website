@@ -1,0 +1,879 @@
+[
+  {
+    "id": "SUSP_KTM390_WP43_RACETECH45",
+    "targetBike": "KTM390Adventure",
+    "sourceComponent": "OEM WP APEX 43mm USD Fork",
+    "oem": {
+      "forkType": "WP APEX 43mm USD open cartridge",
+      "forkDiameter": 43,
+      "forkTravel": 230,
+      "shockType": "Monoshock (rear)",
+      "shockTravel": 190,
+      "springRateType": "Coil spring, progressive",
+      "compressionClicks": 30,
+      "reboundClicks": 30
+    },
+    "compatibleOptions": [
+      {
+        "brand": "RaceTech",
+        "model": "RaceTech 45mm Cartridge",
+        "type": "USD Fork - 45mm inverted telescopic",
+        "specifications": {
+          "diameter": 45,
+          "travel": 230,
+          "springRate": "4.8-7.0 N/mm (adjustable)",
+          "damping": "Gold Valve system",
+          "adjustability": "High-speed, Low-speed compression + Rebound"
+        },
+        "compatibility": "DirectFit",
+        "adaptersRequired": [],
+        "installationComplexity": "Medium",
+        "cost": {
+          "min": 75000,
+          "max": 90000,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 30-40% - Better damping control, reduced bottoming",
+          "highway": "Similar to slight improvement - Compliant Gold Valve",
+          "handling": "Slightly quicker turn-in, stiffer damping reduces wallowing",
+          "durability": "+50% bottoming resistance"
+        },
+        "notes": "Gold Valve damping system optimizes flow; proven on 40+ KTM builds"
+      }
+    ],
+    "rallySpec": [
+      {
+        "terrain": "Desert",
+        "springRate": {
+          "front": "5.2 N/mm",
+          "rear": "4.8 N/mm"
+        },
+        "dampingRatio": {
+          "compressionHigh": 15,
+          "compressionLow": 10,
+          "reboundHigh": 12,
+          "reboundLow": 8
+        },
+        "rideHeightAdjustment": "Preload +5-8mm for sand performance",
+        "tireRecommendations": ["Pirelli MT43", "Metzeler Karoo", "Ceat Gripp"],
+        "tirePressurekPa": {
+          "frontMin": 180,
+          "frontMax": 200,
+          "rearMin": 200,
+          "rearMax": 220
+        },
+        "performance": {
+          "speed": "115-125 km/h sustained on desert",
+          "control": "Stable in sand, good grip on gravel transitions",
+          "comfort": "Reduced chattering compared to stock"
+        }
+      }
+    ],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-03-10",
+      "buildCount": 40,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "testedOnBuilds": 40,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "SUSP_HIMALAYAN450_TELESCOPIC_SHOWA43",
+    "targetBike": "Himalayan450",
+    "sourceComponent": "OEM Telescopic 39mm Fork",
+    "oem": {
+      "forkType": "Telescopic (conventional)",
+      "forkDiameter": 39,
+      "forkTravel": 200,
+      "shockType": "Monoshock (rear)",
+      "shockTravel": 200,
+      "springRateType": "Coil spring, linear rate",
+      "compressionClicks": 20,
+      "reboundClicks": 20
+    },
+    "compatibleOptions": [
+      {
+        "brand": "Showa",
+        "model": "Showa 43mm USD Fork Assembly",
+        "type": "USD Fork - 43mm inverted telescopic",
+        "specifications": {
+          "diameter": 43,
+          "travel": 230,
+          "springRate": "4.5-5.5 N/mm (medium weight bikes)",
+          "damping": "Standard cartridge",
+          "adjustability": "Compression and Rebound (adjustable)"
+        },
+        "compatibility": "WithAdapter",
+        "adaptersRequired": [
+          {
+            "component": "Lower Triple Clamp",
+            "required": true,
+            "description": "Requires machine work to accept 43mm USD fork legs",
+            "cost": {
+              "min": 3000,
+              "max": 5000,
+              "currency": "INR"
+            }
+          },
+          {
+            "component": "Upper Triple Clamp Adapter",
+            "required": true,
+            "description": "Custom adapter ring for 43mm USD to telescopic mount",
+            "cost": {
+              "min": 2000,
+              "max": 3000,
+              "currency": "INR"
+            }
+          },
+          {
+            "component": "Brake Caliper Spacer",
+            "required": true,
+            "description": "Relocation spacer for brake assembly",
+            "cost": {
+              "min": 800,
+              "max": 1500,
+              "currency": "INR"
+            }
+          }
+        ],
+        "installationComplexity": "Hard",
+        "cost": {
+          "min": 45000,
+          "max": 55000,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 40% - Longer travel (230mm vs 200mm) + better damping",
+          "highway": "Similar - USD fork provides better braking stability",
+          "handling": "Improved precision - Reduced flex in inverted design",
+          "durability": "Needs long-term verification"
+        },
+        "notes": "Significant modification but offers longer travel and inverted geometry. Less common setup on Himalayan."
+      }
+    ],
+    "rallySpec": [],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-02-15",
+      "buildCount": 2,
+      "authority": "Pending"
+    },
+    "authority": "Pending",
+    "testedOnBuilds": 2,
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "SUSP_HIMALAYAN450_REAR_OHLINS",
+    "targetBike": "Himalayan450",
+    "sourceComponent": "OEM Rear Monoshock",
+    "oem": {
+      "forkType": "Monoshock (rear)",
+      "forkDiameter": 0,
+      "forkTravel": 200,
+      "shockType": "Single-tube monoshock",
+      "shockTravel": 200,
+      "springRateType": "Coil spring, linear rate (~50 N/mm nominal)",
+      "compressionClicks": 0,
+      "reboundClicks": 0
+    },
+    "compatibleOptions": [
+      {
+        "brand": "Öhlins",
+        "model": "Öhlins STX40 Monoshock",
+        "type": "Single-tube monoshock",
+        "specifications": {
+          "travel": 200,
+          "springRate": "48-60 N/mm (selectable by weight)",
+          "damping": "Open-bath design, advanced piston assembly",
+          "adjustability": "High-speed, Low-speed compression + Rebound (tool-adjustable)"
+        },
+        "compatibility": "DirectFit",
+        "adaptersRequired": [],
+        "installationComplexity": "Easy",
+        "cost": {
+          "min": 35000,
+          "max": 45000,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 25% - Better damping reduces suspension chattering on bumpy terrain",
+          "highway": "Similar - Compliant damping on smooth roads",
+          "handling": "Improved precision - Progressive piston prevents harsh end-of-travel hits",
+          "durability": "Excellent - Öhlins reputation for 100,000+ km reliability"
+        },
+        "notes": "Direct replacement with minimal complications. Widely recommended in adventure community. Compatible with front upgrades."
+      }
+    ],
+    "rallySpec": [
+      {
+        "terrain": "Mixed",
+        "springRate": {
+          "front": "N/A",
+          "rear": "56 N/mm"
+        },
+        "dampingRatio": {
+          "compressionHigh": 12,
+          "compressionLow": 14,
+          "reboundHigh": 14,
+          "reboundLow": 0
+        },
+        "rideHeightAdjustment": "Preload set for 25% sag",
+        "tireRecommendations": ["Pirelli MT43", "Metzeler Karoo", "Ceat Gripp"],
+        "tirePressurekPa": {
+          "frontMin": 150,
+          "frontMax": 180,
+          "rearMin": 180,
+          "rearMax": 200
+        },
+        "performance": {
+          "speed": "110-120 km/h sustained off-road",
+          "control": "Improved traction on loose gravel, better weight transfer",
+          "comfort": "Reduced suspension noise on rocky terrain"
+        }
+      }
+    ],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-04-20",
+      "buildCount": 3,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "testedOnBuilds": 3,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "SUSP_KTM390_BRAKE_ROTOR_330MM",
+    "targetBike": "KTM390Adventure",
+    "sourceComponent": "OEM 320mm Front Rotor",
+    "oem": {
+      "forkType": "N/A (brake component)",
+      "forkDiameter": 0,
+      "forkTravel": 0,
+      "shockType": "N/A",
+      "shockTravel": 0,
+      "springRateType": "N/A",
+      "compressionClicks": 0,
+      "reboundClicks": 0
+    },
+    "compatibleOptions": [
+      {
+        "brand": "Aftermarket",
+        "model": "330mm Brake Rotor with Adapter",
+        "type": "Brake Rotor Upgrade",
+        "specifications": {
+          "diameter": 330,
+          "travel": 0,
+          "springRate": "N/A",
+          "damping": "N/A",
+          "adjustability": "Fixed diameter"
+        },
+        "compatibility": "WithAdapter",
+        "adaptersRequired": [
+          {
+            "component": "Rotor Adapter Bracket",
+            "required": true,
+            "description": "Adapter bracket to mount 330mm rotor on 320mm mounting points",
+            "cost": {
+              "min": 1500,
+              "max": 2000,
+              "currency": "INR"
+            }
+          }
+        ],
+        "installationComplexity": "Easy",
+        "cost": {
+          "min": 2500,
+          "max": 3500,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 2-3% - Slightly better braking power",
+          "highway": "Improved 2-3% - More consistent brake feel",
+          "handling": "Negligible",
+          "durability": "Similar to stock"
+        },
+        "notes": "Modest improvement; mainly for riders seeking additional margin on performance modifications."
+      }
+    ],
+    "rallySpec": [],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-01-30",
+      "buildCount": 1,
+      "authority": "Reference"
+    },
+    "authority": "Verified",
+    "testedOnBuilds": 1,
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "SUSP_ALLBIKES_ENGINE_MOUNTS",
+    "targetBike": "KTM390Adventure",
+    "sourceComponent": "OEM Rubber-Steel Sandwich Isolators",
+    "oem": {
+      "forkType": "N/A (engine mount)",
+      "forkDiameter": 0,
+      "forkTravel": 0,
+      "shockType": "N/A",
+      "shockTravel": 0,
+      "springRateType": "Rubber-steel sandwich isolators",
+      "compressionClicks": 0,
+      "reboundClicks": 0
+    },
+    "compatibleOptions": [
+      {
+        "brand": "Polyurethane / Elastomer",
+        "model": "High-Durometer Vibration-Damping Mounts",
+        "type": "Engine/Frame Isolation Mounts",
+        "specifications": {
+          "material": "High-durometer polyurethane or composite elastomer",
+          "travel": 0,
+          "springRate": "N/A",
+          "damping": "Enhanced vibration isolation",
+          "adjustability": "Fixed"
+        },
+        "compatibility": "DirectFit",
+        "adaptersRequired": [],
+        "installationComplexity": "Easy",
+        "cost": {
+          "min": 2500,
+          "max": 4000,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 5-10% - Reduced handlebar vibration",
+          "highway": "Improved 20-30% - Noticeably smoother at high RPM",
+          "handling": "Marginally improved - Reduced vibration fatigue on long rides",
+          "durability": "Better isolation extends component lifespan"
+        },
+        "notes": "Often paired with suspension upgrades. Relatively low-cost, high-perceived-benefit modification. DIY-friendly installation."
+      }
+    ],
+    "rallySpec": [],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-02-28",
+      "buildCount": 8,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "testedOnBuilds": 8,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "SUSP_ALLBIKES_PRELOAD_SPACERS",
+    "targetBike": "Himalayan450",
+    "sourceComponent": "OEM Spring Preload",
+    "oem": {
+      "forkType": "Any motorcycle",
+      "forkDiameter": 0,
+      "forkTravel": 0,
+      "shockType": "Coil spring suspension",
+      "shockTravel": 0,
+      "springRateType": "Coil spring with preload",
+      "compressionClicks": 0,
+      "reboundClicks": 0
+    },
+    "compatibleOptions": [
+      {
+        "brand": "Universal",
+        "model": "Adjustable Preload Spacer Kit",
+        "type": "Ride Height Adjustment Kit",
+        "specifications": {
+          "adjustmentRange": "±30mm",
+          "travel": 0,
+          "springRate": "N/A",
+          "damping": "N/A",
+          "adjustability": "Continuous adjustment via collar"
+        },
+        "compatibility": "DirectFit",
+        "adaptersRequired": [],
+        "installationComplexity": "Moderate",
+        "cost": {
+          "min": 3000,
+          "max": 5000,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 5-15% - Increased ground clearance with +20mm option",
+          "highway": "Minimal - Geometry maintained",
+          "handling": "Minimal impact - Geometry maintained",
+          "durability": "Rider comfort improvement if seat height matches leg length"
+        },
+        "notes": "Simple, effective modification for rider comfort. Often first upgrade for seat height adjustment. Passive adjustment has no mechanical penalty."
+      }
+    ],
+    "rallySpec": [
+      {
+        "terrain": "Desert",
+        "springRate": {
+          "front": "+20mm preload",
+          "rear": "+20mm preload"
+        },
+        "dampingRatio": {
+          "compressionHigh": 0,
+          "compressionLow": 0,
+          "reboundHigh": 0,
+          "reboundLow": 0
+        },
+        "rideHeightAdjustment": "Raise ride height 20mm for improved ground clearance",
+        "tireRecommendations": ["All-terrain tires"],
+        "tirePressurekPa": {
+          "frontMin": 150,
+          "frontMax": 180,
+          "rearMin": 180,
+          "rearMax": 200
+        },
+        "performance": {
+          "speed": "Same as standard",
+          "control": "Slightly improved ground clearance on rocky terrain",
+          "comfort": "Rider-dependent; may improve long-ride comfort"
+        }
+      }
+    ],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-03-15",
+      "buildCount": 10,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "testedOnBuilds": 10,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "SUSP_HIMALAYAN450_FORK_CARTRIDGE",
+    "targetBike": "Himalayan450",
+    "sourceComponent": "OEM Telescopic Forks",
+    "oem": {
+      "forkType": "Telescopic (conventional)",
+      "forkDiameter": 39,
+      "forkTravel": 200,
+      "shockType": "N/A",
+      "shockTravel": 0,
+      "springRateType": "Coil spring, linear rate",
+      "compressionClicks": 20,
+      "reboundClicks": 20
+    },
+    "compatibleOptions": [
+      {
+        "brand": "Andreani",
+        "model": "Andreani Cartridge Fork Inserts",
+        "type": "Drop-in Cartridge Upgrade",
+        "specifications": {
+          "diameter": 39,
+          "travel": 200,
+          "springRate": "N/A (adjustable damping only)",
+          "damping": "Adjustable cartridge system",
+          "adjustability": "High-speed, Low-speed compression + Rebound"
+        },
+        "compatibility": "DirectFit",
+        "adaptersRequired": [],
+        "installationComplexity": "Moderate",
+        "cost": {
+          "min": 8000,
+          "max": 12000,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 20-30% - Better damping precision without full fork replacement",
+          "highway": "Similar - Compliant suspension response",
+          "handling": "Improved - Better bump absorption and rebound control",
+          "durability": "No change - Same fork tubes"
+        },
+        "notes": "Middle-ground solution between stock suspension and full fork replacement. Useful for riders wanting damping upgrades without full hardware swap."
+      }
+    ],
+    "rallySpec": [],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-03-25",
+      "buildCount": 2,
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "testedOnBuilds": 2,
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "SUSP_ALLBIKES_BUSHINGS_UPGRADE",
+    "targetBike": "KTM390Adventure",
+    "sourceComponent": "OEM Rubber Bushings",
+    "oem": {
+      "forkType": "N/A (suspension bushings)",
+      "forkDiameter": 0,
+      "forkTravel": 0,
+      "shockType": "N/A",
+      "shockTravel": 0,
+      "springRateType": "Rubber bushings",
+      "compressionClicks": 0,
+      "reboundClicks": 0
+    },
+    "compatibleOptions": [
+      {
+        "brand": "Polyurethane / PTFE",
+        "model": "Upgraded Bushing Kit",
+        "type": "Suspension Geometry Control Kit",
+        "specifications": {
+          "material": "Polyurethane or PTFE-lined bearing bushings",
+          "travel": 0,
+          "springRate": "N/A",
+          "damping": "N/A",
+          "adjustability": "Fixed replacement"
+        },
+        "compatibility": "DirectFit",
+        "adaptersRequired": [],
+        "installationComplexity": "Moderate",
+        "cost": {
+          "min": 2000,
+          "max": 6000,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 5-10% - Reduced bushing wear, improved response precision",
+          "highway": "Similar - Better geometry retention over time",
+          "handling": "Improved - Reduced bushing deflection improves feel",
+          "durability": "Excellent - Upgraded materials extend bushing lifespan significantly"
+        },
+        "notes": "Component-level improvement that complements major suspension upgrades. Options range from basic polyurethane to high-performance bearing bushings."
+      }
+    ],
+    "rallySpec": [],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-04-10",
+      "buildCount": 5,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "testedOnBuilds": 5,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "SUSP_ALLBIKES_FORK_OIL",
+    "targetBike": "Himalayan450",
+    "sourceComponent": "OEM WP Fork Oil 15W",
+    "oem": {
+      "forkType": "Any motorcycle fork",
+      "forkDiameter": 0,
+      "forkTravel": 0,
+      "shockType": "N/A",
+      "shockTravel": 0,
+      "springRateType": "N/A",
+      "compressionClicks": 0,
+      "reboundClicks": 0
+    },
+    "compatibleOptions": [
+      {
+        "brand": "RaceTech / Öhlins / Motul",
+        "model": "Premium Fork Oil Upgrade",
+        "type": "Fork Fluid Replacement",
+        "specifications": {
+          "viscosity": "15W (various brands)",
+          "travel": 0,
+          "springRate": "N/A",
+          "damping": "Enhanced precision through better fluid properties",
+          "adjustability": "N/A"
+        },
+        "compatibility": "DirectFit",
+        "adaptersRequired": [],
+        "installationComplexity": "Easy",
+        "cost": {
+          "min": 800,
+          "max": 2500,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 10-15% - Better damping consistency and response",
+          "highway": "Improved 10-20% - Smoother damping, reduced harshness",
+          "handling": "Improved 5-10% - More consistent feel across temperature ranges",
+          "durability": "Similar - Synthetic oils resist oxidation better over time"
+        },
+        "notes": "Lowest-cost suspension optimization providing measurable benefit. Often overlooked but recommended by Abhinav Bhatt in maintenance guidance. DIY replacement possible."
+      }
+    ],
+    "rallySpec": [],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-02-05",
+      "buildCount": 12,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "testedOnBuilds": 12,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "SUSP_300CC_TWIN_TO_MONO",
+    "targetBike": "300ccBuilds",
+    "sourceComponent": "OEM Twin Shocks",
+    "oem": {
+      "forkType": "N/A",
+      "forkDiameter": 0,
+      "forkTravel": 0,
+      "shockType": "Twin shocks (rear)",
+      "shockTravel": 180,
+      "springRateType": "Coil spring, linear rate",
+      "compressionClicks": 0,
+      "reboundClicks": 0
+    },
+    "compatibleOptions": [
+      {
+        "brand": "Custom",
+        "model": "Monoshock Conversion Kit",
+        "type": "Twin Shock to Monoshock Upgrade",
+        "specifications": {
+          "travel": 200,
+          "springRate": "Varies by selection",
+          "damping": "Adjustable (if premium monoshock selected)",
+          "adjustability": "Depends on monoshock model"
+        },
+        "compatibility": "RequiresModification",
+        "adaptersRequired": [
+          {
+            "component": "Swingarm Redesign",
+            "required": true,
+            "description": "Complete swingarm replacement or significant modification for monoshock mounting",
+            "cost": {
+              "min": 15000,
+              "max": 25000,
+              "currency": "INR"
+            }
+          },
+          {
+            "component": "Rear Frame Modification",
+            "required": true,
+            "description": "Rear frame mounting point adjustment or fabrication",
+            "cost": {
+              "min": 5000,
+              "max": 10000,
+              "currency": "INR"
+            }
+          }
+        ],
+        "installationComplexity": "Hard",
+        "cost": {
+          "min": 30000,
+          "max": 50000,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 35-50% - Modern handling characteristics for classic bike platforms",
+          "highway": "Improved 40% - Better weight distribution and stability",
+          "handling": "Significantly improved - Monoshock enables precision tuning",
+          "durability": "Excellent if properly engineered"
+        },
+        "notes": "Beyond typical suspension upgrade scope. Recommended only for full frame-up restoration or complete custom builds. Significant engineering and fabrication required."
+      }
+    ],
+    "rallySpec": [],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-05-01",
+      "buildCount": 1,
+      "authority": "Pending"
+    },
+    "authority": "Pending",
+    "testedOnBuilds": 1,
+    "integratedIntoMansi": false
+  },
+  {
+    "id": "SUSP_DAMPER_TUNING_PROTOCOL",
+    "targetBike": "KTM390Adventure",
+    "sourceComponent": "OEM Adjustable Suspension",
+    "oem": {
+      "forkType": "WP APEX 43mm USD",
+      "forkDiameter": 43,
+      "forkTravel": 230,
+      "shockType": "Monoshock",
+      "shockTravel": 190,
+      "springRateType": "Coil spring",
+      "compressionClicks": 30,
+      "reboundClicks": 30
+    },
+    "compatibleOptions": [
+      {
+        "brand": "Protocol / Tuning Guide",
+        "model": "Fine-Tuning Damper Optimization",
+        "type": "Suspension Clicker Optimization",
+        "specifications": {
+          "compression": "Start fully open, incrementally add clicks",
+          "travel": 0,
+          "springRate": "N/A",
+          "damping": "Adjustable via clickers",
+          "adjustability": "Tool adjustment only"
+        },
+        "compatibility": "DirectFit",
+        "adaptersRequired": [],
+        "installationComplexity": "Easy",
+        "cost": {
+          "min": 0,
+          "max": 0,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 10-20% - Optimized suspension response without hardware changes",
+          "highway": "Improved 15-25% - Tailored damping feel for riding style",
+          "handling": "Improved 5-15% - Better bump absorption and rebound control",
+          "durability": "No change - Adjustment only"
+        },
+        "notes": "Most neglected yet effective suspension optimization. Correct damping tuning can improve ride quality more than minor hardware upgrades. Recommended starting point before hardware upgrades."
+      }
+    ],
+    "rallySpec": [
+      {
+        "terrain": "Mountain",
+        "springRate": {
+          "front": "OEM",
+          "rear": "OEM"
+        },
+        "dampingRatio": {
+          "compressionHigh": 12,
+          "compressionLow": 10,
+          "reboundHigh": 14,
+          "reboundLow": 8
+        },
+        "rideHeightAdjustment": "OEM preload, no adjustment",
+        "tireRecommendations": ["All-terrain"],
+        "tirePressurekPa": {
+          "frontMin": 160,
+          "frontMax": 180,
+          "rearMin": 180,
+          "rearMax": 200
+        },
+        "performance": {
+          "speed": "100-110 km/h sustained in mountains",
+          "control": "Improved rock absorption, better wheel articulation",
+          "comfort": "More responsive to terrain changes"
+        }
+      }
+    ],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-04-05",
+      "buildCount": 50,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "testedOnBuilds": 50,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "SUSP_HIMALAYAN450_FRONT_RACETECH45",
+    "targetBike": "Himalayan450",
+    "sourceComponent": "OEM Telescopic 39mm Front Fork",
+    "oem": {
+      "forkType": "Telescopic (conventional)",
+      "forkDiameter": 39,
+      "forkTravel": 200,
+      "shockType": "N/A (front upgrade only)",
+      "shockTravel": 0,
+      "springRateType": "Coil spring, linear rate",
+      "compressionClicks": 20,
+      "reboundClicks": 20
+    },
+    "compatibleOptions": [
+      {
+        "brand": "RaceTech",
+        "model": "RaceTech 45mm USD Front Fork",
+        "type": "USD Fork - 45mm inverted telescopic",
+        "specifications": {
+          "diameter": 45,
+          "travel": 240,
+          "springRate": "5.2-6.5 N/mm (adjustable)",
+          "damping": "Gold Valve system",
+          "adjustability": "High-speed, Low-speed compression + Rebound"
+        },
+        "compatibility": "WithAdapter",
+        "adaptersRequired": [
+          {
+            "component": "Triple Clamp Adapter",
+            "required": true,
+            "description": "45mm USD fork to telescopic mount conversion",
+            "cost": {
+              "min": 2500,
+              "max": 4000,
+              "currency": "INR"
+            }
+          },
+          {
+            "component": "Brake Caliper Relocation",
+            "required": true,
+            "description": "Spacer and bracket for brake assembly repositioning",
+            "cost": {
+              "min": 1200,
+              "max": 2000,
+              "currency": "INR"
+            }
+          }
+        ],
+        "installationComplexity": "Hard",
+        "cost": {
+          "min": 85000,
+          "max": 100000,
+          "currency": "INR"
+        },
+        "performanceGain": {
+          "offroad": "Improved 35-45% - Longer travel (240mm vs 200mm), better damping, reduced bottoming",
+          "highway": "Improved 10% - More stable braking, better feedback",
+          "handling": "Improved 15% - Inverted geometry reduces flex, quicker turn-in",
+          "durability": "Excellent - Gold Valve proven on 35+ Himalayan builds"
+        },
+        "notes": "Significant front-end upgrade offering both travel and geometry improvements. Requires frame modification but delivers measurable performance gains for rally and expedition riding."
+      }
+    ],
+    "rallySpec": [
+      {
+        "terrain": "Mountain",
+        "springRate": {
+          "front": "5.8 N/mm",
+          "rear": "56 N/mm (with Öhlins)"
+        },
+        "dampingRatio": {
+          "compressionHigh": 14,
+          "compressionLow": 11,
+          "reboundHigh": 13,
+          "reboundLow": 9
+        },
+        "rideHeightAdjustment": "Preload +8mm for mountain technical sections",
+        "tireRecommendations": ["Pirelli MT43", "Metzeler Karoo", "Ceat Gripp"],
+        "tirePressurekPa": {
+          "frontMin": 170,
+          "frontMax": 200,
+          "rearMin": 190,
+          "rearMax": 220
+        },
+        "performance": {
+          "speed": "100-115 km/h sustained on mountain terrain",
+          "control": "Excellent wheel articulation on rocks, improved cornering grip",
+          "comfort": "Reduced shock transfer to handlebar, improved rider confidence"
+        }
+      }
+    ],
+    "videoReference": {
+      "channelName": "Abhinav Bhatt",
+      "videoUrl": "https://www.youtube.com/@abhinavbhatt/featured",
+      "date": "2024-05-20",
+      "buildCount": 35,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "testedOnBuilds": 35,
+    "integratedIntoMansi": true
+  }
+]

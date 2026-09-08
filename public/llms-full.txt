@@ -1,0 +1,29 @@
+# MotoFit 2 — Complete Motorcycle Workshop Intelligence & Specification Guide
+
+## 1. Company Overview
+MotoFit 2 is an elite motorcycle garage located in Chandkheda, Ahmedabad, India. Engineered by motorcycle technicians with over a decade of track and street experience, MotoFit 2 rejects temporary quick-fixes ("jugaad") in favor of aerospace-grade micrometer tolerances, dynamic OBD-2 computer diagnostics, and dynamometer-verified calibrations.
+
+## 2. Location & Geographic Service Area
+- Physical Address: Shop No 9, Kirtan Complex, Nigam Nagar, Near New CG Road, Chandkheda, Ahmedabad, Gujarat 382424
+- Pin Code: 382424
+- Service Neighborhoods: Chandkheda, Motera, Sabarmati, New CG Road, Zundal, Tragad, Gift City, Gandhinagar, S.G. Highway, Naroda, Kalol, Vastrapur, Bodakdev, Prahlad Nagar, Nikol.
+- Recovery Support: Hydraulic flatbed bike pickup and drop available within a 30km radius of Ahmedabad and Gandhinagar.
+
+## 3. Core Service Packages & Diagnostic Protocols
+### 3.1 1-Year Engine Guarantee Rebuilds
+- Includes full teardown, cylinder honing, ultrasonic decarbonization, crankshaft truing, valve lapping, new OEM oil seals, high-temp gaskets, and break-in dyno cycle.
+- Warranty: 365 Days on full-engine rebuilds / 8 Months on half-engine top-end rebuilds.
+
+### 3.2 ECU Remapping & Custom Dyno Tuning
+- Tailored fuel injection maps, throttle-by-wire latency elimination, RPM rev-limiter adjustment, fan-trigger temperature lowering for Ahmedabad summers (preventing city overheating in KTMs and European superbikes).
+- Hardware: Custom dyno cell with eddy-current absorption brake and wideband O2 lambda datalogging.
+
+### 3.3 Superbike Maintenance
+- Supported Brands: Ducati, Kawasaki, BMW Motorrad, Triumph, Harley-Davidson, Honda BigWing, Yamaha, Suzuki, KTM, Aprilia, Benelli.
+- Consumables: Motul 300V Factory Line 15W50 / 10W40, Brembo sintered pads, Bel-Ray fork oil, Motul Dot 5.1 racing brake fluid.
+
+## 4. Contact & Digital Channels
+- Phone: +91 72596 25881
+- Official Website: https://motofit2.in
+- Instagram: https://www.instagram.com/motofit_2
+- Google Reviews: https://maps.app.goo.gl/MotoFit2 (Rating 4.7★, 162 reviews)

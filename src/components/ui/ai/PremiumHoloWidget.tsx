@@ -456,11 +456,16 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
 
                         {/* Input Row */}
                         <div className="holo-input-row">
+                            <label htmlFor="mansi-chat-input" className="sr-only">
+                                Ask Mansi AI a question about your motorcycle
+                            </label>
                             <input
+                                id="mansi-chat-input"
                                 ref={inputRef}
                                 type="text"
                                 className="holo-inp"
                                 placeholder="Bolo... (Hindi/English/Gujarati)"
+                                aria-label="Ask Mansi AI a question about your motorcycle"
                                 value={input}
                                 onChange={e => setInput(e.target.value)}
                                 onKeyDown={handleKeyPress}

@@ -9,6 +9,7 @@ export default function InstagramPortal3D() {
             href="https://www.instagram.com/motofit_2"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Follow MotoFit 2 builds and exhaust sound reels on Instagram"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             whileHover={{ y: -5, rotateX: 10, rotateY: 10 }}

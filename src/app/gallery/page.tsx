@@ -208,20 +208,41 @@ export default function GalleryPage() {
                     </AnimatePresence>
                 </div>
 
-                {/* 5. "Listen to the Precision" Video Section */}
+                {/* 5. "Listen to the Precision" — Instagram Reel CTA */}
                 <section className="py-12 border-t border-[#333]">
                     <div className="text-center mb-8">
                         <h2 className="text-2xl font-bold uppercase tracking-widest text-white mb-2">Listen to the Precision</h2>
-                        <p className="text-gray-500 text-sm">Don't just look. Hear the difference.</p>
+                        <p className="text-gray-500 text-sm">Don&apos;t just look. Hear the difference.</p>
                     </div>
-                    <div className="max-w-4xl mx-auto aspect-video bg-[#111] rounded-xl flex items-center justify-center border border-[#333] group cursor-pointer hover:border-[#ff5e1a]/50 transition-colors relative overflow-hidden">
-                        <div className="absolute inset-0 opacity-20 bg-[url('/images/hero/ducati-panigale.png')] bg-cover bg-center"></div>
-                        <div className="relative z-10 flex flex-col items-center">
-                            <div className="w-16 h-16 rounded-full bg-[#ff5e1a] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(255,94,26,0.4)]">
-                                <Play className="w-6 h-6 text-white ml-1" fill="currentColor" />
-                            </div>
-                            <p className="text-gray-300 font-mono text-sm">[Instagram Reel Embed Placeholder]</p>
+                    <div className="max-w-4xl mx-auto aspect-video bg-[#111] rounded-xl flex items-center justify-center border border-[#333] group hover:border-[#ff5e1a]/50 transition-colors relative overflow-hidden">
+                        {/* Background image — Ducati Panigale */}
+                        <div className="absolute inset-0">
+                            <Image
+                                src="/images/hero/ducati-panigale.png"
+                                alt="Ducati Panigale at MotoFit 2 Ahmedabad — Listen to the precision of a tuned superbike"
+                                fill
+                                className="object-cover opacity-30 group-hover:opacity-40 transition-opacity duration-500"
+                                sizes="(max-width: 768px) 100vw, 896px"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
                         </div>
+
+                        {/* CTA — links to Instagram */}
+                        <a
+                            href="https://instagram.com/motofit_2"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="relative z-10 flex flex-col items-center gap-4 group/play"
+                            aria-label="Watch MotoFit 2 build reels on Instagram"
+                        >
+                            <div className="w-20 h-20 rounded-full bg-[#ff5e1a] flex items-center justify-center group-hover/play:scale-110 transition-transform duration-300 shadow-[0_0_40px_rgba(255,94,26,0.5)]">
+                                <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
+                            </div>
+                            <div className="text-center">
+                                <p className="text-white font-bold uppercase tracking-widest text-sm">Watch Our Build Reels</p>
+                                <p className="text-[#ff5e1a] font-mono text-xs mt-1">@motofit_2 on Instagram</p>
+                            </div>
+                        </a>
                     </div>
                 </section>
 

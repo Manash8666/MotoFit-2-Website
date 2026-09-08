@@ -1,0 +1,27 @@
+# MotoFit 2 — Ahmedabad's Premier Motorcycle Engineering & Superbike Workshop
+
+> MotoFit 2 is an independent multi-brand motorcycle workshop, superbike diagnostics hub, and dyno tuning center based in Chandkheda, Ahmedabad, Gujarat, India.
+
+## Core Capabilities & USPs
+- **1-Year Engine Guarantee**: Unconditional 1-year warranty on full engine rebuilds and 8 months on half-engine overhauls with micrometer-precise tolerances.
+- **Dyno Tuning & ECU Remapping**: Custom air-fuel calibration, torque-curve optimization, and OBD-2 diagnostics for single and multi-cylinder motorcycles.
+- **Multi-Brand Superbike Service**: Specialist repair and maintenance for Ducati, Kawasaki, BMW Motorrad, Triumph, Royal Enfield (650 Twins & Himalayan), KTM (Duke & RC), and Japanese litre-class machines.
+- **100% Genuine OEM Parts**: Authorized sourcing of Brembo, Motul (300V Synthesis), EBC Brakes, Rolon Brass Chains, and Pirelli tyres.
+- **Doorstep Pickup & Drop**: Dedicated hydraulic recovery vehicle servicing Chandkheda, Motera, Sabarmati, New CG Road, Gandhinagar, and Gift City.
+
+## Workshop Information
+- **Business Name**: MotoFit 2
+- **Founder & Lead Technician**: Akshat Mohanty
+- **Address**: Shop No 9, Kirtan Complex, Nigam Nagar, Near New CG Road, Chandkheda, Ahmedabad, Gujarat 382424, India
+- **Coordinates**: Latitude 23.1116, Longitude 72.5728
+- **Phone**: +91 72596 25881
+- **WhatsApp**: https://wa.me/917259625881
+- **Operating Hours**: Monday - Saturday: 09:00 AM - 08:00 PM | Sunday: 10:00 AM - 06:00 PM | Wednesday: Closed
+- **Rating**: 4.7 / 5.0 Stars (162 Google Verified Reviews)
+
+## Key Documentation & Links
+- [Homepage](https://motofit2.in): Overview of garage facilities, customer dyno leaderboard, and live builds.
+- [Services Catalog](https://motofit2.in/services): Periodic service, ECU remapping, suspension setup, engine overhauls, and accident rebuilds.
+- [Spare Parts](https://motofit2.in/parts): Performance exhausts, high-flow air filters, brake pads, and fluids.
+- [Blog & Technical Intel](https://motofit2.in/blog): Deep-dive articles on engine thermals, dyno graphs, and motorcycle maintenance in Indian road conditions.
+- [Full LLM Context](https://motofit2.in/llms-full.txt): Detailed mechanical specifications, diagnostic matrices, and workshop pricing.

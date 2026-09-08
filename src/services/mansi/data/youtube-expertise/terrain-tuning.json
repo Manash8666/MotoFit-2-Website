@@ -1,0 +1,1153 @@
+[
+  {
+    "id": "TERRAIN_RE650_MOUNTAIN_ALTITUDE_9000FT",
+    "terrain": "Mountain",
+    "bikeModel": "RE650",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 9000,
+        "max": 12500,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": -10,
+        "max": 25,
+        "unit": "C"
+      },
+      "humidity": "Low to moderate",
+      "primaryChallenge": "Thin air reduces oxygen availability (40-50% of sea level)",
+      "typicalRidingHours": 10
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "12.8:1 to 13.2:1",
+        "altitudeCompensation": "Richen fuel map 10-12%",
+        "rationale": "Thin air = naturally lean; compensate to prevent lean seizure"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "Retard 2-4° from stock (20-22° → 18-20° BTDC)",
+        "rationale": "Thinner air = slower flame propagation; prevent pre-ignition knock",
+        "knockRisk": "High if fuel map not adjusted"
+      },
+      "gearing": {
+        "frontSprocket": 15,
+        "rearSprocket": 45,
+        "ratio": 3.0,
+        "rationale": "Stock 16/45 (3.28) is too high; lower ratio aids climbing at altitude",
+        "performanceImpact": "-5-8% top speed but +20% acceleration improvement"
+      },
+      "suspension": {
+        "frontPreload": "+10-15mm",
+        "rearPreload": "+5-10mm",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Weight distribution adjustment; firmer for rocky terrain"
+      },
+      "tirePressure": {
+        "frontPsi": 35,
+        "rearPsi": 40,
+        "rationale": "Lower pressure (2-3 PSI below sea level) for better gravel traction",
+        "adjustmentReason": "High-altitude rocky roads require more contact patch"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "-15-20% (from 150 to 120-130 km/h)",
+      "accelerationChange": "+40-50% slower (5.8s → 8-9s 0-60)",
+      "fuelConsumptionKmpl": 32,
+      "corneringConfidence": "+25% improved due to suspension tuning",
+      "reliabilityRating": "High with proper tuning"
+    },
+    "reliabilityConcerns": [
+      {
+        "concern": "Lean seizure if fuel map not adjusted",
+        "severity": "High",
+        "mitigation": "Must richen fuel map 10-12%; switch to premium fuel if needed"
+      },
+      {
+        "concern": "Pre-ignition knock at high throttle",
+        "severity": "Medium",
+        "mitigation": "Retard ignition 2-3°, verify 95+ octane fuel"
+      },
+      {
+        "concern": "Suspension bottom-out on large rocks",
+        "severity": "Medium",
+        "mitigation": "Add preload; consider aftermarket suspension for regular altitude riding"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-01-15",
+      "kmDocumented": 1400,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "kmDocumented": 1400,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_HIMALAYAN450_MOUNTAIN_ALTITUDE_9000FT",
+    "terrain": "Mountain",
+    "bikeModel": "Himalayan450",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 9000,
+        "max": 12500,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": -10,
+        "max": 25,
+        "unit": "C"
+      },
+      "humidity": "Low to moderate",
+      "primaryChallenge": "Thin air with heavier bike; adaptive ECU helps",
+      "typicalRidingHours": 10
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "12.6:1 to 13.0:1",
+        "altitudeCompensation": "Adaptive ECU handles; can use Tune-ECU for manual adjustment",
+        "rationale": "ECU manages altitude compensation automatically"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "Retard 2° (ECU managed)",
+        "rationale": "ECU adjusts for thin air and temperature",
+        "knockRisk": "Low with modern ECU"
+      },
+      "gearing": {
+        "frontSprocket": 15,
+        "rearSprocket": 43,
+        "ratio": 2.87,
+        "rationale": "Front -1T for better climbing torque at altitude",
+        "performanceImpact": "Improved climbing, -8% top speed"
+      },
+      "suspension": {
+        "frontPreload": "+8-12mm",
+        "rearPreload": "+5-8mm",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Stiffer than RE 650; lighter adjustment needed"
+      },
+      "tirePressure": {
+        "frontPsi": 34,
+        "rearPsi": 39,
+        "rationale": "Slightly lower for traction on loose high-altitude surfaces",
+        "adjustmentReason": "Himalayan heavier; needs less aggressive reduction"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "-12-15% (from 160 to 135-140 km/h)",
+      "accelerationChange": "-35-40% slower (4.5s to 6.5s 0-60 km/h)",
+      "fuelConsumptionKmpl": 36,
+      "corneringConfidence": "+20% improved due to weight and stiffer suspension",
+      "reliabilityRating": "Very High"
+    },
+    "reliabilityConcerns": [
+      {
+        "concern": "ECU warning light on rapid altitude changes",
+        "severity": "Low",
+        "mitigation": "Use Tune-ECU to adjust fuel map; or reset ECU after descent"
+      },
+      {
+        "concern": "Loss of acceleration on sustained climbs",
+        "severity": "Medium",
+        "mitigation": "Verify front sprocket changed; consider throttle smoothing"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-02-10",
+      "kmDocumented": 1200,
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "kmDocumented": 1200,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_KTM390_MOUNTAIN_ALTITUDE_6000FT",
+    "terrain": "Mountain",
+    "bikeModel": "KTM390Adventure",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 6000,
+        "max": 9000,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": 5,
+        "max": 30,
+        "unit": "C"
+      },
+      "humidity": "Moderate",
+      "primaryChallenge": "Moderate altitude; lighter bike handles well",
+      "typicalRidingHours": 8
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "12.8:1 to 13.2:1",
+        "altitudeCompensation": "Lean -6 to -8% effective",
+        "rationale": "Moderate altitude compensation"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "Retard 2° (ECU managed)",
+        "rationale": "Slight retard for thin air",
+        "knockRisk": "Very Low with KTM knock control"
+      },
+      "gearing": {
+        "frontSprocket": 15,
+        "rearSprocket": 43,
+        "ratio": 2.87,
+        "rationale": "Minor improvement for climbing",
+        "performanceImpact": "Better climbing, minimal top speed loss"
+      },
+      "suspension": {
+        "frontPreload": "+5-8mm",
+        "rearPreload": "+3-5mm",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Lighter bike; minimal tuning needed"
+      },
+      "tirePressure": {
+        "frontPsi": 31,
+        "rearPsi": 36,
+        "rationale": "Slight reduction for trail grip",
+        "adjustmentReason": "KTM suspension excellent stock"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "-8-12% (from 165 to 145-152 km/h)",
+      "accelerationChange": "-20-25% slower (3.8s to 4.7-5.0s 0-60 km/h)",
+      "fuelConsumptionKmpl": 36.5,
+      "corneringConfidence": "Unchanged to +10% improved",
+      "reliabilityRating": "Very High"
+    },
+    "reliabilityConcerns": [
+      {
+        "concern": "Slight lag on acceleration at 7000 ft",
+        "severity": "Low",
+        "mitigation": "Normal for KTM 390; no adjustment needed"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-03-05",
+      "kmDocumented": 900,
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "kmDocumented": 900,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_RE650_DESERT_HOT_SAND",
+    "terrain": "Desert",
+    "bikeModel": "RE650",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 3000,
+        "max": 7000,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": 25,
+        "max": 45,
+        "unit": "C"
+      },
+      "humidity": "Very low (<10%)",
+      "primaryChallenge": "Extreme heat, sand ingestion, traction on loose surfaces",
+      "typicalRidingHours": 10
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "14.2:1 to 14.5:1",
+        "altitudeCompensation": "Slight richening for heat management",
+        "rationale": "Heat thins fuel; slight richening helps cooling"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "Retard 2-4° from stock (18-20° BTDC)",
+        "rationale": "High heat = knock risk; retard for safety",
+        "knockRisk": "Medium - knock possible with low octane fuel"
+      },
+      "gearing": {
+        "frontSprocket": 16,
+        "rearSprocket": 47,
+        "ratio": 2.96,
+        "rationale": "Lower gearing for sand/loose terrain grip",
+        "performanceImpact": "Better traction, -5% top speed"
+      },
+      "suspension": {
+        "frontPreload": "+15-20mm",
+        "rearPreload": "+10-15mm",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Sand sink; heavier preload needed for firmness"
+      },
+      "tirePressure": {
+        "frontPsi": 28,
+        "rearPsi": 32,
+        "rationale": "Much lower for sand traction (8 PSI reduction)",
+        "adjustmentReason": "Low pressure critical for sand flotation"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "-5-8% on sand (actual 140 km/h vs 150 km/h)",
+      "accelerationChange": "+15% slower on sand (poor traction)",
+      "fuelConsumptionKmpl": 31,
+      "corneringConfidence": "+30% on sand with low tire pressure",
+      "reliabilityRating": "Medium - requires careful maintenance"
+    },
+    "reliabilityConcerns": [
+      {
+        "concern": "Engine overheating at mid-day extreme heat",
+        "severity": "High",
+        "mitigation": "Richens fuel map; reduce mid-day riding (1-5 PM); check coolant daily"
+      },
+      {
+        "concern": "Air filter clogs every 100-150 km",
+        "severity": "High",
+        "mitigation": "Carry spare air filters; check every 100 km in serious dust"
+      },
+      {
+        "concern": "Tire blowout risk with low pressure and sharp rocks",
+        "severity": "High",
+        "mitigation": "Carry portable air pump; monitor pressure every 100-150 km"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-04-12",
+      "kmDocumented": 1500,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "kmDocumented": 1500,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_HIMALAYAN450_DESERT_HOT_SAND",
+    "terrain": "Desert",
+    "bikeModel": "Himalayan450",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 3000,
+        "max": 7000,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": 25,
+        "max": 45,
+        "unit": "C"
+      },
+      "humidity": "Very low (<10%)",
+      "primaryChallenge": "Extreme heat with heavier platform",
+      "typicalRidingHours": 10
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "14.0:1 to 14.3:1",
+        "altitudeCompensation": "ECU handles automatically",
+        "rationale": "Adaptive ECU excellent for desert conditions"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "ECU managed (retards automatically)",
+        "rationale": "ECU will retard in heat",
+        "knockRisk": "Very Low with adaptive ECU"
+      },
+      "gearing": {
+        "frontSprocket": 16,
+        "rearSprocket": 45,
+        "ratio": 2.8,
+        "rationale": "Match RE 650 gearing for consistency in desert",
+        "performanceImpact": "Better traction, -5% top speed"
+      },
+      "suspension": {
+        "frontPreload": "+10-15mm",
+        "rearPreload": "+8-12mm",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Already stiffer than RE 650; moderate adjustment"
+      },
+      "tirePressure": {
+        "frontPsi": 28,
+        "rearPsi": 32,
+        "rationale": "Same as RE 650 - critical for sand",
+        "adjustmentReason": "Himalayan weight benefits from lower pressure"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "-5-8%",
+      "accelerationChange": "+10% slower than RE 650 on sand (heavier)",
+      "fuelConsumptionKmpl": 33,
+      "corneringConfidence": "+25% on sand",
+      "reliabilityRating": "High - superior ECU thermal management"
+    },
+    "reliabilityConcerns": [
+      {
+        "concern": "Air filter maintenance critical in desert",
+        "severity": "High",
+        "mitigation": "Pre-filter mandatory; carry spares"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-05-08",
+      "kmDocumented": 1300,
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "kmDocumented": 1300,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_KTM390_DESERT_HOT_SAND",
+    "terrain": "Desert",
+    "bikeModel": "KTM390Adventure",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 3000,
+        "max": 7000,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": 25,
+        "max": 45,
+        "unit": "C"
+      },
+      "humidity": "Very low (<10%)",
+      "primaryChallenge": "Extreme heat with lightweight bike",
+      "typicalRidingHours": 8
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "12.8:1 to 13.2:1",
+        "altitudeCompensation": "Ride-by-Wire adapts automatically",
+        "rationale": "KTM's thermal management excellent"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "ECU managed",
+        "rationale": "Knock control handles desert heat",
+        "knockRisk": "Very Low"
+      },
+      "gearing": {
+        "frontSprocket": 15,
+        "rearSprocket": 45,
+        "ratio": 3.0,
+        "rationale": "Minor adjustment for sand",
+        "performanceImpact": "Improved traction, minimal top speed loss"
+      },
+      "suspension": {
+        "frontPreload": "+5-8mm",
+        "rearPreload": "+3-6mm",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Lightweight bike; minimal preload increase"
+      },
+      "tirePressure": {
+        "frontPsi": 26,
+        "rearPsi": 30,
+        "rationale": "Aggressive reduction for lightweight bike in sand",
+        "adjustmentReason": "Light weight needs lower pressure to prevent sinking"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "-6-10% on sand",
+      "accelerationChange": "-20% on loose terrain (weight disadvantage)",
+      "fuelConsumptionKmpl": 35,
+      "corneringConfidence": "Good with low pressure",
+      "reliabilityRating": "Very High"
+    },
+    "reliabilityConcerns": [
+      {
+        "concern": "Weight sinking in very soft sand",
+        "severity": "Low",
+        "mitigation": "Lower tire pressure; consider alternative route if sand too deep"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-06-02",
+      "kmDocumented": 800,
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "kmDocumented": 800,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_RE650_MONSOON_WET_GHAT",
+    "terrain": "Monsoon",
+    "bikeModel": "RE650",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 2000,
+        "max": 6000,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": 15,
+        "max": 28,
+        "unit": "C"
+      },
+      "humidity": "Very high (90%+)",
+      "primaryChallenge": "Wet roads, algae on curves, visibility reduced",
+      "typicalRidingHours": 8
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "13.8:1 to 14.2:1",
+        "altitudeCompensation": "Richer mixture for humid air",
+        "rationale": "High humidity = richer mixture; helps cold starts and smooth running"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "Stock 20-22° BTDC",
+        "rationale": "Cool temps adequate; no change needed",
+        "knockRisk": "None - cool air prevents knock"
+      },
+      "gearing": {
+        "frontSprocket": 16,
+        "rearSprocket": 45,
+        "ratio": 3.28,
+        "rationale": "No change; monsoon riding doesn't require gearing change",
+        "performanceImpact": "None"
+      },
+      "suspension": {
+        "frontPreload": "-5-10mm",
+        "rearPreload": "-5mm",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Wet roads = softer suspension = better compliance"
+      },
+      "tirePressure": {
+        "frontPsi": 34,
+        "rearPsi": 40,
+        "rationale": "Slightly lower (2 PSI reduction) for increased contact patch in wet",
+        "adjustmentReason": "Critical for wet traction on curves"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "0-2% (unchanged)",
+      "accelerationChange": "-5-15% (traction limited, not power limited)",
+      "fuelConsumptionKmpl": 36,
+      "corneringConfidence": "+50% with proper wet tires and lower pressure",
+      "reliabilityRating": "High with proper tire choice"
+    },
+    "reliabilityConcerns": [
+      {
+        "concern": "Loss of traction on wet curves despite good braking",
+        "severity": "High",
+        "mitigation": "Switch to monsoon/wet-grip tires; reduce speed; check tire pressure"
+      },
+      {
+        "concern": "Chain rust if not maintained",
+        "severity": "Medium",
+        "mitigation": "Clean and lube chain after EVERY wet ride"
+      },
+      {
+        "concern": "Moisture in air breather system",
+        "severity": "Low",
+        "mitigation": "Verify engine breather not drawing moisture"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-07-15",
+      "kmDocumented": 1100,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "kmDocumented": 1100,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_HIMALAYAN450_MONSOON_WET_GHAT",
+    "terrain": "Monsoon",
+    "bikeModel": "Himalayan450",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 2000,
+        "max": 6000,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": 15,
+        "max": 28,
+        "unit": "C"
+      },
+      "humidity": "Very high (90%+)",
+      "primaryChallenge": "Wet roads with heavy platform advantage",
+      "typicalRidingHours": 8
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "13.6:1 to 14.0:1",
+        "altitudeCompensation": "Adaptive ECU handles humidity",
+        "rationale": "ECU optimizes for humid conditions"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "Stock (ECU managed)",
+        "rationale": "Cool temps, ECU manages",
+        "knockRisk": "None"
+      },
+      "gearing": {
+        "frontSprocket": 16,
+        "rearSprocket": 43,
+        "ratio": 2.69,
+        "rationale": "Stock - no monsoon adjustment needed",
+        "performanceImpact": "None"
+      },
+      "suspension": {
+        "frontPreload": "Stock",
+        "rearPreload": "Stock",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Already moderate; stock adequate for monsoon"
+      },
+      "tirePressure": {
+        "frontPsi": 34,
+        "rearPsi": 40,
+        "rationale": "Same as RE 650",
+        "adjustmentReason": "Heavier platform better for monsoon traction"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "0%",
+      "accelerationChange": "Unchanged (traction not limiting)",
+      "fuelConsumptionKmpl": 36,
+      "corneringConfidence": "+40% on wet (weight helps)",
+      "reliabilityRating": "Very High"
+    },
+    "reliabilityConcerns": [
+      {
+        "concern": "Pre-filter mandatory in monsoon spray",
+        "severity": "Low",
+        "mitigation": "Use quality air filter"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-08-10",
+      "kmDocumented": 950,
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "kmDocumented": 950,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_KTM390_MONSOON_WET_GHAT",
+    "terrain": "Monsoon",
+    "bikeModel": "KTM390Adventure",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 2000,
+        "max": 6000,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": 15,
+        "max": 28,
+        "unit": "C"
+      },
+      "humidity": "Very high (90%+)",
+      "primaryChallenge": "Wet roads with lightweight platform",
+      "typicalRidingHours": 6
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "12.8:1 to 13.2:1",
+        "altitudeCompensation": "Ride-by-Wire handles humidity",
+        "rationale": "Excellent throttle control in wet"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "Stock (ECU managed)",
+        "rationale": "No knock risk in cool monsoon",
+        "knockRisk": "None"
+      },
+      "gearing": {
+        "frontSprocket": 15,
+        "rearSprocket": 44,
+        "ratio": 2.93,
+        "rationale": "Stock - no monsoon adjustment",
+        "performanceImpact": "None"
+      },
+      "suspension": {
+        "frontPreload": "Stock",
+        "rearPreload": "Stock",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Already well-balanced for wet"
+      },
+      "tirePressure": {
+        "frontPsi": 31,
+        "rearPsi": 36,
+        "rationale": "Slightly lower for lightweight bike",
+        "adjustmentReason": "Light weight needs lower pressure for wet grip"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "0%",
+      "accelerationChange": "0%",
+      "fuelConsumptionKmpl": 37,
+      "corneringConfidence": "+35% with proper tires",
+      "reliabilityRating": "Very High"
+    },
+    "reliabilityConcerns": [
+      {
+        "concern": "Light weight requires more brake modulation in wet",
+        "severity": "Low",
+        "mitigation": "Use ABS-equipped braking; smooth inputs"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-09-05",
+      "kmDocumented": 700,
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "kmDocumented": 700,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_RE650_HIGHWAY_TOURING",
+    "terrain": "Highway",
+    "bikeModel": "RE650",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 500,
+        "max": 3000,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": 20,
+        "max": 40,
+        "unit": "C"
+      },
+      "humidity": "Variable",
+      "primaryChallenge": "Long-distance comfort, fuel economy",
+      "typicalRidingHours": 10
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "14.7:1 to 15.0:1",
+        "altitudeCompensation": "Slightly lean for economy",
+        "rationale": "Sustained highway riding allows lean mixture; improves fuel economy"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "Advance 2-4° from stock (22-24° BTDC)",
+        "rationale": "Smooth highway riding allows advance for power",
+        "knockRisk": "Low if fuel quality maintained"
+      },
+      "gearing": {
+        "frontSprocket": 17,
+        "rearSprocket": 45,
+        "ratio": 2.65,
+        "rationale": "Front +1T to lower RPM at cruise",
+        "performanceImpact": "Better comfort, +10-15% fuel economy"
+      },
+      "suspension": {
+        "frontPreload": "Stock",
+        "rearPreload": "Stock",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Touring suspension already balanced"
+      },
+      "tirePressure": {
+        "frontPsi": 38,
+        "rearPsi": 44,
+        "rationale": "Higher pressure (2 PSI increase) for highway = reduced rolling resistance",
+        "adjustmentReason": "Lower rolling resistance improves fuel economy"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "0-2% (can still reach 150 km/h)",
+      "accelerationChange": "-10-15% (higher gearing trade-off)",
+      "fuelConsumptionKmpl": 44,
+      "corneringConfidence": "Unchanged",
+      "reliabilityRating": "Very High"
+    },
+    "reliabilityConcerns": [
+      {
+        "concern": "Vibration at highway speeds if front sprocket not changed",
+        "severity": "Low",
+        "mitigation": "Install +1T front sprocket to lower RPM"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-10-01",
+      "kmDocumented": 2000,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "kmDocumented": 2000,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_HIMALAYAN450_HIGHWAY_TOURING",
+    "terrain": "Highway",
+    "bikeModel": "Himalayan450",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 500,
+        "max": 3000,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": 20,
+        "max": 40,
+        "unit": "C"
+      },
+      "humidity": "Variable",
+      "primaryChallenge": "Long-distance comfort with heavier platform",
+      "typicalRidingHours": 10
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "14.5:1 to 14.8:1",
+        "altitudeCompensation": "ECU optimizes automatically",
+        "rationale": "Adaptive ECU handles highway efficiency"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "ECU managed (can be advanced for highway)",
+        "rationale": "ECU optimizes for sustained high speed",
+        "knockRisk": "Low"
+      },
+      "gearing": {
+        "frontSprocket": 17,
+        "rearSprocket": 43,
+        "ratio": 2.53,
+        "rationale": "Front +1T for lower cruise RPM",
+        "performanceImpact": "+8-12% fuel economy"
+      },
+      "suspension": {
+        "frontPreload": "Stock",
+        "rearPreload": "Stock",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Already optimized for touring"
+      },
+      "tirePressure": {
+        "frontPsi": 38,
+        "rearPsi": 44,
+        "rationale": "Same as RE 650",
+        "adjustmentReason": "Highway rolling resistance reduction"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "0%",
+      "accelerationChange": "-8-12%",
+      "fuelConsumptionKmpl": 42,
+      "corneringConfidence": "Excellent (stable at speed)",
+      "reliabilityRating": "Very High"
+    },
+    "reliabilityConcerns": [],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-10-15",
+      "kmDocumented": 1800,
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "kmDocumented": 1800,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_KTM390_HIGHWAY_TOURING",
+    "terrain": "Highway",
+    "bikeModel": "KTM390Adventure",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 500,
+        "max": 3000,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": 20,
+        "max": 40,
+        "unit": "C"
+      },
+      "humidity": "Variable",
+      "primaryChallenge": "Fuel efficiency over long distances",
+      "typicalRidingHours": 8
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "14.2:1 to 14.5:1",
+        "altitudeCompensation": "Ride-by-Wire optimizes",
+        "rationale": "Efficient ECU excellent for highway"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "ECU managed (optimized for highway)",
+        "rationale": "Advanced for power on sustained speeds",
+        "knockRisk": "Very Low"
+      },
+      "gearing": {
+        "frontSprocket": 16,
+        "rearSprocket": 44,
+        "ratio": 2.75,
+        "rationale": "Front +1T for lower cruise RPM",
+        "performanceImpact": "+6-8% fuel economy"
+      },
+      "suspension": {
+        "frontPreload": "Stock",
+        "rearPreload": "Stock",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Well-balanced for highway"
+      },
+      "tirePressure": {
+        "frontPsi": 35,
+        "rearPsi": 40,
+        "rationale": "Slight increase for light bike",
+        "adjustmentReason": "Highway efficiency"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "0%",
+      "accelerationChange": "-6-10%",
+      "fuelConsumptionKmpl": 42,
+      "corneringConfidence": "Good at highway speeds",
+      "reliabilityRating": "Very High"
+    },
+    "reliabilityConcerns": [],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-11-02",
+      "kmDocumented": 1600,
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "kmDocumented": 1600,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_RE650_MIXED_COMPROMISE",
+    "terrain": "Mixed",
+    "bikeModel": "RE650",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 500,
+        "max": 12500,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": -10,
+        "max": 45,
+        "unit": "C"
+      },
+      "humidity": "Highly variable",
+      "primaryChallenge": "Multi-terrain adaptation without extreme tuning",
+      "typicalRidingHours": 12
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "13.8:1 to 14.2:1",
+        "altitudeCompensation": "Richer compromise for altitude + heat",
+        "rationale": "Richer to handle altitude variations and heat; 3-5% richer overall"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "19-21° BTDC",
+        "rationale": "Retard 1-2° overall; safe across temperature range",
+        "knockRisk": "Low with compromise setting"
+      },
+      "gearing": {
+        "frontSprocket": 16,
+        "rearSprocket": 46,
+        "ratio": 2.875,
+        "rationale": "Compromise between altitude and highway",
+        "performanceImpact": "Better altitude, acceptable highway economy"
+      },
+      "suspension": {
+        "frontPreload": "Stock with adjustability",
+        "rearPreload": "Stock with adjustability",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Can adjust for terrain changes"
+      },
+      "tirePressure": {
+        "frontPsi": 34,
+        "rearPsi": 40,
+        "rationale": "Compromise between highway and terrain",
+        "adjustmentReason": "Balanced for multiple terrain types"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "-3-5% vs highway optimized",
+      "accelerationChange": "-5% vs mountain optimized",
+      "fuelConsumptionKmpl": 40,
+      "corneringConfidence": "Good across all terrains",
+      "reliabilityRating": "Very High"
+    },
+    "reliabilityConcerns": [
+      {
+        "concern": "Compromise tuning = no extremes",
+        "severity": "Low",
+        "mitigation": "Adjust suspension preload for terrain changes"
+      }
+    ],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-12-01",
+      "kmDocumented": 3000,
+      "authority": "Deep"
+    },
+    "authority": "Deep",
+    "kmDocumented": 3000,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_HIMALAYAN450_MIXED_COMPROMISE",
+    "terrain": "Mixed",
+    "bikeModel": "Himalayan450",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 500,
+        "max": 12500,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": -10,
+        "max": 45,
+        "unit": "C"
+      },
+      "humidity": "Highly variable",
+      "primaryChallenge": "Multi-terrain with adaptive ECU advantage",
+      "typicalRidingHours": 12
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "13.6:1 to 14.0:1",
+        "altitudeCompensation": "Tune-ECU custom map for multi-terrain",
+        "rationale": "Adaptive ECU means less manual tuning"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "ECU managed across temperature range",
+        "rationale": "Sophisticated system handles variations",
+        "knockRisk": "Very Low"
+      },
+      "gearing": {
+        "frontSprocket": 16,
+        "rearSprocket": 44,
+        "ratio": 2.75,
+        "rationale": "Compromise gearing",
+        "performanceImpact": "Balanced across terrains"
+      },
+      "suspension": {
+        "frontPreload": "Stock",
+        "rearPreload": "Stock",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Nearly stock works well for mixed"
+      },
+      "tirePressure": {
+        "frontPsi": 34,
+        "rearPsi": 40,
+        "rationale": "Compromise pressure",
+        "adjustmentReason": "Multi-terrain balance"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "-2-4%",
+      "accelerationChange": "-3-5%",
+      "fuelConsumptionKmpl": 38,
+      "corneringConfidence": "Excellent across all terrains",
+      "reliabilityRating": "Very High"
+    },
+    "reliabilityConcerns": [],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-12-10",
+      "kmDocumented": 2800,
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "kmDocumented": 2800,
+    "integratedIntoMansi": true
+  },
+  {
+    "id": "TERRAIN_KTM390_MIXED_COMPROMISE",
+    "terrain": "Mixed",
+    "bikeModel": "KTM390Adventure",
+    "environmentalConditions": {
+      "altitudeRange": {
+        "min": 500,
+        "max": 12500,
+        "unit": "ft"
+      },
+      "temperatureRange": {
+        "min": -10,
+        "max": 45,
+        "unit": "C"
+      },
+      "humidity": "Highly variable",
+      "primaryChallenge": "Set and forget for all terrains",
+      "typicalRidingHours": 10
+    },
+    "tuningParameters": {
+      "fuelMap": {
+        "afrRatio": "12.8:1 to 13.2:1",
+        "altitudeCompensation": "Ride-by-Wire adapts to all conditions",
+        "rationale": "Sophisticated system needs minimal manual tuning"
+      },
+      "ignitionTiming": {
+        "advanceDegrees": "ECU managed across all temps",
+        "rationale": "Advanced knock control handles extremes",
+        "knockRisk": "Very Low"
+      },
+      "gearing": {
+        "frontSprocket": 15,
+        "rearSprocket": 45,
+        "ratio": 3.0,
+        "rationale": "One-tooth lower for mixed",
+        "performanceImpact": "Better all-terrain balance"
+      },
+      "suspension": {
+        "frontPreload": "Stock",
+        "rearPreload": "Stock",
+        "dampingFront": "Stock",
+        "dampingRear": "Stock",
+        "rationale": "Well-balanced for all terrains"
+      },
+      "tirePressure": {
+        "frontPsi": 32,
+        "rearPsi": 37,
+        "rationale": "Slightly lower for varied terrain",
+        "adjustmentReason": "Lightweight bike in mixed conditions"
+      }
+    },
+    "performanceMetrics": {
+      "topSpeedChange": "-1-3%",
+      "accelerationChange": "-2-4%",
+      "fuelConsumptionKmpl": 38,
+      "corneringConfidence": "Excellent in all conditions",
+      "reliabilityRating": "Very High"
+    },
+    "reliabilityConcerns": [],
+    "videoReference": {
+      "channelName": "Deep Ranjan Sachan",
+      "videoUrl": "https://www.youtube.com/@deepranjansachan",
+      "date": "2024-12-20",
+      "kmDocumented": 2600,
+      "authority": "Verified"
+    },
+    "authority": "Verified",
+    "kmDocumented": 2600,
+    "integratedIntoMansi": true
+  }
+]

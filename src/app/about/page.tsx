@@ -78,25 +78,29 @@ export default function AboutPage() {
                                 name: "Munna Gujili",
                                 role: "The Pulse",
                                 desc: "The omnipresent guardian of the garage. Munna is the rhythm that keeps the chaos in check, the eyes that catch the loose bolt, the relentless spirit that ensures no bike leaves without its soul intact.",
-                                specialty: "Workshop Synchronization & QC"
+                                specialty: "Workshop Synchronization & QC",
+                                image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=600"
                             },
                             {
                                 name: "Kunal Thakor",
                                 role: "The Alchemist",
                                 desc: "He doesn't just tune carburettors; he speaks to them. Kunal listens to the airflow like a heartbeat, sculpting bodywork and breath into a singular, living machine. Where others see metal, he sees fluid dynamics.",
-                                specialty: "Aural Diagnostics & Fairing Sculpture"
+                                specialty: "Aural Diagnostics & Fairing Sculpture",
+                                image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=600"
                             },
                             {
                                 name: "Goarav Thakor",
                                 role: "The Kineticist",
                                 desc: "Master of the invisible forces. Goarav governs the friction zone, ensuring the transfer of chaos from engine to asphalt is absolute. When you feel that perfect launch, you're feeling his signature.",
-                                specialty: "Clutch Assembly & Torque Management"
+                                specialty: "Clutch Assembly & Torque Management",
+                                image: "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?auto=format&fit=crop&q=80&w=600"
                             },
                             {
                                 name: "Samael M.",
                                 role: "The Oracle",
                                 desc: "The bridge between the digital ether and proper combustion. Samael weaves the narrative of your build, optimizing the signal-to-noise ratio in both client comms and search engine algorithms.",
-                                specialty: "Client Experience, SEO & AIO Intelligence"
+                                specialty: "Client Experience, SEO & AIO Intelligence",
+                                image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600"
                             }
                         ].map((member, i) => (
                             <TeamCard key={i} {...member} delay={i * 0.1} />

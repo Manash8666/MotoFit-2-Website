@@ -208,7 +208,7 @@ export default function MansiWidget() {
     const [isLoading, setIsLoading] = useState(false);
 
     const [hasUnread, setHasUnread] = useState(false);
-    const [mansiImage, setMansiImage] = useState('');
+    const [mansiImage, setMansiImage] = useState('/images/team/mansi-new.webp');
     const [isListening, setIsListening] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const hasGreeted = useRef(false);
