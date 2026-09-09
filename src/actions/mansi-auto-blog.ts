@@ -30,39 +30,56 @@ Return ONLY a valid JSON object matching this schema exactly (no markdown block 
         defaultHeaders: { "HTTP-Referer": "https://motofit.in", "X-Title": "MotoFit Auto-Blog" }
     });
 
-    try {
-        console.log(`[Auto-Blog] Synthesizing article on: ${topic}`);
-        const completion = await client.chat.completions.create({
-            model: "google/gemini-2.0-flash-001", // Using Flash for speed and high reasoning capability
-            messages: [{ role: "system", content: prompt }],
-            temperature: 0.8,
-            max_tokens: 3000,
-            response_format: { type: "json_object" }
-        });
+    // Fallback model chain: primary → fast fallback → cheap fallback
+    const MODEL_CHAIN = [
+        "google/gemini-2.0-flash-001",
+        "google/gemini-flash-1.5",
+        "openai/gpt-4o-mini",
+    ];
 
-        const reply = completion.choices[0]?.message?.content;
-        if (!reply) throw new Error("No payload returned from generator");
+    let lastError: string = "Unknown error";
 
-        // 2. Parse JSON
-        const data = JSON.parse(reply);
+    for (const model of MODEL_CHAIN) {
+        try {
+            console.log(`[Auto-Blog] Trying model: ${model} | Topic: ${topic}`);
+            const completion = await client.chat.completions.create({
+                model,
+                messages: [{ role: "system", content: prompt }],
+                temperature: 0.8,
+                max_tokens: 3000,
+                response_format: { type: "json_object" }
+            });
 
-        // Ensure data consistency
-        const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-        const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        const readTime = Math.ceil(data.content.split(' ').length / 200) + " min read";
+            const reply = completion.choices[0]?.message?.content;
+            if (!reply) throw new Error("No payload returned from generator");
 
-        // 3. Save to Neon Postgres
-        await sql`
-            INSERT INTO mansi_blogs (slug, title, excerpt, author, date, read_time, image, tags, content)
-            VALUES (${slug}, ${data.title}, ${data.excerpt}, 'Mansi (AI generated)', ${date}, ${readTime}, ${data.image}, ${JSON.stringify(data.tags)}, ${data.content})
-            ON CONFLICT (slug) DO NOTHING;
-        `;
+            // 2. Parse JSON
+            const data = JSON.parse(reply);
 
-        console.log(`[Auto-Blog] Deployed article to database: ${slug}`);
-        return { success: true, slug };
+            // Ensure data consistency
+            const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+            const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const readTime = Math.ceil(data.content.split(' ').length / 200) + " min read";
 
-    } catch (e: any) {
-        console.error("[Auto-Blog] Generator Error:", e.message);
-        return { success: false, error: e.message };
+            // 3. Save to Neon Postgres
+            await sql`
+                INSERT INTO mansi_blogs (slug, title, excerpt, author, date, read_time, image, tags, content)
+                VALUES (${slug}, ${data.title}, ${data.excerpt}, 'Mansi (AI generated)', ${date}, ${readTime}, ${data.image}, ${JSON.stringify(data.tags)}, ${data.content})
+                ON CONFLICT (slug) DO NOTHING;
+            `;
+
+            console.log(`[Auto-Blog] Deployed article via ${model}: ${slug}`);
+            return { success: true, slug };
+
+        } catch (e: any) {
+            lastError = e.message || String(e);
+            console.warn(`[Auto-Blog] Model ${model} failed: ${lastError}. Trying next...`);
+            // Brief pause before next model attempt
+            await new Promise(r => setTimeout(r, 500));
+        }
     }
+
+    // All models exhausted
+    console.error("[Auto-Blog] All models failed. Last error:", lastError);
+    return { success: false, error: lastError };
 }
