@@ -2,7 +2,7 @@
 
 import { GlassButton } from '@/components/ui/buttons/GlassButton';
 import { useBooking } from '@/context/BookingContext';
-import { Zap, MapPin, Phone, MessageSquare, ShieldCheck, Award } from 'lucide-react';
+import { Zap, MapPin, Phone, MessageSquare, ShieldCheck, Award, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import MotoFitLogo from '../layout/MotoFitLogo';
 import InstagramPortal3D from '../interactive/InstagramPortal3D';
@@ -133,10 +133,50 @@ export default function HighVoltageFooter() {
                     </p>
                 </div>
 
+                {/* Social Share Buttons & Community Spread */}
+                <div className="border-t border-[#222] pt-6 pb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-2 text-xs text-gray-400 font-mono">
+                        <Share2 size={14} className="text-[#ff5e1a]" />
+                        <span className="uppercase tracking-widest text-[#a0a0a0]">Share with fellow riders:</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2.5">
+                        <a
+                            href="https://api.whatsapp.com/send?text=Check%20out%20MotoFit%202%20-%20Ahmedabad's%20Premier%20Motorcycle%20%26%20Superbike%20Workshop%20in%20Chandkheda:%20https%3A%2F%2Fmotofit2.in"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Share MotoFit 2 Workshop on WhatsApp"
+                            className="px-3 py-1.5 rounded-lg bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366] text-xs font-mono font-bold hover:bg-[#25D366] hover:text-black transition-all flex items-center gap-1.5"
+                        >
+                            <span>WhatsApp</span>
+                        </a>
+                        <a
+                            href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmotofit2.in&text=MotoFit%202%20-%20Premier%20motorcycle%20and%20superbike%20workshop%20in%20Ahmedabad%20with%201-year%20engine%20warranty!"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Share MotoFit 2 Workshop on X (Twitter)"
+                            className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/20 text-gray-300 text-xs font-mono font-bold hover:bg-white hover:text-black transition-all flex items-center gap-1.5"
+                        >
+                            <span>X / Twitter</span>
+                        </a>
+                        <a
+                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmotofit2.in"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Share MotoFit 2 Workshop on Facebook"
+                            className="px-3 py-1.5 rounded-lg bg-[#1877F2]/10 border border-[#1877F2]/30 text-[#1877F2] text-xs font-mono font-bold hover:bg-[#1877F2] hover:text-white transition-all flex items-center gap-1.5"
+                        >
+                            <span>Facebook</span>
+                        </a>
+                    </div>
+                </div>
+
                 {/* Bottom Bar */}
                 <div className="border-t border-[#333]/30 pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-[#666] font-mono gap-4">
                     <p>
-                        &copy; 2026 MotoFit 2 Workshop Pvt. Ltd. Verified Garage in Ahmedabad.
+                        &copy; 2026 MotoFit 2 Workshop Pvt. Ltd. Verified Garage in Ahmedabad. •{" "}
+                        <time dateTime="2026-09-09" className="text-[#888]">
+                            Last updated: September 2026
+                        </time>
                     </p>
                     <div className="flex flex-wrap items-center gap-6">
                         <Link href="/privacy-policy" className="hover:text-white transition-colors">

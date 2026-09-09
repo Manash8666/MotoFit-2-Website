@@ -49,7 +49,7 @@ export default function CyberNav() {
                 <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="relative group block py-1" aria-label="MotoFit 2 Home">
-                        <MotoFitLogo size="md" />
+                        <MotoFitLogo size="md" priority={true} />
                     </Link>
 
                     {/* Desktop Nav */}

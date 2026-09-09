@@ -7,9 +7,10 @@ import Image from 'next/image';
 interface MotoFitLogoProps {
     className?: string;
     size?: 'sm' | 'md' | 'lg' | 'xl';
+    priority?: boolean;
 }
 
-export default function MotoFitLogo({ className, size = 'md' }: MotoFitLogoProps) {
+export default function MotoFitLogo({ className, size = 'md', priority = false }: MotoFitLogoProps) {
     const sizes = {
         sm: 'w-24 h-8',
         md: 'w-32 h-11',
@@ -34,7 +35,7 @@ export default function MotoFitLogo({ className, size = 'md' }: MotoFitLogoProps
                         // Removing the background and adding futuristic neon glow
                         filter: 'drop-shadow(0 0 8px rgba(255, 94, 26, 0.8)) drop-shadow(0 0 25px rgba(255, 94, 26, 0.3)) contrast(1.1) brightness(1.1)'
                     }}
-                    priority
+                    priority={priority}
                 />
             </div>
 

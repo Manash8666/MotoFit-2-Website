@@ -191,8 +191,6 @@ export default function RootLayout({
         </a>
         <SchemaMarkup />
         <BookingProvider>
-          <MansiWidget />
-          <BookingModal />
           <LenisWrapper>
             {/* <CustomCursor /> */}
             {/* <Background3D /> */}
@@ -201,6 +199,8 @@ export default function RootLayout({
             <GlobalTrustNetwork />
             <HighVoltageFooter />
           </LenisWrapper>
+          <MansiWidget />
+          <BookingModal />
         </BookingProvider>
       </body>
     </html>
