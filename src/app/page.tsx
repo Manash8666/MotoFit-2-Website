@@ -9,6 +9,8 @@ import FeaturedProjects from '@/components/sections/FeaturedProjects';
 import MansiKnowledgeHub from '@/components/sections/MansiKnowledgeHub';
 import PartsCatalog from '@/components/sections/PartsCatalog';
 import FAQSection from '@/components/sections/FAQSection';
+import AhmedabadReach from '@/components/sections/AhmedabadReach';
+import CouponBanner from '@/components/sections/CouponBanner';
 import { getStatsFromDB, getLeaderboardFromDB, getProjectsFromDB } from '@/actions/admin-store-db';
 
 // Revalidate every 60s so admin updates via Mansi chat appear quickly
@@ -28,6 +30,8 @@ export default async function Home() {
       <TrustBadges />
       <IndustrialStats stats={stats} />
       <HolographicServices />
+      <CouponBanner />
+      <AhmedabadReach />
       <DynoLeaderboard leaderboard={leaderboard} />
       <FeaturedProjects projects={projects} />
       <MansiKnowledgeHub />

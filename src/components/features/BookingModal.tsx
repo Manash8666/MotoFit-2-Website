@@ -105,19 +105,25 @@ export default function BookingModal() {
     };
 
     const confirmBooking = () => {
+        const clientName = formData.name || 'Rider';
+        const couponCode = 'MOTOFIT-RIDER-5';
         const message = `Hi MotoFit, I'd like to book a service.
     
-👤 Name: ${formData.name || 'Rider'}
+👤 Name: ${clientName}
 🏍️ Bike: ${formData.bikeModel || 'Not specified'}
 🔧 Service: ${activeCategory.label}${serviceType !== 'General Service' ? ` (${serviceType})` : ''}
 📅 Date: ${formData.date}
 ⏰ Slot: ${formData.dropOffSlot}
 🚚 Logistics: ${formData.logistics}${effectiveDescription ? `\n📝 Notes: ${effectiveDescription}` : ''}
 
-Is this slot available?`;
+🎟️ Coupon Code: ${couponCode}
+💚 Discount: 5% off (pending your confirmation)
+
+Thank you, ${clientName} — you're special! 🙏
+Please confirm this booking and activate the coupon via WhatsApp.`;
 
         const encoded = encodeURIComponent(message);
-        window.open(`https://wa.me/917259625881?text=${encoded}`, '_blank');
+        window.open(`https://wa.me/916359635416?text=${encoded}`, '_blank');
         closeBooking();
         setTimeout(() => setStep('input'), 500);
     };
@@ -291,10 +297,10 @@ Is this slot available?`;
                                         </div>
                                     </div>
                                 ) : (
-                                    /* Success State - Mansi's Message */
+                                    /* Success State - Mansi's Message + Coupon */
                                     <div className="flex flex-col h-full">
                                         {/* Large High-Impact Image */}
-                                        <div className="relative w-full h-[300px] rounded-2xl overflow-hidden border border-[#00d1ff]/30 shadow-[0_0_40px_rgba(0,209,255,0.15)] flex-shrink-0">
+                                        <div className="relative w-full h-[220px] rounded-2xl overflow-hidden border border-[#00d1ff]/30 shadow-[0_0_40px_rgba(0,209,255,0.15)] flex-shrink-0">
                                             <Image
                                                 src="/images/team/mansi-new.webp"
                                                 alt="Mansi Style"
@@ -303,18 +309,28 @@ Is this slot available?`;
                                                 className="object-cover object-top hover:scale-105 transition-transform duration-700"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-
-                                            {/* Overlay Text */}
                                             <div className="absolute bottom-4 left-4 right-4">
-                                                <h3 className="text-2xl font-bold text-white italic drop-shadow-md">&quot;Best decision, yaar!&quot;</h3>
+                                                <h3 className="text-xl font-bold text-white italic drop-shadow-md">&quot;Best decision, yaar!&quot;</h3>
                                             </div>
                                         </div>
 
-                                        <div className="space-y-3 text-center pt-6 px-2">
+                                        {/* Personalized Coupon Card */}
+                                        <div className="mt-4 rounded-xl border border-[#22c55e]/40 bg-[#0d1f12]/80 px-5 py-4 text-center">
+                                            <p className="text-[10px] font-mono text-gray-500 uppercase tracking-widest mb-1">Your Exclusive Coupon</p>
+                                            <p className="text-[#22c55e] font-mono font-black text-xl tracking-widest drop-shadow-[0_0_12px_rgba(34,197,94,0.6)]">
+                                                MOTOFIT-RIDER-5
+                                            </p>
+                                            <p className="text-white text-sm font-semibold mt-1">
+                                                Thank You, <span className="text-[#22c55e]">{formData.name || 'Rider'}</span> — You are Special. <span className="text-[#22c55e] font-bold">5% Applied</span> on your service.
+                                            </p>
+                                            <p className="text-[9px] text-gray-600 font-mono mt-2">Activated upon WhatsApp confirmation by Akshat or Samael</p>
+                                        </div>
+
+                                        <div className="space-y-2 text-center pt-4 px-2">
                                             <p className="text-gray-300 text-sm leading-relaxed">
                                                 <span className="text-[#00d1ff] font-bold">Protocol Initiated.</span>
                                                 <br />
-                                                Akshat bhai is already prepping the bay. Send the data on WhatsApp to lock it in!
+                                                Akshat bhai is prepping the bay. Tap below to lock it in on WhatsApp!
                                             </p>
                                         </div>
                                     </div>

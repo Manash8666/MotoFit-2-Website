@@ -66,6 +66,36 @@ export default function TermsOfServicePage() {
                             All contracts and transactions are governed under the jurisdiction of the courts of Ahmedabad, Gujarat, India.
                         </p>
                     </section>
+
+                    <section>
+                        <h2 className="text-xl font-bold uppercase text-white mb-3">6. Booking Campaign &amp; Coupon Terms</h2>
+                        <p className="mb-3">
+                            MotoFit 2 periodically runs booking campaigns exclusively for clients who book via <strong className="text-white">motofit2.in</strong> or our official <strong className="text-white">Instagram</strong> page. The following terms govern these campaigns:
+                        </p>
+                        <h3 className="text-base font-bold text-[#22c55e] uppercase tracking-wide mb-2">6.1 Live Booking Coupon (5% Discount)</h3>
+                        <ul className="list-disc pl-6 space-y-2 text-gray-400 mb-4">
+                            <li>All clients who complete a booking request via the website or Instagram receive a personalized coupon code.</li>
+                            <li>The live coupon provides a fixed <strong className="text-white">5% discount</strong> on the final service invoice, regardless of service type or vehicle.</li>
+                            <li>The discount message displayed is: <em className="text-[#22c55e]">"Thank You, [Client Name], You are Special. 5% Applied on Your Service."</em></li>
+                            <li><strong className="text-white">Activation Requirement:</strong> Every coupon must be <strong className="text-white">manually confirmed</strong> by either <strong className="text-white">Akshat</strong> or <strong className="text-white">Samael</strong> on WhatsApp (+91-6359635416) before it becomes valid. Coupons not confirmed within 24 hours of the booking slot are automatically void.</li>
+                        </ul>
+                        <h3 className="text-base font-bold text-[#ff5e1a] uppercase tracking-wide mb-2">6.2 Monthly Lucky Draw (100% Free Service)</h3>
+                        <ul className="list-disc pl-6 space-y-2 text-gray-400 mb-4">
+                            <li><strong className="text-white">Prize:</strong> 5 lucky clients per month receive a complimentary General Service &amp; Engine Oil change (100% free), irrespective of their vehicle model.</li>
+                            <li><strong className="text-white">Eligibility Pool:</strong> Selection occurs within every 500 bookings made by new and returning clients combined.</li>
+                            <li><strong className="text-white">Counter Reset:</strong> The Lucky Coupon eligibility counter resets every 99 bookings. This is an internal safeguard managed and monitored by the MotoFit 2 team to prevent unintended activations.</li>
+                            <li><strong className="text-white">Cancellation Penalty:</strong> If a confirmed booking is cancelled, the client's eligibility count resets to zero for the following calendar month.</li>
+                            <li><strong className="text-white">Mansi Oversight:</strong> The AI assistant Mansi performs periodic automated checks to ensure the Lucky Coupon system remains within its designated operational parameters.</li>
+                            <li><strong className="text-white">Activation Requirement:</strong> Lucky coupon winners will be notified and must receive explicit WhatsApp confirmation from Akshat or Samael to redeem the prize. No walk-in redemptions are accepted without prior confirmation.</li>
+                        </ul>
+                        <h3 className="text-base font-bold text-gray-400 uppercase tracking-wide mb-2">6.3 General Campaign Terms</h3>
+                        <ul className="list-disc pl-6 space-y-2 text-gray-400">
+                            <li>MotoFit 2 reserves the right to modify, pause, or terminate any campaign at any time without prior notice.</li>
+                            <li>Coupons are non-transferable, non-encashable, and valid for a single use only.</li>
+                            <li>Any attempt to manipulate booking counts or misrepresent information to gain coupon benefits will result in permanent disqualification.</li>
+                            <li>In case of any dispute regarding coupon eligibility, MotoFit 2's decision shall be final and binding.</li>
+                        </ul>
+                    </section>
                 </div>
             </div>
         </main>
