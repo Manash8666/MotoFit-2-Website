@@ -110,7 +110,7 @@ export default function CouponBanner() {
                         </button>
 
                         <p className="text-[9px] text-gray-600 font-mono mt-3 text-center">
-                            *Subject to confirmation by Akshat or Samael on WhatsApp
+                            *Confirmed by Akshat (+91-72596 25881). If no reply within 1 hr, escalates to Samael (+91-63596 35416).
                         </p>
                     </motion.div>
 

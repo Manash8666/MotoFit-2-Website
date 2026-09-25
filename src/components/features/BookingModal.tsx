@@ -123,7 +123,7 @@ Thank you, ${clientName} — you're special! 🙏
 Please confirm this booking and activate the coupon via WhatsApp.`;
 
         const encoded = encodeURIComponent(message);
-        window.open(`https://wa.me/916359635416?text=${encoded}`, '_blank');
+        window.open(`https://wa.me/917259625881?text=${encoded}`, '_blank');
         closeBooking();
         setTimeout(() => setStep('input'), 500);
     };
@@ -323,7 +323,7 @@ Please confirm this booking and activate the coupon via WhatsApp.`;
                                             <p className="text-white text-sm font-semibold mt-1">
                                                 Thank You, <span className="text-[#22c55e]">{formData.name || 'Rider'}</span> — You are Special. <span className="text-[#22c55e] font-bold">5% Applied</span> on your service.
                                             </p>
-                                            <p className="text-[9px] text-gray-600 font-mono mt-2">Activated upon WhatsApp confirmation by Akshat or Samael</p>
+                                            <p className="text-[9px] text-gray-600 font-mono mt-2">Confirmed by Akshat (+91-72596 25881) · If no reply in 1 hr → Samael (+91-63596 35416)</p>
                                         </div>
 
                                         <div className="space-y-2 text-center pt-4 px-2">
