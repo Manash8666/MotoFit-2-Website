@@ -21,6 +21,7 @@
     "@splinetool/react-spline": "^4.1.0",
     "@tavily/core": "^0.7.1",
     "@types/leaflet": "^1.9.21",
+    "@vercel/analytics": "^2.0.1",
     "@vercel/postgres": "^0.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
