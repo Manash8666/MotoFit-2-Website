@@ -43,9 +43,10 @@ export class MansiLearningHub {
                 primaryCoupon: "MOTOFIT-RIDER-5"
             },
             modelBackbone: {
-                primary: "google/gemini-2.0-flash-001",
-                reasoningMoE: "deepseek/deepseek-chat (DeepSeek-V3)",
-                indicMultilingual: "qwen/qwen-2.5-72b-instruct (Qwen)",
+                prioritizedFlagship1: "qwen/qwen-2.5-72b-instruct (Qwen 2.5 72B)",
+                prioritizedFlagship2: "deepseek/deepseek-chat (DeepSeek-V3)",
+                diagnosticReasoning: "deepseek/deepseek-r1 (DeepSeek-R1)",
+                serverFallback: "google/gemini-2.0-flash-001 / gpt-4o-mini",
                 indicLocal: "sarvam-m"
             },
             trainingPipeline: {

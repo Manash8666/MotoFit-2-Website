@@ -8,6 +8,8 @@ import { getSeasonalIntel } from './mansi-seasonal-intel';
 const KEYS = {
     OPENAI: process.env.OPENAI_API_KEY,
     OPENROUTER: process.env.OPENROUTER_API_KEY,
+    DEEPSEEK: process.env.DEEPSEEK_API_KEY,
+    QWEN: process.env.DASHSCOPE_API_KEY || process.env.QWEN_API_KEY,
     SARVAM: process.env.SARVAM_API_KEY,
     HELICONE: process.env.HELICONE_API_KEY,
     PORTKEY: process.env.PORTKEY_API_KEY,
@@ -18,23 +20,31 @@ const KEYS = {
 };
 
 const MODELS = {
-    OPENAI: "gpt-4o-mini",
-    PRIMARY: "google/gemini-2.0-flash-001",
+    // 🌟 Top Priority AI Models (Qwen & DeepSeek)
+    QWEN_72B: "qwen/qwen-2.5-72b-instruct",
     DEEPSEEK_V3: "deepseek/deepseek-chat",
-    QWEN: "qwen/qwen-2.5-72b-instruct",
+    DEEPSEEK_R1: "deepseek/deepseek-r1",
+    QWEN_CODER: "qwen/qwen-2.5-coder-32b-instruct",
+    QWEN_7B: "qwen/qwen-2.5-7b-instruct",
+    DEEPSEEK_V3_EXP: "deepseek/deepseek-v3.2",
+    OPENROUTER_FREE: "openrouter/free",
+
+    // 🛡️ Secondary Server Fallback Models (Only if Qwen and DeepSeek have server issues)
+    GEMINI_FALLBACK: "google/gemini-2.0-flash-001",
+    OPENAI_FALLBACK: "openai/gpt-4o-mini",
+    NATIVE_OPENAI: "gpt-4o-mini",
     SARVAM: "sarvam-m",
     HELICONE: "google/gemini-2.0-flash-001",
-    PORTKEY: "grok-beta",
-    OLLAMA: "deepseek-r1:8b",
-    OLLAMA_QWEN: "qwen2.5:7b"
+    PORTKEY: "gpt-4o-mini",
+    OLLAMA_QWEN: "qwen2.5:7b",
+    OLLAMA_DEEPSEEK: "deepseek-r1:8b"
 };
 
 export async function chatWithMansiBrain(conversationHistory: any[], contextType: 'chat' | 'learning' = 'chat') {
-    let lastError = null;
+    let lastError: string | null = null;
     const lastUserMessage = conversationHistory.filter(m => m.role === 'user').pop()?.content || "";
 
     // ── INJECT SEASONAL INTELLIGENCE ──
-    // Find the primary system prompt and append the dynamic season context
     const systemMessageIndex = conversationHistory.findIndex(m => m.role === 'system');
     if (systemMessageIndex !== -1) {
         const intel = getSeasonalIntel();
@@ -43,40 +53,83 @@ export async function chatWithMansiBrain(conversationHistory: any[], contextType
         }
     }
 
-    // 0. NATIVE LAYER: OPENAI (Only for direct user chat)
-    if (KEYS.OPENAI && contextType === 'chat') {
-        console.log(`[Mansi Brain] 🧠 TARGET 0: Native OpenAI (${MODELS.OPENAI})...`);
+    // ── 0. DIRECT DEEPSEEK NATIVE API (if DEEPSEEK_API_KEY is configured) ──
+    if (KEYS.DEEPSEEK) {
+        console.log(`[Mansi Brain] 🧠 TARGET 0A: Direct DeepSeek API (deepseek-chat)...`);
         try {
             const client = new OpenAI({
-                apiKey: KEYS.OPENAI
+                baseURL: "https://api.deepseek.com",
+                apiKey: KEYS.DEEPSEEK
             });
             const completion = await client.chat.completions.create({
-                model: MODELS.OPENAI,
+                model: "deepseek-chat",
                 messages: conversationHistory,
                 temperature: 0.88,
-                max_tokens: 600,
+                max_tokens: 650,
             });
             let reply = completion.choices[0]?.message?.content;
             if (reply) {
                 reply = reply.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-                console.log("[Mansi Brain] ✅ LAYER 0 SUCCESS");
-                logMansiExperience(lastUserMessage, reply, `OPENAI/${MODELS.OPENAI}`);
-                return { success: true, text: reply, model_used: `OPENAI/${MODELS.OPENAI}`, error: null };
+                console.log("[Mansi Brain] ✅ TARGET 0A (DeepSeek Native) SUCCESS");
+                logMansiExperience(lastUserMessage, reply, "DEEPSEEK/deepseek-chat");
+                return { success: true, text: reply, model_used: "DEEPSEEK/deepseek-chat", error: null };
             }
         } catch (e: any) {
-            console.warn(`[Mansi Brain] Layer 0 Failed: ${e.message}`);
+            console.warn(`[Mansi Brain] Direct DeepSeek API failed: ${e.message}`);
             lastError = e.message;
         }
     }
 
-    // 1. PRIMARY LAYER: OPENROUTER (Gemini -> DeepSeek-V3 -> Qwen Fallback Chain)
+    // ── 0B. DIRECT QWEN DASHSCOPE API (if DASHSCOPE_API_KEY / QWEN_API_KEY is configured) ──
+    if (KEYS.QWEN) {
+        console.log(`[Mansi Brain] 🧠 TARGET 0B: Direct Qwen API (qwen-plus)...`);
+        try {
+            const client = new OpenAI({
+                baseURL: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+                apiKey: KEYS.QWEN
+            });
+            const completion = await client.chat.completions.create({
+                model: "qwen-plus",
+                messages: conversationHistory,
+                temperature: 0.88,
+                max_tokens: 650,
+            });
+            let reply = completion.choices[0]?.message?.content;
+            if (reply) {
+                reply = reply.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+                console.log("[Mansi Brain] ✅ TARGET 0B (Qwen Native) SUCCESS");
+                logMansiExperience(lastUserMessage, reply, "QWEN/qwen-plus");
+                return { success: true, text: reply, model_used: "QWEN/qwen-plus", error: null };
+            }
+        } catch (e: any) {
+            console.warn(`[Mansi Brain] Direct Qwen API failed: ${e.message}`);
+            lastError = e.message;
+        }
+    }
+
+    // ── 1. PRIMARY AI LAYER: OPENROUTER (QWEN & DEEPSEEK PRIORITIZED) ──
     if (KEYS.OPENROUTER) {
-        console.log(`[Mansi Brain] 🧠 TARGET 1: OpenRouter Chain (${MODELS.PRIMARY} / ${MODELS.DEEPSEEK_V3} / ${MODELS.QWEN})...`);
-        const openRouterModels = [MODELS.PRIMARY, MODELS.DEEPSEEK_V3, MODELS.QWEN];
+        console.log(`[Mansi Brain] 🧠 TARGET 1: OpenRouter Chain (Prioritizing Qwen & DeepSeek)...`);
+        // Prioritize Qwen and DeepSeek models first, then secondary fallback models only on failure
+        const openRouterModels = [
+            MODELS.QWEN_72B,        // #1 Qwen 2.5 72B Instruct (Top Indic & Motorcycle Engine Mastery)
+            MODELS.DEEPSEEK_V3,     // #2 DeepSeek-V3 Chat (Top Conversational Reasoning)
+            MODELS.DEEPSEEK_R1,     // #3 DeepSeek-R1 (Diagnostic Reasoning Chain)
+            MODELS.QWEN_CODER,      // #4 Qwen 2.5 32B Instruct
+            MODELS.QWEN_7B,         // #5 Qwen 2.5 7B Instruct
+            MODELS.DEEPSEEK_V3_EXP, // #6 DeepSeek V3.2 Exp
+            MODELS.OPENROUTER_FREE, // #7 OpenRouter Free Tier Router
+            MODELS.GEMINI_FALLBACK, // #8 Gemini (Server issue fallback)
+            MODELS.OPENAI_FALLBACK  // #9 OpenAI gpt-4o-mini (Server issue fallback)
+        ];
+
         const client = new OpenAI({
             baseURL: "https://openrouter.ai/api/v1",
             apiKey: KEYS.OPENROUTER,
-            defaultHeaders: { "HTTP-Referer": "https://motofit.in", "X-Title": "MotoFit Mansi" }
+            defaultHeaders: {
+                "HTTP-Referer": "https://motofit2.in",
+                "X-Title": "MotoFit 2 Mansi"
+            }
         });
 
         for (const targetModel of openRouterModels) {
@@ -90,47 +143,72 @@ export async function chatWithMansiBrain(conversationHistory: any[], contextType
                 let reply = completion.choices[0]?.message?.content;
                 if (reply) {
                     reply = reply.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-                    console.log(`[Mansi Brain] ✅ LAYER 1 SUCCESS via ${targetModel}`);
+                    console.log(`[Mansi Brain] ✅ TARGET 1 SUCCESS via ${targetModel}`);
                     logMansiExperience(lastUserMessage, reply, `OR/${targetModel}`);
                     return { success: true, text: reply, model_used: `OR/${targetModel}`, error: null };
                 }
             } catch (e: any) {
-                console.warn(`[Mansi Brain] OpenRouter sub-model ${targetModel} Failed: ${e.message}`);
+                console.warn(`[Mansi Brain] Model ${targetModel} server issue: ${e.message}`);
                 lastError = e.message;
             }
         }
     }
 
-    // 2. RESILIENCE LAYER: SARVAM AI (Indian Context)
-    // Sarvam is great for Gujlish/Hindi. 
+    // ── 2. SECONDARY AI LAYER: NATIVE OPENAI (SERVER ISSUE FALLBACK ONLY) ──
+    // Only used if Qwen and DeepSeek models on OpenRouter experienced server issues
+    if (KEYS.OPENAI) {
+        console.log(`[Mansi Brain] 🛡️ TARGET 2: Native OpenAI Fallback (${MODELS.NATIVE_OPENAI})...`);
+        try {
+            const client = new OpenAI({ apiKey: KEYS.OPENAI });
+            const completion = await client.chat.completions.create({
+                model: MODELS.NATIVE_OPENAI,
+                messages: conversationHistory,
+                temperature: 0.88,
+                max_tokens: 600,
+            });
+            let reply = completion.choices[0]?.message?.content;
+            if (reply) {
+                reply = reply.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+                console.log("[Mansi Brain] ✅ TARGET 2 SUCCESS via Native OpenAI");
+                logMansiExperience(lastUserMessage, reply, `OPENAI/${MODELS.NATIVE_OPENAI}`);
+                return { success: true, text: reply, model_used: `OPENAI/${MODELS.NATIVE_OPENAI}`, error: null };
+            }
+        } catch (e: any) {
+            console.warn(`[Mansi Brain] Native OpenAI Fallback Failed: ${e.message}`);
+            lastError = e.message;
+        }
+    }
+
+    // ── 3. RESILIENCE LAYER: SARVAM AI (INDIC CONTEXT) ──
     if (KEYS.SARVAM) {
-        console.log(`[Mansi Brain] 🇮🇳 TARGET 2: Sarvam AI (Neural Core)...`);
+        console.log(`[Mansi Brain] 🇮🇳 TARGET 3: Sarvam AI (Neural Core)...`);
         try {
             const client = new OpenAI({ baseURL: "https://api.sarvam.ai/v1", apiKey: KEYS.SARVAM });
             const completion = await client.chat.completions.create({
-                model: "sarvam-m", // 24B Indic model is most stable for chat
+                model: MODELS.SARVAM,
                 messages: conversationHistory,
                 temperature: 0.7,
                 max_tokens: 500,
             });
             const reply = completion.choices[0]?.message?.content;
             if (reply) {
-                console.log("[Mansi Brain] ✅ LAYER 2 SUCCESS");
+                console.log("[Mansi Brain] ✅ TARGET 3 SUCCESS via Sarvam");
                 logMansiExperience(lastUserMessage, reply, "SARVAM-M");
                 return { success: true, text: reply, model_used: "SARVAM-M", error: null };
             }
         } catch (e: any) {
-            console.warn(`[Mansi Brain] Layer 2 Failed: ${e.message}`);
+            console.warn(`[Mansi Brain] Sarvam AI Failed: ${e.message}`);
+            lastError = e.message;
         }
     }
 
-    // 3. GATEWAY LAYER A: HELICONE
+    // ── 4. GATEWAY LAYER A: HELICONE ──
     if (KEYS.HELICONE) {
-        console.log(`[Mansi Brain] 🛡️ TARGET 3: Helicone Gateway...`);
+        console.log(`[Mansi Brain] 🛡️ TARGET 4: Helicone Gateway...`);
         try {
             const client = new OpenAI({
                 baseURL: "https://oai.helicone.ai/v1",
-                apiKey: KEYS.OPENROUTER || "placeholder", // Helicone auth is via header usually, but needs provider key too
+                apiKey: KEYS.OPENROUTER || KEYS.OPENAI || "placeholder",
                 defaultHeaders: { "Helicone-Auth": `Bearer ${KEYS.HELICONE}` }
             });
             const completion = await client.chat.completions.create({
@@ -139,49 +217,51 @@ export async function chatWithMansiBrain(conversationHistory: any[], contextType
             });
             const reply = completion.choices[0]?.message?.content;
             if (reply) {
-                console.log("[Mansi Brain] ✅ LAYER 3 SUCCESS");
+                console.log("[Mansi Brain] ✅ TARGET 4 SUCCESS via Helicone");
                 logMansiExperience(lastUserMessage, reply, "HELICONE");
                 return { success: true, text: reply, model_used: "HELICONE", error: null };
             }
         } catch (e: any) {
-            console.warn(`[Mansi Brain] Layer 3 Failed: ${e.message}`);
+            console.warn(`[Mansi Brain] Helicone Gateway Failed: ${e.message}`);
+            lastError = e.message;
         }
     }
 
-    // 4. GATEWAY LAYER B: PORTKEY (Emergency Grok)
+    // ── 5. GATEWAY LAYER B: PORTKEY ──
     if (KEYS.PORTKEY) {
-        console.log(`[Mansi Brain] 🔑 TARGET 4: Portkey Gateway...`);
+        console.log(`[Mansi Brain] 🔑 TARGET 5: Portkey Gateway...`);
         try {
             const client = new OpenAI({
                 baseURL: "https://api.portkey.ai/v1",
                 apiKey: KEYS.PORTKEY,
-                defaultHeaders: { "x-portkey-provider": "openai" } // Defaulting to generic proxy
+                defaultHeaders: { "x-portkey-provider": "openai" }
             });
             const completion = await client.chat.completions.create({
-                model: "gpt-4o-mini", // Fallback standard
+                model: MODELS.PORTKEY,
                 messages: conversationHistory
             });
             const reply = completion.choices[0]?.message?.content;
             if (reply) {
-                console.log("[Mansi Brain] ✅ LAYER 4 SUCCESS");
+                console.log("[Mansi Brain] ✅ TARGET 5 SUCCESS via Portkey");
                 logMansiExperience(lastUserMessage, reply, "PORTKEY");
                 return { success: true, text: reply, model_used: "PORTKEY", error: null };
             }
         } catch (e: any) {
-            console.warn(`[Mansi Brain] Layer 4 Failed: ${e.message}`);
+            console.warn(`[Mansi Brain] Portkey Gateway Failed: ${e.message}`);
+            lastError = e.message;
         }
     }
 
-    // 5. NUCLEAR OPTION: HOSTED OLLAMA
+    // ── 6. LOCAL / HOSTED OLLAMA LAYER (QWEN & DEEPSEEK) ──
     if (KEYS.OLLAMA_HOST) {
-        console.log(`[Mansi Brain] ☢️ TARGET 5: Nuclear Option (Ollama Host)...`);
+        console.log(`[Mansi Brain] ☢️ TARGET 6: Ollama Host (Qwen / DeepSeek)...`);
         try {
             const host = KEYS.OLLAMA_HOST.endsWith('/') ? KEYS.OLLAMA_HOST : `${KEYS.OLLAMA_HOST}/`;
             const client = new OpenAI({
                 baseURL: `${host}v1`,
                 apiKey: KEYS.OLLAMA || "ollama"
             });
-            for (const modelToTry of [MODELS.OLLAMA, MODELS.OLLAMA_QWEN]) {
+            for (const modelToTry of [MODELS.OLLAMA_QWEN, MODELS.OLLAMA_DEEPSEEK]) {
                 try {
                     const completion = await client.chat.completions.create({
                         model: modelToTry,
@@ -190,7 +270,7 @@ export async function chatWithMansiBrain(conversationHistory: any[], contextType
                     let reply = completion.choices[0]?.message?.content;
                     if (reply) {
                         reply = reply.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-                        console.log(`[Mansi Brain] ✅ LAYER 5 SUCCESS (${modelToTry})`);
+                        console.log(`[Mansi Brain] ✅ TARGET 6 SUCCESS (${modelToTry})`);
                         logMansiExperience(lastUserMessage, reply, `OLLAMA/${modelToTry}`);
                         return { success: true, text: reply, model_used: `OLLAMA/${modelToTry}`, error: null };
                     }
@@ -199,33 +279,34 @@ export async function chatWithMansiBrain(conversationHistory: any[], contextType
                 }
             }
         } catch (e: any) {
-            console.warn(`[Mansi Brain] Layer 5 Failed: ${e.message}`);
+            console.warn(`[Mansi Brain] Ollama Host Failed: ${e.message}`);
+            lastError = e.message;
         }
     }
 
-    // 6. GHOST PROTOCOL X: BONSAI
+    // ── 7. BONSAI FAILSAFE ──
     if (KEYS.BONSAI && KEYS.BONSAI_HOST) {
-        console.log(`[Mansi Brain] 👻 TARGET 6: Bonsai Failsafe...`);
+        console.log(`[Mansi Brain] 👻 TARGET 7: Bonsai Failsafe...`);
         try {
-            // Assuming OpenAI Compatible
             const client = new OpenAI({ baseURL: `${KEYS.BONSAI_HOST}/v1`, apiKey: KEYS.BONSAI });
             const completion = await client.chat.completions.create({
-                model: "gpt-3.5-turbo", // Standard fallback
+                model: "gpt-3.5-turbo",
                 messages: conversationHistory
             });
             const reply = completion.choices[0]?.message?.content;
             if (reply) {
-                console.log("[Mansi Brain] ✅ LAYER 6 SUCCESS");
+                console.log("[Mansi Brain] ✅ TARGET 7 SUCCESS via Bonsai");
                 logMansiExperience(lastUserMessage, reply, "BONSAI");
                 return { success: true, text: reply, model_used: "BONSAI", error: null };
             }
         } catch (e: any) {
-            console.warn(`[Mansi Brain] Layer 6 Failed: ${e.message}`);
+            console.warn(`[Mansi Brain] Bonsai Failsafe Failed: ${e.message}`);
+            lastError = e.message;
         }
     }
 
-    // 7. FINAL FALLBACK: SIMULATION
-    console.warn("[Mansi Brain] SYSTEM CRITICAL: All 6 Neural Layers Failed. Activating Static Fallback.");
+    // ── 8. OFFLINE STATIC FALLBACK (ONLY IF ALL AI MODELS HAVE SERVER ISSUES) ──
+    console.warn("[Mansi Brain] SYSTEM CRITICAL: All AI Model Tiers Experienced Server/Network Issues.");
 
     // JSON Request Fallback (Knowledge Hub)
     const lastUserMsg = conversationHistory[conversationHistory.length - 1]?.content || '';
@@ -234,7 +315,7 @@ export async function chatWithMansiBrain(conversationHistory: any[], contextType
             faqs: [
                 { category: "SURVIVAL", question: "Engine heating in Ahmedabad traffic?", answer: "Visat traffic is brutal. Use Motul 7100 10W50. It handles the 45°C heat better than stock oil.", icon: "🔥" },
                 { category: "MODS", question: "Is exhaust modification legal?", answer: "Strictly specific zones only. SG Highway police will fine you. Keep the dB killer IN.", icon: "👮" },
-                { category: "MAINTENANCE", question: "Best chain lube for dust?", answer: "EP90 Gear Oil. Messy but survives the dust. sprays dry out too fast.", icon: "⛓️" }
+                { category: "MAINTENANCE", question: "Best chain lube for dust?", answer: "EP90 Gear Oil. Messy but survives the dust. Sprays dry out too fast.", icon: "⛓️" }
             ],
             learned_concepts: ["Synthetics", "EP90", "dB Killer"]
         };
@@ -244,6 +325,6 @@ export async function chatWithMansiBrain(conversationHistory: any[], contextType
     return {
         success: false,
         text: null,
-        error: lastError || "All Brains Offline"
+        error: lastError || "All AI model servers are currently unreachable. Offline protocol active."
     };
 }

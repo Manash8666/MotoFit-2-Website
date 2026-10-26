@@ -303,7 +303,7 @@ export default function MansiWidget() {
             const report = `
 🧠 **MOTOFIT 2 BRAIN STATUS** 🧠
 --------------------------------
-🔋 **Core Power:** 100% (Gemini 2.0 / Nemotron / DeepSeek R1)
+🔋 **Core Power:** 100% (Qwen 2.5 72B / DeepSeek-V3 / DeepSeek-R1)
 🗣️ **Language Matrix:** English | Hindi | Gujarati | Hinglish | Gujilish
 🔧 **Protocol:** Human Mechanic (Active)
 👁️ **Context:** ${MansiContext.getPageName()} page | Idle: ${MansiContext.getIdleSeconds()}s
@@ -527,9 +527,9 @@ ${insights}
             // For now, we trust the flow.
 
         } catch (error) {
-            console.warn("Server Brain Failed. Activating Ghost Protocol.", error);
+            console.warn("[Mansi Brain] AI models experienced server/network issues. Activating Ghost Protocol offline fallback.", error);
 
-            // FAILOVER TO GHOST PROTOCOL (Local Regex)
+            // FAILOVER TO GHOST PROTOCOL (Only if AI models have server issues)
             const ghostReply = runGhostProtocol(userMessage);
 
             setTimeout(() => {
@@ -854,7 +854,7 @@ ${insights}
         // ── /status ──────────────────────────────────────────────────────────
         if (cmd.includes('/status') || cmd.includes('brain status')) {
             const insights = MansiMemory.getRecentInsights() || 'No recent web scans.';
-            return `🧠 **MOTOFIT 2 BRAIN STATUS**\n────────────────────────\n🔋 Core: 100% (Gemini 2.0 / DeepSeek)\n🗣️ Languages: EN | HI | GU | Hinglish\n👁️ Context: ${MansiContext.getPageName()} | Idle: ${MansiContext.getIdleSeconds()}s\n📅 ${MansiCalendar.getTodayStatus()}\n📡 Scans: ${insights}\n\n*Learning Matrix Active.*`;
+            return `🧠 **MOTOFIT 2 BRAIN STATUS**\n────────────────────────\n🔋 Core: 100% (Qwen 2.5 72B / DeepSeek-V3 / DeepSeek-R1)\n🗣️ Languages: EN | HI | GU | Hinglish\n👁️ Context: ${MansiContext.getPageName()} | Idle: ${MansiContext.getIdleSeconds()}s\n📅 ${MansiCalendar.getTodayStatus()}\n📡 Scans: ${insights}\n\n*Learning Matrix Active.*`;
         }
 
         // ── /book YYYY-MM-DD ─────────────────────────────────────────────────
