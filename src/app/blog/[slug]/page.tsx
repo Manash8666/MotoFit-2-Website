@@ -3,6 +3,8 @@ import { getBlogBySlug } from '@/actions/mansi-get-blogs';
 import { notFound } from 'next/navigation';
 import BlogPostClient from './BlogPostClient';
 
+export const dynamic = 'force-dynamic';
+
 // Pre-render static blogs
 export async function generateStaticParams() {
     return staticBlogs.map((blog) => ({
