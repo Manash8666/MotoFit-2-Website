@@ -51,6 +51,13 @@ export class MansiLearningHub {
             trainingPipeline: {
                 framework: "LLaMA-Factory / ShareGPT / Alpaca",
                 exportEndpoint: "/api/mansi/export"
+            },
+            voiceEngine: {
+                ttsPrimary: "Sarvam Bulbul v3 (gu-IN / hi-IN)",
+                ttsFallback: "OpenAI Nova (tts-1)",
+                sttPrimary: "OpenAI Whisper + Sarvam Saaras (Indic Garage Vocab)",
+                prosodyAdaptation: "KuralHub Speech Emotion Prosody (Pace/Pitch Modulation)",
+                fineTuneSchema: "AI4Bharat IndicTTS + Qwen2/3-Audio Manifest"
             }
         };
     }

@@ -739,7 +739,8 @@ ${insights}
         }
 
         const recognition = new SpeechRecognition();
-        recognition.lang = 'hi-IN'; // Hindi + English mixed input
+        // Support Gujarati + Hindi bilingual Indic recognition
+        recognition.lang = 'gu-IN';
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
 
@@ -760,19 +761,20 @@ ${insights}
         recognition.start();
     };
 
-    // Phase 4: Text-to-Speech (Sarvam AI Bulbul v3 Integration)
+    // Phase 4: Text-to-Speech (Indic Neural Core: Sarvam Bulbul v3 + OpenAI Nova Fallback)
     const speakText = async (text: string) => {
         if (typeof window === 'undefined' || isMuted) return;
 
-        console.log("[Mansi Voice] Requesting High-Fidelity Neural Speech...");
+        console.log("[Mansi Voice] Requesting High-Fidelity Indic Neural Speech...");
 
         try {
             const { convertTextToSpeech } = await import('@/actions/mansi-tts');
             const res = await convertTextToSpeech(text);
 
             if (res.success && res.audio_content) {
-                // Play Base64 Audio
-                const audio = new Audio(`data:audio/wav;base64,${res.audio_content}`);
+                // Play Base64 Audio with dynamic MIME type (WAV / MP3)
+                const mime = res.format || 'audio/wav';
+                const audio = new Audio(`data:${mime};base64,${res.audio_content}`);
 
                 audio.onplay = () => setIsSpeaking(true);
                 audio.onended = () => setIsSpeaking(false);
@@ -780,7 +782,7 @@ ${insights}
 
                 audio.play();
             } else {
-                console.warn("[Mansi Voice] Sarvam Failed. Falling back to Browser TTS.", res.error);
+                console.warn("[Mansi Voice] Neural Speech Fallback to Browser TTS.", res.error);
                 fallbackSpeak(text);
             }
         } catch (err) {
@@ -802,12 +804,15 @@ ${insights}
 
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(cleanText);
-        utterance.lang = 'hi-IN';
+        utterance.lang = 'gu-IN';
         utterance.rate = 1.05;
         utterance.pitch = 1.1;
 
         const voices = window.speechSynthesis.getVoices();
-        const selectedVoice = voices.find(v => v.lang.includes('IN') && (v.name.includes('Google') || v.name.includes('Swara')));
+        const selectedVoice = voices.find(v => 
+            (v.lang.includes('gu') || v.lang.includes('hi') || v.lang.includes('IN')) && 
+            (v.name.includes('Google') || v.name.includes('Swara') || v.name.includes('Lekha') || v.name.includes('Kalpana'))
+        );
         if (selectedVoice) utterance.voice = selectedVoice;
 
         utterance.onstart = () => setIsSpeaking(true);
