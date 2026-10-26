@@ -15,6 +15,9 @@ import HoloLauncher from './hologram/HoloLauncher';
 import { generateTrendingBlog } from '@/actions/mansi-auto-blog';
 import { MANSI_TRAINING_DATASET } from '@/services/mansi/data/conversation-dataset';
 import { verifyAdminSecret } from '@/actions/admin-auth';
+import { MansiLettaMemory } from '@/services/mansi/memory/letta-core';
+import { IndicNLP } from '@/services/mansi/nlp/indic-intel';
+import { MansiGrowthEngine } from '@/services/mansi/marketing/growth-copy';
 // import { MansiIdentity } from '@/services/mansi/agents/identity'; // Replaced with direct challenge
 
 const MANSI_DAY_LOOKS: Record<number, string> = {
@@ -477,16 +480,22 @@ ${insights}
             leadPriorityContext += "\n🔥 SYSTEM ALERT: ENTHUSIAST MODE ON. Increase technical depth. Be excited.";
         }
 
-        const fullContext = `${timeContext}\n${pageHint}\n${calendarStatus}\n${leadPriorityContext}`;
+        // 8. LETTA STATEFUL MEMORY + INDIC NLP + GROWTH CRO (Letta, AI4Bharat, PolyAI, MarketingSkills)
+        MansiLettaMemory.extractAndSaveProfileSignals(userMessage);
+        const lettaContext = MansiLettaMemory.buildLettaPromptInjection(userMessage);
+        const indicContext = IndicNLP.buildIndicPromptContext(userMessage);
+        const croContext = MansiGrowthEngine.buildCROContext(userMessage);
+
+        const fullContext = `${timeContext}\n${pageHint}\n${calendarStatus}\n${leadPriorityContext}\n\n${lettaContext}\n\n${indicContext}\n\n${croContext}`;
 
         const conversationHistory = [
-            { role: 'system', content: `${SYSTEM_PROMPT}\n\n${MANSI_TRAINING_DATASET}\n\nCONTEXT: ${fullContext}` },
+            { role: 'system', content: `${SYSTEM_PROMPT}\n\n${MANSI_TRAINING_DATASET}\n\n${fullContext}` },
             ...messages.slice(-6), // Increased context window for better flow
             { role: 'user', content: userMessage }
         ];
 
         try {
-            // CALL SERVER ACTION (Multi-Model Free Brain)
+            // CALL SERVER ACTION (Multi-Model Free Brain: Qwen / DeepSeek-V3 / Gemini / Sarvam)
             const response = await chatWithMansiBrain(conversationHistory);
 
             if (!response.success || !response.text) {
@@ -948,11 +957,14 @@ ${insights}
         let leadCtx = '';
         if (['price', 'cost', 'book', 'appointment', 'visit', 'location', 'address'].some(k => cmd.includes(k)))
             leadCtx = '\n📢 HIGH INTENT: Guide them to MotoFit 2 for inspection.';
-        if (['ktm', 'remap', 'stage 1', 'hp', 'torque', 'exhaust', 'top speed'].some(k => cmd.includes(k)))
-            leadCtx += '\n🔥 ENTHUSIAST MODE: Increase technical depth.';
+        // Letta Memory + Indic NLP + Growth CRO
+        MansiLettaMemory.extractAndSaveProfileSignals(userMessage);
+        const lettaContext = MansiLettaMemory.buildLettaPromptInjection(userMessage);
+        const indicContext = IndicNLP.buildIndicPromptContext(userMessage);
+        const croContext = MansiGrowthEngine.buildCROContext(userMessage);
 
         const conversationHistory = [
-            { role: 'system', content: `${SYSTEM_PROMPT}\n\n${MANSI_TRAINING_DATASET}\n\nCONTEXT: ${timeContext}\n${MansiContext.getPageHint()}\n${MansiCalendar.getTodayStatus()}${leadCtx}` },
+            { role: 'system', content: `${SYSTEM_PROMPT}\n\n${MANSI_TRAINING_DATASET}\n\nCONTEXT: ${timeContext}\n${MansiContext.getPageHint()}\n${MansiCalendar.getTodayStatus()}${leadCtx}\n\n${lettaContext}\n\n${indicContext}\n\n${croContext}` },
             ...history.slice(-6),
             { role: 'user', content: userMessage }
         ];

@@ -20,10 +20,13 @@ const KEYS = {
 const MODELS = {
     OPENAI: "gpt-4o-mini",
     PRIMARY: "google/gemini-2.0-flash-001",
+    DEEPSEEK_V3: "deepseek/deepseek-chat",
+    QWEN: "qwen/qwen-2.5-72b-instruct",
     SARVAM: "sarvam-m",
     HELICONE: "google/gemini-2.0-flash-001",
     PORTKEY: "grok-beta",
-    OLLAMA: "deepseek-r1:8b"
+    OLLAMA: "deepseek-r1:8b",
+    OLLAMA_QWEN: "qwen2.5:7b"
 };
 
 export async function chatWithMansiBrain(conversationHistory: any[], contextType: 'chat' | 'learning' = 'chat') {
@@ -53,8 +56,9 @@ export async function chatWithMansiBrain(conversationHistory: any[], contextType
                 temperature: 0.88,
                 max_tokens: 600,
             });
-            const reply = completion.choices[0]?.message?.content;
+            let reply = completion.choices[0]?.message?.content;
             if (reply) {
+                reply = reply.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
                 console.log("[Mansi Brain] ✅ LAYER 0 SUCCESS");
                 logMansiExperience(lastUserMessage, reply, `OPENAI/${MODELS.OPENAI}`);
                 return { success: true, text: reply, model_used: `OPENAI/${MODELS.OPENAI}`, error: null };
@@ -65,30 +69,35 @@ export async function chatWithMansiBrain(conversationHistory: any[], contextType
         }
     }
 
-    // 1. PRIMARY LAYER: OPENROUTER
+    // 1. PRIMARY LAYER: OPENROUTER (Gemini -> DeepSeek-V3 -> Qwen Fallback Chain)
     if (KEYS.OPENROUTER) {
-        console.log(`[Mansi Brain] 🧠 TARGET 1: OpenRouter (${MODELS.PRIMARY})...`);
-        try {
-            const client = new OpenAI({
-                baseURL: "https://openrouter.ai/api/v1",
-                apiKey: KEYS.OPENROUTER,
-                defaultHeaders: { "HTTP-Referer": "https://motofit.in", "X-Title": "MotoFit Mansi" }
-            });
-            const completion = await client.chat.completions.create({
-                model: MODELS.PRIMARY,
-                messages: conversationHistory,
-                temperature: 0.88,
-                max_tokens: 600,
-            });
-            const reply = completion.choices[0]?.message?.content;
-            if (reply) {
-                console.log("[Mansi Brain] ✅ LAYER 1 SUCCESS");
-                logMansiExperience(lastUserMessage, reply, `OR/${MODELS.PRIMARY}`);
-                return { success: true, text: reply, model_used: `OR/${MODELS.PRIMARY}`, error: null };
+        console.log(`[Mansi Brain] 🧠 TARGET 1: OpenRouter Chain (${MODELS.PRIMARY} / ${MODELS.DEEPSEEK_V3} / ${MODELS.QWEN})...`);
+        const openRouterModels = [MODELS.PRIMARY, MODELS.DEEPSEEK_V3, MODELS.QWEN];
+        const client = new OpenAI({
+            baseURL: "https://openrouter.ai/api/v1",
+            apiKey: KEYS.OPENROUTER,
+            defaultHeaders: { "HTTP-Referer": "https://motofit.in", "X-Title": "MotoFit Mansi" }
+        });
+
+        for (const targetModel of openRouterModels) {
+            try {
+                const completion = await client.chat.completions.create({
+                    model: targetModel,
+                    messages: conversationHistory,
+                    temperature: 0.88,
+                    max_tokens: 650,
+                });
+                let reply = completion.choices[0]?.message?.content;
+                if (reply) {
+                    reply = reply.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+                    console.log(`[Mansi Brain] ✅ LAYER 1 SUCCESS via ${targetModel}`);
+                    logMansiExperience(lastUserMessage, reply, `OR/${targetModel}`);
+                    return { success: true, text: reply, model_used: `OR/${targetModel}`, error: null };
+                }
+            } catch (e: any) {
+                console.warn(`[Mansi Brain] OpenRouter sub-model ${targetModel} Failed: ${e.message}`);
+                lastError = e.message;
             }
-        } catch (e: any) {
-            console.warn(`[Mansi Brain] Layer 1 Failed: ${e.message}`);
-            lastError = e.message;
         }
     }
 
@@ -172,15 +181,22 @@ export async function chatWithMansiBrain(conversationHistory: any[], contextType
                 baseURL: `${host}v1`,
                 apiKey: KEYS.OLLAMA || "ollama"
             });
-            const completion = await client.chat.completions.create({
-                model: MODELS.OLLAMA,
-                messages: conversationHistory
-            });
-            const reply = completion.choices[0]?.message?.content;
-            if (reply) {
-                console.log("[Mansi Brain] ✅ LAYER 5 SUCCESS");
-                logMansiExperience(lastUserMessage, reply, "OLLAMA/NUCLEAR");
-                return { success: true, text: reply, model_used: "OLLAMA/NUCLEAR", error: null };
+            for (const modelToTry of [MODELS.OLLAMA, MODELS.OLLAMA_QWEN]) {
+                try {
+                    const completion = await client.chat.completions.create({
+                        model: modelToTry,
+                        messages: conversationHistory
+                    });
+                    let reply = completion.choices[0]?.message?.content;
+                    if (reply) {
+                        reply = reply.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+                        console.log(`[Mansi Brain] ✅ LAYER 5 SUCCESS (${modelToTry})`);
+                        logMansiExperience(lastUserMessage, reply, `OLLAMA/${modelToTry}`);
+                        return { success: true, text: reply, model_used: `OLLAMA/${modelToTry}`, error: null };
+                    }
+                } catch (e: any) {
+                    console.warn(`[Mansi Brain] Ollama model ${modelToTry} Failed: ${e.message}`);
+                }
             }
         } catch (e: any) {
             console.warn(`[Mansi Brain] Layer 5 Failed: ${e.message}`);
