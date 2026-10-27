@@ -13,13 +13,14 @@ import BookingModal from "@/components/features/BookingModal";
 const exo2 = Exo_2({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
 const alegreyaSans = Alegreya_Sans({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "700"],
+  display: "swap",
 });
 
 const agale = localFont({
