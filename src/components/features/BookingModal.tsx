@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Clock, MessageCircle, Bike, User, Zap, Wrench, Shield, Gauge, Droplet, Settings } from 'lucide-react';
+import { X, Calendar, Clock, MessageCircle, Bike, User, Zap, Wrench, Shield, Gauge, Droplet, Settings, MapPin, Navigation } from 'lucide-react';
 import { useBooking } from '@/context/BookingContext';
 import { GlassButton } from '@/components/ui/buttons/GlassButton';
 import Image from 'next/image';
@@ -75,6 +75,7 @@ export default function BookingModal() {
         date: new Date().toISOString().split('T')[0],
         dropOffSlot: 'Morning (9 AM - 12 PM)',
         logistics: 'Self Drop-off',
+        pickupAddress: '',
         description: '',
     });
 
@@ -107,6 +108,11 @@ export default function BookingModal() {
     const confirmBooking = () => {
         const clientName = formData.name || 'Rider';
         const couponCode = 'MOTOFIT-RIDER-5';
+        const pickupDetail = formData.logistics === 'Home Pickup' && formData.pickupAddress 
+            ? `\n📍 Pickup Address: ${formData.pickupAddress}` 
+            : '';
+        const destinationPlace = `\n🏢 Drop-off Lab: MotoFit 2, Chandkheda (Place ID: ChIJ-9YrbNCDXjkRhF-6ojNgrS8)`;
+
         const message = `Hi MotoFit, I'd like to book a service.
     
 👤 Name: ${clientName}
@@ -114,7 +120,7 @@ export default function BookingModal() {
 🔧 Service: ${activeCategory.label}${serviceType !== 'General Service' ? ` (${serviceType})` : ''}
 📅 Date: ${formData.date}
 ⏰ Slot: ${formData.dropOffSlot}
-🚚 Logistics: ${formData.logistics}${effectiveDescription ? `\n📝 Notes: ${effectiveDescription}` : ''}
+🚚 Logistics: ${formData.logistics}${pickupDetail}${destinationPlace}${effectiveDescription ? `\n📝 Notes: ${effectiveDescription}` : ''}
 
 🎟️ Coupon Code: ${couponCode}
 💚 Discount: 5% off (pending your confirmation)
@@ -274,6 +280,86 @@ Please confirm this booking and activate the coupon via WhatsApp.`;
                                                     </button>
                                                 ))}
                                             </div>
+
+                                            {/* Home Pickup Address & Place Autocomplete Selector */}
+                                            {formData.logistics === 'Home Pickup' ? (
+                                                <div className="p-3.5 rounded-xl border border-[#ff5e1a]/30 bg-[#0c0c0c] space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="text-[10px] font-mono text-[#ff5e1a] uppercase tracking-wider flex items-center gap-1.5 font-bold">
+                                                            <MapPin size={12} />
+                                                            Pickup Address / Landmark
+                                                        </label>
+                                                        <span className="text-[9px] font-mono text-gray-500">Ahmedabad Zone</span>
+                                                    </div>
+
+                                                    <div className="relative group">
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Enter flat/house no, street, locality..."
+                                                            value={formData.pickupAddress}
+                                                            onChange={(e) => setFormData({ ...formData, pickupAddress: e.target.value })}
+                                                            className="w-full bg-[#050505] border border-[#333] rounded-lg py-2 pl-3 pr-8 text-xs font-mono text-white placeholder:text-gray-600 focus:border-[#ff5e1a] focus:outline-none transition-all"
+                                                        />
+                                                        {typeof navigator !== 'undefined' && 'geolocation' in navigator && (
+                                                            <button
+                                                                type="button"
+                                                                title="Detect current location"
+                                                                onClick={() => {
+                                                                    navigator.geolocation.getCurrentPosition(
+                                                                        (pos) => {
+                                                                            setFormData(prev => ({
+                                                                                ...prev,
+                                                                                pickupAddress: `GPS: ${pos.coords.latitude.toFixed(4)}°N, ${pos.coords.longitude.toFixed(4)}°E (Chandkheda Area)`
+                                                                            }));
+                                                                        },
+                                                                        () => {
+                                                                            alert('Location access denied. Please type your area name.');
+                                                                        }
+                                                                    );
+                                                                }}
+                                                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#ff5e1a] transition-colors p-1"
+                                                            >
+                                                                <Navigation size={12} />
+                                                            </button>
+                                                        )}
+                                                    </div>
+
+                                                    {/* Quick Ahmedabad Area Chips */}
+                                                    <div className="flex flex-wrap gap-1.5 pt-1">
+                                                        {['Chandkheda', 'Motera', 'New CG Road', 'Visat Circle', 'Sabarmati', 'Nigam Nagar'].map(area => (
+                                                            <button
+                                                                key={area}
+                                                                type="button"
+                                                                onClick={() => setFormData({ ...formData, pickupAddress: `${area}, Ahmedabad` })}
+                                                                className="px-2 py-0.5 rounded text-[9px] font-mono bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-[#ff5e1a]/50 transition-all"
+                                                            >
+                                                                +{area}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+
+                                                    <div className="flex items-center justify-between text-[9px] font-mono text-gray-500 pt-1 border-t border-[#1a1a1a]">
+                                                        <span>Van Transport to Chandkheda Bay</span>
+                                                        <span className="text-[#00d1ff]">Place ID: ChIJ-9YrbNCDXjkRhF-6ojNgrS8</span>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                /* Self Drop-off Place ID Badge */
+                                                <div className="p-2.5 rounded-lg border border-[#222] bg-white/[0.02] flex items-center justify-between text-[10px] font-mono">
+                                                    <div className="flex items-center gap-1.5 text-gray-400">
+                                                        <MapPin size={12} className="text-[#ff5e1a]" />
+                                                        <span>Drop-off Hub: <strong className="text-white">MotoFit 2, Chandkheda</strong></span>
+                                                    </div>
+                                                    <a
+                                                        href="https://www.google.com/maps/search/?api=1&query=MotoFit+2+Bike+Service+Centre&query_place_id=ChIJ-9YrbNCDXjkRhF-6ojNgrS8"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-[#ff5e1a] hover:underline"
+                                                    >
+                                                        ChIJ-9YrbNCDXjkRhF-6ojNgrS8 ↗
+                                                    </a>
+                                                </div>
+                                            )}
                                         </div>
 
                                         {/* Slot Selection */}

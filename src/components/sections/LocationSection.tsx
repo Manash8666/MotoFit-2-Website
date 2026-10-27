@@ -5,12 +5,11 @@ import { GlassButton } from "@/components/ui/buttons/GlassButton";
 import { COMPANY_DETAILS } from "@/config/company";
 import dynamic from 'next/dynamic';
 
-// Dynamically import LeafletMap with no SSR to avoid 'window is not defined'
-const LeafletMap = dynamic(() => import("@/components/maps/LeafletMap"), {
+const GooglePlaceMap = dynamic(() => import("@/components/maps/GooglePlaceMap"), {
     ssr: false,
     loading: () => (
         <div className="w-full h-full min-h-[400px] bg-[#0a0a0a] border border-[#333] rounded-2xl flex items-center justify-center">
-            <span className="text-gray-500">Loading Map...</span>
+            <span className="text-gray-500 font-mono text-xs animate-pulse">Loading Google Maps Hub...</span>
         </div>
     )
 });
@@ -66,19 +65,12 @@ export default function LocationSection() {
                 </div>
 
                 <div className="h-full min-h-[400px]">
-                    <div className="w-full h-full min-h-[400px] bg-[#0a0a0a] border border-[#333] rounded-2xl flex flex-col items-center justify-center p-8 text-center bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:16px_16px]">
-                        <h2 className="text-3xl font-black uppercase text-white mb-2 tracking-tighter">
-                            Chandkheda
-                        </h2>
-                        <h3 className="text-xl text-[#ff5e1a] font-mono mb-6">
-                            AHMEDABAD, GUJARAT
-                        </h3>
-                        <address className="not-italic space-y-1 text-gray-400 font-sans text-sm">
-                            <p>Shop No 9, Kirtan Complex</p>
-                            <p>Nigam Nagar, New CG Road</p>
-                            <p className="opacity-50 mt-2">PIN: 382424</p>
-                        </address>
-                    </div>
+                    <GooglePlaceMap
+                        placeId={COMPANY_DETAILS.location.placeId}
+                        center={{ lat: COMPANY_DETAILS.location.lat, lng: COMPANY_DETAILS.location.lng }}
+                        className="h-full min-h-[420px] shadow-[0_0_50px_rgba(0,0,0,0.8)]"
+                        showSearch={true}
+                    />
                 </div>
             </div>
         </section>
