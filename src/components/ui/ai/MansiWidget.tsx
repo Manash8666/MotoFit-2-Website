@@ -211,11 +211,8 @@ export default function MansiWidget() {
     const [isLoading, setIsLoading] = useState(false);
 
     const [hasUnread, setHasUnread] = useState(false);
-    // Deterministic synchronous initialization to prevent SSR/hydration image swap glitch
-    const [mansiImage, setMansiImage] = useState<string>(() => {
-        const day = new Date().getDay();
-        return MANSI_DAY_LOOKS[day] || '/images/reels/mansi-day-2.webp';
-    });
+    // Locked to canonical official avatar to prevent any runtime image swap or refresh flickering
+    const [mansiImage] = useState<string>('/images/team/mansi-new.webp');
     const [isListening, setIsListening] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const hasGreeted = useRef(false);
