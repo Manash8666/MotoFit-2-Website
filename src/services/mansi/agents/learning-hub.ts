@@ -16,6 +16,9 @@ import { IndicNLP, AMDAVADI_LEXICON, DIAGNOSTIC_DECISION_TREES } from '../nlp/in
 import { MansiGrowthEngine, CRO_PLAYBOOKS } from '../marketing/growth-copy';
 import { LLaMAFactoryExporter } from '../training/llama-factory-export';
 
+import { WazuhSecurityEngine } from '../security/wazuh-siem';
+import { DefectDojoAppSec } from '../security/defect-dojo';
+
 export class MansiLearningHub {
     /**
      * Get real-time telemetry on Mansi's multi-repo learning stack.
@@ -41,6 +44,17 @@ export class MansiLearningHub {
                 engine: "Marketing-for-Founders + Corey Haines MarketingSkills",
                 activePlaybooks: Object.keys(CRO_PLAYBOOKS),
                 primaryCoupon: "MOTOFIT-RIDER-5"
+            },
+            cybersecurityProtocols: {
+                siemEngine: "Wazuh SIEM Open Source Protocol (github.com/wazuh/wazuh)",
+                vulnerabilityManagement: "DefectDojo AppSec Protocol (github.com/DefectDojo/django-DefectDojo)",
+                wazuhStatus: WazuhSecurityEngine.getSIEMSummary().status,
+                defectDojoPosture: DefectDojoAppSec.generatePostureReport().overallPosture,
+                activeControls: [
+                    "Wazuh Real-time Decoders (Prompt Injection, SQLi, XSS, Path Traversal)",
+                    "DefectDojo OWASP LLM01 Guardrails & CVSS v3.1 Registry",
+                    "PII Lead Data Protection & Sanitization"
+                ]
             },
             modelBackbone: {
                 prioritizedFlagship1: "qwen/qwen-2.5-72b-instruct (Qwen 2.5 72B)",

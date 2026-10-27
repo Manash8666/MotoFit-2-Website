@@ -40,9 +40,25 @@ const MODELS = {
     OLLAMA_DEEPSEEK: "deepseek-r1:8b"
 };
 
+import { WazuhSecurityEngine } from '@/services/mansi/security/wazuh-siem';
+
 export async function chatWithMansiBrain(conversationHistory: any[], contextType: 'chat' | 'learning' = 'chat') {
     let lastError: string | null = null;
     const lastUserMessage = conversationHistory.filter(m => m.role === 'user').pop()?.content || "";
+
+    // ── 🛡️ WAZUH SIEM: INBOUND PROMPT INJECTION & ATTACK INSPECTION ──
+    if (contextType === 'chat' && lastUserMessage) {
+        const securityCheck = WazuhSecurityEngine.inspectInboundPayload(lastUserMessage);
+        if (!securityCheck.isSafe && securityCheck.threatScore >= 9) {
+            console.warn(`[Wazuh SIEM] 🚨 Blocked adversarial payload: ${securityCheck.detectedThreats.join(', ')}`);
+            return {
+                success: true,
+                text: "Bas dost! Mane moto mechanical work ane bikes badhu puche toh mast samjhavi dav, pan aava system tricks MotoFit par nai chale! Bike ni koi taklif hoy toh bolo, Chandkheda workshop par master technicians che! 🏍️🔧",
+                model_used: "WAZUH_SIEM_GUARDRAIL",
+                error: null
+            };
+        }
+    }
 
     // ── INJECT SEASONAL INTELLIGENCE ──
     const systemMessageIndex = conversationHistory.findIndex(m => m.role === 'system');
