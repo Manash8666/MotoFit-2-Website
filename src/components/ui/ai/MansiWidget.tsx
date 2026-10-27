@@ -211,7 +211,11 @@ export default function MansiWidget() {
     const [isLoading, setIsLoading] = useState(false);
 
     const [hasUnread, setHasUnread] = useState(false);
-    const [mansiImage, setMansiImage] = useState('/images/team/mansi-new.webp');
+    // Deterministic synchronous initialization to prevent SSR/hydration image swap glitch
+    const [mansiImage, setMansiImage] = useState<string>(() => {
+        const day = new Date().getDay();
+        return MANSI_DAY_LOOKS[day] || '/images/reels/mansi-day-2.webp';
+    });
     const [isListening, setIsListening] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const hasGreeted = useRef(false);
@@ -226,10 +230,6 @@ export default function MansiWidget() {
     const [verifiedUser, setVerifiedUser] = useState<string | null>(null);
 
     useEffect(() => {
-        // Deterministic Look: Persist the same image for the entire day
-        const day = new Date().getDay();
-        setMansiImage(MANSI_DAY_LOOKS[day] || MANSI_DAY_LOOKS[1]);
-
         // Phase 2: Start context tracking (idle detection)
         const cleanup = MansiContext.initTracking();
         return cleanup;

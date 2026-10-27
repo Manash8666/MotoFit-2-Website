@@ -230,8 +230,7 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
 
                 /* ====== CHAT ZONE (bottom) ====== */
                 .holo-chat-zone {
-                    background: #000c12 url('${avatarUrl}') center/cover no-repeat;
-                    background-blend-mode: overlay;
+                    background: #000c12;
                     border-top: 1px solid rgba(0,240,255,0.15);
                     display: flex;
                     flex-direction: column;
@@ -498,7 +497,7 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
 
                     {/* Mansi Face on Puck */}
                     <div className="puck-img">
-                        <Image src={avatarUrl} alt="Mansi" fill className="object-cover" />
+                        <Image src={avatarUrl} alt="Mansi" fill sizes="64px" priority className="object-cover" />
                     </div>
 
                     <div className="puck-icons">
