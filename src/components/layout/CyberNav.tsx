@@ -40,10 +40,10 @@ export default function CyberNav() {
         <>
             <header
                 className={cn(
-                    "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent",
+                    "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
                     scrolled
-                        ? "bg-[#050505]/80 backdrop-blur-md border-[#333]/50 py-3"
-                        : "bg-transparent py-6"
+                        ? "bg-[#050505]/90 backdrop-blur-md border-[#333]/60 py-3 shadow-lg shadow-black/40"
+                        : "bg-gradient-to-b from-[#050505]/80 via-[#050505]/40 to-transparent backdrop-blur-[2px] border-transparent py-4 md:py-5"
                 )}
             >
                 <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">

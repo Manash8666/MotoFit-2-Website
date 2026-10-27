@@ -1,15 +1,12 @@
 'use client';
 
-import { Canvas, extend, useFrame, useThree } from '@react-three/fiber';
-import { useAspect, useTexture, useScroll } from '@react-three/drei';
-import { useMemo, useRef, useState, useEffect, Suspense } from 'react';
-import * as THREE from 'three';
-import { GlassButton, IndustrialButton } from '@/components/ui/buttons/GlassButton';
+import { useState, useEffect } from 'react';
+import { IndustrialButton } from '@/components/ui/buttons/GlassButton';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLenis } from '@/components/LenisWrapper';
-import TextReveal from '../ui/text/TextReveal';
 import InstagramPortal3D from '../interactive/InstagramPortal3D';
+import { useBooking } from '@/context/BookingContext';
 
 const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop", // Motorbike in garage
@@ -17,75 +14,23 @@ const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1600705722908-bab1e61c0b4d?q=80&w=2069&auto=format&fit=crop"  // Cafe racer
 ];
 
-extend(THREE);
+const CAPTIONS = [
+  "Precision Engine Rebuilds",
+  "Dyno Tuning & Diagnostics",
+  "Bespoke Custom Builds"
+];
 
-// Check for WebGL support
-const isWebGLSupported = (): boolean => {
-  if (typeof window === 'undefined') return false;
-  try {
-    const canvas = document.createElement('canvas');
-    return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
-  } catch (e) {
-    return false;
-  }
-};
-
-import { useBooking } from '@/context/BookingContext';
-
-const titleWords = ['MOTOFIT', '2'];
-
-// Main Hero Component
 export default function Hero() {
-  const CAPTIONS = [
-    "Precision Engine Rebuilds",
-    "Dyno Tuning & Diagnostics",
-    "Bespoke Custom Builds"
-  ];
-
-  const [visibleCount, setVisibleCount] = useState(0);
-  const [subtitleVisible, setSubtitleVisible] = useState(false);
-  const [webGLSupported, setWebGLSupported] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isLooping, setIsLooping] = useState(false);
   const lenis = useLenis();
   const { openBooking } = useBooking();
 
-  // Cycle images
+  // Cycle background images smoothly
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-    }, 5000); // 5 seconds per image to match slider
+    }, 6000);
     return () => clearInterval(timer);
-  }, []);
-
-  // Check WebGL support on mount
-  useEffect(() => {
-    setWebGLSupported(isWebGLSupported());
-  }, []);
-
-  // Character reveal animation
-  useEffect(() => {
-    const title = titleWords.join('');
-
-    // Reset
-    setVisibleCount(0);
-    setIsLooping(false);
-
-    const interval = setInterval(() => {
-      setVisibleCount(prev => {
-        if (prev < title.length) {
-          return prev + 1;
-        } else {
-          clearInterval(interval);
-          setTimeout(() => setSubtitleVisible(true), 300);
-          // Start looping sequence after a delay
-          setTimeout(() => setIsLooping(true), 2000);
-          return prev;
-        }
-      });
-    }, 400); // 400ms speed
-
-    return () => clearInterval(interval);
   }, []);
 
   const scrollToNext = () => {
@@ -97,17 +42,16 @@ export default function Hero() {
   };
 
   return (
-    <div className="relative h-screen w-full bg-[#050505] overflow-hidden">
-
+    <div className="relative min-h-[100dvh] w-full bg-[#050505] overflow-hidden flex flex-col justify-between">
       {/* 1. Background Image Carousel */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence mode="popLayout">
           <motion.div
             key={currentImageIndex}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 0.5, scale: 1 }}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 0.45, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 2, ease: "easeOut" }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
             className="absolute inset-0"
           >
             <Image
@@ -124,8 +68,8 @@ export default function Hero() {
       </div>
 
       {/* 2. Gradient Overlay */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#050505] to-[#1a0a00] opacity-80" />
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/95 via-[#050505]/70 to-[#050505]" />
         <div className="absolute inset-0 opacity-20 bg-[url('/textures/carbon-fibre.png')]" />
 
         {/* Grid overlay */}
@@ -136,19 +80,19 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 md:px-8">
-        <div className="max-w-6xl mx-auto text-center space-y-8">
+      {/* Content - with guaranteed clearance from fixed navbar */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-28 sm:pt-32 md:pt-36 pb-12 px-4 md:px-8">
+        <div className="max-w-6xl mx-auto text-center space-y-6 sm:space-y-8 my-auto">
           {/* Brand Tagline */}
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={subtitleVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="mb-4"
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-2 sm:mb-4"
           >
-            <div className="inline-block border-2 border-[#ff5e1a] px-6 py-2 rounded-full backdrop-blur-sm bg-[#ff5e1a]/5">
+            <div className="inline-block border-2 border-[#ff5e1a] px-4 py-1.5 sm:px-6 sm:py-2 rounded-full backdrop-blur-md bg-[#ff5e1a]/10 shadow-[0_0_20px_rgba(255,94,26,0.2)]">
               <span
-                className="text-lg md:text-2xl text-white font-bold uppercase tracking-[0.2em]"
+                className="text-sm sm:text-lg md:text-2xl text-white font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em]"
                 style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}
               >
                 Better Than Your Brand's Service.
@@ -157,90 +101,50 @@ export default function Hero() {
           </motion.div>
 
           {/* Main Title with Glassmorphism */}
-          <div className="overflow-hidden">
-            <div className="inline-block backdrop-blur-md bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl px-3 py-3 sm:px-6 sm:py-5 md:px-12 md:py-8">
-              <h1 className="text-[clamp(2rem,10vw,8rem)] font-bold uppercase leading-[0.85] tracking-[0.01em] sm:tracking-[0.1em] md:tracking-[0.2em]" style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
-                {titleWords.map((word, wordIndex) => {
-                  const startIdx = titleWords.slice(0, wordIndex).join('').length;
-                  return (
-                    <span key={wordIndex} className="inline-block mx-2 last:mr-0">
-                      {word.split('').map((char, charIndex) => {
-                        const globalIndex = startIdx + charIndex;
-                        const isVisible = globalIndex < visibleCount;
-                        const direction = globalIndex % 2 === 0 ? 1 : -1; // Specific randomized direction pattern
-
-                        return (
-                          <motion.span
-                            key={`${wordIndex}-${charIndex}`}
-                            className="inline-block cursor-pointer"
-                            initial={{ y: 50, opacity: 0, rotateX: 90 }}
-                            animate={
-                              isLooping ? {
-                                y: [0, -15, 0], // Slightly higher float
-                                rotateY: [0, 360 * direction],
-                                rotateX: 0,
-                                opacity: 1,
-                                color: wordIndex === 1 ? ['#00d1ff', '#ff5e1a', '#00d1ff'] : '#ffffff', // Blue -> Orange -> Blue cycle
-                                transition: {
-                                  duration: 12, // Sync with rotation
-                                  repeat: Infinity,
-                                  ease: "linear",
-                                  delay: charIndex * 0.1
-                                }
-                              } : isVisible ? {
-                                y: 0,
-                                opacity: 1,
-                                rotateX: 0,
-                                color: wordIndex === 1 ? '#ff5e1a' : '#ffffff',
-                                transition: {
-                                  duration: 0.8,
-                                  ease: [0.16, 1, 0.3, 1],
-                                }
-                              } : { y: 50, opacity: 0, rotateX: 90 }
-                            }
-                            whileHover={{
-                              scale: 1.2,
-                              color: '#00d1ff',
-                              textShadow: '0 0 50px rgba(0, 209, 255, 0.8)',
-                              transition: { duration: 0.2 }
-                            }}
-                            style={{
-                              textShadow: wordIndex === 1
-                                ? '0 0 30px rgba(255, 94, 26, 0.5)'
-                                : '0 0 20px rgba(255, 255, 255, 0.2)',
-                            }}
-                          >
-                            {char}
-                          </motion.span>
-                        );
-                      })}
-                    </span>
-                  );
-                })}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="inline-block backdrop-blur-md bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl px-4 py-4 sm:px-8 sm:py-6 md:px-12 md:py-8 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+              <h1
+                className="text-[clamp(2.5rem,10vw,7.5rem)] font-bold uppercase leading-[0.9] tracking-[0.05em] sm:tracking-[0.1em] md:tracking-[0.15em] select-none"
+                style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}
+              >
+                <span className="text-white drop-shadow-[0_0_25px_rgba(255,255,255,0.25)] mr-3 sm:mr-6">
+                  MOTOFIT
+                </span>
+                <span className="text-[#00d1ff] drop-shadow-[0_0_30px_rgba(0,209,255,0.6)]">
+                  2
+                </span>
               </h1>
             </div>
-          </div>
+          </motion.div>
 
           {/* Subtitle */}
-          <div className="overflow-hidden h-8 md:h-12 flex justify-center items-center">
-            {subtitleVisible && (
-              <TextReveal className="text-[#a0a0a0] text-sm md:text-xl font-mono uppercase tracking-widest">
-                {CAPTIONS[currentImageIndex]}
-              </TextReveal>
-            )}
-          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="overflow-hidden h-8 sm:h-10 flex justify-center items-center"
+          >
+            <p className="text-[#a0a0a0] text-xs sm:text-base md:text-lg font-mono uppercase tracking-widest">
+              {CAPTIONS[currentImageIndex]}
+            </p>
+          </motion.div>
 
-          {/* CTA Button */}
+          {/* CTA Button & Warranty Badge */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
-            animate={subtitleVisible ? { y: 0, opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="pt-8"
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.45 }}
+            className="pt-2 sm:pt-4 flex flex-col items-center"
           >
             <IndustrialButton
               size="xl"
               onClick={() => openBooking('General Service')}
-              className="group"
+              className="group shadow-[0_0_30px_rgba(255,94,26,0.4)]"
               icon={
                 <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -252,59 +156,43 @@ export default function Hero() {
             </IndustrialButton>
 
             {/* Core USP Injection */}
-            <motion.div 
-               initial={{ opacity: 0, y: 10 }}
-               animate={subtitleVisible ? { opacity: 1, y: 0 } : {}}
-               transition={{ duration: 0.5, delay: 0.8 }}
-               className="mt-6 flex justify-center"
-            >
-              <div className="bg-[#1a1a1a]/80 backdrop-blur-md border border-[#ff5e1a]/30 px-4 py-2 rounded-lg flex items-center justify-center gap-2 max-w-sm sm:max-w-md">
-                <span className="text-xl">🛡️</span>
+            <div className="mt-5 flex justify-center">
+              <div className="bg-[#1a1a1a]/90 backdrop-blur-md border border-[#ff5e1a]/40 px-4 py-2 rounded-lg flex items-center justify-center gap-2 max-w-sm sm:max-w-md shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+                <span className="text-lg">🛡️</span>
                 <span className="text-xs sm:text-sm font-bold text-[#e0e0e0] leading-tight text-left">
                   The only garage in Ahmedabad with a <span className="text-[#ff5e1a]">1-Year Engine Warranty</span>.
                 </span>
               </div>
-            </motion.div>
+            </div>
 
-            <div className="mt-8 flex justify-center">
+            <div className="mt-6 flex justify-center">
               <InstagramPortal3D />
             </div>
-          </motion.div>
-
-          {/* Scroll indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={subtitleVisible ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          >
-            <button
-              onClick={scrollToNext}
-              className="flex flex-col items-center gap-2 text-[#999999] hover:text-white transition-colors duration-300"
-              aria-label="Scroll to next section"
-            >
-              <span className="text-xs font-mono uppercase tracking-widest">Explore</span>
-              <div className="relative h-8 w-6">
-                <div className="absolute inset-0 border border-[#333] rounded-full" />
-                <motion.div
-                  className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#ff5e1a]"
-                  animate={{
-                    y: [0, 16, 0],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-              </div>
-            </button>
           </motion.div>
         </div>
       </div>
 
+      {/* Scroll indicator */}
+      <div className="relative z-10 pb-6 flex justify-center">
+        <button
+          onClick={scrollToNext}
+          className="flex flex-col items-center gap-2 text-[#999999] hover:text-white transition-colors duration-300"
+          aria-label="Scroll to next section"
+        >
+          <span className="text-[10px] font-mono uppercase tracking-widest">Explore</span>
+          <div className="relative h-7 w-5">
+            <div className="absolute inset-0 border border-[#333] rounded-full" />
+            <motion.div
+              className="absolute top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#ff5e1a]"
+              animate={{ y: [0, 14, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </div>
+        </button>
+      </div>
+
       {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none z-0" />
     </div>
   );
 }
