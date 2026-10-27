@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { generateMansiAutonomousReply } from '@/services/mansi/nlp/autonomous-cortex';
 
 interface Message {
     role: 'user' | 'assistant';
@@ -73,8 +74,9 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
             setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
             setStatusText('TRANSMISSION ACTIVE');
         } catch {
-            setMessages(prev => [...prev, { role: 'assistant', content: "Signal locha... Thodi der baad try karo. 📡" }]);
-            setStatusText('SIGNAL ERROR');
+            const autoReply = generateMansiAutonomousReply(text);
+            setMessages(prev => [...prev, { role: 'assistant', content: autoReply }]);
+            setStatusText('TRANSMISSION ACTIVE');
         } finally {
             setIsLoading(false);
         }
