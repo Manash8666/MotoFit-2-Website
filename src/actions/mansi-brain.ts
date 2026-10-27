@@ -3,6 +3,7 @@
 import OpenAI from 'openai';
 import { logMansiExperience } from './mansi-learning';
 import { getSeasonalIntel } from './mansi-seasonal-intel';
+import { generateMansiAutonomousReply } from '@/services/mansi/nlp/autonomous-cortex';
 
 // --- ENVIRONMENT CONFIG ---
 const KEYS = {
@@ -338,9 +339,13 @@ export async function chatWithMansiBrain(conversationHistory: any[], contextType
         return { success: true, text: JSON.stringify(FALLBACK_FAQS), model_used: "simulation-json", error: null };
     }
 
+    // High-fidelity Amdavadi Autonomous Cortex fallback
+    const autonomousText = generateMansiAutonomousReply(lastUserMessage || lastUserMsg);
+    logMansiExperience(lastUserMessage || lastUserMsg, autonomousText, "MANSI_AUTONOMOUS_CORTEX");
     return {
-        success: false,
-        text: null,
-        error: lastError || "All AI model servers are currently unreachable. Offline protocol active."
+        success: true,
+        text: autonomousText,
+        model_used: "MANSI_AUTONOMOUS_CORTEX",
+        error: null
     };
 }
