@@ -81,14 +81,14 @@ export default function Hero() {
       </div>
 
       {/* Content - with guaranteed clearance from fixed navbar */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-24 sm:pt-28 md:pt-32 pb-8 px-4 md:px-8">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-32 sm:pt-36 md:pt-40 pb-8 px-4 md:px-8">
         <div className="max-w-6xl mx-auto text-center space-y-4 sm:space-y-6 my-auto">
           {/* Brand Tagline */}
           <motion.div
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-1 sm:mb-2"
+            className="mt-2 sm:mt-4 mb-2 sm:mb-3"
           >
             <div className="inline-block border-2 border-[#ff5e1a] px-4 py-1.5 sm:px-6 sm:py-2 rounded-full backdrop-blur-md bg-[#ff5e1a]/10 shadow-[0_0_20px_rgba(255,94,26,0.2)]">
               <span
