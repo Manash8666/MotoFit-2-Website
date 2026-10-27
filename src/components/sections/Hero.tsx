@@ -81,18 +81,18 @@ export default function Hero() {
       </div>
 
       {/* Content - with guaranteed clearance from fixed navbar */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-28 sm:pt-32 md:pt-36 pb-12 px-4 md:px-8">
-        <div className="max-w-6xl mx-auto text-center space-y-6 sm:space-y-8 my-auto">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center pt-24 sm:pt-28 md:pt-32 pb-8 px-4 md:px-8">
+        <div className="max-w-6xl mx-auto text-center space-y-4 sm:space-y-6 my-auto">
           {/* Brand Tagline */}
           <motion.div
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-2 sm:mb-4"
+            className="mb-1 sm:mb-2"
           >
             <div className="inline-block border-2 border-[#ff5e1a] px-4 py-1.5 sm:px-6 sm:py-2 rounded-full backdrop-blur-md bg-[#ff5e1a]/10 shadow-[0_0_20px_rgba(255,94,26,0.2)]">
               <span
-                className="text-sm sm:text-lg md:text-2xl text-white font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em]"
+                className="text-xs sm:text-base md:text-xl text-white font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em]"
                 style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}
               >
                 Better Than Your Brand's Service.
@@ -107,9 +107,9 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="inline-block backdrop-blur-md bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl px-4 py-4 sm:px-8 sm:py-6 md:px-12 md:py-8 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+            <div className="inline-block backdrop-blur-md bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl px-4 py-3 sm:px-8 sm:py-5 md:px-12 md:py-6 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
               <h1
-                className="text-[clamp(2.5rem,10vw,7.5rem)] font-bold uppercase leading-[0.9] tracking-[0.05em] sm:tracking-[0.1em] md:tracking-[0.15em] select-none"
+                className="text-[clamp(2.2rem,8vw,6.5rem)] font-bold uppercase leading-[0.9] tracking-[0.05em] sm:tracking-[0.1em] md:tracking-[0.15em] select-none"
                 style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}
               >
                 <span className="text-white drop-shadow-[0_0_25px_rgba(255,255,255,0.25)] mr-3 sm:mr-6">
@@ -127,9 +127,9 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.35 }}
-            className="overflow-hidden h-8 sm:h-10 flex justify-center items-center"
+            className="overflow-hidden h-6 sm:h-8 flex justify-center items-center"
           >
-            <p className="text-[#a0a0a0] text-xs sm:text-base md:text-lg font-mono uppercase tracking-widest">
+            <p className="text-[#a0a0a0] text-xs sm:text-sm md:text-base font-mono uppercase tracking-widest">
               {CAPTIONS[currentImageIndex]}
             </p>
           </motion.div>
@@ -139,10 +139,10 @@ export default function Hero() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.45 }}
-            className="pt-2 sm:pt-4 flex flex-col items-center"
+            className="pt-2 sm:pt-3 flex flex-col items-center"
           >
             <IndustrialButton
-              size="xl"
+              size="lg"
               onClick={() => openBooking('General Service')}
               className="group shadow-[0_0_30px_rgba(255,94,26,0.4)]"
               icon={
@@ -156,16 +156,16 @@ export default function Hero() {
             </IndustrialButton>
 
             {/* Core USP Injection */}
-            <div className="mt-5 flex justify-center">
+            <div className="mt-4 flex justify-center">
               <div className="bg-[#1a1a1a]/90 backdrop-blur-md border border-[#ff5e1a]/40 px-4 py-2 rounded-lg flex items-center justify-center gap-2 max-w-sm sm:max-w-md shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
-                <span className="text-lg">🛡️</span>
+                <span className="text-base sm:text-lg">🛡️</span>
                 <span className="text-xs sm:text-sm font-bold text-[#e0e0e0] leading-tight text-left">
                   The only garage in Ahmedabad with a <span className="text-[#ff5e1a]">1-Year Engine Warranty</span>.
                 </span>
               </div>
             </div>
 
-            <div className="mt-6 flex justify-center">
+            <div className="mt-4 flex justify-center">
               <InstagramPortal3D />
             </div>
           </motion.div>
