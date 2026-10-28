@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateTrendingBlog } from '@/actions/mansi-auto-blog';
 
+export const dynamic = 'force-dynamic';
 export const maxDuration = 60; // Allow sufficient time for AI blog drafting & DB storage
 
 const TOPIC_ROTATION = [
