@@ -11,6 +11,7 @@ import {
     ChevronDown, Bike, Trophy
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import { MerchHero } from '@/components/MerchHero';
 
@@ -88,37 +89,37 @@ const inventoryCategories = [
 const bikeCategories = [
     {
         title: "Scooters",
-        emoji: "🛵",
+        image: "/images/genres/scooters.jpg",
         bikes: "Activa • Jupiter • Access • Ntorq • Dio • RayZR • Burgman • Pleasure",
         color: "#00d1ff"
     },
     {
         title: "Commuters",
-        emoji: "🏍️",
+        image: "/images/genres/commuters.jpg",
         bikes: "Splendor • Shine • Platina • Passion • CT 100",
         color: "#00ff88"
     },
     {
         title: "Street Performance",
-        emoji: "⚡",
+        image: "/images/genres/street-performance.jpg",
         bikes: "Apache • Pulsar • FZ • Hornet • Unicorn • Gixxer",
         color: "#ffcc00"
     },
     {
         title: "Performance & Touring",
-        emoji: "🏁",
+        image: "/images/genres/touring.jpg",
         bikes: "KTM Duke / RC • Dominar • RR310 • BMW G310 • RE Hunter • Classic • Meteor",
         color: "#ff5e1a"
     },
     {
         title: "Cruisers & Retro",
-        emoji: "🛣️",
+        image: "/images/genres/cruisers-retro.jpg",
         bikes: "Royal Enfield Classic / Bullet • Jawa • Yezdi",
         color: "#c084fc"
     },
     {
         title: "Superbikes (Parts on Order)",
-        emoji: "🔥",
+        image: "/images/genres/superbikes.jpg",
         bikes: "Kawasaki • Triumph • Ducati • Hayabusa • BMW • Honda BigWing",
         color: "#ff3366"
     }
@@ -349,15 +350,31 @@ export default function PartsPage() {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.08 }}
-                                className="bg-[#0a0a0a] border border-[#333] rounded-2xl p-8 hover:border-[#ff5e1a]/40 transition-all cursor-pointer group"
+                                className="bg-[#0a0a0a] border border-[#333] rounded-2xl overflow-hidden hover:border-[#ff5e1a]/40 transition-all cursor-pointer group flex flex-col"
                                 onClick={() => openBooking(`Parts for: ${cat.title}`)}
                             >
-                                <div className="text-4xl mb-4">{cat.emoji}</div>
-                                <h3 className="text-xl font-black text-white uppercase mb-3 group-hover:text-[#ff5e1a] transition-colors">{cat.title}</h3>
-                                <p className="text-sm text-gray-500 leading-relaxed">{cat.bikes}</p>
-                                <div className="mt-4 flex items-center gap-2 text-xs font-mono uppercase tracking-widest" style={{ color: cat.color }}>
-                                    <span>Find Parts</span>
-                                    <ChevronRight size={14} />
+                                <div className="relative w-full h-48 overflow-hidden bg-black/60">
+                                    <Image
+                                        src={cat.image}
+                                        alt={`${cat.title} genuine motorcycle parts at MotoFit 2 Ahmedabad`}
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-black/20" />
+                                    <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/10 text-[10px] font-mono font-bold tracking-wider uppercase text-white shadow-lg">
+                                        Verified Spec
+                                    </div>
+                                </div>
+                                <div className="p-6 flex-1 flex flex-col justify-between">
+                                    <div>
+                                        <h3 className="text-xl font-black text-white uppercase mb-2 group-hover:text-[#ff5e1a] transition-colors">{cat.title}</h3>
+                                        <p className="text-xs text-gray-400 leading-relaxed">{cat.bikes}</p>
+                                    </div>
+                                    <div className="mt-5 flex items-center gap-2 text-xs font-mono uppercase tracking-widest pt-3 border-t border-white/5" style={{ color: cat.color }}>
+                                        <span>Find Genuine Parts</span>
+                                        <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                    </div>
                                 </div>
                             </motion.div>
                         ))}

@@ -213,79 +213,39 @@ export default function GooglePlaceMap({
                 </div>
             )}
 
-            {/* Map Canvas or Dynamic Fallback */}
+            {/* Map Canvas or Interactive Universal Google Map */}
             {hasApiKey ? (
-                <div ref={mapContainerRef} className="w-full h-full min-h-[360px]" />
+                <div ref={mapContainerRef} className="w-full h-full min-h-[380px]" />
             ) : (
-                /* High-fidelity Cyberpunk Google Maps Hub Card */
-                <div className="w-full h-full min-h-[380px] p-6 md:p-8 flex flex-col justify-between bg-gradient-to-br from-[#0c0c0c] via-[#080808] to-[#040404] relative">
-                    <div className="absolute inset-0 bg-[radial-gradient(#ff5e1a_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none" />
-
-                    {/* Header */}
-                    <div className="relative z-10">
-                        <div className="flex items-center justify-between mb-4">
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono tracking-widest uppercase bg-[#ff5e1a]/10 border border-[#ff5e1a]/30 text-[#ff5e1a]">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#ff5e1a] animate-ping" />
-                                Google Maps Verified Hub
-                            </span>
-                            <span className="text-[10px] font-mono text-gray-500">
-                                Chandkheda Lab
-                            </span>
+                /* Interactive Universal Google Maps Embed (Zero API Key Dependency) */
+                <div className="relative w-full h-full min-h-[420px] flex flex-col">
+                    <iframe
+                        title="MotoFit 2 Google Maps Hub"
+                        src="https://maps.google.com/maps?q=MotoFit%202%20Bike%20Service%20Centre%2C%20Shop%20No%209%2C%20Kirtan%20Complex%2C%20Nigam%20Nagar%2C%20Chandkheda%2C%20Ahmedabad&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                        className="w-full flex-1 min-h-[360px] border-0 filter contrast-125 brightness-90 hover:filter-none transition-all duration-300"
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        allowFullScreen
+                    />
+                    
+                    {/* Bottom HUD Bar */}
+                    <div className="p-4 bg-[#0a0a0a] border-t border-[#222] flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-[#ff5e1a] animate-ping" />
+                            <span className="text-[#00d1ff] truncate">Place ID: {selectedPlace.id || placeId}</span>
                         </div>
-
-                        <h3 className="text-xl md:text-2xl font-black uppercase text-white tracking-tight flex items-center gap-2">
-                            <MapPin className="text-[#ff5e1a]" size={22} />
-                            {selectedPlace.name || COMPANY_DETAILS.name}
-                        </h3>
-
-                        <p className="text-xs text-gray-400 mt-2 font-sans leading-relaxed max-w-lg">
-                            {selectedPlace.address || COMPANY_DETAILS.location.address}
-                        </p>
-                    </div>
-
-                    {/* Place ID & Coordinate Grid */}
-                    <div className="relative z-10 my-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div className="p-3 rounded-xl bg-black/60 border border-[#222]">
-                            <div className="flex items-center justify-between text-[10px] font-mono text-gray-500 uppercase mb-1">
-                                <span>Google Place ID</span>
-                                <ShieldCheck size={12} className="text-[#22c55e]" />
-                            </div>
-                            <div className="text-xs font-mono text-[#00d1ff] truncate">
-                                {selectedPlace.id || placeId}
-                            </div>
+                        <div className="flex items-center gap-2">
+                            <a
+                                href={COMPANY_DETAILS.location.mapsLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-3 py-1.5 rounded-lg bg-[#ff5e1a] text-black font-bold uppercase text-[11px] hover:bg-[#ff7a42] transition-all flex items-center gap-1.5"
+                            >
+                                <Navigation size={12} />
+                                <span>Get Directions</span>
+                                <ExternalLink size={10} />
+                            </a>
                         </div>
-
-                        <div className="p-3 rounded-xl bg-black/60 border border-[#222]">
-                            <div className="text-[10px] font-mono text-gray-500 uppercase mb-1">
-                                GPS Coordinates
-                            </div>
-                            <div className="text-xs font-mono text-gray-300">
-                                23.1090° N, 72.5930° E
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Action Bar */}
-                    <div className="relative z-10 flex flex-wrap gap-3 items-center pt-4 border-t border-[#1f1f1f]">
-                        <a
-                            href={COMPANY_DETAILS.location.mapsLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider bg-[#ff5e1a] text-black hover:bg-[#ff7a42] hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,94,26,0.4)]"
-                        >
-                            <Navigation size={14} />
-                            Get Directions
-                            <ExternalLink size={12} />
-                        </a>
-
-                        <a
-                            href={`https://www.google.com/maps/place/?q=place_id:${selectedPlace.id || placeId}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono text-xs uppercase text-gray-300 bg-white/5 border border-white/10 hover:border-white/20 hover:text-white transition-all"
-                        >
-                            View on Google Maps
-                        </a>
                     </div>
                 </div>
             )}

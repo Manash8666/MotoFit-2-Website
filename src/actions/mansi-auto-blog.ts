@@ -5,13 +5,13 @@ import { sql } from '@vercel/postgres';
 
 // High-resolution, SEO-compliant motorcycle workshop and superbike photography
 const CURATED_IMAGES: Record<string, string> = {
-    oil: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=1200&q=80",
+    oil: "/images/parts/motul_oil.jpg",
     engine: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80",
     dyno: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=80",
-    exhaust: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&w=1200&q=80",
+    exhaust: "/images/parts/titanium_exhaust.jpg",
     suspension: "https://images.unsplash.com/photo-1558980664-769d59546b3d?auto=format&fit=crop&w=1200&q=80",
     accident: "https://images.unsplash.com/photo-1571188654249-7a9021e06915?auto=format&fit=crop&w=1200&q=80",
-    rebuild: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=1200&q=80",
+    rebuild: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1200&q=80",
     default: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1200&q=80"
 };
 

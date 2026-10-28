@@ -1,6 +1,12 @@
 {
     "framework": "nextjs",
     "cleanUrls": true,
+    "crons": [
+        {
+            "path": "/api/cron/monthly-blog",
+            "schedule": "0 0 1 * *"
+        }
+    ],
     "headers": [
         {
             "source": "/(.*)",
