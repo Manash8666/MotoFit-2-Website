@@ -11,7 +11,7 @@
 export interface IndicEmotionSignal {
     sentiment: 'anxious_breakdown' | 'skeptical_pricing' | 'enthusiastic_tuning' | 'casual_banter' | 'frustrated_garage_experience';
     urgencyLevel: 'emergency' | 'high' | 'normal';
-    detectedDialect: 'gujlish' | 'hinglish' | 'english' | 'pure_gujarati';
+    detectedDialect: 'gujlish' | 'hinglish' | 'english' | 'marathi' | 'punjabi' | 'bengali' | 'tamil' | 'telugu' | 'kannada' | 'malayalam' | 'pure_gujarati';
     recommendedTone: string;
 }
 
@@ -103,16 +103,28 @@ export class IndicNLP {
     static analyzeEmotionAndDialect(message: string): IndicEmotionSignal {
         const text = message.toLowerCase();
 
-        // 1. Dialect Detection
+        // 1. Dialect Detection across Indian States
         let detectedDialect: IndicEmotionSignal['detectedDialect'] = 'english';
-        const gujaratiMarkers = ['kem', 'cho', 'su', 'che', 'nathi', 'locha', 'baka', 'thase', 'kare', 'avvu'];
-        const hindiMarkers = ['kya', 'hai', 'nahi', 'bhai', 'kaise', 'kitna', 'hoga', 'mera', 'meri'];
-
-        const hasGuj = gujaratiMarkers.some(m => text.includes(m));
-        const hasHin = hindiMarkers.some(m => text.includes(m));
-
-        if (hasGuj) detectedDialect = 'gujlish';
-        else if (hasHin) detectedDialect = 'hinglish';
+        
+        if (/[\u0A80-\u0AFF]/.test(text) || /\b(kem cho|su chale|locha|baka|nathi|chhe|aavjo|savare|sanje|tari|maru)\b/i.test(text)) {
+            detectedDialect = 'gujlish';
+        } else if (/[\u0980-\u09FF]/.test(text) || /\b(kemon aacho|kemon acho|khub bhalo|dada|korbo|kothay|shune|thakle)\b/i.test(text)) {
+            detectedDialect = 'bengali';
+        } else if (/[\u0A00-\u0A7F]/.test(text) || /\b(ki haal|kidaan|veere|paaji|bhaaji|changa|vadia|sauhnya|chahida|dasso)\b/i.test(text)) {
+            detectedDialect = 'punjabi';
+        } else if (/[\u0B80-\u0BFF]/.test(text) || /\b(vanakkam|epdi irukinga|thala|machan|nalla irukken|pannanum|vandiyila|enga)\b/i.test(text)) {
+            detectedDialect = 'tamil';
+        } else if (/[\u0C00-\u0C7F]/.test(text) || /\b(namaskaram|ela unnaru|bagunnara|bavunnanu|anna|garu|cheyali|ekkadundi)\b/i.test(text)) {
+            detectedDialect = 'telugu';
+        } else if (/[\u0C80-\u0CFF]/.test(text) || /\b(namaskara|hegiddira|chennagidira|guru|macha|madbeku|elli|chennagi)\b/i.test(text)) {
+            detectedDialect = 'kannada';
+        } else if (/[\u0D00-\u0D7F]/.test(text) || /\b(sukhamano|sugamaano|chettan|chechi|aliyan|evide|cheyyanam|poli aakum)\b/i.test(text)) {
+            detectedDialect = 'malayalam';
+        } else if (/\b(kasa ahes|kashi ahes|kay challay|kuthe ahe|kiti kharch|bhau|dada|tai|maza|mazi|ahe|ahet|zala|karaycha)\b/i.test(text)) {
+            detectedDialect = 'marathi';
+        } else if (/[\u0900-\u097F]/.test(text) || /\b(kya|hai|nahi|bhai|kaise|kitna|hoga|mera|meri|karna|chahiye|batao|theek)\b/i.test(text)) {
+            detectedDialect = 'hinglish';
+        }
 
         // 2. Emotion / Distress Detection
         let sentiment: IndicEmotionSignal['sentiment'] = 'casual_banter';

@@ -1,63 +1,127 @@
 // src/services/mansi/nlp/autonomous-cortex.ts
 /**
- * 🏍️ Mansi Autonomous Dialogue Cortex (Multi-Lingual Indic Neural Engine)
+ * 🏍️ Mansi Autonomous Dialogue Cortex (Pan-India Multi-Lingual Indic Neural Engine)
  * 
  * Provides human-level, in-character conversational synthesis for Mansi when external
  * cloud LLMs encounter network, quota, or rate-limit issues.
  * 
+ * Languages Supported:
+ * - English (Pan-India / Universal)
+ * - Hindi / Hinglish (Northern & Central India: Delhi, UP, MP, Rajasthan, Bihar, Haryana)
+ * - Gujarati / Gujlish (Western India: Ahmedabad, Gujarat - MotoFit 2 Home Turf)
+ * - Marathi (Western India: Maharashtra, Mumbai, Pune, Nagpur, Nashik)
+ * - Punjabi (Northern India: Punjab, Chandigarh, Delhi NCR)
+ * - Bengali (Eastern India: West Bengal, Kolkata)
+ * - Tamil (Southern India: Tamil Nadu, Chennai, Coimbatore)
+ * - Telugu (Southern India: Telangana, Andhra Pradesh, Hyderabad)
+ * - Kannada (Southern India: Karnataka, Bengaluru)
+ * - Malayalam (Southern India: Kerala, Kochi, Kozhikode)
+ * 
  * Features:
- * - Tri-Lingual Mirroring: Automatically responds in English, Hindi/Hinglish, or Gujarati/Gujlish
- *   matching the user's input language.
- * - Deep motorcycle diagnostic resolution (tappet, smoke, wobble, gear, cooling, tuning)
- * - Empathetic sibling & friendship greeting resolution ("Good. And How Are You Sis?")
- * - Zero robotic AI tropes (strict anti-AI compliance)
- * - Letta stateful profile awareness (remembers user bike & name)
+ * - Real-time Indian State Language & Script Detection (Devanagari, Gujarati, Gurmukhi, Bengali, Tamil, Telugu, Kannada, Malayalam, Romanized)
+ * - Cultural context & state-specific biker terminology (Bhau, Veere, Dada, Thala, Anna, Guru, Aliya)
+ * - Motorcycle diagnostic decision trees (smoke, wobble, gear, tappet, overheating, brakes)
+ * - Empathetic sibling & family banter
+ * - Strict zero-AI robotic tropes
  */
 
 import { IndicNLP } from './indic-intel';
 
-export type UserLanguage = 'english' | 'hindi' | 'gujarati';
+export type UserLanguage =
+    | 'english'
+    | 'hindi'
+    | 'gujarati'
+    | 'marathi'
+    | 'punjabi'
+    | 'bengali'
+    | 'tamil'
+    | 'telugu'
+    | 'kannada'
+    | 'malayalam';
 
 /**
- * Accurately detects whether user is speaking English, Hindi/Hinglish, or Gujarati/Gujlish.
+ * Accurately detects whether user is speaking English, Hindi, Gujarati, Marathi,
+ * Punjabi, Bengali, Tamil, Telugu, Kannada, or Malayalam (native scripts & Romanized).
  */
 export function detectUserLanguage(message: string): UserLanguage {
     const text = message.toLowerCase().trim();
 
-    // 1. Script checks
-    if (/[\u0A80-\u0AFF]/.test(text)) return 'gujarati'; // Gujarati Unicode
-    if (/[\u0900-\u097F]/.test(text)) return 'hindi';    // Devanagari Unicode
+    // 1. Script-based identification
+    if (/[\u0A80-\u0AFF]/.test(text)) return 'gujarati';   // Gujarati script
+    if (/[\u0980-\u09FF]/.test(text)) return 'bengali';    // Bengali script
+    if (/[\u0A00-\u0A7F]/.test(text)) return 'punjabi';    // Gurmukhi script
+    if (/[\u0B80-\u0BFF]/.test(text)) return 'tamil';      // Tamil script
+    if (/[\u0C00-\u0C7F]/.test(text)) return 'telugu';     // Telugu script
+    if (/[\u0C80-\u0CFF]/.test(text)) return 'kannada';    // Kannada script
+    if (/[\u0D00-\u0D7F]/.test(text)) return 'malayalam';  // Malayalam script
 
-    // 2. Gujarati Transliteration Markers (strong cues)
-    const gujaratiMarkers = [
-        /\b(kem cho|su chale|su khabar|majama|maja ma|kem chho|shu chale|shu khabar)\b/i,
-        /\b(baka|locha|nathi|chhe|che|aavjo|tamare|tamaru|tame|tari|maru|ahiya|kahu|samjho|joiye|joi|hamesha|aapo|aapjo)\b/i,
-        /\b(savare|sanje|ghasi|nakho|nakhsho|puchvu|kevi|kevo|kyo|kyare|pan|sathe|thai|jashe|apisu)\b/i
-    ];
-    if (gujaratiMarkers.some(re => re.test(text))) {
-        return 'gujarati';
-    }
-
-    // 3. Hindi / Hinglish Transliteration Markers (strong cues)
-    const hindiMarkers = [
-        /\b(kaise ho|kaisa hai|kaisi ho|kya haal|kya chal raha|kuch nahi|sab badhiya)\b/i,
-        /\b(kya|kyu|kyon|kaha|kidhar|kab|kaise|kitna|kitne|bhai|bhaiya|didi|yaar|dost|batao|bataiye)\b/i,
-        /\b(karna|karwana|hoga|hogi|hota|hoti|chahiye|nahi|nhi|hai|hain|hoon|tha|thi|the|raha|rahi)\b/i,
-        /\b(meri|mera|apna|apni|aap|tum|hum|mujhe|tumhe|isko|usko|theek|badhiya|shukriya|dhanyavad)\b/i
-    ];
-    if (hindiMarkers.some(re => re.test(text))) {
+    // Devanagari script: Distinguish Marathi vs Hindi
+    if (/[\u0900-\u097F]/.test(text)) {
+        if (/(आहे|आहेत|भाऊ|दादा|ताई|कसा|कशी|कसे|काय|झाले|झाली|चांगले|सांगा|माझा|माझी|कुठे|नको|होईल|करा)/.test(text)) {
+            return 'marathi';
+        }
         return 'hindi';
     }
 
-    // 4. Default to English for English phrases & universal queries
+    // 2. Transliteration / Romanized State Dialect Markers
+
+    // Punjabi
+    if (/\b(ki haal|kidaan|kiddan|kidda|sat sri akaal|veere|veera|paaji|paji|bhaaji|changa|vadia|vadiya|sauhnya|chahida|dasso|daso|chakar|gal sun|hove|chardi kala|hor sunao)\b/i.test(text)) {
+        return 'punjabi';
+    }
+
+    // Gujarati / Gujlish
+    if (/\b(kem cho|su chale|su khabar|majama|maja ma|kem chho|shu chale|shu khabar|baka|locha|nathi|chhe|che|aavjo|tamare|tamaru|tame|tari|maru|savare|sanje|ghasi|nakho|nakhsho|puchvu|kevi|kevo|kyo|kyare|pan|sathe|thai|jashe|apisu)\b/i.test(text)) {
+        return 'gujarati';
+    }
+
+    // Tamil
+    if (/\b(vanakkam|epdi irukinga|epdi irukka|eppadi irukkeenga|thala|machan|nalla irukken|nalla|pannanum|vandiyila|enga|theriyuma|irukku|illai|sollunga|pannidalam|kalakku|nanri|eppadi)\b/i.test(text)) {
+        return 'tamil';
+    }
+
+    // Telugu
+    if (/\b(namaskaram|ela unnaru|ela unnav|bagunnara|bavunnanu|bagunnanu|anna|garu|cheyali|ekkadundi|kavalenu|undi|ledu|cheppandi|baguntundi|manchi|dhanyavadalu|meeru)\b/i.test(text)) {
+        return 'telugu';
+    }
+
+    // Kannada
+    if (/\b(namaskara|hegiddira|hegiddeera|chennagidira|chennagiddene|guru|macha|madbeku|elli|ide|illa|heli|beku|chennagi|madtivi|thumba|dhanyavada|neevu)\b/i.test(text)) {
+        return 'kannada';
+    }
+
+    // Malayalam
+    if (/\b(namaskaram|sukhamano|sugamaano|sugamaanu|nalla|chettan|chechi|aliyan|evide|cheyyanam|undu|illa|parayu|poli|aakum|super aayi|nanni|ningal)\b/i.test(text)) {
+        return 'malayalam';
+    }
+
+    // Marathi
+    if (/\b(kasa ahes|kashi ahes|kase ahat|kay challay|kuthe ahe|kiti kharch|kiti ahe|maza|mazi|mazya|ahe|ahet|zala|zali|karaycha|chhan|changla|nako|dhanyavad|karave|bhau)\b/i.test(text)) {
+        return 'marathi';
+    }
+
+    // Bengali
+    if (/\b(kemon aacho|kemon acho|kemon achen|nomoshkar|khub bhalo|korbo|korte hobe|kothay|shune|hobe|achhe|ache|thakle|korben|parbo|bhalobashi|ki khobor|bolo dada|bolo didi)\b/i.test(text)) {
+        return 'bengali';
+    }
+
+    // Hindi / Hinglish
+    if (/\b(kaise ho|kaisa hai|kaisi ho|kya haal|kya chal raha|kuch nahi|sab badhiya|kya|kyu|kyon|kaha|kidhar|kab|kaise|kitna|kitne|bhai|bhaiya|didi|yaar|dost|batao|bataiye|karna|karwana|hoga|hogi|hota|hoti|chahiye|nahi|nhi|hai|hain|hoon|tha|thi|the|raha|rahi|meri|mera|apna|apni|aap|tum|hum|mujhe|tumhe|isko|usko|theek|badhiya|shukriya|dhanyavad|garam)\b/i.test(text)) {
+        return 'hindi';
+    }
+
+    // Default to English for English phrases & international queries
     return 'english';
 }
 
-interface MultiLingualResponses {
-    english: (ctx?: { userName?: string; bikeModel?: string }) => string[];
-    hindi: (ctx?: { userName?: string; bikeModel?: string }) => string[];
-    gujarati: (ctx?: { userName?: string; bikeModel?: string }) => string[];
-}
+type ResponseContext = { userName?: string; bikeModel?: string };
+type ResponseFn = (ctx?: ResponseContext) => string[];
+
+type MultiLingualResponses = Partial<Record<UserLanguage, ResponseFn>> & {
+    english: ResponseFn;
+    hindi: ResponseFn;
+    gujarati: ResponseFn;
+};
 
 interface DialogueRule {
     category: string;
@@ -65,16 +129,27 @@ interface DialogueRule {
     responses: MultiLingualResponses;
 }
 
+function resolveLanguageResponse(ruleResponses: MultiLingualResponses, lang: UserLanguage, ctx?: ResponseContext): string[] {
+    const fn = ruleResponses[lang];
+    if (fn) return fn(ctx);
+
+    // Intelligent regional fallbacks if a specific state dialect response isn't defined
+    if (['tamil', 'telugu', 'kannada', 'malayalam'].includes(lang)) {
+        return ruleResponses.english(ctx);
+    }
+    return ruleResponses.hindi(ctx);
+}
+
 export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
-    // ── 1. SIBLING & WARM CASUAL GREETINGS ("How are you sis?", "Kem cho", "What's up") ──
+    // ── 1. SIBLING & WARM CASUAL GREETINGS ──
     {
         category: 'sibling_greeting',
         patterns: [
             /\b(how are you|how r u|how are u|how do you do|how's it going|hows it going|how are things)\b.*?\b(sis|sister|didi|ben|bro|yaar|friend)?\b/i,
-            /\b(sis|sister|didi|ben)\b.*?\b(how are you|how r u|kaisa hai|kaisi ho|kem cho|su chale)\b/i,
-            /\b(good|fine|mast|all good|doing good|pretty good)\b.*?\b(how are you|how about you|and you|what about you|tu bol|tame bolo)\b/i,
+            /\b(sis|sister|didi|ben|bhau|veere|paaji|dada|thala|anna|guru|aliyan)\b.*?\b(how are you|how r u|kaisa hai|kaisi ho|kem cho|su chale|kasa ahes|ki haal|kemon acho|epdi irukinga|ela unnaru|hegiddira|sukhamano)\b/i,
+            /\b(good|fine|mast|all good|doing good|pretty good|bhalo|nalla|chennagidira|changa)\b.*?\b(how are you|how about you|and you|what about you|tu bol|tame bolo|tussi dasso|meeru cheppandi)\b/i,
             /\b(how are you|how r u)\b/i,
-            /\b(kem cho|su chale|kaisa hai|kaisi ho)\b/i
+            /\b(kem cho|su chale|kaisa hai|kaisi ho|kasa ahes|kashi ahes|ki haal|kidaan|kemon aacho|epdi irukinga|ela unnaru|hegiddira|sukhamano)\b/i
         ],
         responses: {
             english: (ctx) => [
@@ -91,15 +166,43 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
                 `Ekdum mast baka! Haath ma thodu grease che ane Chandkheda bay ma Royal Enfield nu tuning chalu che. Tu bol${ctx?.userName ? ` ${ctx.userName}` : ''}, kaisa hai? Tari bike kevi chale che? Koi locha hoy toh hamesha ready chu! 🏍️🔧`,
                 `Bhai ekdum kadak! MotoFit 2 garage ma all systems green che. Visat circle na traffic pachi garage bay ma chilling chal rahi hai. Tu sunav, how are you? Aaj bike ride pe nikla tha kya?`,
                 `Mast chu dost! Full energy ma tools ane dyno desk handle kari rahi chu. Tu bol, all good? ${ctx?.bikeModel ? `${ctx.bikeModel} mast smooth chali rahi hai ne?` : 'Bike mein koi mechanical locha toh nahi?'}`
+            ],
+            marathi: (ctx) => [
+                `Ekdum mast bhau! Haataat thodasa grease aani Chandkheda workshop bay madhe Royal Enfield tuning chalu ahe. Tu bol${ctx?.userName ? ` ${ctx.userName}` : ''}, kasa ahes? Bike kashi chaalte? Kahi mechanical issue asel tar sang, hamesha ready ahe! 🏍️🔧`,
+                `Bhau ekdum kadak! MotoFit 2 garage madhe sagla badiya chalu ahe. Tu sang, kasa ahes? Aaj bike ride var gela hotas ka?`
+            ],
+            punjabi: (ctx) => [
+                `Ekdum vadiya veere! Hathan te thoda grease te Chandkheda bay ch Royal Enfield di tuning chal rahi hai. Tussi dasso${ctx?.userName ? ` ${ctx.userName}` : ''}, ki haal chal? Bullet kiven chal rahi hai? Koi vi masla hove tan dasso, assi hamesha ready aan! 🏍️🔧`,
+                `Veere chardi kala! MotoFit 2 workshop te full raunak hai. Tussi sunao, ki haal ne? Aaj gedi te nikle c kya?`
+            ],
+            bengali: (ctx) => [
+                `Ekdom bhalo dada! Haathe ektu grease aar Chandkheda bay te Royal Enfield-er tuning cholche. Tumi kemon aacho${ctx?.userName ? ` ${ctx.userName}` : ''}? Bike kemon cholche? Kono problem thakle bolo, aamra sob somoy ready! 🏍️🔧`,
+                `Khub bhalo aachi! Garage bay-te sob thik-thak. Tumi kemon aacho dada? Bike niye kono help lagbe?`
+            ],
+            tamil: (ctx) => [
+                `Nalla irukken bro! Hand-la konjam grease, Chandkheda bay-la Royal Enfield tuning poitu irukku. Neenga epdi irukkeenga${ctx?.userName ? ` ${ctx.userName}` : ''}? Bike epdi pogudhu? Yedhavadhu issue-na sollunga, naanga eppovum ready! 🏍️🔧`,
+                `Vanakam thala! MotoFit 2 garage bay-la all set. Neenga epdi irukkeenga? Inniku ride-ku ponengala?`
+            ],
+            telugu: (ctx) => [
+                `Chala bagunnanu bro! Chethiki konchem grease, Chandkheda bay-lo Royal Enfield tuning jarugutondi. Meeru ela unnaru${ctx?.userName ? ` ${ctx.userName}` : ''}? Bike ela nadustondi? Emaina issue unte cheppandi, memu eppudu ready! 🏍️🔧`,
+                `Namaskaram anna! Workshop-lo anni super ga unnayi. Meeru ela unnaru? Bike service emaina cheyala?`
+            ],
+            kannada: (ctx) => [
+                `Thumbaa chennagiddene guru! Kayyalli swalpa grease, Chandkheda bay-nalli Royal Enfield tuning nadeyuttide. Neevu hegiddira${ctx?.userName ? ` ${ctx.userName}` : ''}? Bike hege ide? Enadru mechanical problem idre heli, naavu ready! 🏍️🔧`,
+                `Namaskara macha! MotoFit 2 garage-nalli all green. Neevu hegiddira? Weekend ride plan idiya?`
+            ],
+            malayalam: (ctx) => [
+                `Nalla sugamaanu aliya! Kayyil kurachu grease, Chandkheda bay-il Royal Enfield tuning nadakkunnu. Ningalkku sukhamano${ctx?.userName ? ` ${ctx.userName}` : ''}? Bike engane pokunnu? Enkilum mechanical issue undenkil parayu, ready aanu! 🏍️🔧`,
+                `Namaskaram chetta! MotoFit 2 bay-il work full throttle aanu. Sukhamano? Bike service-inu konduvarunno?`
             ]
         }
     },
 
-    // ── 2. CASUAL POSITIVE CONFIRMATIONS ("Good", "Fine", "Mast", "Super", "Badhiya") ──
+    // ── 2. CASUAL POSITIVE CONFIRMATIONS ──
     {
         category: 'positive_status',
         patterns: [
-            /^\s*(good|fine|mast|super|all good|ekdum mast|badhiya|kadak|sab badhiya|thik chu|saras|great|awesome)\s*[.!]?$/i,
+            /^\s*(good|fine|mast|super|all good|ekdum mast|badhiya|kadak|sab badhiya|thik chu|saras|great|awesome|changa|bhalo|nalla|chennagidira)\s*[.!]?$/i,
             /\b(me good|i am good|i am fine|doing good|all well|i'm good|i'm fine)\b/i
         ],
         responses: {
@@ -117,16 +220,44 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
                 "Aam j mast rehvu joiye baka! Have bol, bike ma koi servicing, chain cleaning ke performance tuning no plan che? Chandkheda workshop par chai ane inspection hamesha ready che! ☕🏍️",
                 "Saras! Mast vibe che. Bike chalavva ma koi problem toh nathi aavti ne? Tyre pressure, brakes ane engine oil all kadak?",
                 "Badhiya! Weekend ride ka koi scene hai kya? Bike ekdum fit rakhna, road par no compromise!"
+            ],
+            marathi: () => [
+                "Chhan! Asach mast rahayla hava bhau. Bike madhe kahi servicing, oil change kiwa chain cleaning karaychi ahe ka? Chandkheda workshop var inspection aani chai hamesha ready ahe! ☕🏍️",
+                "Changla ahe! Bike chalavtanna kahi problem yet nahiye na? Brakes, tyre pressure aani engine oil kadak ahe na?"
+            ],
+            punjabi: () => [
+                "Balle! Aidaan hi chardi kala ch rehna chahida veere. Dasso fer, bullet di servicing ya tuning da koi scene hai? Chandkheda workshop te kadak chai te inspection hamesha ready hai! ☕🏍️",
+                "Vadiya! Ride smooth chal rahi hai? Engine oil, chain lube te brakes sab ok ne?"
+            ],
+            bengali: () => [
+                "Khub bhalo! Eirokomi bhalo thaka dorkar dada. Bike-e kono servicing ba oil change korar plan aache ki? Chandkheda workshop-e inspection aar cha sob somoy ready! ☕🏍️",
+                "Darun! Bike chalate kono problem hocche na toh? Engine oil aar brakes thik ache toh?"
+            ],
+            tamil: () => [
+                "Super bro! Appadiye maintain pannunga. Bike-la servicing, oil change illa tune-up pannunuma? Chandkheda workshop-la inspection hamesha ready! ☕🏍️",
+                "Nalladhu! Bike ride panna smooth-ah pogudha? Brakes, chain lube ellam correct-ah irukka?"
+            ],
+            telugu: () => [
+                "Super anna! Alage undali. Bike-lo servicing, oil change cheyinche plan unda? Chandkheda workshop-lo free inspection hamesha ready! ☕🏍️",
+                "Manchidi! Bike riding smooth ga unda? Brakes, engine oil anni perfect-ena?"
+            ],
+            kannada: () => [
+                "Thumbaa olleyadu guru! Heege irabeku. Bike servicing, chain clean athva engine oil change plan idiya? Chandkheda workshop-nalli inspection ready ide! ☕🏍️",
+                "Chennagide! Bike ride maduvaga enadru problem ideya? Brakes matthe tyre pressure all set-a?"
+            ],
+            malayalam: () => [
+                "Poli chetta! Angane thanne venam. Bike-il enthenkilum servicing, oil change plan undo? Chandkheda workshop-il inspection epolum ready aanu! ☕🏍️",
+                "Nallathaanu! Bike riding smooth aano? Brakes, engine oil okke ready aano?"
             ]
         }
     },
 
-    // ── 3. SIBLING / FAMILY / IDENTITY BANTER ("Sis", "Sister", "Didi", "Who are you") ──
+    // ── 3. SIBLING / FAMILY / IDENTITY BANTER ──
     {
         category: 'identity_sibling',
         patterns: [
             /\b(who are you|who r u|kaun ho|naam kya hai|tamaru naam|identity|what is your name)\b/i,
-            /\b(sis|sister|didi|ben)\b/i
+            /\b(sis|sister|didi|ben|bhau|veere|dada|thala|chechi)\b/i
         ],
         responses: {
             english: (ctx) => [
@@ -143,6 +274,34 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
                 `Mansi chu yaar! MotoFit 2 ni jaan ane Chandkheda garage ni resident bike specialist! 22-year-old girl with grease on my knuckles and high-octane petrol in my veins. Bolo${ctx?.userName ? ` ${ctx.userName}` : ' dost'}, su madad karu?`,
                 "Haanji! Garage ni sister samjo mane. Enfield hoy ke Duke, exhaust sound par thi engine no locha pakdi lau! Tu bol, tari bike kyo model che?",
                 "Mansi here! Chandkheda bay ma continental GT ane superbikes tune karie chia. Mechanical advice joiye to direct bolo!"
+            ],
+            marathi: (ctx) => [
+                `Mi Mansi ahe! MotoFit 2 Chandkheda garage chi resident bike specialist. 22-year-old mechanic, haataat grease aani manat bikes cha passion! Bola${ctx?.userName ? ` ${ctx.userName}` : ' bhau'}, kay madad karu?`,
+                "Haan! Garage chi tai/sister samja mala. Bullet aso va KTM, exhaust sound varun mechanical issue olakhun ghein. Tu sang, kuthli bike ahe tuzi?"
+            ],
+            punjabi: (ctx) => [
+                `Main Mansi aan veere! MotoFit 2 Chandkheda workshop di resident bike specialist. 22-year-old mechanic with pure passion for Royal Enfield and superbikes! Dasso${ctx?.userName ? ` ${ctx.userName}` : ' veere'}, ki seva kariye?`,
+                "Haanji! Garage di bhen samjho menu. Bullet da exhaust sound sun ke hi engine da haal dass devangi. Tussi dasso, kehra model chala rahe o?"
+            ],
+            bengali: (ctx) => [
+                `Aami Mansi! MotoFit 2 Chandkheda workshop-er resident bike specialist. 22-year-old mechanic, haathe grease aar mone bike-er bhalobasha! Bolo${ctx?.userName ? ` ${ctx.userName}` : ' dada'}, ki bhabe help korbo?`,
+                "Haanji! Garage-er bon bhabte paro aamaye. Royal Enfield ba KTM, exhaust-er sound shunei problem bujhe feli. Tomar ki bike aache?"
+            ],
+            tamil: (ctx) => [
+                `Naan Mansi! MotoFit 2 Chandkheda garage-oda resident bike specialist. 22-year-old mechanic with passion for motorcycles! Sollunga${ctx?.userName ? ` ${ctx.userName}` : ' bro'}, enna help pannanum?`,
+                "Aama bro! Garage-oda sister-nu vechukkonga. Bullet-ah irundhalum Duke-ah irundhalum, sound kettalae problem kandupidichidalam. Unga bike enna model?"
+            ],
+            telugu: (ctx) => [
+                `Nenu Mansi! MotoFit 2 Chandkheda garage resident bike specialist. 22-year-old mechanic with deep passion for motorcycles! Cheppandi${ctx?.userName ? ` ${ctx.userName}` : ' bro'}, emi help kavali?`,
+                "Avunu bro! Garage sister anukondi. Bullet ayina KTM ayina, exhaust sound vini problem kanipedatha. Mee bike emititi?"
+            ],
+            kannada: (ctx) => [
+                `Naanu Mansi! MotoFit 2 Chandkheda garage resident bike specialist. 22-year-old mechanic, kayyalli grease, edeyalli bike passion! Heli${ctx?.userName ? ` ${ctx.userName}` : ' guru'}, enu sahay madli?`,
+                "Haudhu guru! Garage sister anthane thilkolli. Bullet irli Duke irli, exhaust sound kettare problem gothaguthe. Nimma bike yavudu?"
+            ],
+            malayalam: (ctx) => [
+                `Njan Mansi! MotoFit 2 Chandkheda garage-nte resident bike specialist. 22-year-old mechanic with pure riding passion! Parayu${ctx?.userName ? ` ${ctx.userName}` : ' bro'}, enthaanu sahayikkendath?`,
+                "Athe bro! Garage-inte chechi/sister aayi karutho. Bullet aayalum Duke aayalum, sound kettu thanne issue manasilakkum. Ningalude bike ethaanu?"
             ]
         }
     },
@@ -151,7 +310,7 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
     {
         category: 'general_service',
         patterns: [
-            /\b(general service|full service|servicing|service karvavi|service karwana|periodic service|checkup|maintenance)\b/i
+            /\b(general service|full service|servicing|service karvavi|service karwana|periodic service|checkup|maintenance|service pannanum|service madbeku|service cheyali)\b/i
         ],
         responses: {
             english: () => [
@@ -165,6 +324,27 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
             gujarati: () => [
                 "MotoFit 2 ma General Service etle proper precision overhaul: Motul 7100/3100 oil change, ultrasonic spark plug & fuel injector clean, throttle body flush, cone-set & brake calipers lubrication, plus 30-point safety check! Chandkheda shop par muki jao, sanje smooth bike deliver thase! 🛠️",
                 "General Service ma koi shortcut nathi marte! Engine flush thi laine electrical diagnostics badhu check thaye che. Kyo model che tamaro? Savare aavi jao, bay ma lift ready che."
+            ],
+            marathi: () => [
+                "MotoFit 2 madhe General Service mhanje proper precision overhaul: Motul 7100/3100 oil change, ultrasonic spark plug & injector clean, throttle body flush, cone-set aani brake calipers greasing, aani 30-point safety check! Chandkheda workshop var aana, sandhyakali butter-smooth bike deliver hoil! 🛠️"
+            ],
+            punjabi: () => [
+                "MotoFit 2 te General Service da matlab poori detail overhaul: Motul 7100/3100 oil change, ultrasonic spark plug te injector clean, throttle body flush, cone-set te brake calipers greasing, plus 30-point safety check! Chandkheda shop te le aao veere, shaam tak bullet makkhan wangu chalugi! 🛠️"
+            ],
+            bengali: () => [
+                "MotoFit 2-te General Service mane proper overhaul: Motul 7100/3100 engine oil change, ultrasonic spark plug & injector clean, throttle body flush, cone-set o brake calipers greasing, plus 30-point safety check! Chandkheda workshop-e niye aasho, bike ekdom smooth cholbe! 🛠️"
+            ],
+            tamil: () => [
+                "MotoFit 2-la General Service-na complete precision overhaul: Motul 7100/3100 oil change, ultrasonic spark plug & fuel injector clean, throttle body flush, cone-set and brake caliper greasing, koodave 30-point safety check! Chandkheda workshop-la kondu vaanga, bike butter madhiri smooth aagidum! 🛠️"
+            ],
+            telugu: () => [
+                "MotoFit 2-lo General Service ante full precision overhaul: Motul 7100/3100 oil change, ultrasonic spark plug & fuel injector clean, throttle body flush, cone-set and brake caliper greasing, plus 30-point safety check! Chandkheda workshop ki randi, bike super smooth ga deliver avtundi! 🛠️"
+            ],
+            kannada: () => [
+                "MotoFit 2-nalli General Service andre complete precision overhaul: Motul 7100/3100 oil change, ultrasonic spark plug & injector cleaning, throttle body flush, cone-set & brake calipers greasing, jothege 30-point safety check! Chandkheda workshop-ge banni, bike butter thara smooth aaguthe! 🛠️"
+            ],
+            malayalam: () => [
+                "MotoFit 2-il General Service ennal poorna precision overhaul aanu: Motul 7100/3100 oil change, ultrasonic spark plug & injector clean, throttle body flush, cone-set & brake calipers greasing, koodathe 30-point safety check! Chandkheda workshop-il ethikku, bike super smooth aayi tharum! 🛠️"
             ]
         }
     },
@@ -187,15 +367,43 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
             gujarati: () => [
                 "Ahmedabad ni 45°C garmi ane Visat traffic ma cheap duplicate oil na nakhsho! Commuters mate Motul 3000/3100 10W30, ane 200cc+ performance machines mate Motul 7100 10W50 100% Synthetic! We strictly use genuine sealed cans at MotoFit 2.",
                 "Engine oil is the blood of your bike baka! Sasto 300 rupiya walo oil 1000 km ma pani thai jaay che. Motul 7100 nakho, gear shifts buttery smooth thase ane engine temperature 8°C niche rahese!"
+            ],
+            marathi: () => [
+                "45°C garmi aani traffic madhe sasta kiwa duplicate oil kadhich taku naka! Commuters sathi Motul 3100 10W30, aani 200cc+ performance bikes sathi Motul 7100 10W50 100% Synthetic. MotoFit 2 var fakt genuine sealed cans use karto!",
+                "Engine oil bike cha rakt ahe bhau! Motul 7100 taklya nantar gear shift makkhan sarkhe hotat aani engine cool rahto!"
+            ],
+            punjabi: () => [
+                "Garmi te traffic ch nakli ya sasta oil bilkul na pao veere! Daily commuters waste Motul 3100 te Royal Enfield / performance bikes waste Motul 7100 10W50 100% Synthetic! MotoFit 2 te sirf genuine sealed cans use hunde ne.",
+                "Engine oil bike di jaan hunda veere! Motul 7100 pao, gear shifts butter wangu smooth ho jaange te engine heat nahi karuga!"
+            ],
+            bengali: () => [
+                "Garom o traffic-e duplicate ba sosta engine oil kokhono use korben na! Commuters-er jonyo Motul 3100 aar performance bikes-er jonyo Motul 7100 10W50 100% Synthetic! MotoFit 2-te sob somoy genuine sealed cans use kori.",
+                "Engine oil bike-er pran dada! Motul 7100 dile gear shifts butter-er moton smooth hoy aar engine cool thake!"
+            ],
+            tamil: () => [
+                "Veyil-la duplicate illa low quality engine oil eppovum podadheenga! Commuters-ku Motul 3100, 200cc+ performance bikes-ku Motul 7100 10W50 100% Synthetic! MotoFit 2-la genuine sealed cans mattum dhaan use panrom.",
+                "Engine oil bike-oda blood bro! Motul 7100 pottu paarunga, gear shift butter madhiri aagidum, engine heating-um control-la irukkum!"
+            ],
+            telugu: () => [
+                "Endalu and traffic-lo duplicate engine oil asalu veyakandi! Commuters ki Motul 3100, 200cc+ performance bikes ki Motul 7100 10W50 100% Synthetic! MotoFit 2-lo strictly genuine sealed cans use chestamu.",
+                "Engine oil bike ki pranam anna! Motul 7100 vadithe gear shifts buttery smooth ga untayi, engine heat taggutundi!"
+            ],
+            kannada: () => [
+                "Heavy traffic matthe bisilalli sasta duplicate oil hakabedi guru! Commuters-ge Motul 3100, 200cc+ performance bikes-ge Motul 7100 10W50 100% Synthetic! MotoFit 2-nalli genuine sealed cans maathra use madtivi.",
+                "Engine oil bike-ge jeeva! Motul 7100 hakidre gear shifts butter thara smooth aaguthe, engine heating control aaguthe!"
+            ],
+            malayalam: () => [
+                "Heavy heat & traffic-il duplicate engine oil ozhikkaruthu! Commuters-inu Motul 3100, 200cc+ performance bikes-inu Motul 7100 10W50 100% Synthetic! MotoFit 2-il genuine sealed cans maathrame use cheyyarullu.",
+                "Engine oil bike-inte jeevan aanu aliya! Motul 7100 ozhichal gear shift butter pole smooth aakum, engine heat control-il aakum!"
             ]
         }
     },
 
-    // ── 6. SMOKE DIAGNOSTIC (POLYAI / INDIC DECISION TREE) ──
+    // ── 6. SMOKE DIAGNOSTIC ──
     {
         category: 'smoke_diagnostic',
         patterns: [
-            /\b(white smoke|safed dhuan|dhuan|smoke|kaalo dhuan|black smoke)\b/i
+            /\b(white smoke|safed dhuan|dhuan|smoke|kaalo dhuan|black smoke|dhuro|dhunwa)\b/i
         ],
         responses: {
             english: () => [
@@ -209,6 +417,27 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
             gujarati: () => [
                 "Safed dhuan (white smoke) hoy toh valve stem seals ke piston rings ghasi gaya che — engine oil combustion chamber ma burn thay che! Dipstick kadhi ne oil level check karo immediately. Engine seize thay pehla Chandkheda garage par lai aavo!",
                 "Kaalo dhuan (black smoke) means unburnt fuel — carburetor rich che ya fuel injector choke che. Safed dhuan means oil burn. Both need inspection on the lift. Kyo bike che tamaro?"
+            ],
+            marathi: () => [
+                "Safed dhur (white smoke) yet asel tar valve stem seals kiwa piston rings wear out jhalet — engine oil combustion chamber madhe burn hot ahe! Lagech dipstick kadhun oil level check kara aani engine seize honyapurvi Chandkheda workshop la aana!"
+            ],
+            punjabi: () => [
+                "Chitta dhuan (white smoke) da matlab valve stem seals ya piston rings ghas chukiyan ne — engine oil combustion chamber ch burn ho reha hai! Fatafat dipstick kadd ke oil check karo te seize hon ton pehla Chandkheda workshop le aao veere!"
+            ],
+            bengali: () => [
+                "Sada dhoya (white smoke) mane valve stem seals ba piston rings khoy hoye geche — engine oil burn hocche! Ekhoni dipstick diye oil check korun aar engine seize howar aagei Chandkheda workshop-e niye aashun!"
+            ],
+            tamil: () => [
+                "Vellai poga (white smoke) varudhu-na valve stem seals illa piston rings theinjurukku-nu artham — engine oil burn aagudhu! Udanae dipstick eduthu oil level check pannunga, seize aagaradhukku munnadi Chandkheda workshop kondu vaanga!"
+            ],
+            telugu: () => [
+                "White smoke vastundi ante valve stem seals leda piston rings wear out ayyayi — engine oil burn avtundi! Ventane dipstick tesi oil level check cheyandi, engine seize avvakamunde Chandkheda workshop ki randi!"
+            ],
+            kannada: () => [
+                "Bili hoge (white smoke) barthide andre valve stem seals athva piston rings wear out aagide — engine oil burn aagthide! Koodale dipstick thegedu oil level check maadi, engine seize aagokkintha munche Chandkheda workshop-ge banni!"
+            ],
+            malayalam: () => [
+                "Vella puka (white smoke) varunnathenkil valve stem seals allenkil piston rings theinjirikkunnu — engine oil burn aakukayaanu! Udane dipstick eduthu oil level check cheyyu, seize aakunnathinu munpu Chandkheda workshop-il ethikku!"
             ]
         }
     },
@@ -225,7 +454,7 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
                 "Does the shake happen under braking or while decelerating? Loose cone-sets can also cause front fork oil seal leaks. Don't risk steering safety — let us inspect it on the lift!"
             ],
             hindi: () => [
-                "Ahmedabad ke gaddhon mein 80% handle wobble cone-set bearings kharab hone se ya front wheel rim mein minor bend hone se hota hai. 50-70 km/h par handle chhodne par shake hota hai toh Chandkheda workshop aao, align kar denge!",
+                "Gaddhon mein 80% handle wobble cone-set bearings kharab hone se ya front wheel rim mein minor bend hone se hota hai. 50-70 km/h par handle chhodne par shake hota hai toh Chandkheda workshop aao, align kar denge!",
                 "Handle shake braking ke time hota hai ya deceleration mein? Cone-set loose ho toh fork seal bhi leak ho sakti hai. Safety mein zero risk — inspection karwa lo!"
             ],
             gujarati: () => [
@@ -261,7 +490,7 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
     {
         category: 'noise_tappet',
         patterns: [
-            /\b(noise|sound|avaj|awaaz|khad khad|tik tik|tappet|rattling|tick tick)\b/i
+            /\b(noise|sound|avaj|awaaz|khad khad|tik tik|tappet|rattling|tick tick|shobdo)\b/i
         ],
         responses: {
             english: () => [
@@ -291,7 +520,7 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
                 "Don't force a bike that's overheating! Check if your coolant reservoir is dry or if the radiator fan is failing to trigger. Inspect your oil level and visit our Chandkheda bay."
             ],
             hindi: () => [
-                "Ahmedabad ki garmi aur dhool radiator fins ko choke kar deti hai! Distilled coolant flush aur descaling se operating temperature 8-12°C drop hota hai. Motul Inugel use karo, engine cool rahega! ❄️",
+                "Garmi aur dhool radiator fins ko choke kar deti hai! Distilled coolant flush aur descaling se operating temperature 8-12°C drop hota hai. Motul Inugel use karo, engine cool rahega! ❄️",
                 "Overheating mein bike ko force mat karo! Coolant level aur fan check karwa lo. Workshop aao, cooling system check kar dete hain."
             ],
             gujarati: () => [
@@ -349,7 +578,7 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
     {
         category: 'pricing_rule1',
         patterns: [
-            /\b(price|cost|rate|kitna|ketla|charge|how much|charges|estimate|quote)\b/i
+            /\b(price|cost|rate|kitna|ketla|charge|how much|charges|estimate|quote|kiti kharch|vela)\b/i
         ],
         responses: {
             english: () => [
@@ -363,6 +592,27 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
             gujarati: () => [
                 "Baka, MotoFit 2 nu Rule #1: Chat par andaje price aapi ne customer ne gumrah nathi karvu! Bike lift par chadhse, mechanical inspection thase, pachi genuine parts ane fair labor nu crystal-clear estimate aapis. No hidden surprises! 💯",
                 "Price depends strictly on your bike's exact condition baka. Jugaad pricing garage ma nathi chalti. Chandkheda aavi jao, pehla inspection free ma kari apisu, pachi work start karisu!"
+            ],
+            marathi: () => [
+                "MotoFit 2 cha Rule #1: Chat var andaje price sangun customer la fasvaycha nahi! Bike lift var chadhel, inspection hoil, nantar genuine parts aani fair labor cha transparent estimate dila jail! 💯"
+            ],
+            punjabi: () => [
+                "MotoFit 2 da Rule #1: Chat te tukka maar ke rate nahi dassna veere! Bike lift te chadhegi, inspection hovegi, fer genuine parts te transparent hisab dassange! 💯"
+            ],
+            bengali: () => [
+                "MotoFit 2-er Rule #1: Chat-e andaj kore price bole customer-ke mislead kori na! Bike lift-e tulbo, inspection hobe, tarpor genuine parts aar fair estimate debo! 💯"
+            ],
+            tamil: () => [
+                "MotoFit 2 Rule #1: Chat-la estimate pottu mislead panna maattom bro! Bike lift-la mount aagi physical inspection mudinjadhum crystal-clear estimate tharuvom! 💯"
+            ],
+            telugu: () => [
+                "MotoFit 2 Rule #1: Chat-lo guess chesi price cheppi mislead cheyamu anna! Bike inspection tarvathe clear transparent estimate isthamu! 💯"
+            ],
+            kannada: () => [
+                "MotoFit 2 Rule #1: Chat-nalli andaji price heli confuse madalla guru! Bike lift melee thalisi inspection madi clear estimate kodthivi! 💯"
+            ],
+            malayalam: () => [
+                "MotoFit 2 Rule #1: Chat-il thonnakkathinu rate paranjitu aaleyum thetikaruthu! Bike inspection kazhinjittu maathrame clear estimate tharullu! 💯"
             ]
         }
     },
@@ -371,7 +621,7 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
     {
         category: 'location_timings',
         patterns: [
-            /\b(location|address|kaha|kaha par|kirtan|chandkheda|where|timing|timings|open|sunday|wednesday|kab aavu|when can i visit)\b/i
+            /\b(location|address|kaha|kaha par|kirtan|chandkheda|where|timing|timings|open|sunday|wednesday|kab aavu|when can i visit|kuthe ahe|evide|enga|elli|ekkadundi)\b/i
         ],
         responses: {
             english: () => [
@@ -385,6 +635,27 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
             gujarati: () => [
                 "MotoFit 2, Shop No. 5-6, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad (Near New CG Road / Visat Circle). Mon-Sat: 10:00 AM to 8:30 PM. Wednesday Sabbatical (Shop Closed). Sunday Open! Google Maps par 'MotoFit 2' search karo! 📍",
                 "Chandkheda ma chia baka! Visat circle thi New CG Road aavo, Kirtan Complex ma MotoFit 2 board dikhi jashe. Mon-Sat 10 to 8:30, Sunday open, Wednesday closed!"
+            ],
+            marathi: () => [
+                "MotoFit 2, Shop No. 5-6, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad (Near New CG Road / Visat Circle). Somvar te Shanivar: 10:00 AM te 8:30 PM. Budhwar Sabbatical (Shop Closed). Ravivari Open! Google Maps var 'MotoFit 2' shodha! 📍"
+            ],
+            punjabi: () => [
+                "MotoFit 2, Shop No. 5-6, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad (Visat Circle kol). Som ton Shanivaar: 10:00 AM ton 8:30 PM. Budhwar Band (Shop Closed). Aitwaar Open! Google Maps te 'MotoFit 2' search karo! 📍"
+            ],
+            bengali: () => [
+                "MotoFit 2, Shop No. 5-6, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad (Visat Circle-er kache). Som-Soni: 10:00 AM theke 8:30 PM. Budhbar bondho. Robibar khola! Google Maps-e 'MotoFit 2' search korun! 📍"
+            ],
+            tamil: () => [
+                "MotoFit 2, Shop No. 5-6, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad (New CG Road / Visat Circle pakkathula). Tingal mudhal Sani varai: 10:00 AM to 8:30 PM. Budhan leave. Gnayiru open! Google Maps-la 'MotoFit 2' search pannunga! 📍"
+            ],
+            telugu: () => [
+                "MotoFit 2, Shop No. 5-6, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad (Visat Circle daggara). Somavaram nundi Sanivaram: 10:00 AM to 8:30 PM. Budhavaram holiday. Adivaram open! Google Maps-lo 'MotoFit 2' search cheyandi! 📍"
+            ],
+            kannada: () => [
+                "MotoFit 2, Shop No. 5-6, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad (Visat Circle hathira). Somavara - Shanivara: 10:00 AM to 8:30 PM. Budhavara shop closed. Bhanuvara open! Google Maps-nalli 'MotoFit 2' search maadi! 📍"
+            ],
+            malayalam: () => [
+                "MotoFit 2, Shop No. 5-6, Kirtan Complex, Nigam Nagar, Chandkheda, Ahmedabad (Visat Circle aduthu). Thinkal - Shani: 10:00 AM to 8:30 PM. Budhan aazhcha closed. Njayar open! Google Maps-il 'MotoFit 2' search cheyyu! 📍"
             ]
         }
     },
@@ -473,15 +744,36 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
             gujarati: () => [
                 "Tame bhan bhulya cho baka? Aa Chandkheda nu MotoFit 2 garage che, Tinder nathi! Maru dil Continental GT na twin cylinder ane engine oil sathe wedded che. Coolant nakho matha ma ane bike ni vaat karo! 🛑🔧",
                 "Focus baka! Engine oil change karyu hatu chelle kyare? Dil baad ma lagavjo, pehla bike no locha solve karo. Akshat bhai strictly professional rakhva kahe che!"
+            ],
+            marathi: () => [
+                "Bhan kuthe ahe bhau? He Chandkheda cha MotoFit 2 garage ahe, dating app nahi! Manat fakt engine oil aani twin cylinders ahet. Bike baddal bola! 🛑🔧"
+            ],
+            punjabi: () => [
+                "Dhyan kithe hai veere? Eh Chandkheda da MotoFit 2 garage hai, koi dating app nahi! Dil sirf engine oil te bullet naal lagya hai. Bike di gal karo! 🛑🔧"
+            ],
+            bengali: () => [
+                "Eita Chandkheda-r MotoFit 2 motorcycle garage dada, Tinder noy! Mon sotti engine oil aar bike-e aache. Bike-er problem thakle bolo! 🛑🔧"
+            ],
+            tamil: () => [
+                "Idhu MotoFit 2 motorcycle garage bro, dating app illa! En focus full-ah bike engines mela dhaan irukku. Bike-la enna issue-nu sollunga! 🛑🔧"
+            ],
+            telugu: () => [
+                "Idi MotoFit 2 motorcycle garage anna, dating app kaadu! Naa dhyanam antha bike engines meedhane untundi. Bike gurinchi matladandi! 🛑🔧"
+            ],
+            kannada: () => [
+                "Idu MotoFit 2 motorcycle garage guru, dating app alla! Namma focus yella bike engine melee. Bike problem enu heli! 🛑🔧"
+            ],
+            malayalam: () => [
+                "Ithu MotoFit 2 motorcycle garage aanu bro, dating app alla! Ente focus bike engines-il aanu. Bike issue enthanennu parayu! 🛑🔧"
             ]
         }
     },
 
-    // ── 19. GRATITUDE & CLOSING ("Thank you", "Aabhar", "Bye", "Good night") ──
+    // ── 19. GRATITUDE & CLOSING ──
     {
         category: 'gratitude_closing',
         patterns: [
-            /\b(thank you|thanks|thx|aabhar|dhanyavad|shukriya|bye|tata|good night|shubh ratri|see you)\b/i
+            /\b(thank you|thanks|thx|aabhar|dhanyavad|shukriya|bye|tata|good night|shubh ratri|see you|nanri|dhanyavadalu|nanni)\b/i
         ],
         responses: {
             english: () => [
@@ -498,6 +790,34 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
                 "Arey baka, aama thanks su! Aapda garage na family jeva cho tame. Helmet hamesha pehro, ride safe, ane dhyan rakhjo! 🏍️💨",
                 "Most welcome dost! MotoFit 2 na darwaja Chandkheda ma hamesha open che tamari bike mate. Dhyaan rakhjo!",
                 "Shubh ratri baka! Tyre air check kari ne bike cover kari dyo. Kaale navi ride shuru!"
+            ],
+            marathi: () => [
+                "Arey thanks kashala bhau! Aamchya garage family sarkhe ahat tumhi. Helmet hamesha vapra, ride safe aani kalji ghya! 🏍️💨",
+                "Most welcome bhau! MotoFit 2 Chandkheda che daar hamesha open ahet. Ride safe!"
+            ],
+            punjabi: () => [
+                "Arey thanks kida veere! Tussi garage family wangu o. Helmet hamesha pao, ride safe te khayal rakho! 🏍️💨",
+                "Most welcome veere! MotoFit 2 Chandkheda de boohay hamesha open ne. Rab rakha!"
+            ],
+            bengali: () => [
+                "Dhanyavad-er kichu nei dada! Aamader garage family-r moton tumi. Helmet sob somoy porbe, ride safe aar bhalo theko! 🏍️💨",
+                "Most welcome dada! MotoFit 2 Chandkheda-r dorja sob somoy khola aache. Bhalo thakben!"
+            ],
+            tamil: () => [
+                "Thanks ellam edhukku bro! Neenga namma garage family. Helmet eppovum podunga, ride safe! 🏍️💨",
+                "Romba welcome bro! MotoFit 2 Chandkheda kadhavu eppovum open-ah dhaan irukkum. Safe ride!"
+            ],
+            telugu: () => [
+                "Thanks enduku bro! Meeru maa garage family laanti vaaru. Helmet eppudu pettukondi, ride safe! 🏍️💨",
+                "Chala welcome anna! MotoFit 2 Chandkheda doors eppudu open-lo untayi. Take care!"
+            ],
+            kannada: () => [
+                "Thanks ellam yaake guru! Neevu namma garage family thara. Helmet hamesha haaki, ride safe! 🏍️💨",
+                "Thumbaa welcome guru! MotoFit 2 Chandkheda bagilu hamesha open ide. Safe ride!"
+            ],
+            malayalam: () => [
+                "Thanks onnum parayenda bro! Ningal nammude garage family pole aanu. Helmet eppozhum dharikku, ride safe! 🏍️💨",
+                "Most welcome bro! MotoFit 2 Chandkheda doors eppozhum thuranne kidakkunnu. Nalla ride aavatte!"
             ]
         }
     }
@@ -505,7 +825,7 @@ export const MANSI_DIALOGUE_RULES: DialogueRule[] = [
 
 /**
  * Intelligent local conversational synthesis function.
- * Matches multi-topic semantic intent, applies tri-lingual language mirroring,
+ * Matches multi-topic semantic intent, applies pan-India multi-lingual mirroring,
  * extracts Letta memory signals, and generates warm, in-character Amdavadi speech.
  */
 export function generateMansiAutonomousReply(userMessage: string): string {
@@ -527,7 +847,7 @@ export function generateMansiAutonomousReply(userMessage: string): string {
         // Safe fallback
     }
 
-    const context = {
+    const context: ResponseContext = {
         userName: profile.userName,
         bikeModel: profile.bikeModel
     };
@@ -535,8 +855,7 @@ export function generateMansiAutonomousReply(userMessage: string): string {
     // 2. Scan dialogue rules
     for (const rule of MANSI_DIALOGUE_RULES) {
         if (rule.patterns.some(p => p.test(trimmed))) {
-            const langResponses = rule.responses[lang] || rule.responses.english;
-            const candidates = langResponses(context);
+            const candidates = resolveLanguageResponse(rule.responses, lang, context);
             const chosen = candidates[Math.floor(Math.random() * candidates.length)];
             return chosen;
         }
@@ -549,12 +868,26 @@ export function generateMansiAutonomousReply(userMessage: string): string {
             return `Diagnostic Note: We detected signs of ${diagnostic.symptom}. ${diagnostic.clarificationPrompt}\n\n💡 Pro Tip: ${diagnostic.inspectionTip}\n\nBring your bike by our Chandkheda workshop — we'll inspect it live on the lift! 🏍️🔧`;
         } else if (lang === 'hindi') {
             return `${diagnostic.clarificationPrompt}\n\n💡 Tip: ${diagnostic.inspectionTip}\n\nChandkheda workshop le aao, live inspection kar denge! 🏍️🔧`;
-        } else {
+        } else if (lang === 'gujarati') {
             return `${diagnostic.clarificationPrompt}\n\n💡 Tip: ${diagnostic.inspectionTip}\n\nChandkheda bay ma lai aavo, live inspection kari apisu! 🏍️🔧`;
+        } else if (lang === 'marathi') {
+            return `${diagnostic.clarificationPrompt}\n\n💡 Tip: ${diagnostic.inspectionTip}\n\nChandkheda workshop la aana, live lift var inspection karun deu! 🏍️🔧`;
+        } else if (lang === 'punjabi') {
+            return `${diagnostic.clarificationPrompt}\n\n💡 Tip: ${diagnostic.inspectionTip}\n\nChandkheda workshop le aao veere, live lift te check kar lavange! 🏍️🔧`;
+        } else if (lang === 'bengali') {
+            return `${diagnostic.clarificationPrompt}\n\n💡 Tip: ${diagnostic.inspectionTip}\n\nChandkheda workshop-e niye aashun, live lift-e check kore debo! 🏍️🔧`;
+        } else if (lang === 'tamil') {
+            return `${diagnostic.clarificationPrompt}\n\n💡 Tip: ${diagnostic.inspectionTip}\n\nChandkheda workshop kondu vaanga, lift-la live check panni tharuvom! 🏍️🔧`;
+        } else if (lang === 'telugu') {
+            return `${diagnostic.clarificationPrompt}\n\n💡 Tip: ${diagnostic.inspectionTip}\n\nChandkheda workshop ki randi, live lift meeda check chestamu! 🏍️🔧`;
+        } else if (lang === 'kannada') {
+            return `${diagnostic.clarificationPrompt}\n\n💡 Tip: ${diagnostic.inspectionTip}\n\nChandkheda workshop-ge banni, live lift melee check madtivi! 🏍️🔧`;
+        } else {
+            return `${diagnostic.clarificationPrompt}\n\n💡 Tip: ${diagnostic.inspectionTip}\n\nChandkheda workshop-il ethikku, live lift-il check cheythu tharaam! 🏍️🔧`;
         }
     }
 
-    // 4. In-character Conversational Catch-alls (NEVER robotic "Signal weak")
+    // 4. In-character Conversational Catch-alls for all 10 Indian state languages
     const dynamicDefaults: Record<UserLanguage, string[]> = {
         english: [
             "Hey! I was just tuning a bike in our Chandkheda workshop bay. How can I help you with your machine today? Any service, unusual sound, or performance tuning on your mind? Tell me your bike model and let's get it sorted! 🏍️🔧",
@@ -570,6 +903,34 @@ export function generateMansiAutonomousReply(userMessage: string): string {
             "Bol dost! Chandkheda garage bay ma Royal Enfield ane multi-brand bikes nu servicing chalu hatu. Tari bike ma koi servicing, oil change ke mechanical locha che? Model bolo, solution aapi daav! 🏍️🔧",
             "Arey baka! Full focus garage bay par hatu. Tari bike vishe su puchvu che? Genuine parts, general service ke performance remap? Hamesha ready chu!",
             "Mast vaat! MotoFit 2 Chandkheda workshop ma all technicians bay ma che. Kyo bike chalavo cho tame? Daily commute Activa che ke performance superbike? Vaat aagad vadhariye!"
+        ],
+        marathi: [
+            "Bolo bhau! Chandkheda garage bay madhe Royal Enfield aani multi-brand bikes chi servicing chalu hoti. Tuzi bike madhe kahi servicing, oil change kiwa mechanical problem ahe ka? Model sanga, solution deu! 🏍️🔧",
+            "Mansi here! Workshop bay madhe full focus ahe. Bike baddal kay vicharaycha ahe? Genuine parts, general service ki performance remapping? Hamesha ready ahe!"
+        ],
+        punjabi: [
+            "Bolo veere! Chandkheda garage bay ch Royal Enfield te hor bikes di servicing chal rahi c. Bike ch koi servicing, oil change ya mechanical chakar hai? Model dasso, hal kadd dinde aan! 🏍️🔧",
+            "Mansi here! Garage bay ch full focus chal reha hai. Bike baare ki puchna chahunde o? Genuine parts, general service ya performance remap? Hamesha ready aan!"
+        ],
+        bengali: [
+            "Bolo dada! Chandkheda garage bay-te Royal Enfield aar onnano bike-er servicing cholchilo. Tomar bike-e kono servicing, oil change ba mechanical problem aache? Model bolo, solution diye dicchi! 🏍️🔧",
+            "Mansi here! Workshop bay-te full focus. Bike niye ki jaante chao? Genuine parts, general service ba performance tuning? Sob somoy ready aachi!"
+        ],
+        tamil: [
+            "Sollunga bro! Chandkheda garage bay-la Royal Enfield and other bikes servicing poitu irundhudhu. Unga bike-la servicing, oil change illa mechanical issue irukka? Model sollunga, solution tharom! 🏍️🔧",
+            "Mansi here! Workshop bay-la full focus. Bike pathi enna kekkanum? Genuine parts, general service illa performance tuning? Naanga eppovum ready!"
+        ],
+        telugu: [
+            "Cheppandi bro! Chandkheda garage bay-lo Royal Enfield and other bikes servicing jarugutondi. Mee bike-lo servicing, oil change leda mechanical issue unda? Model cheppandi, solution istham! 🏍️🔧",
+            "Mansi here! Workshop bay-lo full focus undi. Bike gurinchi em adagali? Genuine parts, general service leda performance tuning? Eppudu ready unnam!"
+        ],
+        kannada: [
+            "Heli guru! Chandkheda garage bay-nalli Royal Enfield matthe other bikes servicing nadeyuttittu. Nimma bike-nalli servicing, oil change athva mechanical problem idiya? Model heli, solution kodthivi! 🏍️🔧",
+            "Mansi here! Workshop bay-nalli full focus. Bike bagge enu kelbeku? Genuine parts, general service athva performance remapping? Hamesha ready idini!"
+        ],
+        malayalam: [
+            "Parayu bro! Chandkheda garage bay-il Royal Enfield and other bikes servicing nadakkukayayirunnu. Ningalude bike-il servicing, oil change allenkil mechanical issue undo? Model parayu, solution tharam! 🏍️🔧",
+            "Mansi here! Workshop bay-il full focus aanu. Bike-ne kurichu enthaanu ariyendath? Genuine parts, general service allenkil performance tuning? Eppozhum ready aanu!"
         ]
     };
 

@@ -465,7 +465,7 @@ export default function PremiumHoloWidget({ onSend, initialGreeting = "Oye! Kem 
                                 ref={inputRef}
                                 type="text"
                                 className="holo-inp"
-                                placeholder="Bolo... (Hindi/English/Gujarati)"
+                                placeholder="Ask Mansi in any Indian language... (Hindi, Gujarati, Marathi, Punjabi, Tamil, etc.)"
                                 aria-label="Ask Mansi AI a question about your motorcycle"
                                 value={input}
                                 onChange={e => setInput(e.target.value)}
